@@ -24,29 +24,29 @@ using System.Runtime.Serialization;
 namespace Spring.Expressions
 {
     /// <summary>
-    ///     Represents parsed null literal node.
+    /// Represents parsed null literal node.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class NullLiteralNode : BaseNode
     {
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
         public NullLiteralNode()
         {
         }
 
         /// <summary>
-        ///     Create a new instance from SerializationInfo
+        /// Create a new instance from SerializationInfo
         /// </summary>
         protected NullLiteralNode(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-
+        
         /// <summary>
-        ///     Returns a value for the null literal node.
+        /// Returns a value for the null literal node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>

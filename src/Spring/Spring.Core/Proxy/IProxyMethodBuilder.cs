@@ -28,21 +28,21 @@ using System.Reflection.Emit;
 namespace Spring.Proxy
 {
     /// <summary>
-    ///     Defines interface that proxy method builders have to implement.
+    /// Defines interface that proxy method builders have to implement.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     /// <author>Bruno Baia</author>
     public interface IProxyMethodBuilder
     {
         /// <summary>
-        ///     Dynamically builds proxy method.
+        /// Dynamically builds proxy method.
         /// </summary>
         /// <param name="method">The method to proxy.</param>
         /// <param name="intfMethod">
-        ///     The interface definition of the method, if applicable.
+        /// The interface definition of the method, if applicable.
         /// </param>
         /// <returns>
-        ///     The <see cref="System.Reflection.Emit.MethodBuilder" /> for the proxy method.
+        /// The <see cref="System.Reflection.Emit.MethodBuilder"/> for the proxy method.
         /// </returns>
         MethodBuilder BuildProxyMethod(MethodInfo method, MethodInfo intfMethod);
     }

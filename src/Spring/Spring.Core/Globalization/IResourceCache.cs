@@ -24,13 +24,13 @@ using System.Globalization;
 namespace Spring.Globalization
 {
     /// <summary>
-    ///     Defines an interface that resource cache adapters have to implement.
+    /// Defines an interface that resource cache adapters have to implement.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     public interface IResourceCache
     {
         /// <summary>
-        ///     Gets the list of resources from cache.
+        /// Gets the list of resources from cache.
         /// </summary>
         /// <param name="target">Target to get a list of resources for.</param>
         /// <param name="culture">Resource culture.</param>
@@ -38,7 +38,7 @@ namespace Spring.Globalization
         IList<Resource> GetResources(object target, CultureInfo culture);
 
         /// <summary>
-        ///     Puts the list of resources in the cache.
+        /// Puts the list of resources in the cache.
         /// </summary>
         /// <param name="target">Target to cache a list of resources for.</param>
         /// <param name="culture">Resource culture.</param>

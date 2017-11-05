@@ -24,20 +24,19 @@ using Spring.Objects.Factory.Config;
 namespace Spring.Objects.Factory.Support
 {
     /// <summary>
-    ///     GenericObjectDefinition is a one-stop shop for standard object definition purposes.
-    ///     Like any object definition, it allows for specifying a class plus optionally
-    ///     constructor argument values and property values. Additionally, deriving from a
-    ///     parent bean definition can be flexibly configured through the &quot;parentName&quot; property.
+    /// GenericObjectDefinition is a one-stop shop for standard object definition purposes.
+    /// Like any object definition, it allows for specifying a class plus optionally
+    /// constructor argument values and property values. Additionally, deriving from a
+    /// parent bean definition can be flexibly configured through the &quot;parentName&quot; property.
     /// </summary>
-    /// <remarks>
-    ///     In general, use this <see cref="GenericObjectDefinition" /> class for the purpose of
-    ///     registering user-visible object definitions (which a post-processor might operate on,
-    ///     potentially even reconfiguring the parent name).
-    ///     Use <see cref="RootObjectDefinition" />/<see cref="ChildObjectDefinition" />
-    ///     where parent/child relationships happen to be pre-determined.
+    /// <remarks>In general, use this <see cref="GenericObjectDefinition"/> class for the purpose of
+    /// registering user-visible object definitions (which a post-processor might operate on,
+    /// potentially even reconfiguring the parent name). 
+    /// Use <see cref="RootObjectDefinition"/>/<see cref="ChildObjectDefinition"/>
+    /// where parent/child relationships happen to be pre-determined.
     /// </remarks>
-    /// <seealso cref="RootObjectDefinition" />
-    /// <seealso cref="ChildObjectDefinition" />
+    /// <seealso cref="RootObjectDefinition"/>
+    /// <seealso cref="ChildObjectDefinition"/>
     /// <author>Juergen Hoeller</author>
     /// <author>Erich Eichinger</author>
     [Serializable]
@@ -46,16 +45,30 @@ namespace Spring.Objects.Factory.Support
         private string parentName;
 
         /// <summary>
-        ///     Creates a new <see cref="GenericObjectDefinition" /> to be configured through its
-        ///     object properties and configuration methods.
+        /// The name of the parent object definition.
         /// </summary>
-        public GenericObjectDefinition()
+        /// <remarks>
+        /// This value is <b>required</b>.
+        /// </remarks>
+        /// <value>
+        /// The name of the parent object definition.
+        /// </value>
+        public override string ParentName
         {
+            get { return parentName; }
+            set { parentName = value; }
         }
 
         /// <summary>
-        ///     Creates a new <see cref="GenericObjectDefinition" /> as deep copy of the given
-        ///     object definition.
+        /// Creates a new <see cref="GenericObjectDefinition"/> to be configured through its
+        /// object properties and configuration methods.
+        /// </summary>
+        public GenericObjectDefinition()
+        { }
+
+        /// <summary>
+        /// Creates a new <see cref="GenericObjectDefinition"/> as deep copy of the given
+        /// object definition.
         /// </summary>
         /// <param name="original">the original object definition to copy from</param>
         public GenericObjectDefinition(IObjectDefinition original)
@@ -64,23 +77,8 @@ namespace Spring.Objects.Factory.Support
             GenericObjectDefinition god = original as GenericObjectDefinition;
             if (god != null)
             {
-                parentName = god.parentName;
+                this.parentName = god.parentName;
             }
-        }
-
-        /// <summary>
-        ///     The name of the parent object definition.
-        /// </summary>
-        /// <remarks>
-        ///     This value is <b>required</b>.
-        /// </remarks>
-        /// <value>
-        ///     The name of the parent object definition.
-        /// </value>
-        public override string ParentName
-        {
-            get { return parentName; }
-            set { parentName = value; }
         }
 
         /* TODO (EE): this is not supported atm, need to implement AbstractObjectDefinition.Equals() first */
@@ -101,8 +99,8 @@ namespace Spring.Objects.Factory.Support
 //        }
 
         /// <summary>
-        ///     Returns a <see cref="System.String" /> representation of this
-        ///     <see cref="GenericObjectDefinition" /> for debugging purposes.
+        /// Returns a <see cref="System.String"/> representation of this 
+        /// <see cref="GenericObjectDefinition"/> for debugging purposes.
         /// </summary>
         public override string ToString()
         {

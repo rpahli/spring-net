@@ -29,6 +29,9 @@ using System.IO;
 using System.Net;
 using System.Resources;
 using System.Text.RegularExpressions;
+
+using Microsoft.Win32;
+
 using Spring.Core.TypeResolution;
 using Spring.Util;
 
@@ -37,21 +40,21 @@ using Spring.Util;
 namespace Spring.Core.TypeConversion
 {
     /// <summary>
-    ///     Registry class that allows users to register and retrieve type converters.
+    /// Registry class that allows users to register and retrieve type converters.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     public class TypeConverterRegistry
     {
         /// <summary>
-        ///     Name of the .Net config section that contains Spring.Net type aliases.
+        /// Name of the .Net config section that contains Spring.Net type aliases.
         /// </summary>
         private const string TypeConvertersSectionName = "spring/typeConverters";
 
         private static readonly object syncRoot = new object();
-        private static readonly IDictionary<Type, TypeConverter> converters = new Dictionary<Type, TypeConverter>();
-
+        private static IDictionary<Type, TypeConverter> converters = new Dictionary<Type, TypeConverter>();
+        
         /// <summary>
-        ///     Registers standard and configured type converters.
+        /// Registers standard and configured type converters.
         /// </summary>
         static TypeConverterRegistry()
         {
@@ -69,19 +72,19 @@ namespace Spring.Core.TypeConversion
                 converters[typeof(TimeSpan)] = new TimeSpanConverter();
                 converters[typeof(ICredentials)] = new CredentialConverter();
                 converters[typeof(NetworkCredential)] = new CredentialConverter();
-                //converters[typeof(RegistryKey)] = new RegistryKeyConverter();
-
+                converters[typeof(RegistryKey)] = new RegistryKeyConverter();
+        
                 // register user-defined type converters
                 ConfigurationUtils.GetSection(TypeConvertersSectionName);
             }
         }
-
+        
         /// <summary>
-        ///     Returns <see cref="TypeConverter" /> for the specified type.
+        /// Returns <see cref="TypeConverter"/> for the specified type.
         /// </summary>
         /// <param name="type">Type to get the converter for.</param>
         /// <returns>a type converter for the specified type.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="type" /> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="type"/> is <c>null</c>.</exception>
         public static TypeConverter GetConverter(Type type)
         {
             AssertUtils.ArgumentNotNull(type, "type");
@@ -98,12 +101,12 @@ namespace Spring.Core.TypeConversion
                     converter = TypeDescriptor.GetConverter(type);
                 }
             }
-
+            
             return converter;
         }
-
+        
         /// <summary>
-        ///     Registers <see cref="TypeConverter" /> for the specified type.
+        /// Registers <see cref="TypeConverter"/> for the specified type.
         /// </summary>
         /// <param name="type">Type to register the converter for.</param>
         /// <param name="converter">Type converter to register.</param>
@@ -120,29 +123,29 @@ namespace Spring.Core.TypeConversion
         }
 
         /// <summary>
-        ///     Registers <see cref="TypeConverter" /> for the specified type.
+        /// Registers <see cref="TypeConverter"/> for the specified type.
         /// </summary>
         /// <remarks>
-        ///     This is a convinience method that accepts the names of both
-        ///     type to register converter for and the converter itself,
-        ///     resolves them using <see cref="TypeRegistry" />, creates an
-        ///     instance of type converter and calls overloaded
-        ///     <see cref="RegisterConverter(Type,TypeConverter)" /> method.
+        /// This is a convinience method that accepts the names of both
+        /// type to register converter for and the converter itself,
+        /// resolves them using <see cref="TypeRegistry"/>, creates an
+        /// instance of type converter and calls overloaded
+        /// <see cref="RegisterConverter(Type,TypeConverter)"/> method.
         /// </remarks>
         /// <param name="typeName">Type name of the type to register the converter for (can be a type alias).</param>
         /// <param name="converterTypeName">Type name of the type converter to register (can be a type alias).</param>
         /// <exception cref="ArgumentNullException">If either of arguments is <c>null</c> or empty string.</exception>
         /// <exception cref="TypeLoadException">
-        ///     If either of arguments fails to resolve to a valid <see cref="Type" />.
+        /// If either of arguments fails to resolve to a valid <see cref="Type"/>.
         /// </exception>
         /// <exception cref="ArgumentException">
-        ///     If type converter does not derive from <see cref="TypeConverter" /> or if it cannot be instantiated.
+        /// If type converter does not derive from <see cref="TypeConverter"/> or if it cannot be instantiated.
         /// </exception>
         public static void RegisterConverter(string typeName, string converterTypeName)
         {
             AssertUtils.ArgumentHasText(typeName, "typeName");
             AssertUtils.ArgumentHasText(converterTypeName, "converterTypeName");
-
+            
             try
             {
                 Type type = TypeResolutionUtils.ResolveType(typeName);
@@ -150,14 +153,15 @@ namespace Spring.Core.TypeConversion
                 if (!typeof(TypeConverter).IsAssignableFrom(converterType))
                 {
                     throw new ArgumentException(
-                        "Type specified as a 'converterTypeName' does not inherit from System.ComponentModel.TypeConverter");
+                            "Type specified as a 'converterTypeName' does not inherit from System.ComponentModel.TypeConverter");
                 }
-                RegisterConverter(type, (TypeConverter) ObjectUtils.InstantiateType(converterType));
+                RegisterConverter(type,(TypeConverter) ObjectUtils.InstantiateType(converterType));
             }
             catch (FatalReflectionException e)
             {
                 throw new ArgumentException("Failed to create an instance of the specified type converter.", e);
             }
         }
+        
     }
 }

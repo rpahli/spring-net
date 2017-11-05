@@ -1,21 +1,22 @@
+
+
 using System;
 
-namespace Spring.Stereotype
-{
+namespace Spring.Stereotype {
+
     /// <summary>
-    ///     Indicates that an annotated class is a "component".
-    ///     Such classes are considered as candidates for future features such
-    ///     as auto-detection  when using attribute-based configuration and assembly scanning.
+    /// Indicates that an annotated class is a "component".
+    /// Such classes are considered as candidates for future features such 
+    /// as auto-detection  when using attribute-based configuration and assembly scanning.
     /// </summary>
-    /// <remarks>
-    ///     Other class-level annotations may be considered as identifying
-    ///     a component as well, typically a special kind of component:
-    ///     e.g. the Repository attribute.
+    /// <remarks>Other class-level annotations may be considered as identifying
+    /// a component as well, typically a special kind of component:
+    /// e.g. the Repository attribute.
     /// </remarks>
     /// <author>Mark Fisher</author>
     /// <author>Mark Pollack (.NET)</author>
-    /// <seealso cref="RepositoryAttribute" />
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
+    /// <seealso cref="RepositoryAttribute"/>
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, Inherited = true)]
     [Serializable]
     public class ComponentAttribute : Attribute
     {
@@ -23,7 +24,7 @@ namespace Spring.Stereotype
 
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ComponentAttribute" /> class.
+        /// Initializes a new instance of the <see cref="ComponentAttribute"/> class.
         /// </summary>
         public ComponentAttribute()
         {
@@ -31,7 +32,7 @@ namespace Spring.Stereotype
 
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ComponentAttribute" /> class.
+        /// Initializes a new instance of the <see cref="ComponentAttribute"/> class.
         /// </summary>
         /// <param name="name">The name of the component.</param>
         public ComponentAttribute(string name)
@@ -41,7 +42,7 @@ namespace Spring.Stereotype
 
 
         /// <summary>
-        ///     Gets or sets the name of the component
+        /// Gets or sets the name of the component
         /// </summary>
         /// <value>The name of the component.</value>
         public string Name

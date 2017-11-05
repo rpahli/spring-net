@@ -25,47 +25,58 @@ using Spring.Expressions;
 namespace Spring.Validation
 {
     /// <summary>
-    ///     Abstract base class that should be extended by all
-    ///     validation actions.
+    /// Abstract base class that should be extended by all
+    /// validation actions.
     /// </summary>
     /// <remarks>
-    ///     <p>
-    ///         This class implements template <c>Execute</c> method
-    ///         and defines <c>OnValid</c> and <c>OnInvalid</c> methods that
-    ///         can be overriden
-    ///         by specific validation actions.
-    ///     </p>
+    /// <p>
+    /// This class implements template <c>Execute</c> method
+    /// and defines <c>OnValid</c> and <c>OnInvalid</c> methods that 
+    /// can be overriden
+    /// by specific validation actions.
+    /// </p>
     /// </remarks>
     /// <author>Aleksandar Seovic</author>
     public abstract class BaseValidationAction : IValidationAction
     {
         #region Fields
 
+        private IExpression when;
+
         #endregion
 
         #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseValidationAction"/> class.
+        /// </summary>
+        public BaseValidationAction()
+        {}
 
         #endregion
 
         #region Properties
 
         /// <summary>
-        ///     Gets or sets the expression that determines if this validator should be evaluated.
+        /// Gets or sets the expression that determines if this validator should be evaluated.
         /// </summary>
         /// <value>The expression that determines if this validator should be evaluated.</value>
-        public IExpression When { get; set; }
+        public IExpression When
+        {
+            get { return when; }
+            set { when = value; }
+        }
 
         #endregion
 
         /// <summary>
-        ///     Executes the action.
+        /// Executes the action.
         /// </summary>
         /// <param name="isValid">Whether associated validator is valid or not.</param>
         /// <param name="validationContext">Validation context.</param>
         /// <param name="contextParams">Additional context parameters.</param>
         /// <param name="errors">Validation errors container.</param>
-        public virtual void Execute(bool isValid, object validationContext, IDictionary<string, object> contextParams,
-            IValidationErrors errors)
+        public virtual void Execute(bool isValid, object validationContext, IDictionary<string, object> contextParams, IValidationErrors errors)
         {
             if (EvaluateWhen(validationContext, contextParams))
             {
@@ -80,10 +91,36 @@ namespace Spring.Validation
             }
         }
 
+        #region Abstract methods 
+
+        // CLOVER:OFF
+
+        /// <summary>
+        /// Called when associated validator is valid.
+        /// </summary>
+        /// <param name="validationContext">Validation context.</param>
+        /// <param name="contextParams">Additional context parameters.</param>
+        /// <param name="errors">Validation errors container.</param>
+        protected virtual void OnValid(object validationContext, IDictionary<string, object> contextParams, IValidationErrors errors)
+        {}
+
+        /// <summary>
+        /// Called when associated validator is not valid.
+        /// </summary>
+        /// <param name="validationContext">Validation context.</param>
+        /// <param name="contextParams">Additional context parameters.</param>
+        /// <param name="errors">Validation errors container.</param>
+        protected virtual void OnInvalid(object validationContext, IDictionary<string, object> contextParams, IValidationErrors errors)
+        {}
+
+        // CLOVER:ON
+
+        #endregion 
+
         #region Helper methods
 
         /// <summary>
-        ///     Evaluates 'when' expression.
+        /// Evaluates 'when' expression.
         /// </summary>
         /// <param name="rootContext">Root context to use for expression evaluation.</param>
         /// <param name="contextParams">Additional context parameters.</param>
@@ -97,36 +134,6 @@ namespace Spring.Validation
 
             return Convert.ToBoolean(When.GetValue(rootContext, contextParams));
         }
-
-        #endregion
-
-        #region Abstract methods 
-
-        // CLOVER:OFF
-
-        /// <summary>
-        ///     Called when associated validator is valid.
-        /// </summary>
-        /// <param name="validationContext">Validation context.</param>
-        /// <param name="contextParams">Additional context parameters.</param>
-        /// <param name="errors">Validation errors container.</param>
-        protected virtual void OnValid(object validationContext, IDictionary<string, object> contextParams,
-            IValidationErrors errors)
-        {
-        }
-
-        /// <summary>
-        ///     Called when associated validator is not valid.
-        /// </summary>
-        /// <param name="validationContext">Validation context.</param>
-        /// <param name="contextParams">Additional context parameters.</param>
-        /// <param name="errors">Validation errors container.</param>
-        protected virtual void OnInvalid(object validationContext, IDictionary<string, object> contextParams,
-            IValidationErrors errors)
-        {
-        }
-
-        // CLOVER:ON
 
         #endregion
     }

@@ -28,28 +28,24 @@ using Spring.Util;
 namespace Spring.Context.Config
 {
     /// <summary>
-    ///     Object Defintion Parser for interpreting <see cref="ConfigurationAttribute" /> classes when primary configuration
-    ///     is peformed via XML.
+    /// Object Defintion Parser for interpreting <see cref="ConfigurationAttribute"/> classes when primary configuration is peformed via XML.
     /// </summary>
     public class AttributeConfigObjectDefinitionParser : IObjectDefinitionParser
     {
         /// <summary>
-        ///     Parse the specified XmlElement and register the resulting
-        ///     ObjectDefinitions with the <see cref="P:Spring.Objects.Factory.Xml.ParserContext.Registry" />
-        ///     IObjectDefinitionRegistry
-        ///     embedded in the supplied <see cref="T:Spring.Objects.Factory.Xml.ParserContext" />
+        /// Parse the specified XmlElement and register the resulting
+        /// ObjectDefinitions with the <see cref="P:Spring.Objects.Factory.Xml.ParserContext.Registry"/> IObjectDefinitionRegistry
+        /// embedded in the supplied <see cref="T:Spring.Objects.Factory.Xml.ParserContext"/>
         /// </summary>
         /// <param name="element">The element to be parsed.</param>
-        /// <param name="parserContext">
-        ///     The object encapsulating the current state of the parsing process.
-        ///     Provides access to a IObjectDefinitionRegistry
-        /// </param>
+        /// <param name="parserContext">The object encapsulating the current state of the parsing process.
+        /// Provides access to a IObjectDefinitionRegistry</param>
         /// <returns>The primary object definition.</returns>
         /// <remarks>
-        ///     <p>
-        ///         This method is never invoked if the parser is namespace aware
-        ///         and was called to process the root node.
-        ///     </p>
+        /// 	<p>
+        /// This method is never invoked if the parser is namespace aware
+        /// and was called to process the root node.
+        /// </p>
         /// </remarks>
         public IObjectDefinition ParseElement(XmlElement element, ParserContext parserContext)
         {

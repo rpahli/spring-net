@@ -25,37 +25,37 @@ using Spring.Util;
 namespace Spring.Expressions
 {
     /// <summary>
-    ///     Represents NOT operator (both, bitwise and logical).
+    /// Represents NOT operator (both, bitwise and logical).
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class OpNOT : UnaryOperator
     {
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
-        public OpNOT()
+        public OpNOT():base()
         {
         }
 
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
         public OpNOT(BaseNode operand)
-            : base(operand)
+            :base(operand)
         {
         }
 
         /// <summary>
-        ///     Create a new instance from SerializationInfo
+        /// Create a new instance from SerializationInfo
         /// </summary>
         protected OpNOT(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-
+        
         /// <summary>
-        ///     Returns a value for the logical NOT operator node.
+        /// Returns a value for the logical NOT operator node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
@@ -67,7 +67,7 @@ namespace Spring.Expressions
             {
                 return NumberUtils.BitwiseNot(operand);
             }
-            if (operand is Enum)
+            else if (operand is Enum)
             {
                 Type enumType = operand.GetType();
                 Type integralType = Enum.GetUnderlyingType(enumType);
@@ -75,7 +75,8 @@ namespace Spring.Expressions
                 object result = NumberUtils.BitwiseNot(operand);
                 return Enum.ToObject(enumType, result);
             }
-            return !Convert.ToBoolean(operand);
+            else
+                return !Convert.ToBoolean(operand);
         }
     }
 }

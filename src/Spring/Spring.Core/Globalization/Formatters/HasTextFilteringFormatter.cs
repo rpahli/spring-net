@@ -27,35 +27,35 @@ using Spring.Util;
 namespace Spring.Globalization.Formatters
 {
     /// <summary>
-    ///     Replaces input strings with a given default value,
-    ///     if they are null or contain whitespaces only,
+    /// Replaces input strings with a given default value, 
+    /// if they are null or contain whitespaces only,
     /// </summary>
     /// <author>Erich Eichinger</author>
     public class HasTextFilteringFormatter : FilteringFormatter
     {
         private readonly string _defaultValue;
 
-        /// <summary>
-        ///     Creates a new instance of this HasTextFilteringFormatter using null as default value.
-        /// </summary>
-        /// <param name="underlyingFormatter">an optional underlying formatter</param>
+        ///<summary>
+        /// Creates a new instance of this HasTextFilteringFormatter using null as default value.
+        ///</summary>
+        ///<param name="underlyingFormatter">an optional underlying formatter</param>
         /// <remarks>
-        ///     If no underlying formatter is specified, the values
-        ///     get passed through "as-is" after being filtered
+        /// If no underlying formatter is specified, the values 
+        /// get passed through "as-is" after being filtered
         /// </remarks>
-        public HasTextFilteringFormatter(IFormatter underlyingFormatter)
+        public HasTextFilteringFormatter(IFormatter underlyingFormatter) 
             : this(null, underlyingFormatter)
         {
         }
 
-        /// <summary>
-        ///     Creates a new instance of this HasTextFilteringFormatter.
-        /// </summary>
+        ///<summary>
+        /// Creates a new instance of this HasTextFilteringFormatter.
+        ///</summary>
         /// <param name="defaultValue">the default value to be returned, if input text doesn't contain text</param>
-        /// <param name="underlyingFormatter">an optional underlying formatter</param>
+        ///<param name="underlyingFormatter">an optional underlying formatter</param>
         /// <remarks>
-        ///     If no underlying formatter is specified, the values
-        ///     get passed through "as-is" after being filtered
+        /// If no underlying formatter is specified, the values 
+        /// get passed through "as-is" after being filtered
         /// </remarks>
         public HasTextFilteringFormatter(string defaultValue, IFormatter underlyingFormatter)
             : base(underlyingFormatter)
@@ -64,7 +64,7 @@ namespace Spring.Globalization.Formatters
         }
 
         /// <summary>
-        ///     If value contains no text, it will be replaced by a defaultValue.
+        /// If value contains no text, it will be replaced by a defaultValue.
         /// </summary>
         protected override string FilterValueToParse(string value)
         {

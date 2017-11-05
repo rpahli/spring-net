@@ -20,25 +20,26 @@
 
 using System;
 using System.Collections.Generic;
-using Spring.Collections.Generic;
+
+using Common.Logging;
+
 using Spring.Core;
-using Spring.Logging;
 using Spring.Objects.Factory;
-using Spring.Objects.Factory.Config;
 using Spring.Objects.Factory.Parsing;
 using Spring.Objects.Factory.Support;
+using Spring.Objects.Factory.Config;
+using Spring.Collections.Generic;
 
 namespace Spring.Context.Attributes
 {
     /// <summary>
-    ///     Postprocesses the <see cref="ConfigurationAttribute" /> applied types registered with the
-    ///     <see cref="IApplicationContext" />.
+    /// Postprocesses the <see cref="ConfigurationAttribute"/> applied types registered with the <see cref="IApplicationContext"/>.
     /// </summary>
     public class ConfigurationClassPostProcessor : IObjectDefinitionRegistryPostProcessor, IOrdered
     {
         #region Logging
 
-        private static readonly ILogger Logger = LogManager.GetLogger<ConfigurationClassPostProcessor>();
+        private static readonly ILog Logger = LogManager.GetLogger<ConfigurationClassPostProcessor>();
 
         #endregion
 
@@ -49,24 +50,45 @@ namespace Spring.Context.Attributes
         private IProblemReporter _problemReporter = new FailFastProblemReporter();
 
         /// <summary>
-        ///     Sets the problem reporter.
+        /// Return the order value of this object, where a higher value means greater in
+        /// terms of sorting.
+        /// </summary>
+        /// <value></value>
+        /// <remarks>
+        /// 	<p>
+        /// Normally starting with 0 or 1, with <see cref="F:System.Int32.MaxValue"/> indicating
+        /// greatest. Same order values will result in arbitrary positions for the affected
+        /// objects.
+        /// </p>
+        /// 	<p>
+        /// Higher value can be interpreted as lower priority, consequently the first object
+        /// has highest priority.
+        /// </p>
+        /// </remarks>
+        /// <returns>The order value.</returns>
+        public int Order
+        {
+            get { return int.MinValue; }
+        }
+
+        /// <summary>
+        /// Sets the problem reporter.
         /// </summary>
         /// <value>The problem reporter.</value>
         public IProblemReporter ProblemReporter
         {
-            set { _problemReporter = value ?? new FailFastProblemReporter(); }
+            set { _problemReporter = (value ?? new FailFastProblemReporter()); }
         }
 
         /// <summary>
-        ///     Postsprocesses the object definition registry.
+        /// Postsprocesses the object definition registry.
         /// </summary>
         /// <param name="registry">The registry.</param>
         public void PostProcessObjectDefinitionRegistry(IObjectDefinitionRegistry registry)
         {
             if (_postProcessObjectDefinitionRegistryCalled)
             {
-                throw new InvalidOperationException(
-                    "PostProcessObjectDefinitionRegistry already called for this post-processor");
+                throw new InvalidOperationException("PostProcessObjectDefinitionRegistry already called for this post-processor");
             }
             if (_postProcessObjectFactoryCalled)
             {
@@ -77,7 +99,7 @@ namespace Spring.Context.Attributes
         }
 
         /// <summary>
-        ///     Postprocesses the object factory.
+        /// Postprocesses the object factory.
         /// </summary>
         /// <param name="objectFactory">The object factory.</param>
         public void PostProcessObjectFactory(IConfigurableListableObjectFactory objectFactory)
@@ -85,39 +107,17 @@ namespace Spring.Context.Attributes
             if (_postProcessObjectFactoryCalled)
             {
                 throw new InvalidOperationException(
-                    "PostProcessObjectFactory already called for this post-processor");
+                        "PostProcessObjectFactory already called for this post-processor");
             }
             _postProcessObjectFactoryCalled = true;
             if (!_postProcessObjectDefinitionRegistryCalled)
             {
                 // ObjectDefinitionRegistryPostProcessor hook apparently not supported...
                 // Simply call processConfigObjectDefinitions lazily at this point then.
-                ProcessConfigObjectDefinitions((IObjectDefinitionRegistry) objectFactory);
+                ProcessConfigObjectDefinitions((IObjectDefinitionRegistry)objectFactory);
             }
 
             EnhanceConfigurationClasses(objectFactory);
-        }
-
-        /// <summary>
-        ///     Return the order value of this object, where a higher value means greater in
-        ///     terms of sorting.
-        /// </summary>
-        /// <value></value>
-        /// <remarks>
-        ///     <p>
-        ///         Normally starting with 0 or 1, with <see cref="F:System.Int32.MaxValue" /> indicating
-        ///         greatest. Same order values will result in arbitrary positions for the affected
-        ///         objects.
-        ///     </p>
-        ///     <p>
-        ///         Higher value can be interpreted as lower priority, consequently the first object
-        ///         has highest priority.
-        ///     </p>
-        /// </remarks>
-        /// <returns>The order value.</returns>
-        public int Order
-        {
-            get { return int.MinValue; }
         }
 
         private void EnhanceConfigurationClasses(IConfigurableListableObjectFactory objectFactory)
@@ -130,7 +130,7 @@ namespace Spring.Context.Attributes
             {
                 IObjectDefinition objDef = objectFactory.GetObjectDefinition(name);
 
-                if (((AbstractObjectDefinition) objDef).HasObjectType)
+                if (((AbstractObjectDefinition)objDef).HasObjectType)
                 {
                     if (Attribute.GetCustomAttribute(objDef.ObjectType, typeof(ConfigurationAttribute)) != null)
                     {
@@ -139,9 +139,9 @@ namespace Spring.Context.Attributes
                         Type configClass = objDef.ObjectType;
                         Type enhancedClass = enhancer.Enhance(configClass);
 
-                        Logger.Debug($"Replacing object definition '{name}' existing class '{configClass.FullName}' with enhanced class");
+                        Logger.Debug(m => m("Replacing object definition '{0}' existing class '{1}' with enhanced class", name, configClass.FullName));
 
-                        ((IConfigurableObjectDefinition) objDef).ObjectType = enhancedClass;
+                        ((IConfigurableObjectDefinition)objDef).ObjectType = enhancedClass;
                     }
                 }
             }
@@ -160,7 +160,7 @@ namespace Spring.Context.Attributes
             }
 
             //if nothing to process, bail out
-            if (configCandidates.Count == 0) return;
+            if (configCandidates.Count == 0) { return; }
 
             ConfigurationClassParser parser = new ConfigurationClassParser(_problemReporter);
             foreach (ObjectDefinitionHolder holder in configCandidates)
@@ -168,9 +168,13 @@ namespace Spring.Context.Attributes
                 IObjectDefinition bd = holder.ObjectDefinition;
                 try
                 {
-                    if (bd is AbstractObjectDefinition && ((AbstractObjectDefinition) bd).HasObjectType)
+                    if (bd is AbstractObjectDefinition && ((AbstractObjectDefinition)bd).HasObjectType)
                     {
-                        parser.Parse(((AbstractObjectDefinition) bd).ObjectType, holder.ObjectName);
+                        parser.Parse(((AbstractObjectDefinition)bd).ObjectType, holder.ObjectName);
+                    }
+                    else
+                    {
+                        //parser.Parse(bd.ObjectTypeName, holder.ObjectName);
                     }
                 }
                 catch (ObjectDefinitionParsingException ex)
@@ -181,8 +185,7 @@ namespace Spring.Context.Attributes
             parser.Validate();
 
             // Read the model and create Object definitions based on its content
-            ConfigurationClassObjectDefinitionReader reader =
-                new ConfigurationClassObjectDefinitionReader(registry, _problemReporter);
+            ConfigurationClassObjectDefinitionReader reader = new ConfigurationClassObjectDefinitionReader(registry, _problemReporter);
             reader.LoadObjectDefinitions(parser.ConfigurationClasses);
         }
     }

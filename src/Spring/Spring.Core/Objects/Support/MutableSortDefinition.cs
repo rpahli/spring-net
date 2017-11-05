@@ -27,176 +27,191 @@ using Spring.Util;
 
 namespace Spring.Objects.Support
 {
-    /// <summary>
-    ///     Mutable implementation of the
-    ///     <see cref="Spring.Objects.Support.ISortDefinition" /> interface that
-    ///     supports toggling the ascending value on setting the same property again.
-    /// </summary>
-    /// <author>Juergen Hoeller</author>
-    /// <author>Jean-Pierre Pawlak</author>
-    /// <author>Simon White (.NET)</author>
-    [Serializable]
-    public class MutableSortDefinition : ISortDefinition
-    {
-        private string _property = string.Empty;
-        private bool _toggleAscendingOnProperty;
+	/// <summary>
+	/// Mutable implementation of the
+	/// <see cref="Spring.Objects.Support.ISortDefinition"/> interface that
+    /// supports toggling the ascending value on setting the same property again.
+	/// </summary>
+	/// <author>Juergen Hoeller</author>
+	/// <author>Jean-Pierre Pawlak</author>
+	/// <author>Simon White (.NET)</author>
+	[Serializable]
+	public class MutableSortDefinition : ISortDefinition
+	{
+		private string _property = string.Empty;
+		private bool _ignoreCase = true;
+		private bool _ascending = true;
+		private bool _toggleAscendingOnProperty = false;
 
-        #region Properties
+		#region Properties
+		private bool ToggleAscendingOnProperty 
+		{
+			get
+			{
+				return _toggleAscendingOnProperty;
+			}
+			set
+			{
+				this._toggleAscendingOnProperty = value;
+			}
+		}
+		#endregion
 
-        private bool ToggleAscendingOnProperty
-        {
-            get { return _toggleAscendingOnProperty; }
-            set { _toggleAscendingOnProperty = value; }
-        }
-
-        #endregion
-
-        #region ISortDefinition Properties
-
+		#region ISortDefinition Properties
         /// <summary>
-        ///     The name of the property to sort by.
+        /// The name of the property to sort by.
         /// </summary>
-        public string Property
-        {
-            get { return _property; }
-            set
-            {
-                if (!StringUtils.HasText(value))
-                {
-                    _property = string.Empty;
-                }
-                else
-                {
-                    // implicit toggling of ascending?
-                    if (ToggleAscendingOnProperty)
-                    {
-                        if (value.Equals(_property))
-                        {
-                            Ascending = !Ascending;
-                        }
-                    }
-                    _property = value;
-                }
-            }
-        }
+		public string Property
+		{
+			get
+			{
+				return _property;
+			}
+			set
+			{
+				if (!StringUtils.HasText (value)) 
+				{
+					_property = string.Empty;
+				}
+				else 
+				{
+					// implicit toggling of ascending?
+					if (ToggleAscendingOnProperty) 
+					{
+						if (value.Equals(_property)) 
+						{
+							_ascending = !_ascending;
+						}
+					}
+					_property = value;
+				}
+			}
+		}
 
         /// <summary>
-        ///     Whether upper and lower case in string values should be ignored.
+        /// Whether upper and lower case in string values should be ignored.
         /// </summary>
         /// <value>
-        ///     True if the sorting should be performed in a case-insensitive fashion.
+        /// True if the sorting should be performed in a case-insensitive fashion.
         /// </value>
-        public bool IgnoreCase { get; } = true;
+		public bool IgnoreCase
+		{
+			get
+			{
+				return _ignoreCase;
+			}
+		}
 
         /// <summary>
-        ///     If the sorting should be ascending or descending.
+        /// If the sorting should be ascending or descending.
         /// </summary>
         /// <value>
-        ///     True if the sorting should be in the ascending order.
+        /// True if the sorting should be in the ascending order.
         /// </value>
-        public bool Ascending { get; private set; } = true;
+		public bool Ascending
+		{
+			get
+			{
+				return _ascending;
+			}
+		}
+		#endregion
 
-        #endregion
+		#region Constructors
+		/// <summary>
+		/// Creates a new instance of the
+		/// <see cref="Spring.Objects.Support.MutableSortDefinition"/> class.
+		/// </summary>
+		public MutableSortDefinition ()
+		{
+		}
 
-        #region Constructors
+		/// <summary>
+        /// Creates a new instance of the
+        /// <see cref="Spring.Objects.Support.MutableSortDefinition"/> class using
+        /// the specified <see cref="Spring.Objects.Support.ISortDefinition"/>.
+		/// </summary>
+		/// <param name="source">
+		/// The <see cref="Spring.Objects.Support.ISortDefinition"/> to use
+		/// as a source for initial property values.
+		/// </param>
+		public MutableSortDefinition (ISortDefinition source)
+		{
+			this._property = source.Property;
+			this._ignoreCase = source.IgnoreCase;
+			this._ascending = source.Ascending;
+		}
 
-        /// <summary>
-        ///     Creates a new instance of the
-        ///     <see cref="Spring.Objects.Support.MutableSortDefinition" /> class.
-        /// </summary>
-        public MutableSortDefinition()
-        {
-        }
-
-        /// <summary>
-        ///     Creates a new instance of the
-        ///     <see cref="Spring.Objects.Support.MutableSortDefinition" /> class using
-        ///     the specified <see cref="Spring.Objects.Support.ISortDefinition" />.
-        /// </summary>
-        /// <param name="source">
-        ///     The <see cref="Spring.Objects.Support.ISortDefinition" /> to use
-        ///     as a source for initial property values.
-        /// </param>
-        public MutableSortDefinition(ISortDefinition source)
-        {
-            _property = source.Property;
-            IgnoreCase = source.IgnoreCase;
-            Ascending = source.Ascending;
-        }
-
-        /// <summary>
-        ///     Creates a new instance of the
-        ///     <see cref="Spring.Objects.Support.MutableSortDefinition" /> class.
-        /// </summary>
-        /// <param name="name">
-        ///     The name of the property to sort by.
-        /// </param>
-        /// <param name="ignoreCase">
-        ///     Whether upper and lower case in string values should be ignored.
-        /// </param>
-        /// <param name="ascending">
-        ///     Whether or not the sorting should be ascending or descending.
-        /// </param>
-        public MutableSortDefinition(string name, bool ignoreCase, bool ascending)
-        {
-            _property = name;
-            IgnoreCase = ignoreCase;
-            Ascending = ascending;
-        }
-
-        /// <summary>
-        ///     Creates a new instance of the
-        ///     <see cref="Spring.Objects.Support.MutableSortDefinition" /> class.
-        /// </summary>
-        /// <param name="toggleAscendingOnSameProperty">
-        ///     Whether or not the
-        ///     <see cref="Spring.Objects.Support.MutableSortDefinition.Ascending" />
-        ///     property should be toggled if the same name is set on the
-        ///     <see cref="Spring.Objects.Support.MutableSortDefinition.Property" />
-        ///     property.
-        /// </param>
-        public MutableSortDefinition(bool toggleAscendingOnSameProperty)
-        {
-            ToggleAscendingOnProperty = toggleAscendingOnSameProperty;
-        }
-
-        #endregion
-
-        #region Methods
+		/// <summary>
+        /// Creates a new instance of the
+        /// <see cref="Spring.Objects.Support.MutableSortDefinition"/> class.
+		/// </summary>
+		/// <param name="name">
+		/// The name of the property to sort by.
+		/// </param>
+		/// <param name="ignoreCase">
+		/// Whether upper and lower case in string values should be ignored.
+		/// </param>
+		/// <param name="ascending">
+		/// Whether or not the sorting should be ascending or descending.
+		/// </param>
+		public MutableSortDefinition(string name, bool ignoreCase, bool ascending)
+		{
+			this._property = name;
+			this._ignoreCase = ignoreCase;
+			this._ascending = ascending;
+		}
 
         /// <summary>
-        ///     Overrides the default <see cref="System.Object.Equals(object)" /> method
+        /// Creates a new instance of the
+        /// <see cref="Spring.Objects.Support.MutableSortDefinition"/> class.
         /// </summary>
-        /// <param name="obj">
-        ///     The object to test against this instance for equality.
-        /// </param>
-        /// <returns>
-        ///     True if the supplied <paramref name="obj" /> is equal to this instance.
-        /// </returns>
-        public override bool Equals(object obj)
-        {
-            if (!(obj is ISortDefinition))
-            {
-                return false;
-            }
-            ISortDefinition sd = (ISortDefinition) obj;
-            return Property.Equals(sd.Property) &&
-                   Ascending == sd.Ascending && IgnoreCase == sd.IgnoreCase;
-        }
+		/// <param name="toggleAscendingOnSameProperty">
+		/// Whether or not the
+		/// <see cref="Spring.Objects.Support.MutableSortDefinition.Ascending"/>
+		/// property should be toggled if the same name is set on the
+		/// <see cref="Spring.Objects.Support.MutableSortDefinition.Property"/>
+		/// property.
+		/// </param>
+		public MutableSortDefinition (bool toggleAscendingOnSameProperty)
+		{
+			this.ToggleAscendingOnProperty = toggleAscendingOnSameProperty;
+		}
+		#endregion
 
-        /// <summary>
-        ///     Overrides the default <see cref="System.Object.GetHashCode" /> method.
-        /// </summary>
-        /// <returns>The hashcode for this instance.</returns>
-        public override int GetHashCode()
-        {
-            int result = 0;
-            result = Property.GetHashCode();
-            result = 29 * result + (IgnoreCase ? 1 : 0);
-            result = 29 * result + (Ascending ? 1 : 0);
-            return result;
-        }
+		#region Methods
+		/// <summary>
+		/// Overrides the default <see cref="System.Object.Equals(object)"/> method
+		/// </summary>
+		/// <param name="obj">
+		/// The object to test against this instance for equality.
+		/// </param>
+		/// <returns>
+		/// True if the supplied <paramref name="obj"/> is equal to this instance.
+		/// </returns>
+		public override bool Equals(object obj) 
+		{
+			if (!(obj is ISortDefinition)) 
+			{
+				return false;
+			}
+			ISortDefinition sd = (ISortDefinition) obj;
+			return (this.Property.Equals(sd.Property) &&
+					this.Ascending == sd.Ascending && this.IgnoreCase == sd.IgnoreCase);
+		}
 
-        #endregion
-    }
+		/// <summary>
+		/// Overrides the default <see cref="System.Object.GetHashCode"/> method.
+		/// </summary>
+		/// <returns>The hashcode for this instance.</returns>
+		public override int GetHashCode() 
+		{
+			int result = 0;
+			result = this.Property.GetHashCode();
+			result = 29 * result + (this.IgnoreCase ? 1 : 0);
+			result = 29 * result + (this.Ascending ? 1 : 0);
+			return result;
+		}
+		#endregion
+	}
 }

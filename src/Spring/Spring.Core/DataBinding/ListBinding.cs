@@ -6,33 +6,32 @@ using Spring.Validation;
 namespace Spring.DataBinding
 {
     /// <summary>
-    ///     <see cref="IBindingContainer" /> implementation that allows
-    ///     data binding between collections that implement <see cref="IList" />
-    ///     interface.
+    /// <see cref="IBindingContainer"/> implementation that allows
+    /// data binding between collections that implement <see cref="IList"/>
+    /// interface.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     public class ListBinding : AbstractBinding
     {
-        private readonly IExpression sourceExpression = Expression.Parse("#source = #target");
-        private readonly IExpression targetExpression = Expression.Parse("#target = #source");
+        private IExpression sourceExpression = Expression.Parse("#source = #target");
+        private IExpression targetExpression = Expression.Parse("#target = #source");
 
         /// <summary>
-        ///     Binds source object to target object.
+        /// Binds source object to target object.
         /// </summary>
         /// <param name="source">
-        ///     The source object.
+        ///   The source object.
         /// </param>
         /// <param name="target">
-        ///     The target object.
+        ///   The target object.
         /// </param>
         /// <param name="validationErrors">
-        ///     Validation errors collection that type conversion errors should be added to.
+        ///   Validation errors collection that type conversion errors should be added to.
         /// </param>
         /// <param name="variables">
-        ///     Variables that should be used during expression evaluation.
+        ///   Variables that should be used during expression evaluation.
         /// </param>
-        public override void BindSourceToTarget(object source, object target, IValidationErrors validationErrors,
-            IDictionary<string, object> variables)
+        public override void BindSourceToTarget(object source, object target, IValidationErrors validationErrors, IDictionary<string, object> variables)
         {
             if (variables == null)
             {
@@ -45,22 +44,21 @@ namespace Spring.DataBinding
         }
 
         /// <summary>
-        ///     Binds target object to source object.
+        /// Binds target object to source object.
         /// </summary>
         /// <param name="source">
-        ///     The source object.
+        ///   The source object.
         /// </param>
         /// <param name="target">
-        ///     The target object.
+        ///   The target object.
         /// </param>
         /// <param name="validationErrors">
-        ///     Validation errors collection that type conversion errors should be added to.
+        ///   Validation errors collection that type conversion errors should be added to.
         /// </param>
         /// <param name="variables">
-        ///     Variables that should be used during expression evaluation.
+        ///   Variables that should be used during expression evaluation.
         /// </param>
-        public override void BindTargetToSource(object source, object target, IValidationErrors validationErrors,
-            IDictionary<string, object> variables)
+        public override void BindTargetToSource(object source, object target, IValidationErrors validationErrors, IDictionary<string, object> variables)
         {
             if (variables == null)
             {

@@ -29,8 +29,8 @@ using System.Text;
 namespace Spring.Core
 {
     /// <summary>
-    ///     Exception thrown on a <see cref="System.Type" /> mismatch when trying to set a property
-    ///     or resolve an argument to a method invocation.
+    /// Exception thrown on a <see cref="System.Type"/> mismatch when trying to set a property
+    /// or resolve an argument to a method invocation.
     /// </summary>
     /// <author>Rod Johnson</author>
     /// <author>Juergen Hoeller</author>
@@ -39,30 +39,38 @@ namespace Spring.Core
     public class TypeMismatchException : PropertyAccessException
     {
         /// <summary>
-        ///     Creates a new instance of the TypeMismatchException class.
+        /// The string error code used to classify the exception.
+        /// </summary>
+        public override string ErrorCode
+        {
+            get { return "typeMismatch"; }
+        }
+
+        /// <summary>
+        /// Creates a new instance of the TypeMismatchException class.
         /// </summary>
         public TypeMismatchException()
         {
         }
 
         /// <summary>
-        ///     Creates a new instance of the TypeMismatchException class.
+        /// Creates a new instance of the TypeMismatchException class.
         /// </summary>
         /// <param name="message">
-        ///     A message about the exception.
+        /// A message about the exception.
         /// </param>
         public TypeMismatchException(string message) : base(message)
         {
         }
 
         /// <summary>
-        ///     Creates a new instance of the TypeMismatchException class.
+        /// Creates a new instance of the TypeMismatchException class.
         /// </summary>
         /// <param name="message">
-        ///     A message about the exception.
+        /// A message about the exception.
         /// </param>
         /// <param name="rootCause">
-        ///     The root exception that is being wrapped.
+        /// The root exception that is being wrapped.
         /// </param>
         public TypeMismatchException(string message, Exception rootCause)
             : base(message, rootCause)
@@ -70,57 +78,49 @@ namespace Spring.Core
         }
 
         /// <summary>
-        ///     Creates a new instance of the TypeMismatchException class describing the
-        ///     property and required type that could not used to set a property on the target object.
+        /// Creates a new instance of the TypeMismatchException class describing the
+        /// property and required type that could not used to set a property on the target object.
         /// </summary>
         /// <param name="propertyChangeEventArgs">
-        ///     The description of the property that was to be changed.
+        /// The description of the property that was to be changed.
         /// </param>
         /// <param name="requiredType">The target conversion type.</param>
         public TypeMismatchException(
             PropertyChangeEventArgs propertyChangeEventArgs, Type requiredType) :
-            base(BuildMessage(propertyChangeEventArgs, requiredType), propertyChangeEventArgs)
+                base(BuildMessage(propertyChangeEventArgs, requiredType), propertyChangeEventArgs)
         {
         }
 
         /// <summary>
-        ///     Creates a new instance of the TypeMismatchException class describing the
-        ///     property, required type, and underlying exception that could not be used
-        ///     to set a property on the target object.
+        /// Creates a new instance of the TypeMismatchException class describing the
+        /// property, required type, and underlying exception that could not be used
+        /// to set a property on the target object.
         /// </summary>
         /// <param name="propertyChangeEventArgs">
-        ///     The description of the property that was to be changed.
+        /// The description of the property that was to be changed.
         /// </param>
         /// <param name="requiredType">The target conversion type.</param>
         /// <param name="rootCause">The underlying exception.</param>
         public TypeMismatchException(
             PropertyChangeEventArgs propertyChangeEventArgs, Type requiredType, Exception rootCause) :
-            base(BuildMessage(propertyChangeEventArgs, requiredType), propertyChangeEventArgs, rootCause)
+                base(BuildMessage(propertyChangeEventArgs, requiredType), propertyChangeEventArgs, rootCause)
         {
         }
 
         /// <summary>
-        ///     Creates a new instance of the TypeMismatchException class.
+        /// Creates a new instance of the TypeMismatchException class.
         /// </summary>
         /// <param name="info">
-        ///     The <see cref="System.Runtime.Serialization.SerializationInfo" />
-        ///     that holds the serialized object data about the exception being thrown.
+        /// The <see cref="System.Runtime.Serialization.SerializationInfo"/>
+        /// that holds the serialized object data about the exception being thrown.
         /// </param>
         /// <param name="context">
-        ///     The <see cref="System.Runtime.Serialization.StreamingContext" />
-        ///     that contains contextual information about the source or destination.
+        /// The <see cref="System.Runtime.Serialization.StreamingContext"/>
+        /// that contains contextual information about the source or destination.
         /// </param>
         protected TypeMismatchException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-        }
-
-        /// <summary>
-        ///     The string error code used to classify the exception.
-        /// </summary>
-        public override string ErrorCode
-        {
-            get { return "typeMismatch"; }
         }
 
         private static string BuildMessage(PropertyChangeEventArgs propertyChangeEventArgs, Type requiredType)

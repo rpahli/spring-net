@@ -20,40 +20,46 @@
 
 #region Imports
 
+
+
 #endregion
 
 namespace Spring.Core
 {
-    /// <summary>
-    ///     Interface that can be implemented by objects that should be orderable, e.g. in an
-    ///     <see cref="System.Collections.ICollection" />.
-    /// </summary>
-    /// <remarks>
-    ///     <p>
-    ///         The actual order can be interpreted as prioritization, the first object (with the
-    ///         lowest order value) having the highest priority.
-    ///     </p>
-    /// </remarks>
-    /// <author>Juergen Hoeller</author>
+	/// <summary>
+	/// Interface that can be implemented by objects that should be orderable, e.g. in an
+	/// <see cref="System.Collections.ICollection"/>.
+	/// </summary>
+	/// <remarks>
+	/// <p>
+    /// The actual order can be interpreted as prioritization, the first object (with the
+    /// lowest order value) having the highest priority.
+	/// </p>
+	/// </remarks>
+	/// <author>Juergen Hoeller</author>
     /// <author>Aleksandar Seovic (.Net)</author>
     public interface IOrdered
-    {
-        /// <summary>
-        ///     Return the order value of this object, where a higher value means greater in
-        ///     terms of sorting.
-        /// </summary>
-        /// <remarks>
-        ///     <p>
-        ///         Normally starting with 0 or 1, with <see cref="System.Int32.MaxValue" /> indicating
-        ///         greatest. Same order values will result in arbitrary positions for the affected
-        ///         objects.
-        ///     </p>
-        ///     <p>
-        ///         Higher value can be interpreted as lower priority, consequently the first object
-        ///         has highest priority.
-        ///     </p>
-        /// </remarks>
-        /// <returns>The order value.</returns>
-        int Order { get; }
-    }
+	{
+
+		/// <summary>
+		/// Return the order value of this object, where a higher value means greater in
+		/// terms of sorting.
+		/// </summary>
+		/// <remarks>
+		/// <p>
+        /// Normally starting with 0 or 1, with <see cref="System.Int32.MaxValue"/> indicating
+        /// greatest. Same order values will result in arbitrary positions for the affected
+        /// objects.
+		/// </p>
+		/// <p>
+        /// Higher value can be interpreted as lower priority, consequently the first object
+        /// has highest priority.
+		/// </p>
+		/// </remarks>
+		/// <returns>The order value.</returns>
+        int Order
+        {
+            get;
+        }
+	}
 }

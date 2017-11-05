@@ -24,6 +24,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+
 using Spring.Collections;
 using Spring.Util;
 
@@ -32,13 +33,13 @@ using Spring.Util;
 namespace Spring.Objects.Factory.Config
 {
     /// <summary>
-    ///     Visitor class for traversing <see cref="IObjectDefinition" /> objects, in particular
-    ///     the property values and constructor arguments contained in them resolving
-    ///     object metadata values.
+    /// Visitor class for traversing <see cref="IObjectDefinition"/> objects, in particular
+    /// the property values and constructor arguments contained in them resolving
+    /// object metadata values.
     /// </summary>
     /// <remarks>
-    ///     Used by <see cref="PropertyPlaceholderConfigurer" /> and <see cref="VariablePlaceholderConfigurer" />
-    ///     to parse all string values contained in a ObjectDefinition, resolving any placeholders found.
+    /// Used by <see cref="PropertyPlaceholderConfigurer"/> and <see cref="VariablePlaceholderConfigurer"/>
+    /// to parse all string values contained in a ObjectDefinition, resolving any placeholders found.
     /// </remarks>
     /// <author>Mark Pollack</author>
     public class ObjectDefinitionVisitor
@@ -48,7 +49,7 @@ namespace Spring.Objects.Factory.Config
         private readonly ResolveHandler resolveHandler;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ObjectDefinitionVisitor" /> class.
+        /// Initializes a new instance of the <see cref="ObjectDefinitionVisitor"/> class.
         /// </summary>
         /// <param name="resolveHandler">The handler to be called for resolving variables contained in a string.</param>
         public ObjectDefinitionVisitor(ResolveHandler resolveHandler)
@@ -58,17 +59,17 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ObjectDefinitionVisitor" /> class
-        ///     for subclassing
+        /// Initializes a new instance of the <see cref="ObjectDefinitionVisitor"/> class
+        /// for subclassing
         /// </summary>
         /// <remarks>Subclasses should override the <code>ResolveStringValue</code> method</remarks>
         protected ObjectDefinitionVisitor()
-        {
+        {           
         }
 
         /// <summary>
-        ///     Traverse the given ObjectDefinition object and the MutablePropertyValues
-        ///     and ConstructorArgumentValues contained in them.
+        /// Traverse the given ObjectDefinition object and the MutablePropertyValues
+        /// and ConstructorArgumentValues contained in them.
         /// </summary>
         /// <param name="definition">The object definition to traverse.</param>
         public virtual void VisitObjectDefinition(IObjectDefinition definition)
@@ -76,7 +77,7 @@ namespace Spring.Objects.Factory.Config
             VisitObjectTypeName(definition);
             VisitPropertyValues(definition);
 
-            ConstructorArgumentValues cas = definition.ConstructorArgumentValues;
+			ConstructorArgumentValues cas = definition.ConstructorArgumentValues;
             if (cas != null)
             {
                 VisitIndexedArgumentValues(cas.IndexedArgumentValues);
@@ -86,8 +87,8 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        ///     Visits the ObjectDefinition property ObjectTypeName, replacing string values using
-        ///     the specified IVariableSource.
+        /// Visits the ObjectDefinition property ObjectTypeName, replacing string values using 
+        /// the specified IVariableSource.
         /// </summary>
         /// <param name="objectDefinition">The object definition.</param>
         protected virtual void VisitObjectTypeName(IObjectDefinition objectDefinition)
@@ -105,8 +106,8 @@ namespace Spring.Objects.Factory.Config
 
 
         /// <summary>
-        ///     Visits the property values of the ObjectDefinition, replacing string values
-        ///     using the specified IVariableSource.
+        /// Visits the property values of the ObjectDefinition, replacing string values
+        /// using the specified IVariableSource.
         /// </summary>
         /// <param name="objectDefinition">The object definition.</param>
         protected virtual void VisitPropertyValues(IObjectDefinition objectDefinition)
@@ -127,40 +128,46 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        ///     Visits the indexed constructor argument values, replacing string values using the
-        ///     specified IVariableSource.
+        /// Visits the indexed constructor argument values, replacing string values using the
+        /// specified IVariableSource.
         /// </summary>
         /// <param name="ias">The indexed argument values.</param>
         protected virtual void VisitIndexedArgumentValues(IDictionary<int, ConstructorArgumentValues.ValueHolder> ias)
         {
             foreach (ConstructorArgumentValues.ValueHolder valueHolder in ias.Values)
+            {
                 ConfigureConstructorArgument(valueHolder);
+            }
         }
 
         /// <summary>
-        ///     Visits the named constructor argument values, replacing string values using the
-        ///     specified IVariableSource.
+        /// Visits the named constructor argument values, replacing string values using the
+        /// specified IVariableSource.
         /// </summary>
         /// <param name="nav">The named argument values.</param>
         protected virtual void VisitNamedArgumentValues(IDictionary<string, object> nav)
         {
             foreach (ConstructorArgumentValues.ValueHolder valueHolder in nav.Values)
+            {
                 ConfigureConstructorArgument(valueHolder);
+            }
         }
 
         /// <summary>
-        ///     Visits the generic constructor argument values, replacing string values using
-        ///     the specified IVariableSource.
+        /// Visits the generic constructor argument values, replacing string values using
+        /// the specified IVariableSource.
         /// </summary>
         /// <param name="gav">The genreic argument values.</param>
         protected virtual void VisitGenericArgumentValues(ICollection<ConstructorArgumentValues.ValueHolder> gav)
         {
             foreach (ConstructorArgumentValues.ValueHolder valueHolder in gav)
+            {
                 ConfigureConstructorArgument(valueHolder);
+            }
         }
 
         /// <summary>
-        ///     Configures the constructor argument ValueHolder.
+        /// Configures the constructor argument ValueHolder.
         /// </summary>
         /// <param name="valueHolder">The vconstructor alue holder.</param>
         protected void ConfigureConstructorArgument(ConstructorArgumentValues.ValueHolder valueHolder)
@@ -173,7 +180,7 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        ///     Resolves the given value taken from an object definition according to its type
+        /// Resolves the given value taken from an object definition according to its type
         /// </summary>
         /// <param name="value">the value to resolve</param>
         /// <returns>the resolved value</returns>
@@ -181,15 +188,15 @@ namespace Spring.Objects.Factory.Config
         {
             if (value is IObjectDefinition)
             {
-                VisitObjectDefinition((IObjectDefinition) value);
+                VisitObjectDefinition((IObjectDefinition)value);
             }
             else if (value is ObjectDefinitionHolder)
             {
-                VisitObjectDefinition(((ObjectDefinitionHolder) value).ObjectDefinition);
+                VisitObjectDefinition( ((ObjectDefinitionHolder)value).ObjectDefinition);
             }
             else if (value is RuntimeObjectReference)
             {
-                RuntimeObjectReference ror = (RuntimeObjectReference) value;
+                RuntimeObjectReference ror = (RuntimeObjectReference)value;
                 //name has to be of string type.
                 string newObjectName = ResolveStringValue(ror.ObjectName);
                 if (!newObjectName.Equals(ror.ObjectName))
@@ -199,37 +206,37 @@ namespace Spring.Objects.Factory.Config
             }
             else if (value is ManagedList)
             {
-                VisitManagedList((ManagedList) value);
+                VisitManagedList((ManagedList)value);
             }
             else if (value is ManagedSet)
             {
-                VisitManagedSet((ManagedSet) value);
+                VisitManagedSet((ManagedSet)value);
             }
             else if (value is ManagedDictionary)
             {
-                VisitManagedDictionary((ManagedDictionary) value);
+                VisitManagedDictionary((ManagedDictionary)value);
             }
             else if (value is NameValueCollection)
             {
-                VisitNameValueCollection((NameValueCollection) value);
+                VisitNameValueCollection((NameValueCollection)value);
             }
             else if (value is TypedStringValue)
             {
-                TypedStringValue typedStringValue = (TypedStringValue) value;
-                string stringValue = typedStringValue.Value;
+                TypedStringValue typedStringValue = (TypedStringValue)value;
+                String stringValue = typedStringValue.Value;
                 if (stringValue != null)
                 {
-                    string visitedString = ResolveStringValue(stringValue);
+                    String visitedString = ResolveStringValue(stringValue);
                     typedStringValue.Value = visitedString;
                 }
             }
             else if (value is string)
             {
-                return ResolveStringValue((string) value);
+                return ResolveStringValue((string)value);
             }
             else if (value is ExpressionHolder)
             {
-                ExpressionHolder holder = (ExpressionHolder) value;
+                ExpressionHolder holder = (ExpressionHolder)value;
                 string newExpressionString = ResolveStringValue(holder.ExpressionString);
                 return new ExpressionHolder(newExpressionString);
             }
@@ -237,11 +244,11 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        ///     Visits the ManagedList property ElementTypeName and
-        ///     calls <see cref="ResolveValue" /> for list element.
+        /// Visits the ManagedList property ElementTypeName and 
+        /// calls <see cref="ResolveValue"/> for list element.
         /// </summary>
         protected virtual void VisitManagedList(ManagedList listVal)
-        {
+        {            
             string elementTypeName = listVal.ElementTypeName;
             if (elementTypeName != null)
             {
@@ -264,8 +271,8 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        ///     Visits the ManagedSet property ElementTypeName and
-        ///     calls <see cref="ResolveValue" /> for list element.
+        /// Visits the ManagedSet property ElementTypeName and 
+        /// calls <see cref="ResolveValue"/> for list element.
         /// </summary>
         protected virtual void VisitManagedSet(ManagedSet setVal)
         {
@@ -279,7 +286,7 @@ namespace Spring.Objects.Factory.Config
                 }
             }
 
-            ISet clone = (ISet) setVal.Clone();
+            ISet clone = (ISet)setVal.Clone();
             foreach (object oldValue in clone)
             {
                 object newValue = ResolveValue(oldValue);
@@ -292,8 +299,8 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        ///     Visits the ManagedSet properties KeyTypeName and ValueTypeName and
-        ///     calls <see cref="ResolveValue" /> for dictionary's value element.
+        /// Visits the ManagedSet properties KeyTypeName and ValueTypeName and 
+        /// calls <see cref="ResolveValue"/> for dictionary's value element.
         /// </summary>
         protected virtual void VisitManagedDictionary(ManagedDictionary dictVal)
         {
@@ -330,9 +337,9 @@ namespace Spring.Objects.Factory.Config
                     mods[entry.Key] = newValue;
                 }*/
 
-                object key = entry.Key;
+                object key = entry.Key;                
                 object newKey = ResolveValue(key);
-                object oldValue = entry.Value;
+                object oldValue = entry.Value;                
                 object newValue = ResolveValue(oldValue);
 
                 if (!ObjectUtils.NullSafeEquals(newValue, oldValue) || key != newKey)
@@ -340,18 +347,22 @@ namespace Spring.Objects.Factory.Config
                     entriesModified = true;
                 }
                 mods[newKey] = newValue;
+
             }
             if (entriesModified)
             {
                 dictVal.Clear();
                 foreach (DictionaryEntry entry in mods)
+                {
                     dictVal[entry.Key] = entry.Value;
+                }
             }
+
         }
 
         /// <summary>
-        ///     Visits the elements of a NameValueCollection and calls
-        ///     <see cref="ResolveValue" /> for value of each element.
+        /// Visits the elements of a NameValueCollection and calls
+        /// <see cref="ResolveValue"/> for value of each element.
         /// </summary>
         protected virtual void VisitNameValueCollection(NameValueCollection collection)
         {
@@ -367,10 +378,10 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        ///     calls the <see cref="ResolveHandler" /> to resolve any variables contained in the raw string.
+        /// calls the <see cref="ResolveHandler"/> to resolve any variables contained in the raw string.
         /// </summary>
         /// <param name="rawStringValue">the raw string value containing variable placeholders to be resolved</param>
-        /// <exception cref="InvalidOperationException">If no <see cref="IVariableSource" /> has been configured.</exception>
+        /// <exception cref="InvalidOperationException">If no <see cref="IVariableSource"/> has been configured.</exception>
         /// <returns>the resolved string, having variables being replaced, if any</returns>
         protected virtual string ResolveStringValue(string rawStringValue)
         {

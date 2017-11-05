@@ -26,29 +26,28 @@ using Spring.Expressions.Parser.antlr.collections;
 namespace Spring.Expressions
 {
     /// <summary>
-    ///     Represents parsed map initializer node in the navigation expression.
+    /// Represents parsed map initializer node in the navigation expression.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class MapInitializerNode : BaseNode
     {
         /// <summary>
-        ///     Creates a new instance of <see cref="MapInitializerNode" />.
+        /// Creates a new instance of <see cref="MapInitializerNode"/>.
         /// </summary>
         public MapInitializerNode()
-        {
-        }
+        {}
 
-        /// <summary>
-        ///     Create a new instance from SerializationInfo
+         /// <summary>
+        /// Create a new instance from SerializationInfo
         /// </summary>
         protected MapInitializerNode(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-
+        
         /// <summary>
-        ///     Creates new instance of the map defined by this node.
+        /// Creates new instance of the map defined by this node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
@@ -56,11 +55,10 @@ namespace Spring.Expressions
         protected override object Get(object context, EvaluationContext evalContext)
         {
             IDictionary entries = new Hashtable();
-            AST entryNode = getFirstChild();
+            AST entryNode = this.getFirstChild();
             while (entryNode != null)
             {
-                DictionaryEntry entry =
-                    (DictionaryEntry) GetValue((MapEntryNode) entryNode, evalContext.RootContext, evalContext);
+                DictionaryEntry entry = (DictionaryEntry) GetValue(((MapEntryNode)entryNode), evalContext.RootContext, evalContext );
                 entries[entry.Key] = entry.Value;
                 entryNode = entryNode.getNextSibling();
             }

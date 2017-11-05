@@ -1,5 +1,4 @@
 #region License
-
 /*
 * Copyright © 2002-2011 the original author or authors.
 * 
@@ -15,57 +14,56 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
 #endregion
 
 using System;
 
 namespace Spring.Threading
 {
-    /// <summary>
-    ///     Utility class to use an <see cref="ISync" /> with the
-    ///     C# <c>using () {}</c> idiom
-    /// </summary>
-    public class SyncHolder : IDisposable
-    {
-        private ISync _sync;
+	/// <summary>
+	/// Utility class to use an <see cref="ISync"/> with the 
+	/// C# <c>using () {}</c> idiom
+	/// </summary>
+	public class SyncHolder : IDisposable
+	{
+        ISync _sync;
 
         /// <summary>
-        ///     Creates a new <see cref="SyncHolder" /> trying to <see cref="ISync.Acquire" /> the given
-        ///     <see cref="ISync" />
+        /// Creates a new <see cref="SyncHolder"/> trying to <see cref="ISync.Acquire"/> the given 
+        /// <see cref="ISync"/>
         /// </summary>
-        /// <param name="sync">the <see cref="ISync" /> to be held</param>
-        public SyncHolder(ISync sync)
-        {
-            Init(sync);
-        }
+        /// <param name="sync">the <see cref="ISync"/> to be held</param>
+	    public SyncHolder (ISync sync)
+	    {
+            Init (sync);
+	    }
 
-        /// <summary>
-        ///     Creates a new <see cref="SyncHolder" /> trying to <see cref="ISync.Attempt" /> the given
-        ///     <see cref="ISync" />
+	    /// <summary>
+        /// Creates a new <see cref="SyncHolder"/> trying to <see cref="ISync.Attempt"/> the given 
+        /// <see cref="ISync"/>
         /// </summary>
-        /// <param name="sync">the <see cref="ISync" /> to be held</param>
+        /// <param name="sync">the <see cref="ISync"/> to be held</param>
         /// <param name="msecs">millisecond to try to acquire the lock</param>
-        public SyncHolder(ISync sync, long msecs)
-        {
+	    public SyncHolder (ISync sync, long msecs)
+	    {
             Init(new TimeoutSync(sync, msecs));
-        }
+	    }
 
-        /// <summary>
-        ///     Releases the held <see cref="ISync" />
+	    /// <summary>
+        /// Releases the held <see cref="ISync"/>
         /// </summary>
-        public void Dispose()
+	    public void Dispose ()
         {
-            _sync.Release();
+	        _sync.Release();
         }
 
         /// <summary>
-        ///     initializes and acquire access to the <see cref="ISync" />
+        /// initializes and acquire access to the <see cref="ISync"/>
         /// </summary>
         /// <param name="sync"></param>
-        private void Init(ISync sync)
+        private void Init (ISync sync)
         {
-            _sync = sync;
+            this._sync = sync;
             _sync.Acquire();
         }
     }

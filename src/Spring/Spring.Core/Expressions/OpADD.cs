@@ -27,29 +27,29 @@ using Spring.Util;
 namespace Spring.Expressions
 {
     /// <summary>
-    ///     Represents arithmetic addition operator.
+    /// Represents arithmetic addition operator.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class OpADD : BinaryOperator
     {
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
         public OpADD()
         {
         }
 
         /// <summary>
-        ///     Create a new instance from SerializationInfo
+        /// Create a new instance from SerializationInfo
         /// </summary>
         protected OpADD(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-
+        
         /// <summary>
-        ///     Returns a value for the arithmetic addition operator node.
+        /// Returns a value for the arithmetic addition operator node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
@@ -63,7 +63,7 @@ namespace Spring.Expressions
             {
                 return NumberUtils.Add(left, right);
             }
-            if (left is DateTime && (right is TimeSpan || right is string || NumberUtils.IsNumber(right)))
+            else if (left is DateTime && (right is TimeSpan || right is string || NumberUtils.IsNumber(right)))
             {
                 if (NumberUtils.IsNumber(right))
                 {
@@ -76,39 +76,44 @@ namespace Spring.Expressions
 
                 return (DateTime) left + (TimeSpan) right;
             }
-            if (left is string || right is string)
+            else if (left is String || right is String)
             {
                 return string.Concat(left, right);
             }
-            if ((left is IList || left is ISet) && (right is IList || right is ISet))
+            else if ((left is IList || left is ISet) && (right is IList || right is ISet))
             {
                 ISet leftset = new HybridSet(left as ICollection);
                 ISet rightset = new HybridSet(right as ICollection);
                 return leftset.Union(rightset);
             }
-            if (left is IDictionary && right is IDictionary)
+            else if (left is IDictionary && right is IDictionary)
             {
                 ISet leftset = new HybridSet(((IDictionary) left).Keys);
                 ISet rightset = new HybridSet(((IDictionary) right).Keys);
                 ISet unionset = leftset.Union(rightset);
-
+                
                 IDictionary result = new Hashtable(unionset.Count);
-                foreach (object key in unionset)
-                    if (leftset.Contains(key))
+                foreach(object key in unionset)
+                {
+                    if(leftset.Contains(key))
                     {
-                        result.Add(key, ((IDictionary) left)[key]);
+                        result.Add(key, ((IDictionary)left)[key]);
                     }
                     else
                     {
-                        result.Add(key, ((IDictionary) right)[key]);
+                        result.Add(key, ((IDictionary)right)[key]);
                     }
+                }
                 return result;
             }
-            throw new ArgumentException("Cannot add instances of '"
-                                        + left.GetType().FullName
-                                        + "' and '"
-                                        + right.GetType().FullName
-                                        + "'.");
+            else
+            {
+                throw new ArgumentException("Cannot add instances of '"
+                                            + left.GetType().FullName
+                                            + "' and '"
+                                            + right.GetType().FullName
+                                            + "'.");
+            }
         }
     }
 }

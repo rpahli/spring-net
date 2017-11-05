@@ -21,7 +21,6 @@
 #region Imports
 
 using System;
-using System.Xml;
 using Spring.Util;
 using Spring.Validation;
 
@@ -30,14 +29,16 @@ using Spring.Validation;
 namespace Spring.DataBinding
 {
     /// <summary>
-    ///     Represents an ErrorMessage specific to a binding instance.
+    /// Represents an ErrorMessage specific to a binding instance.
     /// </summary>
     /// <author>Erich Eichinger</author>
     [Serializable]
     public class BindingErrorMessage : ErrorMessage
     {
+        private string _bindingId;
+
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ErrorMessage" /> class.
+        /// Initializes a new instance of the <see cref="ErrorMessage"/> class.
         /// </summary>
         /// <param name="bindingId">the id of the binding this error message is associated with</param>
         /// <param name="id">the message id</param>
@@ -45,71 +46,67 @@ namespace Spring.DataBinding
         public BindingErrorMessage(string bindingId, string id, params object[] parameters) : base(id, parameters)
         {
             AssertUtils.ArgumentNotNull(bindingId, "bindingId");
-            BindingId = bindingId;
+            _bindingId = bindingId;
         }
 
         /// <summary>
-        ///     Get the ID of the binding this message instance relates to.
+        /// Get the ID of the binding this message instance relates to.
         /// </summary>
-        public string BindingId { get; private set; }
+        public string BindingId
+        {
+            get { return _bindingId; }
+        }
 
         /// <summary>
-        ///     Generates an object from its XML representation.
+        /// Generates an object from its XML representation.
         /// </summary>
         /// <param name="reader">
-        ///     The <see cref="T:System.Xml.XmlReader"></see> stream
-        ///     from which the object is deserialized.
+        /// The <see cref="T:System.Xml.XmlReader"></see> stream 
+        /// from which the object is deserialized. 
         /// </param>
-        public override void ReadXml(XmlReader reader)
+        public override void ReadXml(System.Xml.XmlReader reader)
         {
             base.ReadXml(reader);
-            BindingId = reader.GetAttribute("bindingId");
+            _bindingId = reader.GetAttribute("bindingId");
         }
 
         /// <summary>
-        ///     Converts an object into its XML representation.
+        /// Converts an object into its XML representation.
         /// </summary>
         /// <param name="writer">
-        ///     The <see cref="T:System.Xml.XmlWriter"></see> stream
-        ///     to which the object is serialized.
+        /// The <see cref="T:System.Xml.XmlWriter"></see> stream 
+        /// to which the object is serialized. 
         /// </param>
-        public override void WriteXml(XmlWriter writer)
+        public override void WriteXml(System.Xml.XmlWriter writer)
         {
             base.WriteXml(writer);
-            writer.WriteAttributeString("bindingId", BindingId);
+            writer.WriteAttributeString("bindingId", _bindingId);
         }
 
-        /// <summary>
-        ///     Determines whether the specified <see cref="T:System.Object"></see> is equal to the current
-        ///     <see cref="T:System.Object"></see>.
-        /// </summary>
-        /// <returns>
-        ///     true if the specified <see cref="T:System.Object"></see> is equal to the current <see cref="T:System.Object"></see>
-        ///     ; otherwise, false.
-        /// </returns>
-        /// <param name="obj">
-        ///     The <see cref="T:System.Object"></see> to compare with the current <see cref="T:System.Object"></see>
-        ///     .
-        /// </param>
-        /// <filterpriority>2</filterpriority>
+        ///<summary>
+        ///Determines whether the specified <see cref="T:System.Object"></see> is equal to the current <see cref="T:System.Object"></see>.
+        ///</summary>
+        ///<returns>
+        ///true if the specified <see cref="T:System.Object"></see> is equal to the current <see cref="T:System.Object"></see>; otherwise, false.
+        ///</returns>
+        ///<param name="obj">The <see cref="T:System.Object"></see> to compare with the current <see cref="T:System.Object"></see>. </param><filterpriority>2</filterpriority>
         public override bool Equals(object obj)
         {
             BindingErrorMessage other = obj as BindingErrorMessage;
-            return other != null
-                   && BindingId == other.BindingId
-                   && base.Equals(obj);
+            return (other != null) 
+                && (this.BindingId == other.BindingId)
+                && (base.Equals(obj));
         }
 
-        /// <summary>
-        ///     Serves as a hash function for a particular type. <see cref="M:System.Object.GetHashCode"></see> is suitable for use
-        ///     in hashing algorithms and data structures like a hash table.
-        /// </summary>
-        /// <returns>
-        ///     A hash code for the current <see cref="T:System.Object"></see>.
-        /// </returns>
+        ///<summary>
+        ///Serves as a hash function for a particular type. <see cref="M:System.Object.GetHashCode"></see> is suitable for use in hashing algorithms and data structures like a hash table.
+        ///</summary>
+        ///<returns>
+        ///A hash code for the current <see cref="T:System.Object"></see>.
+        ///</returns>
         public override int GetHashCode()
         {
-            return base.GetHashCode() + 31 * BindingId.GetHashCode();
+            return base.GetHashCode() + 31*this.BindingId.GetHashCode();
         }
     }
 }

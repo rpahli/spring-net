@@ -25,29 +25,29 @@ using System.Runtime.Serialization;
 namespace Spring.Expressions
 {
     /// <summary>
-    ///     Represents parsed selection node in the navigation expression.
+    /// Represents parsed selection node in the navigation expression.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class SelectionLastNode : BaseNode
     {
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
-        public SelectionLastNode()
+        public SelectionLastNode():base()
         {
         }
 
         /// <summary>
-        ///     Create a new instance from SerializationInfo
+        /// Create a new instance from SerializationInfo
         /// </summary>
         protected SelectionLastNode(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-
+        
         /// <summary>
-        ///     Returns the last context item that matches selection expression.
+        /// Returns the last context item that matches selection expression.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
@@ -64,12 +64,12 @@ namespace Spring.Expressions
 
             using (evalContext.SwitchThisContext())
             {
-                BaseNode expression = (BaseNode) getFirstChild();
+                BaseNode expression = (BaseNode) this.getFirstChild();
                 for (int i = list.Count - 1; i >= 0; i--)
                 {
                     object listItem = list[i];
                     evalContext.ThisContext = listItem;
-                    bool isMatch = (bool) GetValue(expression, listItem, evalContext);
+                    bool isMatch = (bool)GetValue(expression, listItem, evalContext );
                     if (isMatch)
                     {
                         return listItem;

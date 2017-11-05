@@ -25,6 +25,7 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.IO;
 using System.Resources;
+
 using Spring.Core.IO;
 using Spring.Objects.Factory.Config;
 using Spring.Util;
@@ -34,13 +35,13 @@ using Spring.Util;
 namespace Spring.Objects.Factory.Support
 {
     /// <summary>
-    ///     Object definition reader for a simple properties format.
+    /// Object definition reader for a simple properties format.
     /// </summary>
     /// <remarks>
-    ///     Provides object definition registration methods for
-    ///     <see cref="System.Collections.IDictionary" /> and
-    ///     <see cref="System.Resources.ResourceSet" /> instances. Typically applied to a
-    ///     <see cref="Spring.Objects.Factory.Support.DefaultListableObjectFactory" />.
+    /// Provides object definition registration methods for
+    /// <see cref="System.Collections.IDictionary"/> and
+    /// <see cref="System.Resources.ResourceSet"/> instances. Typically applied to a
+    /// <see cref="Spring.Objects.Factory.Support.DefaultListableObjectFactory"/>.
     /// </remarks>
     /// <author>Rod Johnson</author>
     /// <author>Juergen Hoeller</author>
@@ -48,111 +49,122 @@ namespace Spring.Objects.Factory.Support
     public class PropertiesObjectDefinitionReader : AbstractObjectDefinitionReader
     {
         /// <summary>
-        ///     Value of a T/F attribute that represents true.
-        ///     Anything else represents false. Case seNsItive.
+        /// Value of a T/F attribute that represents true.
+        /// Anything else represents false. Case seNsItive.
         /// </summary>
         public const string TrueValue = "true";
 
         /// <summary>
-        ///     Separator between object name and property name.
+        /// Separator between object name and property name.
         /// </summary>
         public const string Separator = ".";
 
         /// <summary>
-        ///     Prefix for the class property of a root object definition.
+        /// Prefix for the class property of a root object definition.
         /// </summary>
         public const string ClassKey = "class";
 
         /// <summary>
-        ///     Special string added to distinguish if the object will be
-        ///     a singleton.
+        /// Special string added to distinguish if the object will be
+        /// a singleton.
         /// </summary>
         /// <remarks>
-        ///     <p>
-        ///         Default is true.
-        ///     </p>
+        /// <p>
+        /// Default is true.
+        /// </p>
         /// </remarks>
         /// <example>
-        ///     <p>
-        ///         owner.(singleton)=true
-        ///     </p>
+        /// <p>
+        /// owner.(singleton)=true
+        /// </p>
         /// </example>
         public const string SingletonKey = "(singleton)";
 
         /// <summary>
-        ///     Special string added to distinguish if the object will be
-        ///     lazily initialised.
+        /// Special string added to distinguish if the object will be
+        /// lazily initialised.
         /// </summary>
         /// <remarks>
-        ///     <p>
-        ///         Default is false.
-        ///     </p>
+        /// <p>
+        /// Default is false.
+        /// </p>
         /// </remarks>
         /// <example>
-        ///     <p>
-        ///         owner.(lazy-init)=true
-        ///     </p>
+        /// <p>
+        /// owner.(lazy-init)=true
+        /// </p>
         /// </example>
         public const string LazyInitKey = "(lazy-init)";
 
         /// <summary>
-        ///     Reserved "property" to indicate the parent of a child object definition.
+        /// Reserved "property" to indicate the parent of a child object definition.
         /// </summary>
         public const string ParentKey = "parent";
 
         /// <summary>
-        ///     Property suffix for references to other objects in the current
-        ///     <see cref="Spring.Objects.Factory.IObjectFactory" />: e.g.
-        ///     owner.dog(ref)=fido.
+        /// Property suffix for references to other objects in the current
+        /// <see cref="Spring.Objects.Factory.IObjectFactory"/>: e.g.
+        /// owner.dog(ref)=fido.
         /// </summary>
         /// <remarks>
-        ///     <p>
-        ///         Whether this is a reference to a singleton or a prototype
-        ///         will depend on the definition of the target object.
-        ///     </p>
+        /// <p>
+        /// Whether this is a reference to a singleton or a prototype
+        /// will depend on the definition of the target object.
+        /// </p>
         /// </remarks>
         public const string RefSuffix = "(ref)";
 
         /// <summary>
-        ///     Prefix before values referencing other objects.
+        /// Prefix before values referencing other objects.
         /// </summary>
         public const string RefPrefix = "*";
 
+        private string _defaultParentObject = string.Empty;
+
+        private IObjectDefinitionFactory _objectDefinitionFactory = new DefaultObjectDefinitionFactory();
+
         /// <summary>
-        ///     Creates a new instance of the
-        ///     <see cref="Spring.Objects.Factory.Support.PropertiesObjectDefinitionReader" />
-        ///     class.
+        /// Name of default parent object
         /// </summary>
-        /// <param name="registry">
-        ///     The <see cref="Spring.Objects.Factory.Support.IObjectDefinitionRegistry" />
-        ///     instance that this reader works on.
-        /// </param>
-        public PropertiesObjectDefinitionReader(IObjectDefinitionRegistry registry)
-            : base(registry)
+        public string DefaultParentObject
         {
+            get { return _defaultParentObject; }
+            set { this._defaultParentObject = value; }
         }
 
         /// <summary>
-        ///     Name of default parent object
+        /// Gets or sets object definition factory to use.
         /// </summary>
-        public string DefaultParentObject { get; set; } = string.Empty;
+        public IObjectDefinitionFactory ObjectDefinitionFactory
+        {
+            get { return _objectDefinitionFactory; }
+            set { _objectDefinitionFactory = value; }
+        }
 
         /// <summary>
-        ///     Gets or sets object definition factory to use.
+        /// Creates a new instance of the
+        /// <see cref="Spring.Objects.Factory.Support.PropertiesObjectDefinitionReader"/>
+        /// class.
         /// </summary>
-        public IObjectDefinitionFactory ObjectDefinitionFactory { get; set; } = new DefaultObjectDefinitionFactory();
+        /// <param name="registry">
+        /// The <see cref="Spring.Objects.Factory.Support.IObjectDefinitionRegistry"/>
+        /// instance that this reader works on.
+        /// </param>
+        public PropertiesObjectDefinitionReader(IObjectDefinitionRegistry registry)
+            : base(registry)
+        {}
 
         /// <summary>
-        ///     Load object definitions from the supplied <paramref name="resource" />.
+        /// Load object definitions from the supplied <paramref name="resource"/>.
         /// </summary>
         /// <param name="resource">
-        ///     The resource for the object definitions that are to be loaded.
+        /// The resource for the object definitions that are to be loaded.
         /// </param>
         /// <returns>
-        ///     The number of object definitions that were loaded.
+        /// The number of object definitions that were loaded.
         /// </returns>
         /// <exception cref="Spring.Objects.ObjectsException">
-        ///     In the case of loading or parsing errors.
+        /// In the case of loading or parsing errors.
         /// </exception>
         public override int LoadObjectDefinitions(IResource resource)
         {
@@ -160,13 +172,13 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        ///     Load object definitions from the specified properties file.
+        /// Load object definitions from the specified properties file.
         /// </summary>
         /// <param name="resource">
-        ///     The resource descriptor for the properties file.
+        /// The resource descriptor for the properties file.
         /// </param>
         /// <param name="prefix">
-        ///     The match or filter for object definition names, e.g. 'objects.'
+        /// The match or filter for object definition names, e.g. 'objects.'
         /// </param>
         /// <exception cref="Spring.Objects.ObjectsException">in case of loading or parsing errors</exception>
         /// <returns>the number of object definitions found</returns>
@@ -193,15 +205,15 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        ///     Register object definitions contained in a
-        ///     <see cref="System.Resources.ResourceSet" />, using all property keys (i.e.
-        ///     not filtering by prefix).
+        /// Register object definitions contained in a
+        /// <see cref="System.Resources.ResourceSet"/>, using all property keys (i.e.
+        /// not filtering by prefix).
         /// </summary>
         /// <param name="rs">
-        ///     The <see cref="System.Resources.ResourceSet" /> containing object definitions.
+        /// The <see cref="System.Resources.ResourceSet"/> containing object definitions.
         /// </param>
         /// <exception cref="Spring.Objects.ObjectsException">
-        ///     In case of loading or parsing errors.
+        /// In case of loading or parsing errors.
         /// </exception>
         /// <returns>The number of object definitions registered.</returns>
         public int RegisterObjectDefinitions(ResourceSet rs)
@@ -210,23 +222,23 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        ///     Register object definitions contained in a
-        ///     <see cref="System.Resources.ResourceSet" />.
+        /// Register object definitions contained in a
+        /// <see cref="System.Resources.ResourceSet"/>.
         /// </summary>
         /// <remarks>
-        ///     <p>
-        ///         Similar syntax as for an <see cref="System.Collections.IDictionary" />.
-        ///         This method is useful to enable standard .NET internationalization support.
-        ///     </p>
+        /// <p>
+        /// Similar syntax as for an <see cref="System.Collections.IDictionary"/>.
+        /// This method is useful to enable standard .NET internationalization support.
+        /// </p>
         /// </remarks>
         /// <param name="rs">
-        ///     The <see cref="System.Resources.ResourceSet" /> containing object definitions.
+        /// The <see cref="System.Resources.ResourceSet"/> containing object definitions.
         /// </param>
         /// <param name="prefix">
-        ///     The match or filter for object definition names, e.g. 'objects.'
+        /// The match or filter for object definition names, e.g. 'objects.'
         /// </param>
         /// <exception cref="Spring.Objects.ObjectsException">
-        ///     In case of loading or parsing errors.
+        /// In case of loading or parsing errors.
         /// </exception>
         /// <returns>The number of object definitions registered.</returns>
         public int RegisterObjectDefinitions(ResourceSet rs, string prefix)
@@ -234,20 +246,22 @@ namespace Spring.Objects.Factory.Support
             // Simply create a map and call overloaded method
             IDictionary id = new Hashtable();
             foreach (DictionaryEntry de in rs)
+            {
                 id.Add(de.Key, de.Value);
+            }
             return RegisterObjectDefinitions(id, prefix);
         }
 
         /// <summary>
-        ///     Register object definitions contained in an
-        ///     <see cref="System.Collections.IDictionary" />, using all property keys
-        ///     (i.e. not filtering by prefix).
+        /// Register object definitions contained in an
+        /// <see cref="System.Collections.IDictionary"/>, using all property keys
+        /// (i.e. not filtering by prefix).
         /// </summary>
         /// <param name="id">
-        ///     The <see cref="System.Collections.IDictionary" /> containing object definitions.
+        /// The <see cref="System.Collections.IDictionary"/> containing object definitions.
         /// </param>
         /// <exception cref="Spring.Objects.ObjectsException">
-        ///     In case of loading or parsing errors.
+        /// In case of loading or parsing errors.
         /// </exception>
         /// <returns>The number of object definitions registered.</returns>
         public int RegisterObjectDefinitions(IDictionary id)
@@ -256,45 +270,45 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        ///     Registers object definitions contained in an <see cref="System.Collections.Specialized.NameValueCollection" />
-        ///     using all property keys ( i.e. not filtering by prefix )
+        /// Registers object definitions contained in an <see cref="System.Collections.Specialized.NameValueCollection"/> 
+        /// using all property keys ( i.e. not filtering by prefix )
         /// </summary>
-        /// <param name="nameValueCollection">
-        ///     The <see cref="System.Collections.Specialized.NameValueCollection" /> containing
-        ///     object definitions.
+        /// <param name="nameValueCollection">The <see cref="System.Collections.Specialized.NameValueCollection"/> containing 
+        /// object definitions.
         /// </param>
         /// <exception cref="Spring.Objects.ObjectsException">
-        ///     In case of loading or parsing errors.
+        /// In case of loading or parsing errors.
         /// </exception>
         /// <returns>The number of object definitions registered.</returns>
         public int RegisterObjectDefinitions(NameValueCollection nameValueCollection)
         {
             IDictionary id = new Hashtable();
             foreach (DictionaryEntry de in nameValueCollection)
+            {
                 id.Add(de.Key, de.Value);
+            }
 
             return RegisterObjectDefinitions(id);
         }
 
         /// <summary>
-        ///     Register object definitions contained in a
-        ///     <see cref="System.Collections.IDictionary" />.
+        /// Register object definitions contained in a
+        /// <see cref="System.Collections.IDictionary"/>.
         /// </summary>
         /// <remarks>
-        ///     <p>
-        ///         Ignores ineligible properties.
-        ///     </p>
+        /// <p>
+        /// Ignores ineligible properties.
+        /// </p>
         /// </remarks>
-        /// <param name="id">
-        ///     IDictionary name -> property (String or Object). Property values
-        ///     will be strings if coming from a Properties file etc. Property names
-        ///     (keys) must be strings. Type keys must be strings.
+        /// <param name="id">IDictionary name -> property (String or Object). Property values
+        /// will be strings if coming from a Properties file etc. Property names
+        /// (keys) must be strings. Type keys must be strings.
         /// </param>
         /// <param name="prefix">
-        ///     The match or filter within the keys in the map: e.g. 'objects.'
+        /// The match or filter within the keys in the map: e.g. 'objects.'
         /// </param>
         /// <exception cref="Spring.Objects.ObjectsException">
-        ///     In case of loading or parsing errors.
+        /// In case of loading or parsing errors.
         /// </exception>
         /// <returns>The number of object definitions found.</returns>
         public int RegisterObjectDefinitions(IDictionary id, string prefix)
@@ -303,28 +317,27 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        ///     Register object definitions contained in a
-        ///     <see cref="System.Collections.IDictionary" />.
+        /// Register object definitions contained in a
+        /// <see cref="System.Collections.IDictionary"/>.
         /// </summary>
         /// <remarks>
-        ///     <p>
-        ///         Ignores ineligible properties.
-        ///     </p>
+        /// <p>
+        /// Ignores ineligible properties.
+        /// </p>
         /// </remarks>
-        /// <param name="id">
-        ///     IDictionary name -> property (String or Object). Property values
-        ///     will be strings if coming from a Properties file etc. Property names
-        ///     (keys) must be strings. Type keys must be strings.
+        /// <param name="id">IDictionary name -> property (String or Object). Property values
+        /// will be strings if coming from a Properties file etc. Property names
+        /// (keys) must be strings. Type keys must be strings.
         /// </param>
         /// <param name="prefix">
-        ///     The match or filter within the keys in the map: e.g. 'objects.'
+        /// The match or filter within the keys in the map: e.g. 'objects.'
         /// </param>
         /// <param name="resourceDescription">
-        ///     The description of the resource that the
-        ///     <see cref="System.Collections.IDictionary" /> came from (for logging purposes).
+        /// The description of the resource that the
+        /// <see cref="System.Collections.IDictionary"/> came from (for logging purposes).
         /// </param>
         /// <exception cref="Spring.Objects.ObjectsException">
-        ///     In case of loading or parsing errors.
+        /// In case of loading or parsing errors.
         /// </exception>
         /// <returns>The number of object definitions found.</returns>
         public int RegisterObjectDefinitions(
@@ -336,6 +349,7 @@ namespace Spring.Objects.Factory.Support
             }
             int objectCount = 0;
             foreach (string key in id.Keys)
+            {
                 if (key.StartsWith(prefix))
                 {
                     // Key is of form prefix<name>.property
@@ -375,24 +389,25 @@ namespace Spring.Objects.Factory.Support
                         #endregion
                     }
                 } // if the key started with the prefix we're looking for
+            } // while there are more keys
             return objectCount;
         }
 
         /// <summary>
-        ///     Get all property values, given a prefix (which will be stripped)
-        ///     and add the object they define to the factory with the given name
+        /// Get all property values, given a prefix (which will be stripped)
+        /// and add the object they define to the factory with the given name
         /// </summary>
         /// <param name="name">The name of the object to define.</param>
         /// <param name="id">
-        ///     The <see cref="System.Collections.IDictionary" /> containing string pairs.
+        /// The <see cref="System.Collections.IDictionary"/> containing string pairs.
         /// </param>
         /// <param name="prefix">The prefix of each entry, which will be stripped.</param>
         /// <param name="resourceDescription">
-        ///     The description of the resource that the
-        ///     <see cref="System.Collections.IDictionary" /> came from (for logging purposes).
+        /// The description of the resource that the
+        /// <see cref="System.Collections.IDictionary"/> came from (for logging purposes).
         /// </param>
         /// <exception cref="Spring.Objects.ObjectsException">
-        ///     In case of loading or parsing errors.
+        /// In case of loading or parsing errors.
         /// </exception>
         protected void RegisterObjectDefinition(
             string name, IDictionary id, string prefix, string resourceDescription)
@@ -404,6 +419,7 @@ namespace Spring.Objects.Factory.Support
 
             MutablePropertyValues pvs = new MutablePropertyValues();
             foreach (string key in id.Keys)
+            {
                 if (key.StartsWith(prefix + Separator))
                 {
                     string property = key.Substring(prefix.Length + Separator.Length);
@@ -414,7 +430,7 @@ namespace Spring.Objects.Factory.Support
                     else if (property.Equals(SingletonKey))
                     {
                         string val = (string) id[key];
-                        singleton = val == null || val.Equals(TrueValue);
+                        singleton = (val == null) || val.Equals(TrueValue);
                     }
                     else if (property.Equals(LazyInitKey))
                     {
@@ -430,7 +446,7 @@ namespace Spring.Objects.Factory.Support
                         // This isn't a real property, but a reference to another prototype
                         // Extract property name: property is of form dog(ref)
                         property = property.Substring(0, property.Length - RefSuffix.Length);
-                        string reference = (string) id[key];
+                        string reference = (String) id[key];
 
                         // It doesn't matter if the referenced object hasn't yet been registered:
                         // this will ensure that the reference is resolved at runtime
@@ -442,7 +458,7 @@ namespace Spring.Objects.Factory.Support
                     {
                         // normal object property
                         object val = id[key];
-                        if (val is string)
+                        if (val is String)
                         {
                             string strVal = (string) val;
                             // if it starts with a reference prefix...
@@ -464,24 +480,24 @@ namespace Spring.Objects.Factory.Support
                         pvs.Add(new PropertyValue(property, val));
                     }
                 }
+            }
             if (log.IsDebugEnabled)
             {
                 log.Debug(pvs.ToString());
             }
             if (parent == null)
             {
-                log.Debug(DefaultParentObject);
-                parent = DefaultParentObject;
+                log.Debug(this.DefaultParentObject);
+                parent = this.DefaultParentObject;
             }
             if (typeName == null && parent == null)
             {
                 throw new ObjectDefinitionStoreException(resourceDescription, name,
-                    "Either 'type' or 'parent' is required");
+                                                         "Either 'type' or 'parent' is required");
             }
             try
             {
-                IConfigurableObjectDefinition objectDefinition =
-                    ObjectDefinitionFactory.CreateObjectDefinition(typeName, parent, Domain);
+                IConfigurableObjectDefinition objectDefinition = ObjectDefinitionFactory.CreateObjectDefinition(typeName, parent, Domain);
                 objectDefinition.PropertyValues = pvs;
                 objectDefinition.IsSingleton = singleton;
                 objectDefinition.IsLazyInit = lazyInit;

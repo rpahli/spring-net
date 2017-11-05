@@ -25,29 +25,29 @@ using System.Runtime.Serialization;
 namespace Spring.Expressions
 {
     /// <summary>
-    ///     Represents parsed selection node in the navigation expression.
+    /// Represents parsed selection node in the navigation expression.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class SelectionFirstNode : BaseNode
     {
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
-        public SelectionFirstNode()
+        public SelectionFirstNode():base()
         {
         }
 
         /// <summary>
-        ///     Create a new instance from SerializationInfo
+        /// Create a new instance from SerializationInfo
         /// </summary>
         protected SelectionFirstNode(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-
+        
         /// <summary>
-        ///     Returns the first context item that matches selection expression.
+        /// Returns the first context item that matches selection expression.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
@@ -61,13 +61,13 @@ namespace Spring.Expressions
                     "Selection can only be used on an instance of the type that implements IEnumerable.");
             }
 
-            BaseNode expression = (BaseNode) getFirstChild();
+            BaseNode expression = (BaseNode) this.getFirstChild();
             using (evalContext.SwitchThisContext())
             {
                 foreach (object o in enumerable)
                 {
                     evalContext.ThisContext = o;
-                    bool isMatch = (bool) GetValue(expression, o, evalContext);
+                    bool isMatch = (bool)GetValue(expression, o, evalContext);
                     if (isMatch)
                     {
                         return o;

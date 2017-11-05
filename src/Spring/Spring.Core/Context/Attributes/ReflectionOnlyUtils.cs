@@ -23,60 +23,55 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Security.Permissions;
+using System.Security.Policy;
 
 namespace Spring.Context.Attributes
 {
     /// <summary>
-    ///     Utilities to provide support for manipulating ReflectionOnly types in the <see cref="AppDomain" />.
+    /// Utilities to provide support for manipulating ReflectionOnly types in the <see cref="AppDomain"/>.
     /// </summary>
     public static class ReflectionOnlyUtils
     {
-//        /// <summary>
-//        ///     Load the <see cref="Assembly" /> into the ReflectionsOnly context based on its partial name.
-//        /// </summary>
-//        /// <param name="partialName">The partial name.</param>
-//        /// <returns>The matching <see cref="Assembly" /></returns>
-//        public static Assembly ReflectionOnlyLoadWithPartialName(string partialName)
-//        {
-//            return ReflectionOnlyLoadWithPartialName(partialName, null);
-//        }
-//
-//        private static Assembly ReflectionOnlyLoadWithPartialName(string partialName, Evidence securityEvidence)
-//        {
-//            if (securityEvidence != null)
-//            {
-//                new SecurityPermission(SecurityPermissionFlag.ControlEvidence).Demand();
-//            }
-//
-//            AssemblyName fileName = new AssemblyName(partialName);
-//
-//            Assembly assembly = nLoad(fileName, null, securityEvidence, null, null, false, true);
-//
-//            if (assembly != null)
-//            {
-//                return assembly;
-//            }
-//
-//            AssemblyName assemblyRef = EnumerateCache(fileName);
-//
-//            if (assemblyRef != null)
-//            {
-//                return InternalLoad(assemblyRef, securityEvidence, null, true);
-//            }
-//
-//            return assembly;
-//        }
+        /// <summary>
+        /// Load the <see cref="Assembly"/> into the ReflectionsOnly context based on its partial name.
+        /// </summary>
+        /// <param name="partialName">The partial name.</param>
+        /// <returns>The matching <see cref="Assembly"/></returns>
+        public static Assembly ReflectionOnlyLoadWithPartialName(string partialName)
+        {
+            return ReflectionOnlyLoadWithPartialName(partialName, null);
+        }
+
+        private static Assembly ReflectionOnlyLoadWithPartialName(string partialName, Evidence securityEvidence)
+        {
+            if (securityEvidence != null)
+                new SecurityPermission(SecurityPermissionFlag.ControlEvidence).Demand();
+
+            AssemblyName fileName = new AssemblyName(partialName);
+
+            var assembly = nLoad(fileName, null, securityEvidence, null, null, false, true);
+
+            if (assembly != null)
+                return assembly;
+
+            var assemblyRef = EnumerateCache(fileName);
+
+            if (assemblyRef != null)
+                return InternalLoad(assemblyRef, securityEvidence, null, true);
+
+            return assembly;
+        }
 
         private static Assembly nLoad(params object[] args)
         {
-            return (Assembly) typeof(Assembly)
+            return (Assembly)typeof(Assembly)
                 .GetMethod("nLoad", BindingFlags.NonPublic | BindingFlags.Static)
                 .Invoke(null, args);
         }
 
         private static AssemblyName EnumerateCache(params object[] args)
         {
-            return (AssemblyName) typeof(Assembly)
+            return (AssemblyName)typeof(Assembly)
                 .GetMethod("EnumerateCache", BindingFlags.NonPublic | BindingFlags.Static)
                 .Invoke(null, args);
         }
@@ -87,7 +82,7 @@ namespace Spring.Context.Attributes
             IEnumerable<MethodInfo> methods =
                 typeof(Assembly).GetMethods(BindingFlags.NonPublic | BindingFlags.Static).Where(
                     m => m.Name == "InternalLoad" &&
-                         m.GetParameters()[0].ParameterType == typeof(AssemblyName));
+                         m.GetParameters()[0].ParameterType == typeof (AssemblyName));
 
             return methods.Select(methodInfo => (Assembly) methodInfo.Invoke(null, args)).FirstOrDefault();
         }

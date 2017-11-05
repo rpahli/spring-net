@@ -27,21 +27,32 @@ using System;
 namespace Spring.Objects.Support
 {
     /// <summary>
-    ///     Serves shared state on a by-type basis.
+    /// Serves shared state on a by-type basis.
     /// </summary>
     public class ByTypeSharedStateFactory : AbstractSharedStateFactory
     {
         private Type[] typeFilter;
 
         /// <summary>
-        ///     Creates a new instance matching all types by default.
+        /// Limit object types to be served by this state manager.
         /// </summary>
-        public ByTypeSharedStateFactory()
+        /// <remarks>
+        /// Only objects assignable to one of the types in this list 
+        /// will be served state by this manager.
+        /// </remarks>
+        public Type[] TypeFilter
         {
+            set { typeFilter = value; }
         }
 
         /// <summary>
-        ///     Creates a new instance matching only specified list of types.
+        /// Creates a new instance matching all types by default.
+        /// </summary>
+        public ByTypeSharedStateFactory()
+        {}
+
+        /// <summary>
+        /// Creates a new instance matching only specified list of types.
         /// </summary>
         /// <param name="typeFilter">the list of types to serve.</param>
         public ByTypeSharedStateFactory(Type[] typeFilter)
@@ -50,57 +61,41 @@ namespace Spring.Objects.Support
         }
 
         /// <summary>
-        ///     Limit object types to be served by this state manager.
-        /// </summary>
-        /// <remarks>
-        ///     Only objects assignable to one of the types in this list
-        ///     will be served state by this manager.
-        /// </remarks>
-        public Type[] TypeFilter
-        {
-            set { typeFilter = value; }
-        }
-
-        /// <summary>
-        ///     Indicate, whether the given instance will be served by this provider
+        /// Indicate, whether the given instance will be served by this provider
         /// </summary>
         /// <param name="instance">the instance to serve state</param>
         /// <param name="name">the name of the instance</param>
         /// <returns>
-        ///     a boolean value indicating, whether state shall
-        ///     be resolved for the given instance or not.
+        /// a boolean value indicating, whether state shall 
+        /// be resolved for the given instance or not.
         /// </returns>
-        public override bool CanProvideState(object instance, string name)
+        public override bool CanProvideState( object instance, string name )
         {
             if (instance == null)
-            {
                 return false;
-            }
 
             if (typeFilter == null)
-            {
                 return true;
-            }
 
             Type instanceType = instance.GetType();
             foreach (Type type in typeFilter)
-                if (type.IsAssignableFrom(instanceType))
-                {
+            {
+                if (type.IsAssignableFrom( instanceType ))
                     return true;
-                }
+            }
             return false;
         }
 
         /// <summary>
-        ///     Returns the <see cref="Type" /> for the given <paramref name="instance" />.
+        /// Returns the <see cref="Type"/> for the given <paramref name="instance"/>.
         /// </summary>
         /// <param name="instance">the instance to obtain the key for.</param>
         /// <param name="name">the name of the instance (ignored by this provider)</param>
-        /// <returns>instance.GetType() if it matches the <see cref="TypeFilter" /> list. Null otherwise.</returns>
+        /// <returns>instance.GetType() if it matches the <see cref="TypeFilter"/> list. Null otherwise.</returns>
         /// <remarks>
-        ///     This method will only be called if <see cref="CanProvideState" /> returned true previously.
+        /// This method will only be called if <see cref="CanProvideState"/> returned true previously.
         /// </remarks>
-        protected override object GetKey(object instance, string name)
+        protected override object GetKey( object instance, string name )
         {
             Type key = instance.GetType();
             return key;

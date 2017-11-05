@@ -23,6 +23,7 @@
 using System.Configuration;
 using System.Globalization;
 using System.Xml;
+
 using Spring.Core.TypeResolution;
 using Spring.Util;
 
@@ -31,45 +32,45 @@ using Spring.Util;
 namespace Spring.Context.Support
 {
     /// <summary>
-    ///     Configuration section handler for the Spring.NET <c>typeAliases</c>
-    ///     config section.
+    /// Configuration section handler for the Spring.NET <c>typeAliases</c>
+    /// config section.
     /// </summary>
     /// <remarks>
-    ///     <p>
-    ///         Type aliases can be used instead of fully qualified type names anywhere
-    ///         a type name is expected in a Spring.NET configuration file.
-    ///     </p>
-    ///     <p>
-    ///         This includes type names specified within an object definition, as well
-    ///         as values of the properties or constructor arguments that expect
-    ///         <see cref="System.Type" /> instances.
-    ///     </p>
+    /// <p>
+    /// Type aliases can be used instead of fully qualified type names anywhere
+    /// a type name is expected in a Spring.NET configuration file.
+    /// </p>
+    /// <p>
+    /// This includes type names specified within an object definition, as well
+    /// as values of the properties or constructor arguments that expect
+    /// <see cref="System.Type"/> instances.
+    /// </p>
     /// </remarks>
     /// <example>
-    ///     <p>
-    ///         The following example shows how to configure both this section handler and
-    ///         how to define type aliases within a Spring.NET config section:
-    ///     </p>
-    ///     <code escaped="true">
-    ///  <configuration>
-    ///             <configSections>
-    ///                 <sectionGroup name="spring">
-    ///                     <section name="typeAliases" type="Spring.Context.Support.TypeAliasesSectionHandler, Spring.Core" />
-    ///                 </sectionGroup>
-    ///             </configSections>
-    ///             <spring>
-    ///                 <typeAliases>
-    ///                     <alias name="WebServiceExporter" type="Spring.Web.Services.WebServiceExporter, Spring.Web" />
-    ///                     <alias name="MyType" type="MyCompany.MyProject.MyNamespace.MyType, MyAssembly" />
-    ///                     ...
-    ///                 </typeAliases>
-    ///                 ...
-    ///             </spring>
-    ///         </configuration>
-    ///  </code>
+    /// <p>
+    /// The following example shows how to configure both this section handler and
+    /// how to define type aliases within a Spring.NET config section:
+    /// </p>
+    /// <code escaped="true">
+    /// <configuration>
+    ///     <configSections>
+    ///		    <sectionGroup name="spring">
+    ///			    <section name="typeAliases" type="Spring.Context.Support.TypeAliasesSectionHandler, Spring.Core"/>
+    ///		    </sectionGroup>
+    ///     </configSections>
+    ///     <spring>
+    ///		    <typeAliases>
+    ///			    <alias name="WebServiceExporter" type="Spring.Web.Services.WebServiceExporter, Spring.Web"/>
+    ///			    <alias name="MyType" type="MyCompany.MyProject.MyNamespace.MyType, MyAssembly"/>
+    ///			    ...
+    ///		    </typeAliases>
+    ///		    ...
+    ///     </spring>
+    /// </configuration>
+    /// </code>
     /// </example>
     /// <author>Aleksandar Seovic</author>
-    /// <seealso cref="Spring.Core.TypeResolution.TypeRegistry" />
+    /// <seealso cref="Spring.Core.TypeResolution.TypeRegistry"/>
     public class TypeAliasesSectionHandler : IConfigurationSectionHandler
     {
         private const string AliasElementName = "alias";
@@ -77,25 +78,25 @@ namespace Spring.Context.Support
         private const string TypeAttributeName = "type";
 
         /// <summary>
-        ///     Populates <see cref="TypeRegistry" /> using values specified in
-        ///     the <c>typeAliases</c> config section.
+        /// Populates <see cref="TypeRegistry"/> using values specified in
+        /// the <c>typeAliases</c> config section.
         /// </summary>
         /// <param name="parent">
-        ///     The configuration settings in a corresponding parent
-        ///     configuration section.
+        /// The configuration settings in a corresponding parent
+        /// configuration section.
         /// </param>
         /// <param name="configContext">
-        ///     The configuration context when called from the ASP.NET
-        ///     configuration system. Otherwise, this parameter is reserved and
-        ///     is <see langword="null" />.
+        /// The configuration context when called from the ASP.NET
+        /// configuration system. Otherwise, this parameter is reserved and
+        /// is <see langword="null"/>.
         /// </param>
         /// <param name="section">
-        ///     The <see cref="System.Xml.XmlNode" /> for the section.
+        /// The <see cref="System.Xml.XmlNode"/> for the section.
         /// </param>
         /// <returns>
-        ///     This method always returns <see langword="null" />, because the
-        ///     <see cref="TypeRegistry" /> is populated as a side-effect of this
-        ///     object's execution and thus there is no need to return anything.
+        /// This method always returns <see langword="null"/>, because the
+        /// <see cref="TypeRegistry"/> is populated as a side-effect of this
+        /// object's execution and thus there is no need to return anything.
         /// </returns>
         public object Create(object parent, object configContext, XmlNode section)
         {
@@ -119,7 +120,7 @@ namespace Spring.Context.Support
             if (attribute == null)
             {
                 string errorMessage = string.Format(CultureInfo.InvariantCulture,
-                    "The '{0}' attribute is required for the (type) <alias/> element.", requiredAttributeName);
+                                                    "The '{0}' attribute is required for the (type) <alias/> element.", requiredAttributeName);
                 throw ConfigurationUtils.CreateConfigurationException(errorMessage, section);
             }
             return attribute.Value;

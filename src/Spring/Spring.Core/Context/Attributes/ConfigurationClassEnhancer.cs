@@ -22,60 +22,60 @@ using System;
 using System.Collections;
 using System.Reflection;
 using System.Reflection.Emit;
-using Spring.Logging;
+
 using Spring.Objects.Factory.Config;
-using Spring.Proxy;
 using Spring.Util;
+using Spring.Proxy;
+using Common.Logging;
 
 namespace Spring.Context.Attributes
 {
     /// <summary>
-    ///     Enhances Configuration classes by generating a dynamic proxy capable of
-    ///     interacting with the Spring container to respect object semantics.
+    /// Enhances Configuration classes by generating a dynamic proxy capable of 
+    /// interacting with the Spring container to respect object semantics.
     /// </summary>
     /// <author>Chris Beams</author>
     /// <author>Juergen Hoeller</author>
     /// <author>Bruno Baia (.NET)</author>
-    /// <seealso cref="ConfigurationClassPostProcessor" />
+    /// <seealso cref="ConfigurationClassPostProcessor"/>
     public class ConfigurationClassEnhancer
     {
-        private readonly IConfigurationClassInterceptor interceptor;
+        private IConfigurationClassInterceptor interceptor;
 
         /// <summary>
-        ///     Creates a new instance of the <see cref="ConfigurationClassEnhancer" /> class.
+        /// Creates a new instance of the <see cref="ConfigurationClassEnhancer"/> class.
         /// </summary>
         /// <param name="objectFactory">
-        ///     The supplied ObjectFactory to check for the existence of object definitions.
+        /// The supplied ObjectFactory to check for the existence of object definitions.
         /// </param>
-        public ConfigurationClassEnhancer(IConfigurableListableObjectFactory objectFactory)
+    	public ConfigurationClassEnhancer(IConfigurableListableObjectFactory objectFactory) 
         {
-            AssertUtils.ArgumentNotNull(objectFactory, "objectFactory");
+		    AssertUtils.ArgumentNotNull(objectFactory, "objectFactory");
 
-            interceptor = new ConfigurationClassInterceptor(objectFactory);
-        }
+            this.interceptor = new ConfigurationClassInterceptor(objectFactory);
+	    }
 
         /// <summary>
-        ///     Generates a dynamic subclass of the specified Configuration class with a
-        ///     container-aware interceptor capable of respecting scoping and other bean semantics.
+        /// Generates a dynamic subclass of the specified Configuration class with a
+        /// container-aware interceptor capable of respecting scoping and other bean semantics.
         /// </summary>
         /// <param name="configClass">The Configuration class.</param>
         /// <returns>The enhanced subclass.</returns>
         public Type Enhance(Type configClass)
         {
-            ConfigurationClassProxyTypeBuilder proxyTypeBuilder =
-                new ConfigurationClassProxyTypeBuilder(configClass, interceptor);
+            ConfigurationClassProxyTypeBuilder proxyTypeBuilder = new ConfigurationClassProxyTypeBuilder(configClass, this.interceptor);
             return proxyTypeBuilder.BuildProxyType();
         }
 
         /// <summary>
-        ///     Intercepts the invocation of any <see cref="ObjectDefAttribute" />-decorated methods in order
-        ///     to ensure proper handling of object semantics such as scoping and AOP proxying.
+        /// Intercepts the invocation of any <see cref="ObjectDefAttribute"/>-decorated methods in order 
+        /// to ensure proper handling of object semantics such as scoping and AOP proxying.
         /// </summary>
         public interface IConfigurationClassInterceptor
         {
             /// <summary>
-            ///     Process the <see cref="ObjectDefAttribute" />-decorated method to check
-            ///     for the existence of this object.
+            /// Process the <see cref="ObjectDefAttribute"/>-decorated method to check 
+            /// for the existence of this object.
             /// </summary>
             /// <param name="method">The method providing the object definition.</param>
             /// <param name="instance">When this method returns true, contains the object definition.</param>
@@ -87,22 +87,22 @@ namespace Spring.Context.Attributes
         {
             #region Logging
 
-            private static readonly ILogger Logger = LogManager.GetLogger<ConfigurationClassInterceptor>();
-
+            private static readonly ILog Logger = LogManager.GetLogger<ConfigurationClassInterceptor>();
+            
             #endregion
 
             private readonly IConfigurableListableObjectFactory _configurableListableObjectFactory;
 
             public ConfigurationClassInterceptor(IConfigurableListableObjectFactory configurableListableObjectFactory)
             {
-                _configurableListableObjectFactory = configurableListableObjectFactory;
+                this._configurableListableObjectFactory = configurableListableObjectFactory;
             }
 
             public bool ProcessDefinition(MethodInfo method, out object instance)
             {
                 instance = null;
 
-                string objectName = method.Name;
+			    string objectName = method.Name;
 
                 if (objectName.StartsWith("set_") || objectName.StartsWith("get_"))
                 {
@@ -115,16 +115,16 @@ namespace Spring.Context.Attributes
                     return false;
                 }
 
-                if (_configurableListableObjectFactory.IsCurrentlyInCreation(objectName))
+                if (this._configurableListableObjectFactory.IsCurrentlyInCreation(objectName))
                 {
-                    Logger.DebugFormat("Object '{0}' currently in creation, created one", objectName);
+                    Logger.Debug(m => m("Object '{0}' currently in creation, created one", objectName));
 
                     return false;
                 }
 
-                Logger.DebugFormat("Object '{0}' not in creation, asked the application context for one", objectName);
+                Logger.Debug(m => m("Object '{0}' not in creation, asked the application context for one", objectName)); 
 
-                instance = _configurableListableObjectFactory.GetObject(objectName);
+                instance = this._configurableListableObjectFactory.GetObject(objectName);
                 return true;
             }
         }
@@ -133,22 +133,21 @@ namespace Spring.Context.Attributes
 
         private sealed class ConfigurationClassProxyTypeBuilder : InheritanceProxyTypeBuilder
         {
-            private readonly IConfigurationClassInterceptor interceptor;
             private FieldBuilder interceptorField;
+            private IConfigurationClassInterceptor interceptor;
 
-            public ConfigurationClassProxyTypeBuilder(Type configurationClassType,
-                IConfigurationClassInterceptor interceptor)
+            public ConfigurationClassProxyTypeBuilder(Type configurationClassType, IConfigurationClassInterceptor interceptor)
             {
                 if (configurationClassType.IsSealed)
                 {
-                    throw new ArgumentException(string.Format(
+                    throw new ArgumentException(String.Format(
                         "[Configuration] classes '{0}' cannot be sealed [{0}].", configurationClassType.FullName));
                 }
 
-                Name = "ConfigurationClassProxy";
-                DeclaredMembersOnly = false;
-                BaseType = configurationClassType;
-                TargetType = configurationClassType;
+                this.Name = "ConfigurationClassProxy";
+                this.DeclaredMembersOnly = false;
+                this.BaseType = configurationClassType;
+                this.TargetType = configurationClassType;
 
                 this.interceptor = interceptor;
             }
@@ -169,25 +168,23 @@ namespace Spring.Context.Attributes
                 // create constructors
                 ImplementConstructors(typeBuilder);
 
-                // proxy base virtual methods
+                 // proxy base virtual methods
                 InheritType(typeBuilder,
                     new ConfigurationClassProxyMethodBuilder(typeBuilder, this, false, targetMethods),
-                    BaseType, DeclaredMembersOnly);
+                    BaseType, this.DeclaredMembersOnly);
 
                 Type proxyType = typeBuilder.CreateType();
 
                 // set target method references
                 foreach (DictionaryEntry entry in targetMethods)
                 {
-                    FieldInfo targetMethodFieldInfo =
-                        proxyType.GetField((string) entry.Key, BindingFlags.NonPublic | BindingFlags.Static);
+                    FieldInfo targetMethodFieldInfo = proxyType.GetField((string)entry.Key, BindingFlags.NonPublic | BindingFlags.Static);
                     targetMethodFieldInfo.SetValue(proxyType, entry.Value);
                 }
 
                 // set interceptor
-                FieldInfo interceptorFieldInfo =
-                    proxyType.GetField("__Interceptor", BindingFlags.NonPublic | BindingFlags.Static);
-                interceptorFieldInfo.SetValue(proxyType, interceptor);
+                FieldInfo interceptorFieldInfo = proxyType.GetField("__Interceptor", BindingFlags.NonPublic | BindingFlags.Static);
+                interceptorFieldInfo.SetValue(proxyType, this.interceptor);
 
                 return proxyType;
             }
@@ -202,19 +199,18 @@ namespace Spring.Context.Attributes
         private sealed class ConfigurationClassProxyMethodBuilder : AbstractProxyMethodBuilder
         {
             public static readonly MethodInfo ProcessDefinitionMethod =
-                typeof(IConfigurationClassInterceptor).GetMethod("ProcessDefinition",
-                    BindingFlags.Instance | BindingFlags.Public);
+                typeof(IConfigurationClassInterceptor).GetMethod("ProcessDefinition", BindingFlags.Instance | BindingFlags.Public);
 
-            private readonly ConfigurationClassProxyTypeBuilder customProxyGenerator;
+            private ConfigurationClassProxyTypeBuilder customProxyGenerator;
 
-            private readonly IDictionary targetMethods;
+            private IDictionary targetMethods;         
 
             public ConfigurationClassProxyMethodBuilder(
                 TypeBuilder typeBuilder, ConfigurationClassProxyTypeBuilder proxyGenerator,
                 bool explicitImplementation, IDictionary targetMethods)
                 : base(typeBuilder, proxyGenerator, explicitImplementation)
             {
-                customProxyGenerator = proxyGenerator;
+                this.customProxyGenerator = proxyGenerator;
                 this.targetMethods = targetMethods;
             }
 
@@ -222,7 +218,7 @@ namespace Spring.Context.Attributes
                 ILGenerator il, MethodInfo method, MethodInfo interfaceMethod)
             {
                 // Declare local variables
-                LocalBuilder interceptedReturnValue = il.DeclareLocal(typeof(object));
+                LocalBuilder interceptedReturnValue = il.DeclareLocal(typeof(Object));
 //#if DEBUG
 //                interceptedReturnValue.SetLocalSymInfo("interceptedReturnValue");
 //#endif

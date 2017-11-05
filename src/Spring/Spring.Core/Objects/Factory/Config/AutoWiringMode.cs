@@ -22,36 +22,37 @@ using System;
 
 namespace Spring.Objects.Factory.Config
 {
-    /// <summary>
-    ///     The various autowiring modes.
+
+	/// <summary>
+	/// The various autowiring modes.
     /// </summary>
     /// <author>Rick Evans</author>
     [Serializable]
-    public enum AutoWiringMode
+    public enum AutoWiringMode 
     {
         /// <summary>
-        ///     Do not autowire.
+        /// Do not autowire.
         /// </summary>
         No = 0,
 
         /// <summary>
-        ///     Autowire by name.
+        /// Autowire by name.
         /// </summary>
         ByName = 1,
 
         /// <summary>
-        ///     Autowire by <see cref="System.Type" />.
+        /// Autowire by <see cref="System.Type"/>.
         /// </summary>
         ByType = 2,
 
         /// <summary>
-        ///     Autowiring by constructor.
+        /// Autowiring by constructor.
         /// </summary>
         Constructor = 3,
 
         /// <summary>
-        ///     The autowiring strategy is to be determined by introspection
-        ///     of the object's <see cref="System.Type" />.
+        /// The autowiring strategy is to be determined by introspection
+        /// of the object's <see cref="System.Type"/>.
         /// </summary>
         AutoDetect = 4
     }

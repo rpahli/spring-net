@@ -18,13 +18,14 @@
 
 #endregion
 
+using System;
 using Spring.Objects.Factory.Config;
 
 namespace Spring.Objects.Factory.Support
 {
     /// <summary>
-    ///     Strategy interface for determining whether a specific object definition
-    ///     qualifies as an autowire candidate for a specific dependency.
+    /// Strategy interface for determining whether a specific object definition
+    /// qualifies as an autowire candidate for a specific dependency.
     /// </summary>
     /// <author>Mark Fisher</author>
     /// <author>Juergen hoeller</author>
@@ -32,25 +33,25 @@ namespace Spring.Objects.Factory.Support
     public interface IAutowireCandidateResolver
     {
         /// <summary>
-        ///     Determines whether the given object definition qualifies as an
-        ///     autowire candidate for the given dependency.
+        /// Determines whether the given object definition qualifies as an 
+        /// autowire candidate for the given dependency.
         /// </summary>
         /// <param name="odHolder">The object definition including object name and aliases.</param>
         /// <param name="descriptor">The descriptor for the target method parameter or field.</param>
         /// <returns>
-        ///     <c>true</c> if the object definition qualifies as autowire candidate; otherwise, <c>false</c>.
+        /// 	<c>true</c> if the object definition qualifies as autowire candidate; otherwise, <c>false</c>.
         /// </returns>
         bool IsAutowireCandidate(ObjectDefinitionHolder odHolder, DependencyDescriptor descriptor);
 
 
         /// <summary>
-        ///     Determine whether a default value is suggested for the given dependency.
+        /// Determine whether a default value is suggested for the given dependency.
         /// </summary>
         /// <param name="descriptor">The descriptor for the target method parameter or field</param>
-        /// <returns>
-        ///     The value suggested (typically an expression String),
-        ///     or <c>null</c> if none found
+        /// <returns>The value suggested (typically an expression String),
+        /// or <c>null</c> if none found
         /// </returns>
-        object GetSuggestedValue(DependencyDescriptor descriptor);
+        Object GetSuggestedValue(DependencyDescriptor descriptor);
+
     }
 }

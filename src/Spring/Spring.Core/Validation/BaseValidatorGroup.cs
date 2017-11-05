@@ -25,63 +25,70 @@ using Spring.Expressions;
 namespace Spring.Validation
 {
     /// <summary>
-    ///     Base class for composite validators
+    /// Base class for composite validators
     /// </summary>
     public abstract class BaseValidatorGroup : BaseValidator
     {
         //                TODO (EE): extend validation schema for "FastValidate"
 
+        private IList validators = new ArrayList();
+        private bool fastValidate = false;
+
         /// <summary>
-        ///     Initializes a new instance
+        /// Initializes a new instance
         /// </summary>
         public BaseValidatorGroup()
-        {
-        }
+        {}
 
         /// <summary>
-        ///     Initializes a new instance
+        /// Initializes a new instance
         /// </summary>
         /// <param name="when">The expression that determines if this validator should be evaluated.</param>
-        public BaseValidatorGroup(string when)
+        public BaseValidatorGroup(string when) 
             : base(when)
-        {
-        }
+        {}
 
         /// <summary>
-        ///     Initializes a new instance
+        /// Initializes a new instance
         /// </summary>
         /// <param name="when">The expression that determines if this validator should be evaluated.</param>
-        public BaseValidatorGroup(IExpression when)
+        public BaseValidatorGroup(IExpression when) 
             : base(when)
-        {
-        }
+        {}
 
         /// <summary>
-        ///     Gets or sets the child validators.
+        /// Gets or sets the child validators.
         /// </summary>
         /// <value>The validators.</value>
-        public IList Validators { get; set; } = new ArrayList();
+        public IList Validators
+        {
+            get { return validators; }
+            set { validators = value; }
+        }
 
         /// <summary>
-        ///     When set <c>true</c>, shortcircuits evaluation.
+        /// When set <c>true</c>, shortcircuits evaluation.
         /// </summary>
         /// <remarks>
-        ///     Setting this property true causes the evaluation process to prematurely abort
-        ///     if the end result is known. Any remaining child validators will not be considered then.
-        ///     Setting this value false causes implementations to evaluate all child validators, regardless
-        ///     of the potentially already known result.
+        /// Setting this property true causes the evaluation process to prematurely abort
+        /// if the end result is known. Any remaining child validators will not be considered then.
+        /// Setting this value false causes implementations to evaluate all child validators, regardless
+        /// of the potentially already known result.
         /// </remarks>
-        public bool FastValidate { get; set; } = false;
+        public bool FastValidate
+        {
+            get { return fastValidate; }
+            set { fastValidate = value; }
+        }
 
         /// <summary>
-        ///     Validates the specified object.
+        /// Validates the specified object.
         /// </summary>
         /// <param name="validationContext">The object to validate.</param>
         /// <param name="contextParams">Additional context parameters.</param>
-        /// <param name="errors"><see cref="ValidationErrors" /> instance to add error messages to.</param>
+        /// <param name="errors"><see cref="ValidationErrors"/> instance to add error messages to.</param>
         /// <returns><c>True</c> if validation was successful, <c>False</c> otherwise.</returns>
-        public override bool Validate(object validationContext, IDictionary<string, object> contextParams,
-            IValidationErrors errors)
+        public override bool Validate(object validationContext, IDictionary<string, object> contextParams, IValidationErrors errors)
         {
             if (EvaluateWhen(validationContext, contextParams))
             {
@@ -94,13 +101,12 @@ namespace Spring.Validation
         }
 
         /// <summary>
-        ///     Actual implementation how to validate the specified object.
+        /// Actual implementation how to validate the specified object.
         /// </summary>
         /// <param name="contextParams">Additional context parameters.</param>
-        /// <param name="errors"><see cref="ValidationErrors" /> instance to add error messages to.</param>
+        /// <param name="errors"><see cref="ValidationErrors"/> instance to add error messages to.</param>
         /// <param name="validationContext">The object to validate.</param>
         /// <returns><c>True</c> if validation was successful, <c>False</c> otherwise.</returns>
-        protected abstract bool ValidateGroup(IDictionary<string, object> contextParams, IValidationErrors errors,
-            object validationContext);
+        protected abstract bool ValidateGroup(IDictionary<string, object> contextParams, IValidationErrors errors, object validationContext);
     }
 }

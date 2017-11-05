@@ -21,28 +21,28 @@
 #region Imports
 
 using System;
-using Spring.Core.TypeResolution;
 using Spring.Util;
+using Spring.Core.TypeResolution;
 
 #endregion
 
 namespace Spring.Objects.Factory.Config
 {
     /// <summary>
-    ///     Holder for a typed <see cref="System.String" /> value.
+    /// Holder for a typed <see cref="System.String"/> value.
     /// </summary>
     /// <remarks>
-    ///     <p>
-    ///         Can be added to object definitions to explicitly specify
-    ///         a target type for a <see cref="System.String" /> value,
-    ///         for example for collection
-    ///         elements.
-    ///     </p>
-    ///     <p>
-    ///         This holder just stores the <see cref="System.String" /> value and the target
-    ///         <see cref="System.Type" />. The actual conversion will be performed by
-    ///         the surrounding object factory.
-    ///     </p>
+    /// <p>
+    /// Can be added to object definitions to explicitly specify
+    /// a target type for a <see cref="System.String"/> value,
+    /// for example for collection
+    /// elements.
+    /// </p>
+    /// <p>
+    /// This holder just stores the <see cref="System.String"/> value and the target
+    /// <see cref="System.Type"/>. The actual conversion will be performed by
+    /// the surrounding object factory.
+    /// </p>
     /// </remarks>
     /// <author>Juergen Hoeller</author>
     /// <author>Rick Evans (.NET)</author>
@@ -50,31 +50,95 @@ namespace Spring.Objects.Factory.Config
     [Serializable]
     public class TypedStringValue
     {
-        private object targetType;
         private string theValue;
+        private object targetType;
+
+        #region Constructor (s) / Destructor
 
         /// <summary>
-        ///     The value that is to be converted.
+        /// Creates a new instance of the
+        /// <see cref="Spring.Objects.Factory.Config.TypedStringValue"/>
+        /// class.
+        /// </summary>
+        public TypedStringValue()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TypedStringValue"/> class.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        public TypedStringValue(string value)
+        {
+            Value = value;
+        }
+
+        /// <summary>
+        /// Creates a new instance of the
+        /// <see cref="Spring.Objects.Factory.Config.TypedStringValue"/>
+        /// class.
+        /// </summary>
+        /// <param name="value">
+        /// The value that is to be converted.
+        /// </param>
+        /// <param name="targetType">
+        /// The <see cref="System.Type"/> to convert to.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// If the supplied <paramref name="targetType"/> is
+        /// <see langword="null"/>.
+        /// </exception>
+        public TypedStringValue(string value, Type targetType)
+        {
+            Value = value;
+            TargetType = targetType;
+        }
+
+        /// <summary>
+        /// Creates a new instance of the
+        /// <see cref="Spring.Objects.Factory.Config.TypedStringValue"/>
+        /// class.
+        /// </summary>
+        /// <param name="value">
+        /// The value that is to be converted.
+        /// </param>
+        /// <param name="targetTypeName">
+        /// The unresolved type to convert to.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// If the supplied <paramref name="targetTypeName"/> is a 
+        /// <see langword="null"/> or an empty string.
+        /// </exception>
+        public TypedStringValue(string value, string targetTypeName)
+        {
+            Value = value;
+            TargetTypeName = targetTypeName;
+        }
+
+        #endregion
+
+        /// <summary>
+        /// The value that is to be converted. 
         /// </summary>
         /// <remarks>
-        ///     <p>
-        ///         Obviously if the
-        ///         <see cref="Spring.Objects.Factory.Config.TypedStringValue.TargetType" />
-        ///         is the <see cref="System.String" /> <see cref="System.Type" />, no conversion
-        ///         will actually be performed.
-        ///     </p>
+        /// <p>
+        /// Obviously if the
+        /// <see cref="Spring.Objects.Factory.Config.TypedStringValue.TargetType"/>
+        /// is the <see cref="System.String"/> <see cref="System.Type"/>, no conversion
+        /// will actually be performed.
+        /// </p>
         /// </remarks>
         public string Value
         {
             get { return theValue; }
-            set { theValue = value; }
+            set { this.theValue = value; }
         }
 
         /// <summary>
-        ///     The <see cref="System.Type" /> to convert to.
+        /// The <see cref="System.Type"/> to convert to.
         /// </summary>
         /// <exception cref="System.ArgumentNullException">
-        ///     If the setter is supplied with a <see langword="null" /> value.
+        /// If the setter is supplied with a <see langword="null"/> value.
         /// </exception>
         public Type TargetType
         {
@@ -85,7 +149,7 @@ namespace Spring.Objects.Factory.Config
                     throw new ApplicationException(
                         "Typed String value does not carry a resolved System.Type");
                 }
-                return (Type) targetType;
+                return (Type)targetType;
             }
             set
             {
@@ -95,10 +159,10 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        ///     The unresolved type to convert to.
+        /// The unresolved type to convert to.
         /// </summary>
         /// <exception cref="System.ArgumentNullException">
-        ///     If the setter is supplied with a <see langword="null" /> value or an empty string.
+        /// If the setter is supplied with a <see langword="null"/> value or an empty string.
         /// </exception>
         public string TargetTypeName
         {
@@ -108,20 +172,23 @@ namespace Spring.Objects.Factory.Config
                 {
                     return ((Type) targetType).FullName;
                 }
-                return targetType as string;
+                else
+                {
+                    return targetType as string;
+                }
             }
-            set
-            {
+            set 
+            { 
                 AssertUtils.ArgumentHasText(value, "TargetTypeName");
-                targetType = value;
+                targetType = value; 
             }
         }
 
         /// <summary>
-        ///     Gets a value indicating whether this instance has target type.
+        /// Gets a value indicating whether this instance has target type.
         /// </summary>
         /// <value>
-        ///     <c>true</c> if this instance has target type; otherwise, <c>false</c>.
+        /// 	<c>true</c> if this instance has target type; otherwise, <c>false</c>.
         /// </value>
         public bool HasTargetType
         {
@@ -129,82 +196,18 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        ///     Determine the type to convert to, resolving it from a specified type name if necessary.
+        /// Determine the type to convert to, resolving it from a specified type name if necessary.
         /// </summary>
-        /// <returns>The resolved type to convert to.</returns>
+        /// <returns>The resolved type to convert to.</returns>    
         public Type ResolveTargetType()
         {
-            if (targetType == null)
+            if (this.targetType == null)
             {
                 return null;
             }
-            Type resolvedType = TypeResolutionUtils.ResolveType(TargetTypeName);
-            targetType = resolvedType;
+            Type resolvedType = TypeResolutionUtils.ResolveType(this.TargetTypeName);
+            this.targetType = resolvedType;
             return resolvedType;
         }
-
-        #region Constructor (s) / Destructor
-
-        /// <summary>
-        ///     Creates a new instance of the
-        ///     <see cref="Spring.Objects.Factory.Config.TypedStringValue" />
-        ///     class.
-        /// </summary>
-        public TypedStringValue()
-        {
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="TypedStringValue" /> class.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        public TypedStringValue(string value)
-        {
-            Value = value;
-        }
-
-        /// <summary>
-        ///     Creates a new instance of the
-        ///     <see cref="Spring.Objects.Factory.Config.TypedStringValue" />
-        ///     class.
-        /// </summary>
-        /// <param name="value">
-        ///     The value that is to be converted.
-        /// </param>
-        /// <param name="targetType">
-        ///     The <see cref="System.Type" /> to convert to.
-        /// </param>
-        /// <exception cref="System.ArgumentNullException">
-        ///     If the supplied <paramref name="targetType" /> is
-        ///     <see langword="null" />.
-        /// </exception>
-        public TypedStringValue(string value, Type targetType)
-        {
-            Value = value;
-            TargetType = targetType;
-        }
-
-        /// <summary>
-        ///     Creates a new instance of the
-        ///     <see cref="Spring.Objects.Factory.Config.TypedStringValue" />
-        ///     class.
-        /// </summary>
-        /// <param name="value">
-        ///     The value that is to be converted.
-        /// </param>
-        /// <param name="targetTypeName">
-        ///     The unresolved type to convert to.
-        /// </param>
-        /// <exception cref="System.ArgumentNullException">
-        ///     If the supplied <paramref name="targetTypeName" /> is a
-        ///     <see langword="null" /> or an empty string.
-        /// </exception>
-        public TypedStringValue(string value, string targetTypeName)
-        {
-            Value = value;
-            TargetTypeName = targetTypeName;
-        }
-
-        #endregion
     }
 }

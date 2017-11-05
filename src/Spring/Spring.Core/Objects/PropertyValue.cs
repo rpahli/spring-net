@@ -28,77 +28,82 @@ using Spring.Util;
 namespace Spring.Objects
 {
     /// <summary>
-    ///     Holds information and value for an individual property.
+    /// Holds information and value for an individual property.
     /// </summary>
     /// <remarks>
-    ///     <p>
-    ///         Using an object here, rather than just storing all properties in a
-    ///         map keyed by property name, allows for more flexibility, and the
-    ///         ability to handle indexed properties in a special way if necessary.
-    ///     </p>
-    ///     <p>
-    ///         Note that the value doesn't need to be the final required
-    ///         <see cref="System.Type" />: an
-    ///         <see cref="Spring.Objects.IObjectWrapper" /> implementation must
-    ///         handle any necessary conversion, as this object doesn't know anything
-    ///         about the objects it will be applied to.
-    ///     </p>
+    /// <p>
+    /// Using an object here, rather than just storing all properties in a
+    /// map keyed by property name, allows for more flexibility, and the
+    /// ability to handle indexed properties in a special way if necessary.
+    /// </p>
+    /// <p>
+    /// Note that the value doesn't need to be the final required
+    /// <see cref="System.Type"/>: an
+    /// <see cref="Spring.Objects.IObjectWrapper"/> implementation must
+    /// handle any necessary conversion, as this object doesn't know anything
+    /// about the objects it will be applied to.
+    /// </p>
     /// </remarks>
     /// <author>Rod Johnson</author>
     /// <author>Mark Pollack (.NET)</author>
     [Serializable]
     public class PropertyValue
     {
+        private readonly string propertyName;
+        private readonly object propertyValue;
         private IExpression propertyExpression;
 
         /// <summary>
-        ///     Creates a new instance of the
-        ///     <see cref="Spring.Objects.PropertyValue" /> class.
+        /// Creates a new instance of the
+        /// <see cref="Spring.Objects.PropertyValue"/> class.
         /// </summary>
         /// <param name="name">The name of the property.</param>
         /// <param name="val">
-        ///     The value of the property (possibly before type conversion).
+        /// The value of the property (possibly before type conversion).
         /// </param>
         /// <exception cref="System.ArgumentNullException">
-        ///     If the supplied <paramref name="name" /> is <see langword="null" /> or
-        ///     contains only whitespace character(s).
+        /// If the supplied <paramref name="name"/> is <see langword="null"/> or
+        /// contains only whitespace character(s).
         /// </exception>
         public PropertyValue(string name, object val)
         {
             AssertUtils.ArgumentHasText(name, "name");
 
-            Name = name;
-            Value = val;
+            propertyName = name;
+            propertyValue = val;
         }
 
         /// <summary>
-        ///     Creates a new instance of the
-        ///     <see cref="Spring.Objects.PropertyValue" /> class.
+        /// Creates a new instance of the
+        /// <see cref="Spring.Objects.PropertyValue"/> class.
         /// </summary>
         /// <param name="name">The name of the property.</param>
         /// <param name="val">
-        ///     The value of the property (possibly before type conversion).
+        /// The value of the property (possibly before type conversion).
         /// </param>
         /// <param name="expression">Pre-parsed property name.</param>
         /// <exception cref="System.ArgumentNullException">
-        ///     If the supplied <paramref name="name" /> or <paramref name="name" />
-        ///     is <see langword="null" />, or if the name contains only whitespace characters.
+        /// If the supplied <paramref name="name"/> or <paramref name="name"/> 
+        /// is <see langword="null"/>, or if the name contains only whitespace characters.
         /// </exception>
         public PropertyValue(string name, object val, IExpression expression)
         {
             AssertUtils.ArgumentHasText(name, "name");
 
-            Name = name;
+            propertyName = name;
             propertyExpression = expression;
-            Value = val;
+            propertyValue = val;
         }
 
         /// <summary>The name of the property.</summary>
         /// <value>The name of the property.</value>
-        public string Name { get; }
+        public string Name
+        {
+            get { return propertyName; }
+        }
 
         /// <summary>
-        ///     Parsed property expression.
+        /// Parsed property expression.
         /// </summary>
         public IExpression Expression
         {
@@ -108,15 +113,15 @@ namespace Spring.Objects
                 {
                     try
                     {
-                        propertyExpression = ObjectWrapper.GetPropertyExpression(Name);
+                        propertyExpression = ObjectWrapper.GetPropertyExpression(propertyName);
                     }
                     catch (RecognitionException e)
                     {
-                        throw new InvalidPropertyException("Failed to parse property name '" + Name + "'.", e);
+                        throw new InvalidPropertyException("Failed to parse property name '" + propertyName + "'.", e);
                     }
                     catch (TokenStreamRecognitionException e)
                     {
-                        throw new InvalidPropertyException("Failed to parse property name '" + Name + "'.", e);
+                        throw new InvalidPropertyException("Failed to parse property name '" + propertyName + "'.", e);
                     }
                 }
                 return propertyExpression;
@@ -124,35 +129,38 @@ namespace Spring.Objects
         }
 
         /// <summary>
-        ///     Return the value of the property.
+        /// Return the value of the property.
         /// </summary>
         /// <remarks>
-        ///     <p>
-        ///         Note that type conversion will <i>not</i> have occurred here.
-        ///         It is the responsibility of the
-        ///         <see cref="Spring.Objects.IObjectWrapper" /> implementation to
-        ///         perform type conversion.
-        ///     </p>
+        /// <p>
+        /// Note that type conversion will <i>not</i> have occurred here.
+        /// It is the responsibility of the
+        /// <see cref="Spring.Objects.IObjectWrapper"/> implementation to
+        /// perform type conversion.
+        /// </p>
         /// </remarks>
         /// <value>The (possibly unresolved) value of the property.</value>
-        public object Value { get; }
+        public object Value
+        {
+            get { return propertyValue; }
+        }
 
         /// <summary>
-        ///     Print a string representation of the property.
+        /// Print a string representation of the property.
         /// </summary>
         /// <returns>A string representation of the property.</returns>
         public override string ToString()
         {
-            return string.Format(CultureInfo.InvariantCulture, "PropertyValue: name='{0}'; value=[{1}].", Name, Value);
+            return string.Format(CultureInfo.InvariantCulture, "PropertyValue: name='{0}'; value=[{1}].", propertyName, propertyValue);
         }
 
         /// <summary>
-        ///     Determines whether the supplied <see cref="System.Object" />
-        ///     is equal to the current <see cref="Spring.Objects.PropertyValue" />.
+        /// Determines whether the supplied <see cref="System.Object"/>
+        /// is equal to the current <see cref="Spring.Objects.PropertyValue"/>.  
         /// </summary>
         /// <param name="other">The other instance.</param>
         /// <returns>
-        ///     <see langword="true" /> if they are equal in content.
+        /// <see langword="true"/> if they are equal in content.
         /// </returns>
         public override bool Equals(object other)
         {
@@ -166,20 +174,20 @@ namespace Spring.Objects
             }
             PropertyValue otherPv = (PropertyValue) other;
             return
-                Name.Equals(otherPv.Name)
-                && (Value == null && otherPv.Value == null || Value.Equals(otherPv.Value));
+                    (propertyName.Equals(otherPv.propertyName)
+                     && ((propertyValue == null && otherPv.propertyValue == null) || propertyValue.Equals(otherPv.propertyValue)));
         }
 
         /// <summary>
-        ///     Serves as a hash function for a particular type, suitable for use
-        ///     in hashing algorithms and data structures like a hash table.
+        /// Serves as a hash function for a particular type, suitable for use
+        /// in hashing algorithms and data structures like a hash table. 
         /// </summary>
         /// <returns>
-        ///     A hash code for the current <see cref="Spring.Objects.PropertyValue" />.
+        /// A hash code for the current <see cref="Spring.Objects.PropertyValue"/>.  
         /// </returns>
         public override int GetHashCode()
         {
-            return Name.GetHashCode() * 29 + (Value != null ? Value.GetHashCode() : 0);
+            return propertyName.GetHashCode() * 29 + (propertyValue != null ? propertyValue.GetHashCode() : 0);
         }
     }
 }

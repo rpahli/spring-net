@@ -23,32 +23,39 @@ using System;
 namespace Spring.Objects.Factory.Attributes
 {
     /// <summary>
-    ///     Defines a method that will be called prior to the destruction of the object instance
+    /// Defines a method that will be called prior to the destruction of the object instance
     /// </summary>
     [AttributeUsage(AttributeTargets.Method)]
     public class PreDestroyAttribute : Attribute
     {
+        private int _order;
+
+
         /// <summary>
-        ///     Initializes a new instance of the PreDestroy attribute with order = 1
+        /// Initializes a new instance of the PreDestroy attribute with order = 1
         /// </summary>
         public PreDestroyAttribute()
         {
-            Order = int.MaxValue;
+            _order = int.MaxValue;
         }
 
         /// <summary>
-        ///     Initializes a new instance of the PreDestroy attribute with defined order
+        /// Initializes a new instance of the PreDestroy attribute with defined order
         /// </summary>
         /// <param name="order">Order in which the PostContruct method is called</param>
         public PreDestroyAttribute(int order)
         {
-            Order = order;
+            _order = order;
         }
 
 
         /// <summary>
-        ///     Defined the order in which the PreDestroy methods are called
+        /// Defined the order in which the PreDestroy methods are called
         /// </summary>
-        public int Order { get; set; }
+        public int Order 
+        { 
+            get { return _order; }
+            set { _order = value; } 
+        }
     }
 }

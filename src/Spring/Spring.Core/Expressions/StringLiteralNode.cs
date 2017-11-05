@@ -24,44 +24,44 @@ using System.Runtime.Serialization;
 namespace Spring.Expressions
 {
     /// <summary>
-    ///     Represents parsed string literal node.
+    /// Represents parsed string literal node.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class StringLiteralNode : BaseNode
     {
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
-        public StringLiteralNode()
+        public StringLiteralNode():base()
         {
         }
 
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
-        public StringLiteralNode(string text)
+        public StringLiteralNode(string text):base()
         {
-            Text = text;
+            this.Text = text;
         }
 
         /// <summary>
-        ///     Create a new instance from SerializationInfo
+        /// Create a new instance from SerializationInfo
         /// </summary>
         protected StringLiteralNode(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-
+        
         /// <summary>
-        ///     Returns a value for the string literal node.
+        /// Returns a value for the string literal node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
         /// <returns>Node's value.</returns>
         protected override object Get(object context, EvaluationContext evalContext)
         {
-            return getText();
+            return this.getText();
         }
     }
 }

@@ -27,7 +27,7 @@ using Spring.Expressions.Parser.antlr.collections;
 namespace Spring.Expressions
 {
     /// <summary>
-    ///     Represents parsed method node in the navigation expression.
+    /// Represents parsed method node in the navigation expression.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
@@ -36,21 +36,21 @@ namespace Spring.Expressions
         private Type arrayType;
 
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
         public ArrayConstructorNode()
         {
         }
 
         /// <summary>
-        ///     Create a new instance from SerializationInfo
+        /// Create a new instance from SerializationInfo
         /// </summary>
         protected ArrayConstructorNode(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
 
         /// <summary>
-        ///     Creates new instance of the type defined by this node.
+        /// Creates new instance of the type defined by this node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
@@ -77,16 +77,19 @@ namespace Spring.Expressions
                 AST rankNode = rankRoot.getFirstChild();
                 while (rankNode != null)
                 {
-                    ranks[i++] = (int) GetValue((BaseNode) rankNode, context, evalContext);
+                    ranks[i++] = (int)GetValue((BaseNode)rankNode, context, evalContext);
                     rankNode = rankNode.getNextSibling();
                 }
                 return Array.CreateInstance(arrayType, ranks);
             }
-            AST valuesRoot = getFirstChild().getNextSibling();
-            if (valuesRoot != null)
+            else
             {
-                ArrayList values = (ArrayList) GetValue((BaseNode) valuesRoot, context, evalContext);
-                return values.ToArray(arrayType);
+                AST valuesRoot = getFirstChild().getNextSibling();
+                if (valuesRoot != null)
+                {
+                    ArrayList values = (ArrayList)GetValue(((BaseNode)valuesRoot), context, evalContext);
+                    return values.ToArray(arrayType);
+                }
             }
 
             throw new ArgumentException("You have to specify either rank or initializer for an array.");

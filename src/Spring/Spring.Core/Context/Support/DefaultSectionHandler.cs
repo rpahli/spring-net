@@ -28,39 +28,37 @@ using System.Xml;
 namespace Spring.Context.Support
 {
     /// <summary>
-    ///     Default section handler that can handle any configuration section.
+    /// Default section handler that can handle any configuration section.
     /// </summary>
     /// <remarks>
-    ///     <p>
-    ///         Simply returns the configuration section as an <see cref="System.Xml.XmlElement" />.
-    ///     </p>
+    /// <p>
+    /// Simply returns the configuration section as an <see cref="System.Xml.XmlElement"/>.
+    /// </p>
     /// </remarks>
-    /// <author>Aleksandar Seovic</author>
+	/// <author>Aleksandar Seovic</author>
     public class DefaultSectionHandler : IConfigurationSectionHandler
     {
         #region Methods
-
         /// <summary>
-        ///     Returns the configuration section as an <see cref="System.Xml.XmlElement" />
+        /// Returns the configuration section as an <see cref="System.Xml.XmlElement"/>
         /// </summary>
         /// <param name="parent">
-        ///     The configuration settings in a corresponding parent
-        ///     configuration section.
+        /// The configuration settings in a corresponding parent
+        /// configuration section.
         /// </param>
         /// <param name="configContext">
-        ///     The configuration context when called from the ASP.NET
-        ///     configuration system. Otherwise, this parameter is reserved and
-        ///     is a null reference.
+        /// The configuration context when called from the ASP.NET
+        /// configuration system. Otherwise, this parameter is reserved and
+        /// is a null reference.
         /// </param>
         /// <param name="section">
-        ///     The <see cref="System.Xml.XmlNode" /> for the section.
+        /// The <see cref="System.Xml.XmlNode"/> for the section.
         /// </param>
         /// <returns>Config section as XmlElement.</returns>
         public object Create(object parent, object configContext, XmlNode section)
         {
             return section as XmlElement;
         }
-
         #endregion
     }
 }

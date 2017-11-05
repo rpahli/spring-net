@@ -22,6 +22,7 @@
 
 using System;
 using System.Reflection;
+
 using Spring.Util;
 
 #endregion
@@ -29,47 +30,72 @@ using Spring.Util;
 namespace Spring.Core
 {
     /// <summary>
-    ///     Criteria that is satisfied if the <see cref="System.Type" /> of each of the
-    ///     arguments matches each of the parameter <see cref="System.Type" />s of a given
-    ///     <see cref="System.Reflection.MethodInfo" />.
+    /// Criteria that is satisfied if the <see cref="System.Type"/> of each of the
+    /// arguments matches each of the parameter <see cref="System.Type"/>s of a given
+    /// <see cref="System.Reflection.MethodInfo"/>.
     /// </summary>
     /// <remarks>
-    ///     <p>
-    ///         If no <see cref="System.Type" /> array is passed to the overloaded constructor,
-    ///         any method that has no parameters will satisfy an instance of this
-    ///         class. The same effect could be achieved by passing the
-    ///         <see cref="Spring.Util.ObjectUtils.EmptyObjects" /> array to the overloaded constructor.
-    ///     </p>
+    /// <p>
+    /// If no <see cref="System.Type"/> array is passed to the overloaded constructor,
+    /// any method that has no parameters will satisfy an instance of this
+    /// class. The same effect could be achieved by passing the
+    /// <see cref="Spring.Util.ObjectUtils.EmptyObjects"/> array to the overloaded constructor.
+    /// </p>
     /// </remarks>
     /// <author>Rick Evans</author>
     /// <author>Bruno Baia</author>
     public class MethodArgumentsCriteria : ICriteria
     {
-        #region Fields
+        #region Constructor (s) / Destructor
 
-        private readonly Type[] _parameters;
+        /// <summary>
+        /// Creates a new instance of the
+        /// <see cref="MethodArgumentsCriteria"/> class.
+        /// </summary>
+        public MethodArgumentsCriteria() : this(ObjectUtils.EmptyObjects)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new instance of the
+        /// <see cref="MethodArgumentsCriteria"/> class.
+        /// </summary>
+        /// <remarks>
+        /// <p>
+        /// If the supplied <paramref name="arguments"/> array is null, then this
+        /// constructor uses the <see cref="System.Type.EmptyTypes"/> array.
+        /// </p>
+        /// </remarks>
+        /// <param name="arguments">
+        /// The <see cref="System.Object"/> array that this criteria will use to
+        /// check parameter <see cref="System.Type"/>s.
+        /// </param>
+        public MethodArgumentsCriteria(object[] arguments)
+        {
+            _parameters = ReflectionUtils.GetTypes(arguments);
+        }
 
         #endregion
 
         #region Methods
 
         /// <summary>
-        ///     Does the supplied <paramref name="datum" /> satisfy the criteria encapsulated by
-        ///     this instance?
+        /// Does the supplied <paramref name="datum"/> satisfy the criteria encapsulated by
+        /// this instance?
         /// </summary>
         /// <remarks>
-        ///     <p>
-        ///         This implementation respects the inheritance chain of any parameter
-        ///         <see cref="System.Type" />s... i.e. methods that have a base type (or
-        ///         interface) that is assignable to the <see cref="System.Type" /> in the
-        ///         same corresponding index of the parameter types will satisfy this
-        ///         criteria instance.
-        ///     </p>
+        /// <p>
+        /// This implementation respects the inheritance chain of any parameter
+        /// <see cref="System.Type"/>s... i.e. methods that have a base type (or
+        /// interface) that is assignable to the <see cref="System.Type"/> in the
+        /// same corresponding index of the parameter types will satisfy this
+        /// criteria instance.
+        /// </p>
         /// </remarks>
         /// <param name="datum">The datum to be checked by this criteria instance.</param>
         /// <returns>
-        ///     True if the supplied <paramref name="datum" /> satisfies the criteria encapsulated
-        ///     by this instance; false if not or the supplied <paramref name="datum" /> is null.
+        /// True if the supplied <paramref name="datum"/> satisfies the criteria encapsulated
+        /// by this instance; false if not or the supplied <paramref name="datum"/> is null.
         /// </returns>
         public bool IsSatisfied(object datum)
         {
@@ -115,7 +141,7 @@ namespace Spring.Core
                         }
                     }
                 }
-                else if (isParamArray && _parameters.Length >= parametersBeingChecked.Length - 1)
+                else if (isParamArray && (_parameters.Length >= parametersBeingChecked.Length - 1))
                 {
                     satisfied = true;
                     for (int i = 0; i < parametersBeingChecked.Length - 1; ++i)
@@ -144,34 +170,9 @@ namespace Spring.Core
 
         #endregion
 
-        #region Constructor (s) / Destructor
+        #region Fields
 
-        /// <summary>
-        ///     Creates a new instance of the
-        ///     <see cref="MethodArgumentsCriteria" /> class.
-        /// </summary>
-        public MethodArgumentsCriteria() : this(ObjectUtils.EmptyObjects)
-        {
-        }
-
-        /// <summary>
-        ///     Creates a new instance of the
-        ///     <see cref="MethodArgumentsCriteria" /> class.
-        /// </summary>
-        /// <remarks>
-        ///     <p>
-        ///         If the supplied <paramref name="arguments" /> array is null, then this
-        ///         constructor uses the <see cref="System.Type.EmptyTypes" /> array.
-        ///     </p>
-        /// </remarks>
-        /// <param name="arguments">
-        ///     The <see cref="System.Object" /> array that this criteria will use to
-        ///     check parameter <see cref="System.Type" />s.
-        /// </param>
-        public MethodArgumentsCriteria(object[] arguments)
-        {
-            _parameters = ReflectionUtils.GetTypes(arguments);
-        }
+        private readonly Type[] _parameters;
 
         #endregion
     }

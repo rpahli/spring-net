@@ -29,13 +29,13 @@ using System.Text;
 namespace Spring.Util
 {
     /// <summary>
-    ///     Various utility methods relating to the manipulation of arrays.
+    /// Various utility methods relating to the manipulation of arrays.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     public sealed class ArrayUtils
     {
         /// <summary>
-        ///     Checks if the given array or collection has elements and none of the elements is null.
+        /// Checks if the given array or collection has elements and none of the elements is null.
         /// </summary>
         /// <param name="collection">the collection to be checked.</param>
         /// <returns>true if the collection has a length and contains only non-null elements.</returns>
@@ -43,14 +43,16 @@ namespace Spring.Util
         {
             if (!HasLength(collection)) return false;
             IEnumerator it = collection.GetEnumerator();
-            while (it.MoveNext())
-                if (it.Current == null) return false;
+            while(it.MoveNext())
+            {
+                if (it.Current == null ) return false;
+            }
             return true;
         }
 
         /// <summary>
-        ///     Use this sort method instead of <see cref="Array.Sort(System.Array,System.Collections.IComparer)" /> to overcome
-        ///     bugs in Mono.
+        /// Use this sort method instead of <see cref="Array.Sort(System.Array,System.Collections.IComparer)"/> to overcome
+        /// bugs in Mono.
         /// </summary>
         public static void Sort(Array array, IComparer comparer)
         {
@@ -63,20 +65,19 @@ namespace Spring.Util
             }
             Array.Sort(array, comparer);
         }
-
         /// <summary>
-        ///     Checks if the given array or collection is null or has no elements.
+        /// Checks if the given array or collection is null or has no elements.
         /// </summary>
         /// <param name="collection"></param>
         /// <returns></returns>
         public static bool HasLength(ICollection collection)
         {
-            return !(collection == null || collection.Count == 0);
+            return !( (collection == null) || (collection.Count == 0) );
         }
 
         /// <summary>
-        ///     Tests equality of two single-dimensional arrays by checking each element
-        ///     for equality.
+        /// Tests equality of two single-dimensional arrays by checking each element
+        /// for equality.
         /// </summary>
         /// <param name="a">The first array to be checked.</param>
         /// <param name="b">The second array to be checked.</param>
@@ -96,7 +97,7 @@ namespace Spring.Util
                     {
                         object elemA = a.GetValue(i);
                         object elemB = b.GetValue(i);
-
+                        
                         if (elemA is Array && elemB is Array)
                         {
                             if (!AreEqual(elemA as Array, elemB as Array))
@@ -116,17 +117,17 @@ namespace Spring.Util
         }
 
         /// <summary>
-        ///     Returns hash code for an array that is generated based on the elements.
+        /// Returns hash code for an array that is generated based on the elements.
         /// </summary>
         /// <remarks>
-        ///     Hash code returned by this method is guaranteed to be the same for
-        ///     arrays with equal elements.
+        /// Hash code returned by this method is guaranteed to be the same for
+        /// arrays with equal elements.
         /// </remarks>
         /// <param name="array">
-        ///     Array to calculate hash code for.
+        /// Array to calculate hash code for.
         /// </param>
         /// <returns>
-        ///     A hash code for the specified array.
+        /// A hash code for the specified array.
         /// </returns>
         public static int GetHashCode(Array array)
         {
@@ -155,13 +156,13 @@ namespace Spring.Util
         }
 
         /// <summary>
-        ///     Returns string representation of an array.
+        /// Returns string representation of an array.
         /// </summary>
         /// <param name="array">
-        ///     Array to return as a string.
+        /// Array to return as a string.
         /// </param>
         /// <returns>
-        ///     String representation of the specified <paramref name="array" />.
+        /// String representation of the specified <paramref name="array"/>.
         /// </returns>
         public static string ToString(Array array)
         {
@@ -177,10 +178,10 @@ namespace Spring.Util
             {
                 object val = array.GetValue(i);
                 sb.Append(val == null ? "null" : val.ToString());
-
+                
                 if (i < array.Length - 1)
                 {
-                    sb.Append(", ");
+                    sb.Append(", ");    
                 }
             }
 
@@ -190,12 +191,11 @@ namespace Spring.Util
         }
 
         /// <summary>
-        ///     Concatenates 2 arrays of compatible element types
+        /// Concatenates 2 arrays of compatible element types
         /// </summary>
         /// <remarks>
-        ///     If either of the arguments is null, the other array is returned as the result.
-        ///     The array element types may differ as long as they are assignable. The result array will be of the "smaller"
-        ///     element type.
+        /// If either of the arguments is null, the other array is returned as the result. 
+        /// The array element types may differ as long as they are assignable. The result array will be of the "smaller" element type.
         /// </remarks>
         public static Array Concat(Array first, Array second)
         {
@@ -215,11 +215,10 @@ namespace Spring.Util
             }
             else
             {
-                throw new ArgumentException(string.Format("Array element types '{0}' and '{1}' are not compatible",
-                    firstElementType, secondElementType));
+                throw new ArgumentException(string.Format("Array element types '{0}' and '{1}' are not compatible", firstElementType, secondElementType));
             }
             Array result = Array.CreateInstance(resultElementType, first.Length + second.Length);
-            Array.Copy(first, result, first.Length);
+            Array.Copy( first, result, first.Length );
             Array.Copy(second, 0, result, first.Length, second.Length);
             return result;
         }

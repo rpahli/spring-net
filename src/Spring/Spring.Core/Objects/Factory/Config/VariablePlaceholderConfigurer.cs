@@ -22,190 +22,62 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using Common.Logging;
 using Spring.Collections;
 using Spring.Core;
-using Spring.Logging;
 using Spring.Util;
 
 namespace Spring.Objects.Factory.Config
 {
     /// <summary>
-    ///     Resolves placeholder values in one or more object definitions
+    /// Resolves placeholder values in one or more object definitions
     /// </summary>
     /// <remarks>
-    ///     The placeholder syntax follows the NAnt style: <c>${...}</c>.
-    ///     Placeholders values are resolved against a list of
-    ///     <see cref="IVariableSource" />s.  In case of multiple definitions
-    ///     for the same property placeholder name, the first one in the
-    ///     list is used.
-    ///     <para>
-    ///         Variable substitution is performed on simple property values,
-    ///         lists, dictionaries, sets, constructor
-    ///         values, object type name, and object names in
-    ///         runtime object references (
-    ///         <see cref="Spring.Objects.Factory.Config.RuntimeObjectReference" />).
-    ///     </para>
-    ///     <para>
-    ///         Furthermore, placeholder values can also cross-reference other
-    ///         placeholders, in the manner of the following example where the
-    ///         <c>rootPath</c> property is cross-referenced by the <c>subPath</c>
-    ///         property.
-    ///     </para>
-    ///     <example>
-    ///         <code escaped="true">
-    ///  <name-values>
-    ///                 <add key="rootPath" value="myrootdir" />
-    ///                 <add key="subPath" value="${rootPath}/subdir" />
-    ///             </name-values>
-    ///  </code>
-    ///     </example>
-    ///     <para>
-    ///         If a configurer cannot resolve a placeholder, and the value of the
-    ///         <see cref="Spring.Objects.Factory.Config.PropertyPlaceholderConfigurer.IgnoreUnresolvablePlaceholders" />
-    ///         property is currently set to <see langword="false" />, an
-    ///         <see cref="Spring.Objects.Factory.ObjectDefinitionStoreException" />
-    ///         will be thrown.
-    ///     </para>
+    /// The placeholder syntax follows the NAnt style: <c>${...}</c>.
+    /// Placeholders values are resolved against a list of 
+    /// <see cref="IVariableSource"/>s.  In case of multiple definitions
+    /// for the same property placeholder name, the first one in the 
+    /// list is used.
+    /// <para>Variable substitution is performed on simple property values, 
+    /// lists, dictionaries, sets, constructor
+    /// values, object type name, and object names in
+    /// runtime object references (
+    /// <see cref="Spring.Objects.Factory.Config.RuntimeObjectReference"/>).</para>
+    /// <para>Furthermore, placeholder values can also cross-reference other
+    /// placeholders, in the manner of the following example where the
+    /// <c>rootPath</c> property is cross-referenced by the <c>subPath</c>
+    /// property.
+    /// </para>
+    /// <example>
+    /// <code escaped="true">
+    /// <name-values>
+    ///		<add key="rootPath" value="myrootdir"/>
+    ///		<add key="subPath" value="${rootPath}/subdir"/>
+    /// </name-values>
+    /// </code>
+    /// </example>
+    /// <para>If a configurer cannot resolve a placeholder, and the value of the
+    /// <see cref="Spring.Objects.Factory.Config.PropertyPlaceholderConfigurer.IgnoreUnresolvablePlaceholders"/>
+    /// property is currently set to <see langword="false"/>, an
+    /// <see cref="Spring.Objects.Factory.ObjectDefinitionStoreException"/>
+    /// will be thrown. </para>
     /// </remarks>
     /// <author>Mark Pollack</author>
     public class VariablePlaceholderConfigurer : IObjectFactoryPostProcessor, IPriorityOrdered
     {
         /// <summary>
-        ///     The default placeholder prefix.
+        /// The default placeholder prefix.
         /// </summary>
         public static readonly string DefaultPlaceholderPrefix = "${";
 
         /// <summary>
-        ///     The default placeholder suffix.
+        /// The default placeholder suffix.
         /// </summary>
         public static readonly string DefaultPlaceholderSuffix = "}";
 
-        /// <summary>
-        ///     Create a new instance without any variable sources
-        /// </summary>
-        public VariablePlaceholderConfigurer()
-        {
-        }
-
-        /// <summary>
-        ///     Create a new instance and initialize with the given variable source
-        /// </summary>
-        /// <param name="variableSource"></param>
-        public VariablePlaceholderConfigurer(IVariableSource variableSource)
-        {
-            VariableSource = variableSource;
-        }
-
-        /// <summary>
-        ///     Create a new instance and initialize with the given list of variable sources
-        /// </summary>
-        public VariablePlaceholderConfigurer(IList variableSources)
-        {
-            VariableSources = variableSources;
-        }
-
-        #region IObjectFactoryPostProcessor Members
-
-        /// <summary>
-        ///     Modify the application context's internal object factory after its
-        ///     standard initialization.
-        /// </summary>
-        /// <param name="factory">The object factory used by the application context.</param>
-        /// <remarks>
-        ///     <p>
-        ///         All object definitions will have been loaded, but no objects will have
-        ///         been instantiated yet. This allows for overriding or adding properties
-        ///         even to eager-initializing objects.
-        ///     </p>
-        /// </remarks>
-        /// <exception cref="Spring.Objects.ObjectsException">
-        ///     In case of errors.
-        /// </exception>
-        public void PostProcessObjectFactory(IConfigurableListableObjectFactory factory)
-        {
-            if (CollectionUtils.IsEmpty(variableSourceList))
-            {
-                throw new ArgumentException("No VariableSources configured");
-            }
-
-            ICollection filtered = CollectionUtils.FindValuesOfType(variableSourceList, typeof(IVariableSource));
-            if (filtered.Count != variableSourceList.Count)
-            {
-                throw new ArgumentException("'VariableSources' must contain IVariableSource elements only",
-                    "VariableSources");
-            }
-
-            try
-            {
-                ProcessProperties(factory);
-            }
-            catch (Exception ex)
-            {
-                if (typeof(ObjectsException).IsInstanceOfType(ex))
-                {
-                    throw;
-                }
-                throw new ObjectsException(
-                    "Errored while postprocessing an object factory.", ex);
-            }
-        }
-
-        #endregion
-
-        #region IOrdered Members
-
-        /// <summary>
-        ///     Return the order value of this object, where a higher value means greater in
-        ///     terms of sorting.
-        /// </summary>
-        /// <returns>The order value.</returns>
-        /// <seealso cref="Spring.Core.IOrdered.Order" />
-        public int Order { get; set; } = int.MaxValue;
-
-        #endregion
-
-        /// <summary>
-        ///     Apply the property replacement using the specified <see cref="IVariableSource" />s for all
-        ///     object in the supplied
-        ///     <see cref="Spring.Objects.Factory.Config.IConfigurableListableObjectFactory" />.
-        /// </summary>
-        /// <param name="factory">
-        ///     The <see cref="Spring.Objects.Factory.Config.IConfigurableListableObjectFactory" />
-        ///     used by the application context.
-        /// </param>
-        /// <exception cref="Spring.Objects.ObjectsException">
-        ///     If an error occured.
-        /// </exception>
-        protected virtual void ProcessProperties(IConfigurableListableObjectFactory factory)
-        {
-            CompositeVariableSource compositeVariableSource = new CompositeVariableSource(variableSourceList);
-            TextProcessor tp = new TextProcessor(this, compositeVariableSource);
-            ObjectDefinitionVisitor visitor = new ObjectDefinitionVisitor(tp.ParseAndResolveVariables);
-
-            IList<string> objectDefinitionNames = factory.GetObjectDefinitionNames(includeAncestors);
-            for (int i = 0; i < objectDefinitionNames.Count; ++i)
-            {
-                string name = objectDefinitionNames[i];
-                IObjectDefinition definition = factory.GetObjectDefinition(name, includeAncestors);
-
-                if (definition == null)
-                {
-                    continue;
-                }
-
-                try
-                {
-                    visitor.VisitObjectDefinition(definition);
-                }
-                catch (ObjectDefinitionStoreException ex)
-                {
-                    throw new ObjectDefinitionStoreException(
-                        definition.ResourceDescription, name, ex.Message);
-                }
-            }
-        }
-
         #region Fields
+
+        private int order = Int32.MaxValue; // default: same as non-Ordered
 
         private bool includeAncestors;
         private bool ignoreUnresolvablePlaceholders;
@@ -216,50 +88,73 @@ namespace Spring.Objects.Factory.Config
 
         #endregion
 
+        /// <summary>
+        /// Create a new instance without any variable sources
+        /// </summary>
+        public VariablePlaceholderConfigurer()
+        {}
+
+        /// <summary>
+        /// Create a new instance and initialize with the given variable source
+        /// </summary>
+        /// <param name="variableSource"></param>
+        public VariablePlaceholderConfigurer(IVariableSource variableSource)
+        {
+            this.VariableSource = variableSource;
+        }
+
+        /// <summary>
+        /// Create a new instance and initialize with the given list of variable sources
+        /// </summary>
+        public VariablePlaceholderConfigurer(IList variableSources)
+        {
+            this.VariableSources = variableSources;
+        }
+
         #region Properties
 
         /// <summary>
-        ///     Sets the list of <see cref="IVariableSource" />s that will be used to resolve placeholder names.
+        /// Sets the list of <see cref="IVariableSource"/>s that will be used to resolve placeholder names.
         /// </summary>
-        /// <value>A list of <see cref="IVariableSource" />s.</value>
+        /// <value>A list of <see cref="IVariableSource"/>s.</value>
         public IList VariableSources
         {
             set { variableSourceList = value; }
         }
 
         /// <summary>
-        ///     Sets <see cref="IVariableSource" /> that will be used to resolve placeholder names.
+        /// Sets <see cref="IVariableSource"/> that will be used to resolve placeholder names.
         /// </summary>
-        /// <value>A <see cref="IVariableSource" /> instance.</value>
+        /// <value>A <see cref="IVariableSource"/> instance.</value>
         public IVariableSource VariableSource
         {
             set
             {
                 variableSourceList = new ArrayList();
-                variableSourceList.Add(value);
+                variableSourceList.Add( value );
             }
         }
 
         /// <summary>
-        ///     The placeholder prefix (the default is <c>${</c>).
+        /// The placeholder prefix (the default is <c>${</c>).
         /// </summary>
-        /// <seealso cref="DefaultPlaceholderPrefix" />
+        /// <seealso cref="DefaultPlaceholderPrefix"/>
         public string PlaceholderPrefix
         {
             set { placeholderPrefix = value; }
         }
 
         /// <summary>
-        ///     The placeholder suffix (the default is <c>}</c>)
+        /// The placeholder suffix (the default is <c>}</c>)
         /// </summary>
-        /// <seealso cref="DefaultPlaceholderSuffix" />
+        /// <seealso cref="DefaultPlaceholderSuffix"/>
         public string PlaceholderSuffix
         {
             set { placeholderSuffix = value; }
         }
 
         /// <summary>
-        ///     Indicates whether unresolved placeholders should be ignored.
+        /// Indicates whether unresolved placeholders should be ignored.
         /// </summary>
         public bool IgnoreUnresolvablePlaceholders
         {
@@ -268,16 +163,121 @@ namespace Spring.Objects.Factory.Config
 
         public bool IncludeAncestors
         {
-            set { includeAncestors = value; }
+            set { includeAncestors = value;  }
         }
 
         #endregion
+
+        #region IObjectFactoryPostProcessor Members
+
+        /// <summary>
+        /// Modify the application context's internal object factory after its
+        /// standard initialization.
+        /// </summary>
+        /// <param name="factory">The object factory used by the application context.</param>
+        /// <remarks>
+        /// <p>
+        /// All object definitions will have been loaded, but no objects will have
+        /// been instantiated yet. This allows for overriding or adding properties
+        /// even to eager-initializing objects.
+        /// </p>
+        /// </remarks>
+        /// <exception cref="Spring.Objects.ObjectsException">
+        /// In case of errors.
+        /// </exception>
+        public void PostProcessObjectFactory( IConfigurableListableObjectFactory factory )
+        {
+            if (CollectionUtils.IsEmpty(variableSourceList))
+            {
+                throw new ArgumentException("No VariableSources configured");
+            }
+
+            ICollection filtered = CollectionUtils.FindValuesOfType(this.variableSourceList, typeof (IVariableSource));
+            if (filtered.Count != this.variableSourceList.Count)
+            {
+                throw new ArgumentException("'VariableSources' must contain IVariableSource elements only", "VariableSources");
+            }
+
+            try
+            {
+                ProcessProperties( factory );
+            }
+            catch (Exception ex)
+            {
+                if (typeof( ObjectsException ).IsInstanceOfType( ex ))
+                {
+                    throw;
+                }
+                else
+                {
+                    throw new ObjectsException(
+                        "Errored while postprocessing an object factory.", ex );
+                }
+            }
+        }
+
+        #endregion
+
+        #region IOrdered Members
+
+        /// <summary>
+        /// Return the order value of this object, where a higher value means greater in
+        /// terms of sorting.
+        /// </summary>
+        /// <returns>The order value.</returns>
+        /// <seealso cref="Spring.Core.IOrdered.Order"/>
+        public int Order
+        {
+            get { return order; }
+            set { order = value; }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Apply the property replacement using the specified <see cref="IVariableSource"/>s for all
+        /// object in the supplied
+        /// <see cref="Spring.Objects.Factory.Config.IConfigurableListableObjectFactory"/>.
+        /// </summary>
+        /// <param name="factory">
+        /// The <see cref="Spring.Objects.Factory.Config.IConfigurableListableObjectFactory"/>
+        /// used by the application context.
+        /// </param>
+        /// <exception cref="Spring.Objects.ObjectsException">
+        /// If an error occured.
+        /// </exception>
+        protected virtual void ProcessProperties( IConfigurableListableObjectFactory factory )
+        {
+            CompositeVariableSource compositeVariableSource = new CompositeVariableSource(variableSourceList);
+            TextProcessor tp = new TextProcessor(this, compositeVariableSource);
+            ObjectDefinitionVisitor visitor = new ObjectDefinitionVisitor(new ObjectDefinitionVisitor.ResolveHandler(tp.ParseAndResolveVariables));
+
+            IList<string> objectDefinitionNames = factory.GetObjectDefinitionNames(includeAncestors);
+            for (int i = 0; i < objectDefinitionNames.Count; ++i)
+            {
+                string name = objectDefinitionNames[i];
+                IObjectDefinition definition = factory.GetObjectDefinition( name, includeAncestors );
+                
+                if (definition == null)
+                    continue;
+
+                try
+                {
+                    visitor.VisitObjectDefinition( definition );
+                }
+                catch (ObjectDefinitionStoreException ex)
+                {
+                    throw new ObjectDefinitionStoreException(
+                        definition.ResourceDescription, name, ex.Message );
+                }
+            }
+        }
 
         #region Helper class
 
         private class TextProcessor
         {
-            private readonly ILogger logger = LogManager.GetLogger(typeof(TextProcessor));
+            private readonly ILog logger = LogManager.GetLogger(typeof(TextProcessor));
             private readonly VariablePlaceholderConfigurer owner;
             private readonly IVariableSource variableSource;
 
@@ -328,8 +328,8 @@ namespace Spring.Objects.Factory.Config
                             if (logger.IsDebugEnabled)
                             {
                                 logger.Debug(string.Format(
-                                    CultureInfo.InvariantCulture,
-                                    "Resolving placeholder '{0}' to '{1}'.", placeholder, resolvedValue));
+                                                 CultureInfo.InvariantCulture,
+                                                 "Resolving placeholder '{0}' to '{1}'.", placeholder, resolvedValue));
                             }
 
                             #endregion
@@ -340,10 +340,8 @@ namespace Spring.Objects.Factory.Config
                             {
                                 return null;
                             }
-                            strVal = strVal.Substring(0, startIndex) + resolvedValue +
-                                     strVal.Substring(endIndex + owner.placeholderSuffix.Length);
-                            startIndex = strVal.IndexOf(owner.placeholderPrefix,
-                                startIndex + (resolvedValue == null ? 0 : resolvedValue.Length));
+                            strVal = strVal.Substring(0, startIndex) + resolvedValue + strVal.Substring(endIndex + owner.placeholderSuffix.Length);
+                            startIndex = strVal.IndexOf(owner.placeholderPrefix, startIndex + (resolvedValue == null ? 0 : resolvedValue.Length));
                         }
                         else if (owner.ignoreUnresolvablePlaceholders)
                         {
@@ -353,8 +351,8 @@ namespace Spring.Objects.Factory.Config
                         else
                         {
                             throw new ObjectDefinitionStoreException(string.Format(
-                                CultureInfo.InvariantCulture,
-                                "Could not resolve placeholder '{0}'.", placeholder));
+                                                                         CultureInfo.InvariantCulture,
+                                                                         "Could not resolve placeholder '{0}'.", placeholder));
                         }
                         visitedPlaceholders.Remove(placeholder);
                     }
@@ -364,25 +362,25 @@ namespace Spring.Objects.Factory.Config
                     }
                 }
                 return strVal;
-            }
+            }            
         }
 
         private class CompositeVariableSource : IVariableSource
         {
             private readonly IList variableSourceList;
 
-            public CompositeVariableSource(IList variableSourceList)
+            public CompositeVariableSource( IList variableSourceList )
             {
                 this.variableSourceList = variableSourceList;
             }
 
-            public string ResolveVariable(string variableName)
+            public string ResolveVariable( string variableName )
             {
                 foreach (IVariableSource variableSource in variableSourceList)
                 {
                     if (!variableSource.CanResolveVariable(variableName)) continue;
 
-                    return variableSource.ResolveVariable(variableName);
+                    return variableSource.ResolveVariable( variableName );
                 }
                 throw new ArgumentException(string.Format("cannot resolve variable '{0}'", variableName));
             }
@@ -390,10 +388,10 @@ namespace Spring.Objects.Factory.Config
             public bool CanResolveVariable(string variableName)
             {
                 foreach (IVariableSource variableSource in variableSourceList)
+                {
                     if (variableSource.CanResolveVariable(variableName))
-                    {
                         return true;
-                    }
+                }
                 return false;
             }
         }

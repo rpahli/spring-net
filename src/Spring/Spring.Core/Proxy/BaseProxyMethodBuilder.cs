@@ -28,7 +28,7 @@ using System.Reflection.Emit;
 namespace Spring.Proxy
 {
     /// <summary>
-    ///     Implementation of IProxyMethodBuilder that delegates method calls to the base class.
+    /// Implementation of IProxyMethodBuilder that delegates method calls to the base class.
     /// </summary>
     /// <author>Bruno Baia</author>
     public class BaseProxyMethodBuilder : AbstractProxyMethodBuilder
@@ -36,17 +36,18 @@ namespace Spring.Proxy
         #region Constructor(s) / Destructor
 
         /// <summary>
-        ///     Creates a new instance of the method builder.
+        /// Creates a new instance of the method builder.
         /// </summary>
         /// <param name="typeBuilder">The type builder to use.</param>
         /// <param name="proxyGenerator">
-        ///     The <see cref="IProxyTypeGenerator" /> implementation to use.
+        /// The <see cref="IProxyTypeGenerator"/> implementation to use.
         /// </param>
         /// <param name="explicitImplementation">
-        ///     <see langword="true" /> if the interface is to be
-        ///     implemented explicitly; otherwise <see langword="false" />.
+        /// <see langword="true"/> if the interface is to be
+        /// implemented explicitly; otherwise <see langword="false"/>.
         /// </param>
-        public BaseProxyMethodBuilder(TypeBuilder typeBuilder, IProxyTypeGenerator proxyGenerator, bool explicitImplementation)
+        public BaseProxyMethodBuilder(TypeBuilder typeBuilder,
+            IProxyTypeGenerator proxyGenerator, bool explicitImplementation)
             : base(typeBuilder, proxyGenerator, explicitImplementation)
         {
         }
@@ -56,14 +57,15 @@ namespace Spring.Proxy
         #region Protected Methods
 
         /// <summary>
-        ///     Generates the proxy method.
+        /// Generates the proxy method.
         /// </summary>
         /// <param name="il">The IL generator to use.</param>
         /// <param name="method">The method to proxy.</param>
         /// <param name="interfaceMethod">
-        ///     The interface definition of the method, if applicable.
+        /// The interface definition of the method, if applicable.
         /// </param>
-        protected override void GenerateMethod(ILGenerator il, MethodInfo method, MethodInfo interfaceMethod)
+        protected override void GenerateMethod(
+            ILGenerator il, MethodInfo method, MethodInfo interfaceMethod)
         {
             CallDirectBaseMethod(il, method);
         }

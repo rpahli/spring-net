@@ -25,21 +25,22 @@ using System.Runtime.Serialization;
 namespace Spring.Expressions
 {
     /// <summary>
-    ///     Represents parsed selection node in the navigation expression.
+    /// Represents parsed selection node in the navigation expression.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class SelectionNode : BaseNode
     {
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
         public SelectionNode()
+            : base()
         {
         }
 
         /// <summary>
-        ///     Create a new instance from SerializationInfo
+        /// Create a new instance from SerializationInfo
         /// </summary>
         protected SelectionNode(SerializationInfo info, StreamingContext context)
             : base(info, context)
@@ -47,8 +48,8 @@ namespace Spring.Expressions
         }
 
         /// <summary>
-        ///     Returns a <see cref="IList" /> containing results of evaluation
-        ///     of selection expression against each node in the context.
+        /// Returns a <see cref="IList"/> containing results of evaluation
+        /// of selection expression against each node in the context.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
@@ -62,17 +63,16 @@ namespace Spring.Expressions
                     "Selection can only be used on an instance of the type that implements IEnumerable.");
             }
 
-            BaseNode expression = (BaseNode) getFirstChild();
-            BaseNode minIndexExpression = (BaseNode) expression.getNextSibling();
-            BaseNode maxIndexExpression =
-                minIndexExpression == null ? null : (BaseNode) minIndexExpression.getNextSibling();
+            BaseNode expression = (BaseNode)this.getFirstChild();
+            BaseNode minIndexExpression = (BaseNode)expression.getNextSibling();
+            BaseNode maxIndexExpression = (minIndexExpression == null) ? null : (BaseNode)minIndexExpression.getNextSibling();
 
-            int minIndex = (int) (minIndexExpression == null
-                ? int.MinValue
-                : GetValue(minIndexExpression, context, evalContext));
-            int maxIndex = (int) (maxIndexExpression == null
-                ? int.MaxValue
-                : GetValue(maxIndexExpression, context, evalContext));
+            int minIndex = (int)((minIndexExpression == null)
+                                      ? Int32.MinValue
+                                      : GetValue(minIndexExpression, context, evalContext));
+            int maxIndex = (int)((maxIndexExpression == null)
+                                      ? Int32.MaxValue
+                                      : GetValue(maxIndexExpression, context, evalContext));
 
             IList selectionList = new ArrayList();
 
@@ -82,7 +82,7 @@ namespace Spring.Expressions
                 foreach (object o in enumerable)
                 {
                     evalContext.ThisContext = o;
-                    bool isMatch = (bool) GetValue(expression, o, evalContext);
+                    bool isMatch = (bool)GetValue(expression, o, evalContext);
                     if (isMatch)
                     {
                         if (minIndex <= found && found <= maxIndex)
@@ -91,7 +91,7 @@ namespace Spring.Expressions
                         }
                         found++;
 
-                        if (found > maxIndex)
+                        if (found>maxIndex)
                         {
                             break; // don't look any further
                         }

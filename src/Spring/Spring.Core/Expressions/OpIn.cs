@@ -25,54 +25,57 @@ using System.Runtime.Serialization;
 namespace Spring.Expressions
 {
     /// <summary>
-    ///     Represents logical IN operator.
+    /// Represents logical IN operator.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class OpIn : BinaryOperator
     {
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
-        public OpIn()
+        public OpIn():base()
         {
         }
 
         /// <summary>
-        ///     Create a new instance from SerializationInfo
+        /// Create a new instance from SerializationInfo
         /// </summary>
         protected OpIn(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-
+        
         /// <summary>
-        ///     Returns a value for the logical IN operator node.
+        /// Returns a value for the logical IN operator node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
         /// <returns>
-        ///     true if the left operand is contained within the right operand, false otherwise.
+        /// true if the left operand is contained within the right operand, false otherwise.
         /// </returns>
         protected override object Get(object context, EvaluationContext evalContext)
         {
-            object left = GetLeftValue(context, evalContext);
-            object right = GetRightValue(context, evalContext);
+            object left = GetLeftValue( context, evalContext );
+            object right = GetRightValue( context, evalContext );
 
             if (right == null)
             {
                 return false;
             }
-            if (right is IList)
+            else if (right is IList)
             {
                 return ((IList) right).Contains(left);
             }
-            if (right is IDictionary)
+            else if (right is IDictionary)
             {
                 return ((IDictionary) right).Contains(left);
             }
-            throw new ArgumentException(
-                "Right hand parameter for 'in' operator has to be an instance of IList or IDictionary.");
+            else
+            {
+                throw new ArgumentException(
+                    "Right hand parameter for 'in' operator has to be an instance of IList or IDictionary.");
+            }
         }
     }
 }

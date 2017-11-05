@@ -21,17 +21,17 @@
 namespace Spring.Objects.Factory.Xml
 {
     /// <summary>
-    ///     Default implementation of the <see cref="INamespaceParserResolver" /> interface.
-    ///     Resolves namespace URIs to implementation types based on mappings.
+    /// Default implementation of the <see cref="INamespaceParserResolver"/> interface.
+    /// Resolves namespace URIs to implementation types based on mappings.
     /// </summary>
     /// <author>Erich Eichinger</author>
-    /// <seealso cref="INamespaceParser" />
-    /// <seealso cref="DefaultObjectDefinitionDocumentReader" />
+    /// <seealso cref="INamespaceParser"/>
+    /// <seealso cref="DefaultObjectDefinitionDocumentReader"/>
     internal class DefaultNamespaceHandlerResolver : INamespaceParserResolver
     {
         /// <summary>
-        ///     Resolve the namespace URI and return the corresponding <see cref="INamespaceParser" />
-        ///     implementation.
+        /// Resolve the namespace URI and return the corresponding <see cref="INamespaceParser"/>
+        /// implementation.
         /// </summary>
         /// <param name="namespaceUri">the namespace URI to get the matching parser for.</param>
         /// <returns>the matching parser or <c>null</c></returns>

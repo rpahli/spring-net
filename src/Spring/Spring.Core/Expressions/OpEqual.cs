@@ -25,21 +25,21 @@ using Spring.Util;
 namespace Spring.Expressions
 {
     /// <summary>
-    ///     Represents logical equality operator.
+    /// Represents logical equality operator.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class OpEqual : BinaryOperator
     {
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
         public OpEqual()
         {
         }
 
         /// <summary>
-        ///     Create a new instance from SerializationInfo
+        /// Create a new instance from SerializationInfo
         /// </summary>
         protected OpEqual(SerializationInfo info, StreamingContext context)
             : base(info, context)
@@ -47,7 +47,7 @@ namespace Spring.Expressions
         }
 
         /// <summary>
-        ///     Returns a value for the logical equality operator node.
+        /// Returns a value for the logical equality operator node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
@@ -59,29 +59,35 @@ namespace Spring.Expressions
 
             if (left == null)
             {
-                return right == null;
+                return (right == null);
             }
-            if (right == null)
+            else if (right == null)
             {
                 return false;
             }
-            if (left.GetType() == right.GetType())
+            else if (left.GetType() == right.GetType())
             {
                 if (left is Array)
                 {
                     return ArrayUtils.AreEqual(left as Array, right as Array);
                 }
-                return left.Equals(right);
+                else
+                {
+                    return left.Equals(right);
+                }
             }
-            if (left.GetType().IsEnum && right is string)
+            else if (left.GetType().IsEnum && right is string)
             {
-                return left.Equals(Enum.Parse(left.GetType(), (string) right));
+                return left.Equals(Enum.Parse(left.GetType(), (string)right));
             }
-            if (right.GetType().IsEnum && left is string)
+            else if (right.GetType().IsEnum && left is string)
             {
-                return right.Equals(Enum.Parse(right.GetType(), (string) left));
+                return right.Equals(Enum.Parse(right.GetType(), (string)left));
             }
-            return CompareUtils.Compare(left, right) == 0;
+            else
+            {
+                return CompareUtils.Compare(left, right) == 0;
+            }
         }
     }
 }

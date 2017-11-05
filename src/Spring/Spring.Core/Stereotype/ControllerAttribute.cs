@@ -21,31 +21,34 @@
 namespace Spring.Stereotype
 {
     /// <summary>
-    ///     Indicates that an annotated class is a "Controller" (e.g. a MVC Controller).
+    /// Indicates that an annotated class is a "Controller" (e.g. a MVC Controller).
     /// </summary>
     /// <remarks>
-    ///     <para>
-    ///         This attribute also serves as a specialization of the ComponentAttribute, allowing implementation
-    ///         classes to be autodetected in future releases through assembly scanning.
-    ///     </para>
+    /// <para>
+    /// This attribute also serves as a specialization of the ComponentAttribute, allowing implementation
+    /// classes to be autodetected in future releases through assembly scanning.
+    /// </para>
     /// </remarks>
     /// <author>Thomas Trageser</author>
     public class ControllerAttribute : ComponentAttribute
     {
+
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ControllerAttribute" /> class.
+        /// Initializes a new instance of the <see cref="ControllerAttribute"/> class.
         /// </summary>
         public ControllerAttribute()
         {
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ControllerAttribute" /> class.
+        /// Initializes a new instance of the <see cref="ControllerAttribute"/> class.
         /// </summary>
         /// <param name="name">The name.</param>
         public ControllerAttribute(string name)
             : base(name)
         {
         }
+
+
     }
 }

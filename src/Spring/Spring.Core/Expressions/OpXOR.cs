@@ -31,30 +31,29 @@ namespace Spring.Expressions
     public class OpXOR : BinaryOperator
     {
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
         public OpXOR()
-        {
-        }
+        { }
 
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
         public OpXOR(BaseNode left, BaseNode right)
-            : base(left, right)
+            :base(left, right)
         {
         }
 
         /// <summary>
-        ///     Create a new instance from SerializationInfo
+        /// Create a new instance from SerializationInfo
         /// </summary>
         protected OpXOR(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-
+        
         /// <summary>
-        ///     Returns a value for the logical AND operator node.
+        /// Returns a value for the logical AND operator node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
@@ -68,7 +67,7 @@ namespace Spring.Expressions
             {
                 return NumberUtils.BitwiseXor(l, r);
             }
-            if (l is Enum && l.GetType() == r.GetType())
+            else if (l is Enum && l.GetType() == r.GetType())
             {
                 Type enumType = l.GetType();
                 Type integralType = Enum.GetUnderlyingType(enumType);

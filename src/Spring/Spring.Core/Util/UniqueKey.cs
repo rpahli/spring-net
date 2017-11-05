@@ -30,21 +30,23 @@ using Spring.Core.TypeConversion;
 
 namespace Spring.Util
 {
-    /// <summary>
-    ///     UniqueKey allows for generating keys unique to a type or particular instance and a partial name,
-    ///     that can e.g. be used as keys in <see cref="Hashtable" />.
-    /// </summary>
-    /// <example>
-    ///     // shows usage type-scoped keys
-    ///     UniqueKey classAKey = UniqueKey.GetTypeScoped(typeof(ClassA), "myKey");
-    ///     UniqueKey classBKey = UniqueKey.GetTypeScoped(typeof(ClassB), "myKey");
-    ///     HttpContext.Current.Items.Add( classAKey, "some value unqiue for class A having key 'myKey'");
-    ///     object value = HttpContext.Current.Items[ UniqueKey.GetTypeScoped(typeof(ClassA), "myKey") ];
-    ///     Assert.AreEqual( "some value unique for class A having key 'myKey'", value);
-    ///     HttpContext.Current.Items.Add( classBKey, "some value unqiue for class B having key 'myKey'");
-    ///     object value = HttpContext.Current.Items[ UniqueKey.GetTypeScoped(typeof(ClassB), "myKey") ];
-    ///     Assert.AreEqual( "some value unique for class B having key 'myKey'", value);
-    /// </example>
+	/// <summary>
+	/// UniqueKey allows for generating keys unique to a type or particular instance and a partial name, 
+	/// that can e.g. be used as keys in <see cref="Hashtable"/>.
+	/// </summary>
+	/// <example>
+	/// // shows usage type-scoped keys
+	/// UniqueKey classAKey = UniqueKey.GetTypeScoped(typeof(ClassA), "myKey");
+	/// UniqueKey classBKey = UniqueKey.GetTypeScoped(typeof(ClassB), "myKey");
+	/// 
+	/// HttpContext.Current.Items.Add( classAKey, "some value unqiue for class A having key 'myKey'");
+	/// object value = HttpContext.Current.Items[ UniqueKey.GetTypeScoped(typeof(ClassA), "myKey") ];
+	/// Assert.AreEqual( "some value unique for class A having key 'myKey'", value);
+	/// 
+	/// HttpContext.Current.Items.Add( classBKey, "some value unqiue for class B having key 'myKey'");
+	/// object value = HttpContext.Current.Items[ UniqueKey.GetTypeScoped(typeof(ClassB), "myKey") ];
+	/// Assert.AreEqual( "some value unique for class B having key 'myKey'", value);
+	/// </example>
     [Serializable]
     [TypeConverter(typeof(UniqueKeyConverter))]
     public sealed class UniqueKey : IEquatable<UniqueKey>
@@ -52,10 +54,10 @@ namespace Spring.Util
         private readonly string _generatedKey;
 
         /// <summary>
-        ///     Initialize a new instance of <see cref="UniqueKey" /> from its string representation.
-        ///     See <see cref="GetInstanceScoped" /> and See <see cref="GetTypeScoped" /> for details.
+        /// Initialize a new instance of <see cref="UniqueKey"/> from its string representation.  
+        /// See <see cref="GetInstanceScoped"/> and See <see cref="GetTypeScoped"/> for details.
         /// </summary>
-        /// <param name="key">The string representation of the new <see cref="UniqueKey" /> instance.</param>
+        /// <param name="key">The string representation of the new <see cref="UniqueKey"/> instance.</param>
         internal UniqueKey(string key)
         {
             AssertUtils.ArgumentNotNull(key, "key");
@@ -63,7 +65,7 @@ namespace Spring.Util
         }
 
         /// <summary>
-        ///     Compares this instance to another.
+        /// Compares this instance to another.
         /// </summary>
         public bool Equals(UniqueKey uniqueKey)
         {
@@ -72,7 +74,7 @@ namespace Spring.Util
         }
 
         /// <summary>
-        ///     Compares this instance to another.
+        /// Compares this instance to another.
         /// </summary>
         public override bool Equals(object obj)
         {
@@ -81,7 +83,7 @@ namespace Spring.Util
         }
 
         /// <summary>
-        ///     Returns the hash code for this key.
+        /// Returns the hash code for this key.
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()
@@ -90,7 +92,7 @@ namespace Spring.Util
         }
 
         /// <summary>
-        ///     Returns a string representation of this key.
+        /// Returns a string representation of this key.
         /// </summary>
         public override string ToString()
         {
@@ -98,13 +100,13 @@ namespace Spring.Util
         }
 
         /// <summary>
-        ///     Creates a new key instance unique to the given instance.
+        /// Creates a new key instance unique to the given instance.
         /// </summary>
         /// <param name="instance">The instance the key shall be unique to</param>
         /// <param name="partialKey">The partial key to be made unique</param>
         /// <remarks>
         /// </remarks>
-        /// <exception cref="ArgumentException">If <paramref name="instance" /> is of type <see cref="Type" /></exception>
+        /// <exception cref="ArgumentException">If <paramref name="instance"/> is of type <see cref="Type"/></exception>
         public static UniqueKey GetInstanceScoped(object instance, string partialKey)
         {
             if (instance is Type)
@@ -116,7 +118,7 @@ namespace Spring.Util
         }
 
         /// <summary>
-        ///     Creates a new key instance unique to the given type.
+        /// Creates a new key instance unique to the given type.
         /// </summary>
         /// <param name="type">The type the key shall be unique to</param>
         /// <param name="partialKey">The partial key to be made unique</param>
@@ -126,7 +128,7 @@ namespace Spring.Util
         }
 
         /// <summary>
-        ///     Returns a key unique for the given instance.
+        /// Returns a key unique for the given instance.
         /// </summary>
         /// <param name="instance">The instance the key shall be unique to</param>
         /// <param name="partialKey">The partial key to be made unique</param>
@@ -145,7 +147,7 @@ namespace Spring.Util
         }
 
         /// <summary>
-        ///     Returns a key unique for the given type.
+        /// Returns a key unique for the given type.
         /// </summary>
         /// <param name="type">The type the key shall be unique to</param>
         /// <param name="partialKey">The partial key to be made unique</param>

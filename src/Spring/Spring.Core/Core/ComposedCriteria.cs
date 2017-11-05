@@ -27,41 +27,31 @@ using System.Collections.Generic;
 namespace Spring.Core
 {
     /// <summary>
-    ///     A <see cref="Spring.Core.ICriteria" /> implementation that represents
-    ///     a composed collection of <see cref="Spring.Core.ICriteria" /> instances.
+    /// A <see cref="Spring.Core.ICriteria"/> implementation that represents
+    /// a composed collection of <see cref="Spring.Core.ICriteria"/> instances.
     /// </summary>
     public class ComposedCriteria : ICriteria
     {
-        #region Fields
-
-        #endregion
-
-        /// <summary>
-        ///     The list of <see cref="Spring.Core.ICriteria" /> composing this
-        ///     instance.
-        /// </summary>
-        protected IList<ICriteria> Criteria { get; }
-
         #region Constructor (s) / Destructor
 
         /// <summary>
-        ///     Creates a new instance of the
-        ///     <see cref="ComposedCriteria" /> class.
+        /// Creates a new instance of the
+        /// <see cref="ComposedCriteria"/> class.
         /// </summary>
         public ComposedCriteria() : this(null)
         {
         }
 
         /// <summary>
-        ///     Creates a new instance of the
-        ///     <see cref="ComposedCriteria" /> class.
+        /// Creates a new instance of the
+        /// <see cref="ComposedCriteria"/> class.
         /// </summary>
         /// <param name="criteria">
-        ///     A user-defined (child) criteria that will be composed into this instance.
+        /// A user-defined (child) criteria that will be composed into this instance.
         /// </param>
         public ComposedCriteria(ICriteria criteria)
         {
-            Criteria = new List<ICriteria>();
+            _criteria = new List<ICriteria>();
             Add(criteria);
         }
 
@@ -70,38 +60,55 @@ namespace Spring.Core
         #region Methods
 
         /// <summary>
-        ///     Does the supplied <paramref name="datum" /> satisfy the criteria encapsulated by
-        ///     this instance?
+        /// Does the supplied <paramref name="datum"/> satisfy the criteria encapsulated by
+        /// this instance?
         /// </summary>
         /// <param name="datum">The data to be checked by this criteria instance.</param>
         /// <returns>
-        ///     True if the supplied <paramref name="datum" /> satisfies the criteria encapsulated
-        ///     by this instance; false if not or the supplied <paramref name="datum" /> is null.
+        /// True if the supplied <paramref name="datum"/> satisfies the criteria encapsulated
+        /// by this instance; false if not or the supplied <paramref name="datum"/> is null.
         /// </returns>
         public virtual bool IsSatisfied(object datum)
         {
-            foreach (ICriteria criteria in Criteria)
+            foreach (ICriteria criteria in _criteria)
+            {
                 if (!criteria.IsSatisfied(datum))
                 {
                     return false;
                 }
+            }
             return true;
         }
 
         /// <summary>
-        ///     Adds the supplied <parameref name="criteria" /> into the criteria
-        ///     composed within this instance.
+        /// Adds the supplied <parameref name="criteria"/> into the criteria
+        /// composed within this instance.
         /// </summary>
         /// <param name="criteria">
-        ///     The <see cref="Spring.Core.ICriteria" /> to be added.
+        /// The <see cref="Spring.Core.ICriteria"/> to be added.
         /// </param>
         public void Add(ICriteria criteria)
         {
             if (criteria != null)
             {
-                Criteria.Add(criteria);
+                _criteria.Add(criteria);
             }
         }
+
+        #endregion
+
+        /// <summary>
+        /// The list of <see cref="Spring.Core.ICriteria"/> composing this
+        /// instance.
+        /// </summary>
+        protected IList<ICriteria> Criteria
+        {
+            get { return _criteria; }
+        }
+
+        #region Fields
+
+        private IList<ICriteria> _criteria;
 
         #endregion
     }

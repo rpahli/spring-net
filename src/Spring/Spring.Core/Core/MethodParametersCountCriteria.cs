@@ -28,35 +28,65 @@ using System.Reflection;
 namespace Spring.Core
 {
     /// <summary>
-    ///     Criteria that is satisfied if the number of parameters to a given
-    ///     <see cref="System.Reflection.MethodBase" /> matches an arbitrary number.
+    /// Criteria that is satisfied if the number of parameters to a given
+    /// <see cref="System.Reflection.MethodBase"/> matches an arbitrary number.
     /// </summary>
     /// <remarks>
-    ///     <p>
-    ///         This class supports checking the parameter count of both methods and
-    ///         constructors.
-    ///     </p>
-    ///     <p>
-    ///         Default parameters, etc need to taken into account.
-    ///     </p>
+    /// <p>
+    /// This class supports checking the parameter count of both methods and
+    /// constructors.
+    /// </p>
+    /// <p>
+    /// Default parameters, etc need to taken into account.
+    /// </p>
     /// </remarks>
     /// <author>Rick Evans</author>
     public class MethodParametersCountCriteria : ICriteria
     {
-        #region Fields
+        #region Constructor (s) / Destructor
 
-        private int _count;
+        /// <summary>
+        /// Creates a new instance of the
+        /// <see cref="MethodParametersCountCriteria"/> class.
+        /// </summary>
+        /// <remarks>
+        /// <p>
+        /// This constructor sets the
+        /// <see cref="MethodParametersCountCriteria.ExpectedParameterCount"/>
+        /// property to zero (0).
+        /// </p>
+        /// </remarks>
+        public MethodParametersCountCriteria() : this(0)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new instance of the
+        /// <see cref="MethodParametersCountCriteria"/> class.
+        /// </summary>
+        /// <param name="expectedParameterCount">
+        /// The number of parameters that a <see cref="System.Reflection.MethodInfo"/>
+        /// must have to satisfy this criteria.
+        /// </param>
+        /// <exception cref="System.ArgumentException">
+        /// If the supplied <paramref name="expectedParameterCount"/> is less
+        /// than zero.
+        /// </exception>
+        public MethodParametersCountCriteria(int expectedParameterCount)
+        {
+            ExpectedParameterCount = expectedParameterCount;
+        }
 
         #endregion
 
         #region Properties
 
         /// <summary>
-        ///     The number of parameters that a <see cref="System.Reflection.MethodInfo" />
-        ///     must have to satisfy this criteria.
+        /// The number of parameters that a <see cref="System.Reflection.MethodInfo"/>
+        /// must have to satisfy this criteria.
         /// </summary>
         /// <exception cref="System.ArgumentException">
-        ///     If the supplied value is less than zero.
+        /// If the supplied value is less than zero.
         /// </exception>
         public int ExpectedParameterCount
         {
@@ -77,13 +107,13 @@ namespace Spring.Core
         #region Methods
 
         /// <summary>
-        ///     Does the supplied <paramref name="datum" /> satisfy the criteria encapsulated by
-        ///     this instance?
+        /// Does the supplied <paramref name="datum"/> satisfy the criteria encapsulated by
+        /// this instance?
         /// </summary>
         /// <param name="datum">The datum to be checked by this criteria instance.</param>
         /// <returns>
-        ///     True if the supplied <paramref name="datum" /> satisfies the criteria encapsulated
-        ///     by this instance; false if not or the supplied <paramref name="datum" /> is null.
+        /// True if the supplied <paramref name="datum"/> satisfies the criteria encapsulated
+        /// by this instance; false if not or the supplied <paramref name="datum"/> is null.
         /// </returns>
         public bool IsSatisfied(object datum)
         {
@@ -96,7 +126,7 @@ namespace Spring.Core
                 {
                     satisfied = true;
                 }
-                else if (parameters.Length > 0 && ExpectedParameterCount >= parameters.Length - 1)
+                else if ((parameters.Length > 0) && (ExpectedParameterCount >= parameters.Length-1))
                 {
                     ParameterInfo lastParameter = parameters[parameters.Length - 1];
                     satisfied = lastParameter.GetCustomAttributes(typeof(ParamArrayAttribute), false).Length > 0;
@@ -107,39 +137,9 @@ namespace Spring.Core
 
         #endregion
 
-        #region Constructor (s) / Destructor
+        #region Fields
 
-        /// <summary>
-        ///     Creates a new instance of the
-        ///     <see cref="MethodParametersCountCriteria" /> class.
-        /// </summary>
-        /// <remarks>
-        ///     <p>
-        ///         This constructor sets the
-        ///         <see cref="MethodParametersCountCriteria.ExpectedParameterCount" />
-        ///         property to zero (0).
-        ///     </p>
-        /// </remarks>
-        public MethodParametersCountCriteria() : this(0)
-        {
-        }
-
-        /// <summary>
-        ///     Creates a new instance of the
-        ///     <see cref="MethodParametersCountCriteria" /> class.
-        /// </summary>
-        /// <param name="expectedParameterCount">
-        ///     The number of parameters that a <see cref="System.Reflection.MethodInfo" />
-        ///     must have to satisfy this criteria.
-        /// </param>
-        /// <exception cref="System.ArgumentException">
-        ///     If the supplied <paramref name="expectedParameterCount" /> is less
-        ///     than zero.
-        /// </exception>
-        public MethodParametersCountCriteria(int expectedParameterCount)
-        {
-            ExpectedParameterCount = expectedParameterCount;
-        }
+        private int _count;
 
         #endregion
     }

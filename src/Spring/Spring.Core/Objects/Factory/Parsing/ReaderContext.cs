@@ -23,28 +23,33 @@ using Spring.Core.IO;
 namespace Spring.Objects.Factory.Parsing
 {
     /// <summary>
-    ///     Context that gets passed along an object definition reading process,
-    ///     encapsulating all relevant configuraiton as well as state.
+    /// Context that gets passed along an object definition reading process,
+    /// encapsulating all relevant configuraiton as well as state.
     /// </summary>
     /// <author>Rob Harrop</author>
     /// <author>Juergen Hoeller</author>
     /// <author>Mark Pollack (.NET)</author>
     public class ReaderContext
     {
+        private IResource resource;
+
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ReaderContext" /> class.
+        /// Initializes a new instance of the <see cref="ReaderContext"/> class.
         /// </summary>
         /// <param name="resource">The resource.</param>
         public ReaderContext(IResource resource)
         {
-            Resource = resource;
+            this.resource = resource;
         }
 
 
         /// <summary>
-        ///     Gets the resource.
+        /// Gets the resource.
         /// </summary>
         /// <value>The resource.</value>
-        public IResource Resource { get; }
+        public IResource Resource
+        {
+            get { return resource; }
+        }
     }
 }

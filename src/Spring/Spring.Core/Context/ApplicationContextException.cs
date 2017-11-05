@@ -34,56 +34,52 @@ namespace Spring.Context
     [Serializable]
     public class ApplicationContextException : FatalObjectException
     {
-        /// <summary>
-        ///     Creates a new instance of the
-        ///     <see cref="Spring.Context.ApplicationContextException" /> class.
-        /// </summary>
-        public ApplicationContextException()
-        {
-        }
+		/// <summary>
+		/// Creates a new instance of the
+		/// <see cref="Spring.Context.ApplicationContextException"/> class.
+		/// </summary>
+		public ApplicationContextException() {}
 
-        /// <summary>
-        ///     Creates a new instance of the
-        ///     <see cref="Spring.Context.ApplicationContextException" /> class.
-        /// </summary>
-        /// <param name="info">
-        ///     The <see cref="System.Runtime.Serialization.SerializationInfo" />
-        ///     that holds the serialized object data about the exception being thrown.
-        /// </param>
-        /// <param name="context">
-        ///     The <see cref="System.Runtime.Serialization.StreamingContext" />
-        ///     that contains contextual information about the source or destination.
-        /// </param>
-        protected ApplicationContextException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
+		/// <summary>
+		/// Creates a new instance of the
+		/// <see cref="Spring.Context.ApplicationContextException"/> class.
+		/// </summary>
+		/// <param name="info">
+		/// The <see cref="System.Runtime.Serialization.SerializationInfo"/>
+		/// that holds the serialized object data about the exception being thrown.
+		/// </param>
+		/// <param name="context">
+		/// The <see cref="System.Runtime.Serialization.StreamingContext"/>
+		/// that contains contextual information about the source or destination.
+		/// </param>
+		protected ApplicationContextException( SerializationInfo info, StreamingContext context )
+			: base( info, context ) {}
 
-        /// <summary>
-        ///     Creates a new instance of the
-        ///     <see cref="Spring.Context.ApplicationContextException" /> class with the
-        ///     specified message.
-        /// </summary>
-        /// <param name="message">
-        ///     A message about the exception.
-        /// </param>
+		/// <summary>
+		/// Creates a new instance of the
+		/// <see cref="Spring.Context.ApplicationContextException"/> class with the
+		/// specified message.
+		/// </summary>
+		/// <param name="message">
+		/// A message about the exception.
+		/// </param>
         public ApplicationContextException(string message) : base(message)
         {
         }
 
-        /// <summary>
-        ///     Creates a new instance of the
-        ///     <see cref="Spring.Context.ApplicationContextException" /> class with the
-        ///     specified message.
-        /// </summary>
-        /// <param name="message">
-        ///     A message about the exception.
-        /// </param>
-        /// <param name="rootCause">
-        ///     The root exception that is being wrapped.
-        /// </param>
+		/// <summary>
+		/// Creates a new instance of the
+		/// <see cref="Spring.Context.ApplicationContextException"/> class with the
+		/// specified message.
+		/// </summary>
+		/// <param name="message">
+		/// A message about the exception.
+		/// </param>
+		/// <param name="rootCause">
+		/// The root exception that is being wrapped.
+		/// </param>
         public ApplicationContextException(string message, Exception rootCause)
-            : base(message, rootCause)
+			: base(message, rootCause)
         {
         }
     }

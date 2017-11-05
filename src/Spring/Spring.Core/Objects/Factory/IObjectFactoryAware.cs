@@ -20,50 +20,52 @@
 
 #region Imports
 
+
+
 #endregion
 
 namespace Spring.Objects.Factory
 {
-    /// <summary>
-    ///     Interface to be implemented by objects that wish to be aware of their owning
-    ///     <see cref="Spring.Objects.Factory.IObjectFactory" />.
-    /// </summary>
-    /// <remarks>
-    ///     <p>
-    ///         For example, objects can look up collaborating objects via the factory.
-    ///     </p>
-    ///     <p>
-    ///         Note that most objects will choose to receive references to collaborating
-    ///         objects via respective properties and / or an appropriate constructor.
-    ///     </p>
-    ///     <p>
-    ///         For a list of all object lifecycle methods, see the
-    ///         <see cref="Spring.Objects.Factory.IObjectFactory" /> API documentation.
-    ///     </p>
-    /// </remarks>
-    /// <author>Rod Johnson</author>
-    /// <author>Rick Evans (.NET)</author>
-    public interface IObjectFactoryAware
-    {
-        /// <summary>
-        ///     Callback that supplies the owning factory to an object instance.
-        /// </summary>
-        /// <value>
-        ///     Owning <see cref="Spring.Objects.Factory.IObjectFactory" />
-        ///     (may not be <see langword="null" />). The object can immediately
-        ///     call methods on the factory.
-        /// </value>
-        /// <remarks>
-        ///     <p>
-        ///         Invoked after population of normal object properties but before an init
-        ///         callback like <see cref="Spring.Objects.Factory.IInitializingObject" />'s
-        ///         <see cref="Spring.Objects.Factory.IInitializingObject.AfterPropertiesSet" />
-        ///         method or a custom init-method.
-        ///     </p>
-        /// </remarks>
-        /// <exception cref="Spring.Objects.ObjectsException">
-        ///     In case of initialization errors.
-        /// </exception>
-        IObjectFactory ObjectFactory { set; }
-    }
+	/// <summary>
+	/// Interface to be implemented by objects that wish to be aware of their owning
+	/// <see cref="Spring.Objects.Factory.IObjectFactory"/>.
+	/// </summary>
+	/// <remarks>
+	/// <p>
+	/// For example, objects can look up collaborating objects via the factory.
+	/// </p>
+	/// <p>
+	/// Note that most objects will choose to receive references to collaborating
+	/// objects via respective properties and / or an appropriate constructor.
+	/// </p>
+	/// <p>
+	/// For a list of all object lifecycle methods, see the
+	/// <see cref="Spring.Objects.Factory.IObjectFactory"/> API documentation.
+	/// </p>
+	/// </remarks>
+	/// <author>Rod Johnson</author>
+	/// <author>Rick Evans (.NET)</author>
+	public interface IObjectFactoryAware
+	{
+		/// <summary>
+		/// Callback that supplies the owning factory to an object instance.
+		/// </summary>
+		/// <value>
+		/// Owning <see cref="Spring.Objects.Factory.IObjectFactory"/>
+		/// (may not be <see langword="null"/>). The object can immediately
+		/// call methods on the factory.
+		/// </value>
+		/// <remarks>
+		/// <p>
+		/// Invoked after population of normal object properties but before an init
+		/// callback like <see cref="Spring.Objects.Factory.IInitializingObject"/>'s
+		/// <see cref="Spring.Objects.Factory.IInitializingObject.AfterPropertiesSet"/>
+		/// method or a custom init-method.
+		/// </p>
+		/// </remarks>
+		/// <exception cref="Spring.Objects.ObjectsException">
+		/// In case of initialization errors.
+		/// </exception>
+		IObjectFactory ObjectFactory { set; }
+	}
 }

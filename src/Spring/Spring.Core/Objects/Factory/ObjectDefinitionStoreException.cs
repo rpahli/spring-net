@@ -26,15 +26,15 @@ using Spring.Core.IO;
 namespace Spring.Objects.Factory
 {
     /// <summary>
-    ///     Thrown when an <see cref="Spring.Objects.Factory.IObjectFactory" />
-    ///     encounters an internal error, and its definitions are invalid.
+    /// Thrown when an <see cref="Spring.Objects.Factory.IObjectFactory"/>
+    /// encounters an internal error, and its definitions are invalid.
     /// </summary>
     /// <remarks>
-    ///     <p>
-    ///         An example of a situation when this exception would be thrown is
-    ///         in the case of an XML document containing object definitions being
-    ///         malformed.
-    ///     </p>
+    /// <p>
+    /// An example of a situation when this exception would be thrown is
+    /// in the case of an XML document containing object definitions being
+    /// malformed.
+    /// </p>
     /// </remarks>
     /// <author>Rod Johnson</author>
     /// <author>Juergen Hoeller</author>
@@ -43,27 +43,17 @@ namespace Spring.Objects.Factory
     public class ObjectDefinitionStoreException : FatalObjectException
     {
         /// <summary>
-        ///     The name of the object that trigger the exception.
-        /// </summary>
-        private readonly string _objectName = string.Empty;
-
-        /// <summary>
-        ///     The description of the resource associated with the object
-        /// </summary>
-        private readonly string _resourceDescription = string.Empty;
-
-        /// <summary>
-        ///     Creates a new instance of the ObjectDefinitionStoreException class.
+        /// Creates a new instance of the ObjectDefinitionStoreException class.
         /// </summary>
         public ObjectDefinitionStoreException()
         {
         }
 
         /// <summary>
-        ///     Creates a new instance of the ObjectDefinitionStoreException class.
+        /// Creates a new instance of the ObjectDefinitionStoreException class.
         /// </summary>
         /// <param name="message">
-        ///     A message about the exception.
+        /// A message about the exception.
         /// </param>
         public ObjectDefinitionStoreException(string message)
             : base(message)
@@ -71,16 +61,16 @@ namespace Spring.Objects.Factory
         }
 
         /// <summary>
-        ///     Creates a new instance of the ObjectDefinitionStoreException class.
+        /// Creates a new instance of the ObjectDefinitionStoreException class.
         /// </summary>
         /// <param name="resourceDescription">
-        ///     The description of the resource that the object definition came from
+        /// The description of the resource that the object definition came from
         /// </param>
         /// <param name="name">
-        ///     The name of the object that triggered the exception.
+        /// The name of the object that triggered the exception.
         /// </param>
         /// <param name="message">
-        ///     A message about the exception.
+        /// A message about the exception.
         /// </param>
         public ObjectDefinitionStoreException(
             string resourceDescription, string name, string message)
@@ -89,10 +79,10 @@ namespace Spring.Objects.Factory
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ObjectDefinitionStoreException" /> class.
+        /// Initializes a new instance of the <see cref="ObjectDefinitionStoreException"/> class.
         /// </summary>
         /// <param name="resourceDescription">
-        ///     The description of the resource that the object definition came from
+        /// The description of the resource that the object definition came from
         /// </param>
         /// <param name="msg">The detail message (used as exception message as-is)</param>
         /// <param name="cause">The root cause. (may be <code>null</code></param>
@@ -103,67 +93,67 @@ namespace Spring.Objects.Factory
         }
 
         /// <summary>
-        ///     Creates a new instance of the ObjectDefinitionStoreException class.
+        /// Creates a new instance of the ObjectDefinitionStoreException class.
         /// </summary>
         /// <param name="resourceLocation">
-        ///     The resource location (e.g. an XML object definition file) associated
-        ///     with the offending object definition.
+        /// The resource location (e.g. an XML object definition file) associated
+        /// with the offending object definition.
         /// </param>
         /// <param name="message">
-        ///     A message about the exception.
+        /// A message about the exception.
         /// </param>
         /// <param name="name">
-        ///     The name of the object that triggered the exception.
+        /// The name of the object that triggered the exception.
         /// </param>
         public ObjectDefinitionStoreException(
             IResource resourceLocation,
             string name,
             string message)
             : this
-            (resourceLocation == null ? string.Empty : resourceLocation.Description,
+                (resourceLocation == null ? string.Empty : resourceLocation.Description,
                 name, message)
         {
         }
 
         /// <summary>
-        ///     Creates a new instance of the ObjectDefinitionStoreException class.
+        /// Creates a new instance of the ObjectDefinitionStoreException class.
         /// </summary>
         /// <param name="resourceLocation">
-        ///     The resource location (e.g. an XML object definition file) associated
-        ///     with the offending object definition.
+        /// The resource location (e.g. an XML object definition file) associated
+        /// with the offending object definition.
         /// </param>
         /// <param name="message">
-        ///     A message about the exception.
+        /// A message about the exception.
         /// </param>
         /// <param name="name">
-        ///     The name of the object that triggered the exception.
+        /// The name of the object that triggered the exception.
         /// </param>
         /// <param name="rootCause">
-        ///     The root exception that is being wrapped.
+        /// The root exception that is being wrapped.
         /// </param>
         public ObjectDefinitionStoreException(
             IResource resourceLocation,
             string name,
             string message,
             Exception rootCause)
-            : this(resourceLocation == null ? string.Empty : resourceLocation.Description, name, message, rootCause)
+            : this((resourceLocation == null ? string.Empty : resourceLocation.Description), name, message, rootCause)
         {
         }
 
         /// <summary>
-        ///     Creates a new instance of the ObjectDefinitionStoreException class.
+        /// Creates a new instance of the ObjectDefinitionStoreException class.
         /// </summary>
         /// <param name="resourceDescription">
-        ///     The description of the resource that the object definition came from
+        /// The description of the resource that the object definition came from
         /// </param>
         /// <param name="message">
-        ///     A message about the exception.
+        /// A message about the exception.
         /// </param>
         /// <param name="name">
-        ///     The name of the object that triggered the exception.
+        /// The name of the object that triggered the exception.
         /// </param>
         /// <param name="rootCause">
-        ///     The root exception that is being wrapped.
+        /// The root exception that is being wrapped.
         /// </param>
         public ObjectDefinitionStoreException(
             string resourceDescription,
@@ -183,13 +173,13 @@ namespace Spring.Objects.Factory
         }
 
         /// <summary>
-        ///     Creates a new instance of the ObjectDefinitionStoreException class.
+        /// Creates a new instance of the ObjectDefinitionStoreException class.
         /// </summary>
         /// <param name="message">
-        ///     A message about the exception.
+        /// A message about the exception.
         /// </param>
         /// <param name="rootCause">
-        ///     The root exception that is being wrapped.
+        /// The root exception that is being wrapped.
         /// </param>
         public ObjectDefinitionStoreException(string message, Exception rootCause)
             : base(message, rootCause)
@@ -197,15 +187,15 @@ namespace Spring.Objects.Factory
         }
 
         /// <summary>
-        ///     Creates a new instance of the ObjectDefinitionStoreException class.
+        /// Creates a new instance of the ObjectDefinitionStoreException class.
         /// </summary>
         /// <param name="info">
-        ///     The <see cref="System.Runtime.Serialization.SerializationInfo" />
-        ///     that holds the serialized object data about the exception being thrown.
+        /// The <see cref="System.Runtime.Serialization.SerializationInfo"/>
+        /// that holds the serialized object data about the exception being thrown.
         /// </param>
         /// <param name="context">
-        ///     The <see cref="System.Runtime.Serialization.StreamingContext" />
-        ///     that contains contextual information about the source or destination.
+        /// The <see cref="System.Runtime.Serialization.StreamingContext"/>
+        /// that contains contextual information about the source or destination.
         /// </param>
         protected ObjectDefinitionStoreException(
             SerializationInfo info, StreamingContext context)
@@ -216,32 +206,16 @@ namespace Spring.Objects.Factory
         }
 
         /// <summary>
-        ///     The name of the object that triggered the exception (if any).
-        /// </summary>
-        public string ObjectName
-        {
-            get { return _objectName; }
-        }
-
-        /// <summary>
-        ///     The description of the resource associated with the object (if any).
-        /// </summary>
-        public string ResourceDescription
-        {
-            get { return _resourceDescription; }
-        }
-
-        /// <summary>
-        ///     Populates a <see cref="System.Runtime.Serialization.SerializationInfo" /> with
-        ///     the data needed to serialize the target object.
+        /// Populates a <see cref="System.Runtime.Serialization.SerializationInfo"/> with
+        /// the data needed to serialize the target object.
         /// </summary>
         /// <param name="info">
-        ///     The <see cref="System.Runtime.Serialization.SerializationInfo" /> to populate
-        ///     with data.
+        /// The <see cref="System.Runtime.Serialization.SerializationInfo"/> to populate
+        /// with data.
         /// </param>
         /// <param name="context">
-        ///     The destination (see <see cref="System.Runtime.Serialization.StreamingContext" />)
-        ///     for this serialization.
+        /// The destination (see <see cref="System.Runtime.Serialization.StreamingContext"/>)
+        /// for this serialization.
         /// </param>
         [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
         public override void GetObjectData(
@@ -251,5 +225,31 @@ namespace Spring.Objects.Factory
             info.AddValue("_resourceDescription", ResourceDescription);
             info.AddValue("_objectName", ObjectName);
         }
+
+        /// <summary>
+        /// The name of the object that triggered the exception (if any).
+        /// </summary>
+        public string ObjectName
+        {
+            get { return _objectName; }
+        }
+
+        /// <summary>
+        /// The description of the resource associated with the object (if any).
+        /// </summary>
+        public string ResourceDescription
+        {
+            get { return _resourceDescription; }
+        }
+
+        /// <summary>
+        /// The description of the resource associated with the object
+        /// </summary>
+        private readonly string _resourceDescription = string.Empty;
+
+        /// <summary>
+        /// The name of the object that trigger the exception.
+        /// </summary>
+        private readonly string _objectName = string.Empty;
     }
 }

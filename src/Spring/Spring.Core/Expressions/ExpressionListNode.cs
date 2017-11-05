@@ -25,29 +25,29 @@ using Spring.Expressions.Parser.antlr.collections;
 namespace Spring.Expressions
 {
     /// <summary>
-    ///     Represents parsed expression list node in the navigation expression.
+    /// Represents parsed expression list node in the navigation expression.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class ExpressionListNode : BaseNode
     {
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
         public ExpressionListNode()
         {
         }
 
         /// <summary>
-        ///     Create a new instance from SerializationInfo
+        /// Create a new instance from SerializationInfo
         /// </summary>
         protected ExpressionListNode(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-
+        
         /// <summary>
-        ///     Returns a result of the last expression in a list.
+        /// Returns a result of the last expression in a list.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
@@ -56,10 +56,10 @@ namespace Spring.Expressions
         {
             object result = context;
 
-            AST node = getFirstChild();
+            AST node = this.getFirstChild();
             while (node != null)
             {
-                result = GetValue((BaseNode) node, context, evalContext);
+                result = GetValue(((BaseNode) node), context, evalContext);
                 node = node.getNextSibling();
             }
             return result;

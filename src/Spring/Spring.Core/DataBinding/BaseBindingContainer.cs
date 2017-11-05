@@ -5,71 +5,82 @@ using Spring.Validation;
 namespace Spring.DataBinding
 {
     /// <summary>
-    ///     Base implementation of the <see cref="IBindingContainer" />.
+    /// Base implementation of the <see cref="IBindingContainer"/>.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     public class BaseBindingContainer : IBindingContainer
     {
         #region Fields
 
+        private IList<IBinding> bindings = new List<IBinding>();
+
         #endregion
 
         #region Constructor(s)
+
+        /// <summary>
+        /// Creates a new instance of <see cref="BaseBindingContainer"/>.
+        /// </summary>
+        public BaseBindingContainer()
+        { }
 
         #endregion
 
         #region Properties
 
         /// <summary>
-        ///     Gets a list of bindings for this container.
+        /// Gets a list of bindings for this container.
         /// </summary>
         /// <value>
-        ///     A list of bindings for this container.
+        /// A list of bindings for this container.
         /// </value>
-        protected IList<IBinding> Bindings { get; } = new List<IBinding>();
+        protected IList<IBinding> Bindings
+        {
+            get { return bindings; }
+        }
 
         #endregion
 
         #region IBindingContainer Implementation
 
         /// <summary>
-        ///     Gets a value indicating whether this instance has bindings.
+        /// Gets a value indicating whether this instance has bindings.
         /// </summary>
         /// <value>
-        ///     <c>true</c> if this instance has bindings; otherwise, <c>false</c>.
+        /// 	<c>true</c> if this instance has bindings; otherwise, <c>false</c>.
         /// </value>
         public bool HasBindings
         {
-            get { return Bindings.Count > 0; }
+            get { return bindings.Count > 0; }
         }
 
         /// <summary>
-        ///     Adds the binding.
+        /// Adds the binding.
         /// </summary>
         /// <param name="binding">
-        ///     Binding definition to add.
+        /// Binding definition to add.
         /// </param>
         /// <returns>
-        ///     Added <see cref="IBinding" /> instance.
+        /// Added <see cref="IBinding"/> instance.
         /// </returns>
         public IBinding AddBinding(IBinding binding)
         {
-            Bindings.Add(binding);
+            bindings.Add(binding);
             return binding;
         }
 
         /// <summary>
-        ///     Adds the <see cref="SimpleExpressionBinding" /> binding with a default
-        ///     binding direction of <see cref="BindingDirection.Bidirectional" />.
+        /// Adds the <see cref="SimpleExpressionBinding"/> binding with a default 
+        /// binding direction of <see cref="BindingDirection.Bidirectional"/>.
         /// </summary>
         /// <param name="sourceExpression">
-        ///     The source expression.
+        /// The source expression.
         /// </param>
         /// <param name="targetExpression">
-        ///     The target expression.
+        /// The target expression.
         /// </param>
         /// <returns>
-        ///     Added <see cref="SimpleExpressionBinding" /> instance.
+        /// Added <see cref="SimpleExpressionBinding"/> instance.
         /// </returns>
         public IBinding AddBinding(string sourceExpression, string targetExpression)
         {
@@ -77,19 +88,19 @@ namespace Spring.DataBinding
         }
 
         /// <summary>
-        ///     Adds the <see cref="SimpleExpressionBinding" /> binding.
+        /// Adds the <see cref="SimpleExpressionBinding"/> binding.
         /// </summary>
         /// <param name="sourceExpression">
-        ///     The source expression.
+        /// The source expression.
         /// </param>
         /// <param name="targetExpression">
-        ///     The target expression.
+        /// The target expression.
         /// </param>
         /// <param name="direction">
-        ///     Binding direction.
+        /// Binding direction.
         /// </param>
         /// <returns>
-        ///     Added <see cref="SimpleExpressionBinding" /> instance.
+        /// Added <see cref="SimpleExpressionBinding"/> instance.
         /// </returns>
         public IBinding AddBinding(string sourceExpression, string targetExpression, BindingDirection direction)
         {
@@ -97,20 +108,20 @@ namespace Spring.DataBinding
         }
 
         /// <summary>
-        ///     Adds the <see cref="SimpleExpressionBinding" /> binding with a default
-        ///     binding direction of <see cref="BindingDirection.Bidirectional" />.
+        /// Adds the <see cref="SimpleExpressionBinding"/> binding with a default 
+        /// binding direction of <see cref="BindingDirection.Bidirectional"/>.
         /// </summary>
         /// <param name="sourceExpression">
-        ///     The source expression.
+        /// The source expression.
         /// </param>
         /// <param name="targetExpression">
-        ///     The target expression.
+        /// The target expression.
         /// </param>
         /// <param name="formatter">
-        ///     <see cref="IFormatter" /> to use for value formatting and parsing.
+        /// <see cref="IFormatter"/> to use for value formatting and parsing.
         /// </param>
         /// <returns>
-        ///     Added <see cref="SimpleExpressionBinding" /> instance.
+        /// Added <see cref="SimpleExpressionBinding"/> instance.
         /// </returns>
         public IBinding AddBinding(string sourceExpression, string targetExpression, IFormatter formatter)
         {
@@ -118,30 +129,30 @@ namespace Spring.DataBinding
         }
 
         /// <summary>
-        ///     Adds the <see cref="SimpleExpressionBinding" /> binding.
+        /// Adds the <see cref="SimpleExpressionBinding"/> binding.
         /// </summary>
         /// <param name="sourceExpression">
-        ///     The source expression.
+        /// The source expression.
         /// </param>
         /// <param name="targetExpression">
-        ///     The target expression.
+        /// The target expression.
         /// </param>
         /// <param name="direction">
-        ///     Binding direction.
+        /// Binding direction.
         /// </param>
         /// <param name="formatter">
-        ///     <see cref="IFormatter" /> to use for value formatting and parsing.
+        /// <see cref="IFormatter"/> to use for value formatting and parsing.
         /// </param>
         /// <returns>
-        ///     Added <see cref="SimpleExpressionBinding" /> instance.
+        /// Added <see cref="SimpleExpressionBinding"/> instance.
         /// </returns>
         public virtual IBinding AddBinding(string sourceExpression, string targetExpression,
-            BindingDirection direction, IFormatter formatter)
+                                           BindingDirection direction, IFormatter formatter)
         {
             SimpleExpressionBinding binding = new SimpleExpressionBinding(sourceExpression, targetExpression);
             binding.Direction = direction;
             binding.Formatter = formatter;
-            Bindings.Add(binding);
+            bindings.Add(binding);
 
             return binding;
         }
@@ -151,16 +162,16 @@ namespace Spring.DataBinding
         #region IBinding Implementation
 
         /// <summary>
-        ///     Binds source object to target object.
+        /// Binds source object to target object.
         /// </summary>
         /// <param name="source">
-        ///     The source object.
+        /// The source object.
         /// </param>
         /// <param name="target">
-        ///     The target object.
+        /// The target object.
         /// </param>
         /// <param name="validationErrors">
-        ///     Validation errors collection that type conversion errors should be added to.
+        /// Validation errors collection that type conversion errors should be added to.
         /// </param>
         public virtual void BindSourceToTarget(object source, object target, IValidationErrors validationErrors)
         {
@@ -168,38 +179,39 @@ namespace Spring.DataBinding
         }
 
         /// <summary>
-        ///     Binds source object to target object.
+        /// Binds source object to target object.
         /// </summary>
         /// <param name="source">
-        ///     The source object.
+        ///   The source object.
         /// </param>
         /// <param name="target">
-        ///     The target object.
+        ///   The target object.
         /// </param>
         /// <param name="validationErrors">
-        ///     Validation errors collection that type conversion errors should be added to.
+        ///   Validation errors collection that type conversion errors should be added to.
         /// </param>
         /// <param name="variables">
-        ///     Variables that should be used during expression evaluation.
+        ///   Variables that should be used during expression evaluation.
         /// </param>
-        public virtual void BindSourceToTarget(object source, object target, IValidationErrors validationErrors,
-            IDictionary<string, object> variables)
+        public virtual void BindSourceToTarget(object source, object target, IValidationErrors validationErrors, IDictionary<string, object> variables)
         {
-            foreach (IBinding binding in Bindings)
+            foreach (IBinding binding in bindings)
+            {
                 binding.BindSourceToTarget(source, target, validationErrors, variables);
+            }
         }
 
         /// <summary>
-        ///     Binds target object to source object.
+        /// Binds target object to source object.
         /// </summary>
         /// <param name="source">
-        ///     The source object.
+        /// The source object.
         /// </param>
         /// <param name="target">
-        ///     The target object.
+        /// The target object.
         /// </param>
         /// <param name="validationErrors">
-        ///     Validation errors collection that type conversion errors should be added to.
+        /// Validation errors collection that type conversion errors should be added to.
         /// </param>
         public virtual void BindTargetToSource(object source, object target, IValidationErrors validationErrors)
         {
@@ -207,40 +219,40 @@ namespace Spring.DataBinding
         }
 
         /// <summary>
-        ///     Binds target object to source object.
+        /// Binds target object to source object.
         /// </summary>
         /// <param name="source">
-        ///     The source object.
+        ///   The source object.
         /// </param>
         /// <param name="target">
-        ///     The target object.
+        ///   The target object.
         /// </param>
         /// <param name="validationErrors">
-        ///     Validation errors collection that type conversion errors should be added to.
+        ///   Validation errors collection that type conversion errors should be added to.
         /// </param>
         /// <param name="variables">
-        ///     Variables that should be used during expression evaluation.
+        ///   Variables that should be used during expression evaluation.
         /// </param>
-        public virtual void BindTargetToSource(object source, object target, IValidationErrors validationErrors,
-            IDictionary<string, object> variables)
+        public virtual void BindTargetToSource(object source, object target, IValidationErrors validationErrors, IDictionary<string, object> variables)
         {
-            foreach (IBinding binding in Bindings)
+            foreach (IBinding binding in bindings)
+            {
                 binding.BindTargetToSource(source, target, validationErrors, variables);
+            }
         }
 
         /// <summary>
-        ///     Implemented as a NOOP for containers.
-        ///     of a non-fatal binding error.
+        /// Implemented as a NOOP for containers.
+        /// of a non-fatal binding error.
         /// </summary>
         /// <param name="messageId">
-        ///     Resource ID of the error message.
+        /// Resource ID of the error message.
         /// </param>
         /// <param name="errorProviders">
-        ///     List of error providers message should be added to.
+        /// List of error providers message should be added to.
         /// </param>
         public virtual void SetErrorMessage(string messageId, params string[] errorProviders)
-        {
-        }
+        { }
 
         #endregion
     }

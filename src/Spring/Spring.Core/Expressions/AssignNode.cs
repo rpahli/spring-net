@@ -25,21 +25,21 @@ using Spring.Expressions.Parser.antlr.collections;
 namespace Spring.Expressions
 {
     /// <summary>
-    ///     Represents parsed assignment node in the navigation expression.
+    /// Represents parsed assignment node in the navigation expression.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class AssignNode : BaseNode
-    {
+    {        
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
         public AssignNode()
         {
         }
 
         /// <summary>
-        ///     Create a new instance from SerializationInfo
+        /// Create a new instance from SerializationInfo
         /// </summary>
         protected AssignNode(SerializationInfo info, StreamingContext context)
             : base(info, context)
@@ -47,7 +47,7 @@ namespace Spring.Expressions
         }
 
         /// <summary>
-        ///     Assigns value of the right operand to the left one.
+        /// Assigns value of the right operand to the left one.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
@@ -69,10 +69,10 @@ namespace Spring.Expressions
             }
             else
             {
-                result = GetValue((BaseNode) right, context, evalContext);
+                result = GetValue(((BaseNode)right), context, evalContext);
             }
 
-            SetValue((BaseNode) left, context, evalContext, result);
+            SetValue(((BaseNode)left), context, evalContext, result );
 
             return result;
         }

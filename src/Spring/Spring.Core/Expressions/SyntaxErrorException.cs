@@ -24,85 +24,89 @@ using Spring.Expressions.Parser.antlr;
 
 namespace Spring.Expressions
 {
-    /// <summary>
-    ///     Exception thrown when detecting invalid SpEL syntax
-    /// </summary>
+	/// <summary>
+	/// Exception thrown when detecting invalid SpEL syntax
+	/// </summary>
     /// <author>Erich Eichinger</author>
-    [Serializable]
-    internal class SyntaxErrorException : RecognitionException, ISerializable
-    {
-        #region Public Instance Constructors
+	[Serializable]
+	internal class SyntaxErrorException : RecognitionException, ISerializable
+	{
+        private readonly string _expression;
 
-        /// <summary>
-        ///     TODO
-        /// </summary>
-        public SyntaxErrorException(string message, int line, int column, string expression)
-            : base(message, null, line, column)
-        {
-            Expression = expression;
-        }
+	    ///<summary>
+	    ///</summary>
+	    public int Line
+	    {
+	        get { return line; }
+	    }
 
-        #endregion Public Instance Constructors
+	    ///<summary>
+	    ///</summary>
+	    public int Column
+	    {
+	        get { return column; }
+	    }
 
-        ///<summary>
-        ///</summary>
-        public int Line
-        {
-            get { return line; }
-        }
-
-        ///<summary>
-        ///</summary>
-        public int Column
-        {
-            get { return column; }
-        }
-
-        /// <summary>
-        ///     Gets a message that provides details on the syntax error.
-        /// </summary>
-        public override string Message
+	    ///<summary>
+	    ///Gets a message that provides details on the syntax error.
+	    ///</summary>
+	    public override string Message
         {
             get
             {
-                return string.Format("Syntax Error on line {0}, column {1}: {2} in expression{3}'{4}'", Line, Column,
-                    base.Message, Environment.NewLine, Expression);
+                return string.Format("Syntax Error on line {0}, column {1}: {2} in expression{3}'{4}'", Line, Column, base.Message, Environment.NewLine, _expression );
             }
         }
 
-        /// <summary>
-        ///     The expression that caused the error
-        /// </summary>
-        public string Expression { get; }
+	    ///<summary>
+	    /// The expression that caused the error
+	    ///</summary>
+	    public string Expression
+	    {
+	        get { return _expression; }
+	    }
 
-        #region Protected Instance Constructors
+	    #region Public Instance Constructors
 
         /// <summary>
-        ///     TODO
+        /// TODO
         /// </summary>
-        protected SyntaxErrorException(SerializationInfo info, StreamingContext context) : base(
-            info.GetString("Message"))
+		public SyntaxErrorException(string message, int line, int column, string expression)
+			: base(message, null, line, column)
         {
-            line = info.GetInt32("Line");
-            column = info.GetInt32("Column");
-            Expression = info.GetString("Expression");
+            _expression = expression;
+        }
+
+		#endregion Public Instance Constructors
+
+		#region Protected Instance Constructors
+
+        /// <summary>
+        /// TODO
+        /// </summary>
+		protected SyntaxErrorException(SerializationInfo info, StreamingContext context) : base(info.GetString("Message"))
+        {
+            base.line = info.GetInt32("Line");
+            base.column = info.GetInt32("Column");
+            this._expression = info.GetString("Expression");
         }
 
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="info"></param>
         /// <param name="context"></param>
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        public override void GetObjectData( SerializationInfo info, StreamingContext context )
         {
             // since RecognitionException does not implement .ctor(SerializationInfo info, StreamingContext context)
             // we need to do the serialization on our own... #§$%
             //base.GetObjectData( info, context );
-            info.AddValue("Line", line);
-            info.AddValue("Column", column);
+            info.AddValue("Line", base.line);
+            info.AddValue("Column", base.column);
             info.AddValue("Message", base.Message);
-            info.AddValue("Expression", Expression);
+            info.AddValue("Expression", this._expression);
         }
 
-        #endregion Protected Instance Constructors
-    }
+		#endregion Protected Instance Constructors
+	}
 }

@@ -1,34 +1,39 @@
 namespace Spring.Expressions.Parser.antlr.debug
 {
     public class MessageEventArgs : ANTLREventArgs
-    {
-        public static int WARNING = 0;
-        public static int ERROR = 1;
+	{
+		public MessageEventArgs()
+		{
+		}
+		public MessageEventArgs(int type, string text)
+		{
+			setValues(type, text);
+		}
 
-        public MessageEventArgs()
-        {
-        }
+		public virtual string Text
+		{
+			get	{ return text_;			}
+			set	{ this.text_ = value;	}
+			
+		}
 
-        public MessageEventArgs(int type, string text)
-        {
-            setValues(type, text);
-        }
+		private string text_;
 
-        public virtual string Text { get; set; }
+		public static int WARNING = 0;
+		public static int ERROR = 1;
+		
+		
+		/// <summary>This should NOT be called from anyone other than ParserEventSupport! 
+		/// </summary>
+		internal void  setValues(int type, string text)
+		{
+			setValues(type);
+			this.Text   = text;
+		}
 
-
-        /// <summary>
-        ///     This should NOT be called from anyone other than ParserEventSupport!
-        /// </summary>
-        internal void setValues(int type, string text)
-        {
-            setValues(type);
-            Text = text;
-        }
-
-        public override string ToString()
-        {
-            return "ParserMessageEvent [" + (Type == WARNING ? "warning," : "error,") + Text + "]";
-        }
-    }
+		public override string ToString()
+		{
+			return "ParserMessageEvent [" + (Type == WARNING?"warning,":"error,") + Text + "]";
+		}
+	}
 }

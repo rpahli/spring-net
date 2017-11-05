@@ -24,67 +24,64 @@ using System.Runtime.Serialization;
 namespace Spring.Expressions
 {
     /// <summary>
-    ///     Base class for binary operators.
+    /// Base class for binary operators.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public abstract class BinaryOperator : BaseNode
     {
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
         protected BinaryOperator()
-        {
-        }
+        {}
 
         /// <summary>
-        ///     Create a new instance with the supplied operands
+        /// Create a new instance with the supplied operands
         /// </summary>
         /// <param name="left"></param>
         /// <param name="right"></param>
         protected BinaryOperator(BaseNode left, BaseNode right)
         {
-            addChild(left);
-            addChild(right);
+            base.addChild(left);
+            base.addChild(right);
         }
 
         /// <summary>
-        ///     Create a new instance from SerializationInfo
+        /// Create a new instance from SerializationInfo
         /// </summary>
         protected BinaryOperator(SerializationInfo info, StreamingContext context)
             : base(info, context)
-        {
-        }
-
+        {}
+        
         /// <summary>
-        ///     Gets the left operand.
+        /// Gets the left operand.
         /// </summary>
         /// <value>The left operand.</value>
         public BaseNode Left
         {
-            get { return (BaseNode) getFirstChild(); }
+            get { return (BaseNode) this.getFirstChild(); }
         }
 
         /// <summary>
-        ///     Gets the right operand.
-        /// </summary>
-        /// <value>The right operand.</value>
-        [CLSCompliant(false)]
-        public BaseNode Right
-        {
-            get { return (BaseNode) getFirstChild().getNextSibling(); }
-        }
-
-        /// <summary>
-        ///     Evaluate the left operand
+        /// Evaluate the left operand
         /// </summary>
         protected object GetLeftValue(object context, EvaluationContext evalContext)
         {
             return GetValue(Left, context, evalContext);
         }
+        /// <summary>
+        /// Gets the right operand.
+        /// </summary>
+        /// <value>The right operand.</value>
+        [CLSCompliant(false)]
+        public BaseNode Right
+        {
+            get { return (BaseNode) this.getFirstChild().getNextSibling(); }
+        }
 
         /// <summary>
-        ///     Evaluate the left operand
+        /// Evaluate the left operand
         /// </summary>
         protected object GetRightValue(object context, EvaluationContext evalContext)
         {

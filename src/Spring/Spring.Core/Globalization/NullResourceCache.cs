@@ -23,13 +23,13 @@ using System.Collections.Generic;
 namespace Spring.Globalization
 {
     /// <summary>
-    ///     Resource cache implementation that doesn't cache resources.
+    /// Resource cache implementation that doesn't cache resources.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     public class NullResourceCache : AbstractResourceCache
     {
         /// <summary>
-        ///     Gets the list of resources from cache.
+        /// Gets the list of resources from cache.
         /// </summary>
         /// <param name="cacheKey">Cache key to use for lookup.</param>
         /// <returns>Always returns <c>null</c>.</returns>
@@ -39,12 +39,11 @@ namespace Spring.Globalization
         }
 
         /// <summary>
-        ///     Puts the list of resources in the cache.
+        /// Puts the list of resources in the cache.
         /// </summary>
         /// <param name="cacheKey">Cache key to use for the specified resources.</param>
         /// <param name="resources">A list of resources to cache.</param>
         protected override void PutResources(string cacheKey, IList<Resource> resources)
-        {
-        }
+        {}
     }
 }

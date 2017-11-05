@@ -29,34 +29,34 @@ using Spring.Collections;
 namespace Spring.Expressions.Processors
 {
     /// <summary>
-    ///     Implementation of the sort processor.
+    /// Implementation of the sort processor.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     public class SortProcessor : ICollectionProcessor
     {
         /// <summary>
-        ///     Sorts the source collection.
+        /// Sorts the source collection.
         /// </summary>
         /// <remarks>
-        ///     Please not that this processor requires that collection elements
-        ///     are of a uniform type and that they implement <see cref="IComparable" />
-        ///     interface.
-        ///     <p />
-        ///     If you want to perform custom sorting based on element properties
-        ///     you should consider using <see cref="OrderByProcessor" /> instead.
+        /// Please not that this processor requires that collection elements
+        /// are of a uniform type and that they implement <see cref="IComparable"/>
+        /// interface.
+        /// <p/>
+        /// If you want to perform custom sorting based on element properties
+        /// you should consider using <see cref="OrderByProcessor"/> instead.
         /// </remarks>
         /// <param name="source">
-        ///     The source collection to sort.
+        /// The source collection to sort.
         /// </param>
         /// <param name="args">
-        ///     Ignored.
+        /// Ignored.
         /// </param>
         /// <returns>
-        ///     An array containing sorted collection elements.
+        /// An array containing sorted collection elements.
         /// </returns>
         /// <exception cref="ArgumentException">
-        ///     If <paramref name="source" /> collection is not empty and it is
-        ///     neither <see cref="IList" /> nor <see cref="ISet" />.
+        /// If <paramref name="source"/> collection is not empty and it is 
+        /// neither <see cref="IList"/> nor <see cref="ISet"/>.
         /// </exception>
         public object Process(ICollection source, object[] args)
         {
@@ -84,12 +84,12 @@ namespace Spring.Expressions.Processors
 
         private Type DetermineElementType(IList list)
         {
-            for (int i = 0; i < list.Count; i++)
+            for(int i=0;i<list.Count;i++)
             {
                 object element = list[i];
                 if (element != null) return element.GetType();
             }
-            return typeof(object);
+            return typeof (object);
         }
     }
 }

@@ -28,51 +28,51 @@ using System.Globalization;
 namespace Spring.Context
 {
     /// <summary>
-    ///     Describes objects that are suitable for message resolution in a
-    ///     <see cref="Spring.Context.IMessageSource" />.
+    /// Describes objects that are suitable for message resolution in a
+    /// <see cref="Spring.Context.IMessageSource"/>.
     /// </summary>
     /// <remarks>
-    ///     <p>
-    ///         Spring.NET's own validation error classes implement this interface.
-    ///     </p>
+    /// <p>
+	/// Spring.NET's own validation error classes implement this interface.
+    /// </p>
     /// </remarks>
     /// <author>Juergen Hoeller</author>
-    /// <author>Mark Pollack (.NET)</author>
-    /// <seealso cref="Spring.Context.IMessageSource.GetMessage(IMessageSourceResolvable, CultureInfo)" />
-    /// <seealso cref="Spring.Context.Support.DefaultMessageSourceResolvable" />
+	/// <author>Mark Pollack (.NET)</author>
+    /// <seealso cref="Spring.Context.IMessageSource.GetMessage(IMessageSourceResolvable, CultureInfo)"/>
+    /// <seealso cref="Spring.Context.Support.DefaultMessageSourceResolvable"/>
     public interface IMessageSourceResolvable
-    {
+	{
         /// <summary>
-        ///     Return the default message to be used to resolve this message.
-        /// </summary>
-        /// <returns>
-        ///     The default message, or <see langword="null" /> if there is no
-        ///     default.
-        /// </returns>
-        string DefaultMessage { get; }
-
-        /// <summary>
-        ///     Return the codes to be used to resolve this message, in the order
-        ///     that they are to be tried.
+        /// Return the codes to be used to resolve this message, in the order
+        /// that they are to be tried.
         /// </summary>
         /// <remarks>
-        ///     <p>
-        ///         The last code will therefore be the default one.
-        ///     </p>
+        /// <p>
+        /// The last code will therefore be the default one.
+        /// </p>
         /// </remarks>
         /// <returns>
-        ///     A <see cref="System.String" /> array of codes which are associated
-        ///     with this message.
+        /// A <see cref="System.String"/> array of codes which are associated
+        /// with this message.
         /// </returns>
         IList<string> GetCodes();
 
         /// <summary>
-        ///     Return the array of arguments to be used to resolve this message.
+        /// Return the array of arguments to be used to resolve this message.
         /// </summary>
         /// <returns>
-        ///     An array of objects to be used as parameters to replace
-        ///     placeholders within the message text.
+        /// An array of objects to be used as parameters to replace
+        /// placeholders within the message text.
         /// </returns>
         object[] GetArguments();
-    }
+
+        /// <summary>
+        /// Return the default message to be used to resolve this message.
+        /// </summary>
+        /// <returns>
+        /// The default message, or <see langword="null"/> if there is no
+        /// default.
+        /// </returns>
+        string DefaultMessage { get; }
+	}
 }

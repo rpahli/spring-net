@@ -21,46 +21,47 @@
 using System;
 using System.Runtime.Serialization;
 #if !MONO_2_0
-
+using Microsoft.VisualBasic;
+using Microsoft.VisualBasic.CompilerServices;
 #endif
 
 namespace Spring.Expressions
 {
     /// <summary>
-    ///     Represents VB-style logical LIKE operator.
+    /// Represents VB-style logical LIKE operator.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class OpLike : BinaryOperator
     {
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
-        public OpLike()
+        public OpLike():base()
         {
         }
 
         /// <summary>
-        ///     Create a new instance from SerializationInfo
+        /// Create a new instance from SerializationInfo
         /// </summary>
         protected OpLike(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-
+        
         /// <summary>
-        ///     Returns a value for the logical LIKE operator node.
+        /// Returns a value for the logical LIKE operator node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
         /// <returns>
-        ///     true if the left operand matches the right operand, false otherwise.
+        /// true if the left operand matches the right operand, false otherwise.
         /// </returns>
         protected override object Get(object context, EvaluationContext evalContext)
         {
 #if !MONO_2_0
-            string text = GetLeftValue(context, evalContext) as string;
-            string pattern = GetRightValue(context, evalContext) as string;
+            string text = GetLeftValue( context, evalContext ) as string;
+            string pattern = GetRightValue( context, evalContext ) as string;
 
             return LikeOperator.LikeString(text, pattern, CompareMethod.Text);
 #else

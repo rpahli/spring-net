@@ -26,7 +26,7 @@ using Spring.Expressions.Parser.antlr.collections;
 namespace Spring.Expressions
 {
     /// <summary>
-    ///     Represents parsed type node in the navigation expression.
+    /// Represents parsed type node in the navigation expression.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
@@ -35,14 +35,15 @@ namespace Spring.Expressions
         private Type type;
 
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
         public TypeNode()
+            : base()
         {
         }
 
         /// <summary>
-        ///     Create a new instance from SerializationInfo
+        /// Create a new instance from SerializationInfo
         /// </summary>
         protected TypeNode(SerializationInfo info, StreamingContext context)
             : base(info, context)
@@ -50,7 +51,7 @@ namespace Spring.Expressions
         }
 
         /// <summary>
-        ///     Returns node's value for the given context.
+        /// Returns node's value for the given context.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
@@ -59,7 +60,7 @@ namespace Spring.Expressions
         {
             if (type == null)
             {
-                lock (this)
+                lock(this)
                 {
                     type = TypeResolutionUtils.ResolveType(getText());
                 }
@@ -69,11 +70,11 @@ namespace Spring.Expressions
         }
 
         /// <summary>
-        ///     Overrides getText to allow easy way to get fully
-        ///     qualified typename.
+        /// Overrides getText to allow easy way to get fully 
+        /// qualified typename.
         /// </summary>
         /// <returns>
-        ///     Fully qualified typename as a string.
+        /// Fully qualified typename as a string.
         /// </returns>
         public override string getText()
         {
@@ -86,7 +87,7 @@ namespace Spring.Expressions
 //                    tmp = type.AssemblyQualifiedName;
 //                }                
 //            }
-            AST node = getFirstChild();
+            AST node = this.getFirstChild();
             while (node != null)
             {
                 tmp += node.getText();

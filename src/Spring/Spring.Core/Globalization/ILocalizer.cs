@@ -19,41 +19,42 @@
 #endregion
 
 using System.Globalization;
+
 using Spring.Context;
 
 namespace Spring.Globalization
 {
     /// <summary>
-    ///     Defines an interface that localizers have to implement.
+    /// Defines an interface that localizers have to implement.
     /// </summary>
     /// <remarks>
-    ///     <p>
-    ///         Localizers are used to automatically apply resources to object's members
-    ///         using reflection.
-    ///     </p>
+    /// <p>
+    /// Localizers are used to automatically apply resources to object's members
+    /// using reflection.
+    /// </p>
     /// </remarks>
     /// <author>Aleksandar Seovic</author>
     public interface ILocalizer
     {
         /// <summary>
-        ///     Gets or sets the resource cache instance.
+        /// Gets or sets the resource cache instance.
         /// </summary>
         /// <value>The resource cache instance.</value>
         IResourceCache ResourceCache { get; set; }
-
+        
         /// <summary>
-        ///     Applies resources of the specified culture to the specified target object.
+        /// Applies resources of the specified culture to the specified target object.
         /// </summary>
         /// <param name="target">Target object to apply resources to.</param>
-        /// <param name="messageSource"><see cref="IMessageSource" /> instance to retrieve resources from.</param>
+        /// <param name="messageSource"><see cref="IMessageSource"/> instance to retrieve resources from.</param>
         /// <param name="culture">Resource culture to use for resource lookup.</param>
         void ApplyResources(object target, IMessageSource messageSource, CultureInfo culture);
 
         /// <summary>
-        ///     Applies resources to the specified target object, using current thread's culture to resolve resources.
+        /// Applies resources to the specified target object, using current thread's culture to resolve resources.
         /// </summary>
         /// <param name="target">Target object to apply resources to.</param>
-        /// <param name="messageSource"><see cref="IMessageSource" /> instance to retrieve resources from.</param>
+        /// <param name="messageSource"><see cref="IMessageSource"/> instance to retrieve resources from.</param>
         void ApplyResources(object target, IMessageSource messageSource);
     }
 }

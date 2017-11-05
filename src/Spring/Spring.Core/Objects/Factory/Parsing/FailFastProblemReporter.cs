@@ -18,30 +18,36 @@
 
 #endregion
 
-
-using Spring.Logging;
+using Common.Logging;
 
 namespace Spring.Objects.Factory.Parsing
 {
     public class FailFastProblemReporter : IProblemReporter
     {
-        public ILogger Logger { get; } = LogManager.GetLogger(typeof(FailFastProblemReporter));
+        private ILog _logger = LogManager.GetLogger(typeof(FailFastProblemReporter));
+
+        public ILog Logger
+        {
+            get { return _logger; }
+        }
 
         public void Error(Problem problem)
         {
-            Logger.Error(problem.Message);
+            _logger.Error(problem.Message);
             throw new ObjectDefinitionParsingException(problem);
         }
 
         public void Fatal(Problem problem)
         {
-            Logger.Fatal(problem.Message);
+            _logger.Fatal(problem.Message);
             throw new ObjectDefinitionParsingException(problem);
         }
 
         public void Warning(Problem problem)
         {
-            Logger.Warn(problem.Message);
+            _logger.Warn(problem.Message);
+
         }
+
     }
 }

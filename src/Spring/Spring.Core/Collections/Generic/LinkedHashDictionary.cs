@@ -23,21 +23,11 @@ using System.Collections.Generic;
 namespace Spring.Collections.Generic
 {
     /// <summary>
-    ///     IDictionary implementation which preserves the order of inserted items.
+    /// IDictionary implementation which preserves the order of inserted items.
     /// </summary>
     /// <author>Zbynek Vyskovsky, kvr@centrum.cz</author>
     public class LinkedHashDictionary<TKey, TValue> : AbstractDictionary<TKey, TValue>
     {
-        private readonly Dictionary<TKey, Node> items = new Dictionary<TKey, Node>();
-
-        private Node linkedHead;
-        private Node linkedTail;
-
-        public override int Count
-        {
-            get { return items.Count; }
-        }
-
         public override void Add(TKey key, TValue value)
         {
             Node node;
@@ -51,15 +41,11 @@ namespace Spring.Collections.Generic
                 node.key = key;
                 node.value = value;
                 if ((node.previousLinked = linkedTail) != null)
-                {
                     node.previousLinked.nextLinked = node;
-                }
                 node.nextLinked = null;
                 linkedTail = node;
                 if (linkedHead == null)
-                {
                     linkedHead = node;
-                }
                 items.Add(key, node);
             }
         }
@@ -73,9 +59,7 @@ namespace Spring.Collections.Generic
         {
             Node node;
             if (!items.TryGetValue(key, out node))
-            {
                 return false;
-            }
 
             if (node.previousLinked != null)
             {
@@ -123,14 +107,24 @@ namespace Spring.Collections.Generic
         {
             Node node;
             if (!items.TryGetValue(item.Key, out node))
-            {
                 return false;
-            }
             if (!node.value.Equals(item.Value))
-            {
                 return false;
-            }
             return Remove(item.Key);
+        }
+
+        public override int Count
+        {
+            get { return items.Count; }
+        }
+
+        protected class Node
+        {
+            public TKey key;
+            public TValue value;
+
+            public Node previousLinked;
+            public Node nextLinked;
         }
 
         protected override IEnumerable<KeyValuePair<TKey, TValue>> EntriesSet()
@@ -141,13 +135,9 @@ namespace Spring.Collections.Generic
             return entries;
         }
 
-        protected class Node
-        {
-            public TKey key;
-            public Node nextLinked;
+        private Node linkedHead = null;
+        private Node linkedTail = null;
 
-            public Node previousLinked;
-            public TValue value;
-        }
+        private Dictionary<TKey, Node> items = new Dictionary<TKey, Node>();
     }
 }

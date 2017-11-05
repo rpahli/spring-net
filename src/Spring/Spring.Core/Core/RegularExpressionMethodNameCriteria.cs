@@ -22,6 +22,7 @@
 
 using System.Reflection;
 using System.Text.RegularExpressions;
+
 using Spring.Util;
 
 #endregion
@@ -29,9 +30,9 @@ using Spring.Util;
 namespace Spring.Core
 {
     /// <summary>
-    ///     Criteria that is satisfied if the <c>Name</c> property of an
-    ///     <see cref="System.Reflection.MethodInfo" /> instance matches a
-    ///     supplied regular expression pattern.
+    /// Criteria that is satisfied if the <c>Name</c> property of an
+    /// <see cref="System.Reflection.MethodInfo"/> instance matches a
+    /// supplied regular expression pattern.
     /// </summary>
     /// <author>Rick Evans</author>
     public class RegularExpressionMethodNameCriteria : RegularExpressionCriteria
@@ -39,22 +40,51 @@ namespace Spring.Core
         #region Constants
 
         /// <summary>
-        ///     The default method name pattern... matches pretty much any method name.
+        /// The default method name pattern... matches pretty much any method name.
         /// </summary>
         private const string MatchAnyMethodNamePattern = ".+";
+
+        #endregion
+
+        #region Constructor (s) / Destructor
+
+        /// <summary>
+        /// Creates a new instance of the
+        /// <see cref="RegularExpressionMethodNameCriteria"/> class.
+        /// </summary>
+        public RegularExpressionMethodNameCriteria()
+            : this(RegularExpressionMethodNameCriteria.MatchAnyMethodNamePattern)
+        {
+            Options = RegexOptions.IgnoreCase;
+        }
+
+        /// <summary>
+        /// Creates a new instance of the
+        /// <see cref="RegularExpressionMethodNameCriteria"/> class.
+        /// </summary>
+        /// <param name="methodNamePattern">
+        /// The pattern that <see cref="System.Reflection.MethodInfo"/> names
+        /// must match against in order to satisfy this criteria.
+        /// </param>
+        public RegularExpressionMethodNameCriteria(string methodNamePattern)
+        {
+            Options = RegexOptions.IgnoreCase;
+            Pattern = StringUtils.HasText(methodNamePattern) ?
+                      methodNamePattern : RegularExpressionMethodNameCriteria.MatchAnyMethodNamePattern;
+        }
 
         #endregion
 
         #region Methods
 
         /// <summary>
-        ///     Does the supplied <paramref name="datum" /> satisfy the criteria encapsulated by
-        ///     this instance?
+        /// Does the supplied <paramref name="datum"/> satisfy the criteria encapsulated by
+        /// this instance?
         /// </summary>
         /// <param name="datum">The datum to be checked by this criteria instance.</param>
         /// <returns>
-        ///     True if the supplied <paramref name="datum" /> satisfies the criteria encapsulated
-        ///     by this instance; false if not or the supplied <paramref name="datum" /> is null.
+        /// True if the supplied <paramref name="datum"/> satisfies the criteria encapsulated
+        /// by this instance; false if not or the supplied <paramref name="datum"/> is null.
         /// </returns>
         public override bool IsSatisfied(object datum)
         {
@@ -65,34 +95,6 @@ namespace Spring.Core
                 satisfied = IsMatch(method.Name);
             }
             return satisfied;
-        }
-
-        #endregion
-
-        #region Constructor (s) / Destructor
-
-        /// <summary>
-        ///     Creates a new instance of the
-        ///     <see cref="RegularExpressionMethodNameCriteria" /> class.
-        /// </summary>
-        public RegularExpressionMethodNameCriteria()
-            : this(MatchAnyMethodNamePattern)
-        {
-            Options = RegexOptions.IgnoreCase;
-        }
-
-        /// <summary>
-        ///     Creates a new instance of the
-        ///     <see cref="RegularExpressionMethodNameCriteria" /> class.
-        /// </summary>
-        /// <param name="methodNamePattern">
-        ///     The pattern that <see cref="System.Reflection.MethodInfo" /> names
-        ///     must match against in order to satisfy this criteria.
-        /// </param>
-        public RegularExpressionMethodNameCriteria(string methodNamePattern)
-        {
-            Options = RegexOptions.IgnoreCase;
-            Pattern = StringUtils.HasText(methodNamePattern) ? methodNamePattern : MatchAnyMethodNamePattern;
         }
 
         #endregion

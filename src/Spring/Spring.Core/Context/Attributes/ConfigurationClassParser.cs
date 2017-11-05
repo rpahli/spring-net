@@ -20,23 +20,26 @@
 
 using System;
 using System.Collections.Generic;
-using System.Reflection;
-using Spring.Collections.Generic;
 using Spring.Objects.Factory.Parsing;
+using Spring.Collections.Generic;
+using System.Reflection;
 
 namespace Spring.Context.Attributes
 {
+
     /// <summary>
-    ///     Parses classes with the <see cref="ConfigurationAttribute" /> applied to them.
+    /// Parses classes with the <see cref="ConfigurationAttribute"/> applied to them.
     /// </summary>
     public class ConfigurationClassParser
     {
-        private readonly Stack<ConfigurationClass> _importStack = new Stack<ConfigurationClass>();
+        private Collections.Generic.ISet<ConfigurationClass> _configurationClasses = new HashedSet<ConfigurationClass>();
 
-        private readonly IProblemReporter _problemReporter;
+        private Stack<ConfigurationClass> _importStack = new Stack<ConfigurationClass>();
+
+        private IProblemReporter _problemReporter;
 
         /// <summary>
-        ///     Initializes a new instance of the ConfigurationClassParser class.
+        /// Initializes a new instance of the ConfigurationClassParser class.
         /// </summary>
         /// <param name="problemReporter"></param>
         public ConfigurationClassParser(IProblemReporter problemReporter)
@@ -45,14 +48,16 @@ namespace Spring.Context.Attributes
         }
 
         /// <summary>
-        ///     Gets the configuration classes.
+        /// Gets the configuration classes.
         /// </summary>
         /// <value>The configuration classes.</value>
-        public Collections.Generic.ISet<ConfigurationClass> ConfigurationClasses { get; } =
-            new HashedSet<ConfigurationClass>();
+        public Collections.Generic.ISet<ConfigurationClass> ConfigurationClasses
+        {
+            get { return _configurationClasses; }
+        }
 
         /// <summary>
-        ///     Parses the specified type.
+        /// Parses the specified type.
         /// </summary>
         /// <param name="type">The type.</param>
         /// <param name="objectName">Name of the object.</param>
@@ -62,16 +67,18 @@ namespace Spring.Context.Attributes
         }
 
         /// <summary>
-        ///     Validates this instance.
+        /// Validates this instance.
         /// </summary>
         public void Validate()
         {
             foreach (ConfigurationClass configClass in ConfigurationClasses)
+            {
                 configClass.Validate(_problemReporter);
+            }
         }
 
         /// <summary>
-        ///     Processes the configuration class.
+        /// Processes the configuration class.
         /// </summary>
         /// <param name="configurationClass">The configuration class.</param>
         protected void ProcessConfigurationClass(ConfigurationClass configurationClass)
@@ -89,8 +96,8 @@ namespace Spring.Context.Attributes
 
         private void DoProcessConfigurationClass(ConfigurationClass configurationClass)
         {
-            Attribute[] importAttributes =
-                Attribute.GetCustomAttributes(configurationClass.ConfigurationClassType, typeof(ImportAttribute));
+
+            Attribute[] importAttributes = Attribute.GetCustomAttributes(configurationClass.ConfigurationClassType, typeof(ImportAttribute));
 
             if (importAttributes.Length > 0)
             {
@@ -105,9 +112,7 @@ namespace Spring.Context.Attributes
                 }
             }
 
-            Attribute[] importResourceAttributes =
-                Attribute.GetCustomAttributes(configurationClass.ConfigurationClassType,
-                    typeof(ImportResourceAttribute));
+            Attribute[] importResourceAttributes = Attribute.GetCustomAttributes(configurationClass.ConfigurationClassType, typeof(ImportResourceAttribute));
 
             if (importResourceAttributes.Length > 0)
             {
@@ -118,34 +123,38 @@ namespace Spring.Context.Attributes
                     if (null != attrib)
                     {
                         foreach (string resource in attrib.Resources)
+                        {
                             configurationClass.AddImportedResource(resource, attrib.DefinitionReader);
+                        }
                     }
                 }
             }
 
-            Collections.Generic.ISet<MethodInfo> definitionMethods =
-                GetAllMethodsWithCustomAttributeForClass(configurationClass.ConfigurationClassType,
-                    typeof(ObjectDefAttribute));
+            Collections.Generic.ISet<MethodInfo> definitionMethods = GetAllMethodsWithCustomAttributeForClass(configurationClass.ConfigurationClassType, typeof(ObjectDefAttribute));
             foreach (MethodInfo definitionMethod in definitionMethods)
+            {
                 configurationClass.Methods.Add(new ConfigurationClassMethod(definitionMethod, configurationClass));
+
+            }
         }
 
         /// <summary>
-        ///     Gets all methods with custom attribute for class.
+        /// Gets all methods with custom attribute for class.
         /// </summary>
         /// <param name="theClass">The class.</param>
         /// <param name="customAttribute">The custom attribute.</param>
         /// <returns></returns>
-        public static Collections.Generic.ISet<MethodInfo> GetAllMethodsWithCustomAttributeForClass(Type theClass,
-            Type customAttribute)
+        public static Collections.Generic.ISet<MethodInfo> GetAllMethodsWithCustomAttributeForClass(Type theClass, Type customAttribute)
         {
             Collections.Generic.ISet<MethodInfo> methods = new HashedSet<MethodInfo>();
 
             foreach (MethodInfo method in theClass.GetMethods())
+            {
                 if (Attribute.GetCustomAttribute(method, customAttribute) != null)
                 {
                     methods.Add(method);
                 }
+            }
 
             return methods;
         }
@@ -154,31 +163,32 @@ namespace Spring.Context.Attributes
         {
             if (_importStack.Contains(configClass))
             {
-                _problemReporter.Error(new CircularImportProblem(configClass, _importStack,
-                    configClass.ConfigurationClassType));
+                _problemReporter.Error(new CircularImportProblem(configClass, _importStack, configClass.ConfigurationClassType));
             }
             else
             {
                 _importStack.Push(configClass);
                 foreach (Type classToImport in classesToImport)
+                {
                     ProcessConfigurationClass(new ConfigurationClass(null, classToImport));
+                }
                 _importStack.Pop();
             }
         }
 
         private class CircularImportProblem : Problem
         {
-            public CircularImportProblem(ConfigurationClass configClass, Stack<ConfigurationClass> importStack,
-                Type configurationClassType)
-                : base(string.Format("A circular [Import] has been detected: " +
-                                     "Illegal attempt by [Configuration] class '{0}' to import class '{1}' as '{2}' is " +
-                                     "already present in the current import stack [{3}]",
-                        importStack.Peek().SimpleName, configClass.SimpleName,
-                        configClass.SimpleName, importStack),
-                    new Location(importStack.Peek().Resource, configurationClassType)
+            public CircularImportProblem(ConfigurationClass configClass, Stack<ConfigurationClass> importStack, Type configurationClassType)
+                : base(String.Format("A circular [Import] has been detected: " +
+                             "Illegal attempt by [Configuration] class '{0}' to import class '{1}' as '{2}' is " +
+                             "already present in the current import stack [{3}]",
+                             importStack.Peek().SimpleName, configClass.SimpleName,
+                             configClass.SimpleName, importStack),
+                      new Location(importStack.Peek().Resource, configurationClassType)
                 )
-            {
-            }
+            { }
+
         }
+
     }
 }

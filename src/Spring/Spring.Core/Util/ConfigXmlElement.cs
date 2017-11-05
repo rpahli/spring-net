@@ -27,26 +27,25 @@ using System.Xml;
 namespace Spring.Util
 {
     /// <summary>
-    ///     An <see cref="XmlElement" /> holding information about its original text source location.
+    /// An <see cref="XmlElement"/> holding information about its original text source location.
     /// </summary>
     /// <author>Erich Eichinger</author>
     public class ConfigXmlElement : XmlElement, ITextPosition
     {
         private ITextPosition _textPositionInfo;
 
-        /// <summary>
-        ///     Creates a new instance of <see cref="ConfigXmlElement" />, storing a copy of the passed
-        ///     <paramref name="currentTextPositionPositionInfo" />.
-        /// </summary>
-        public ConfigXmlElement(ITextPosition currentTextPositionPositionInfo, string prefix, string localName,
-            string namespaceURI, XmlDocument doc)
+        ///<summary>
+        /// Creates a new instance of <see cref="ConfigXmlElement"/>, storing a copy of the passed 
+        /// <paramref name="currentTextPositionPositionInfo"/>.
+        ///</summary>
+        public ConfigXmlElement(ITextPosition currentTextPositionPositionInfo, string prefix, string localName, string namespaceURI, XmlDocument doc) 
             : base(prefix, localName, namespaceURI, doc)
         {
             _textPositionInfo = new TextPositionInfo(currentTextPositionPositionInfo);
         }
 
         /// <summary>
-        ///     The name of the resource this element was read from
+        /// The name of the resource this element was read from
         /// </summary>
         public string Filename
         {
@@ -54,7 +53,7 @@ namespace Spring.Util
         }
 
         /// <summary>
-        ///     The line number within the resource this element was read from
+        /// The line number within the resource this element was read from
         /// </summary>
         public int LineNumber
         {
@@ -62,24 +61,24 @@ namespace Spring.Util
         }
 
         /// <summary>
-        ///     The line position within the resource this element was read from.
+        /// The line position within the resource this element was read from.
         /// </summary>
         public int LinePosition
         {
             get { return _textPositionInfo.LinePosition; }
         }
 
-        /// <summary>
-        ///     Creates a duplicate of this node.
-        /// </summary>
-        /// <param name="deep">true to recursively clone the subtree under the specified node; false to clone only the node itself </param>
+        ///<summary>
+        ///Creates a duplicate of this node.
+        ///</summary>
+        ///<param name="deep">true to recursively clone the subtree under the specified node; false to clone only the node itself </param>
         public override XmlNode CloneNode(bool deep)
         {
             XmlNode node = base.CloneNode(deep);
             ConfigXmlElement element = node as ConfigXmlElement;
             if (element != null)
             {
-                element._textPositionInfo = new TextPositionInfo(_textPositionInfo);
+                element._textPositionInfo = new TextPositionInfo(this._textPositionInfo);
             }
             return node;
         }

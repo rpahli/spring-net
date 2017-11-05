@@ -20,26 +20,26 @@
 
 using System;
 using Spring.Core.TypeResolution;
-using Spring.Logging;
+using Common.Logging;
 
 namespace Spring.Context.Attributes.TypeFilters
 {
     /// <summary>
-    ///     Abstract Type Filter that provides methods to load a required type from assembly.
+    /// Abstract Type Filter that provides methods to load a required type from assembly.
     /// </summary>
     public abstract class AbstractLoadTypeFilter : ITypeFilter
     {
-        private static readonly ILogger Logger = LogManager.GetLogger<AbstractLoadTypeFilter>();
+        private static readonly ILog Logger = LogManager.GetLogger<AbstractLoadTypeFilter>();
 
 
         /// <summary>
-        ///     Required Type to compare against provided Type
+        /// Required Type to compare against provided Type
         /// </summary>
         protected Type RequiredType;
 
 
         /// <summary>
-        ///     Determine a match based on the given type object.
+        /// Determine a match based on the given type object.
         /// </summary>
         /// <param name="type"></param>
         /// <returns>true if there is a match; false is there is no match</returns>
@@ -47,13 +47,15 @@ namespace Spring.Context.Attributes.TypeFilters
 
 
         /// <summary>
-        ///     Is loading a Type from a string passed to method in the form [Type.FullName], [Assembly.Name]
+        /// Is loading a Type from a string passed to method in the form [Type.FullName], [Assembly.Name]
         /// </summary>
         protected void GetRequiredType(string typeToLoad)
         {
             try
             {
-                RequiredType = !string.IsNullOrEmpty(typeToLoad) ? TypeResolutionUtils.ResolveType(typeToLoad) : null;
+                RequiredType = !string.IsNullOrEmpty(typeToLoad) ?
+                    TypeResolutionUtils.ResolveType(typeToLoad) : 
+                    null;
             }
             catch (Exception)
             {
@@ -61,5 +63,6 @@ namespace Spring.Context.Attributes.TypeFilters
                 Logger.Error("Can't load type defined in expression:" + typeToLoad);
             }
         }
+
     }
 }

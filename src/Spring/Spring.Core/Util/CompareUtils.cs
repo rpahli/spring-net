@@ -27,7 +27,7 @@ using System;
 namespace Spring.Util
 {
     /// <summary>
-    ///     Utility class containing helper methods for object comparison.
+    /// Utility class containing helper methods for object comparison.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     public class CompareUtils
@@ -36,18 +36,17 @@ namespace Spring.Util
         /// <param name="first">First object.</param>
         /// <param name="second">Second object.</param>
         /// <returns>
-        ///     0, if objects are equal;
-        ///     less than zero, if the first object is smaller than the second one;
-        ///     greater than zero, if the first object is greater than the second one.
-        /// </returns>
+        /// 0, if objects are equal; 
+        /// less than zero, if the first object is smaller than the second one;
+        /// greater than zero, if the first object is greater than the second one.</returns>
         public static int Compare(object first, object second)
         {
             // anything is greater than null, unless both operands are null
             if (first == null)
             {
-                return second == null ? 0 : -1;
+                return (second == null ? 0 : -1);
             }
-            if (second == null)
+            else if (second == null)
             {
                 return 1;
             }
@@ -57,20 +56,23 @@ namespace Spring.Util
                 if (!CoerceTypes(ref first, ref second))
                 {
                     throw new ArgumentException("Cannot compare instances of ["
-                                                + first.GetType().FullName
-                                                + "] and ["
-                                                + second.GetType().FullName
-                                                + "] because they cannot be coerced to the same type.");
+                        + first.GetType().FullName
+                        + "] and ["
+                        + second.GetType().FullName
+                        + "] because they cannot be coerced to the same type.");
                 }
             }
 
             if (first is IComparable)
             {
-                return ((IComparable) first).CompareTo(second);
+                return ((IComparable)first).CompareTo(second);
             }
-            throw new ArgumentException("Cannot compare instances of the type ["
-                                        + first.GetType().FullName
-                                        + "] because it doesn't implement IComparable");
+            else
+            {
+                throw new ArgumentException("Cannot compare instances of the type ["
+                    + first.GetType().FullName
+                    + "] because it doesn't implement IComparable");
+            }
         }
 
         private static bool CoerceTypes(ref object left, ref object right)
@@ -82,5 +84,6 @@ namespace Spring.Util
             }
             return false;
         }
+
     }
 }

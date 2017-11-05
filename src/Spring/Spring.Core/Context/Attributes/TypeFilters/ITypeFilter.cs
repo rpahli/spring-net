@@ -23,12 +23,12 @@ using System;
 namespace Spring.Context.Attributes.TypeFilters
 {
     /// <summary>
-    ///     Represents the base interface for all component-scan type filters
+    /// Represents the base interface for all component-scan type filters
     /// </summary>
     public interface ITypeFilter
     {
         /// <summary>
-        ///     Determine a match based on the given type object.
+        /// Determine a match based on the given type object.
         /// </summary>
         /// <param name="type"></param>
         /// <returns>true if there is a match; false is there is no match</returns>

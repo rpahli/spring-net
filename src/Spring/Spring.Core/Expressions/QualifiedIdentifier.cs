@@ -25,7 +25,7 @@ using Spring.Expressions.Parser.antlr.collections;
 namespace Spring.Expressions
 {
     /// <summary>
-    ///     Represents parsed named argument node in the expression.
+    /// Represents parsed named argument node in the expression.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
@@ -34,14 +34,15 @@ namespace Spring.Expressions
         private string identifier;
 
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
         public QualifiedIdentifier()
+            : base()
         {
         }
 
         /// <summary>
-        ///     Create a new instance from SerializationInfo
+        /// Create a new instance from SerializationInfo
         /// </summary>
         protected QualifiedIdentifier(SerializationInfo info, StreamingContext context)
             : base(info, context)
@@ -49,7 +50,7 @@ namespace Spring.Expressions
         }
 
         /// <summary>
-        ///     Returns the value of the named argument defined by this node.
+        /// Returns the value of the named argument defined by this node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
@@ -62,7 +63,7 @@ namespace Spring.Expressions
                 {
                     if (identifier == null)
                     {
-                        identifier = getText();
+                        identifier = this.getText();
                     }
                 }
             }
@@ -71,11 +72,11 @@ namespace Spring.Expressions
         }
 
         /// <summary>
-        ///     Overrides getText to allow easy way to get fully
-        ///     qualified identifier.
+        /// Overrides getText to allow easy way to get fully 
+        /// qualified identifier.
         /// </summary>
         /// <returns>
-        ///     Fully qualified identifier as a string.
+        /// Fully qualified identifier as a string.
         /// </returns>
         public override string getText()
         {
@@ -84,7 +85,7 @@ namespace Spring.Expressions
 //            {
 //                tmp = tmp.Replace(ESCAPE_CHAR, ""); // remove all occurrences of escape char
 //            }
-            AST node = getFirstChild();
+            AST node = this.getFirstChild();
             while (node != null)
             {
                 tmp = string.Concat(tmp, node.getText());

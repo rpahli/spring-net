@@ -25,17 +25,17 @@ using System.Collections.Generic;
 namespace Spring.Caching
 {
     /// <summary>
-    ///     A simple <see cref="ICache" /> implementation backed by a dictionary that
-    ///     never expires cache items.
+    /// A simple <see cref="ICache"/> implementation backed by a dictionary that
+    /// never expires cache items.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     public class NonExpiringCache : AbstractCache
     {
-        private readonly IDictionary<object, object> itemStore = new Dictionary<object, object>();
         private readonly object syncRoot = new object();
+        private readonly IDictionary<object, object> itemStore = new Dictionary<object, object>();
 
         /// <summary>
-        ///     Gets the number of items in the cache.
+        /// Gets the number of items in the cache.
         /// </summary>
         public override int Count
         {
@@ -49,7 +49,7 @@ namespace Spring.Caching
         }
 
         /// <summary>
-        ///     Gets a collection of all cache item keys.
+        /// Gets a collection of all cache item keys.
         /// </summary>
         public override ICollection Keys
         {
@@ -63,13 +63,13 @@ namespace Spring.Caching
         }
 
         /// <summary>
-        ///     Retrieves an item from the cache.
+        /// Retrieves an item from the cache.
         /// </summary>
         /// <param name="key">
-        ///     Item key.
+        /// Item key.
         /// </param>
         /// <returns>
-        ///     Item for the specified <paramref name="key" />, or <c>null</c>.
+        /// Item for the specified <paramref name="key"/>, or <c>null</c>.
         /// </returns>
         public override object Get(object key)
         {
@@ -82,10 +82,10 @@ namespace Spring.Caching
         }
 
         /// <summary>
-        ///     Removes an item from the cache.
+        /// Removes an item from the cache.
         /// </summary>
         /// <param name="key">
-        ///     Item key.
+        /// Item key.
         /// </param>
         public override void Remove(object key)
         {
@@ -96,22 +96,24 @@ namespace Spring.Caching
         }
 
         /// <summary>
-        ///     Removes collection of items from the cache.
+        /// Removes collection of items from the cache.
         /// </summary>
         /// <param name="keys">
-        ///     Collection of keys to remove.
+        /// Collection of keys to remove.
         /// </param>
         public override void RemoveAll(ICollection keys)
         {
             lock (syncRoot)
             {
                 foreach (object key in keys)
+                {
                     itemStore.Remove(key);
+                }
             }
         }
 
         /// <summary>
-        ///     Removes all items from the cache.
+        /// Removes all items from the cache.
         /// </summary>
         public override void Clear()
         {
@@ -122,16 +124,16 @@ namespace Spring.Caching
         }
 
         /// <summary>
-        ///     Inserts an item into the cache.
+        /// Inserts an item into the cache.
         /// </summary>
         /// <param name="key">
-        ///     Item key.
+        /// Item key.
         /// </param>
         /// <param name="value">
-        ///     Item value.
+        /// Item value.
         /// </param>
         /// <param name="timeToLive">
-        ///     Item's time-to-live (TTL) in milliseconds.
+        /// Item's time-to-live (TTL) in milliseconds.
         /// </param>
         protected override void DoInsert(object key, object value, TimeSpan timeToLive)
         {

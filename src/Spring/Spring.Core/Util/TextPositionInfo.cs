@@ -25,48 +25,61 @@
 namespace Spring.Util
 {
     /// <summary>
-    ///     Holds text position information for e.g. error reporting purposes.
+    /// Holds text position information for e.g. error reporting purposes.
     /// </summary>
     /// <seealso cref="ConfigXmlElement" />
     /// <seealso cref="ConfigXmlAttribute" />
     public class TextPositionInfo : ITextPosition
     {
+        private readonly string _filename;
+        private readonly int _lineNumber;
+        private readonly int _linePosition;
+
         /// <summary>
-        ///     Creates a new TextPositionInfo instance.
+        /// Creates a new TextPositionInfo instance.
         /// </summary>
         public TextPositionInfo(string filename, int lineNumber, int linePosition)
         {
-            Filename = filename;
-            LineNumber = lineNumber;
-            LinePosition = linePosition;
+            _filename = filename;
+            _lineNumber = lineNumber;
+            _linePosition = linePosition;
         }
 
         /// <summary>
-        ///     Creates a new TextPositionInfo instance, copying values from another instance.
+        /// Creates a new TextPositionInfo instance, copying values from another instance.
         /// </summary>
         public TextPositionInfo(ITextPosition other)
         {
             if (other != null)
             {
-                Filename = other.Filename;
-                LineNumber = other.LineNumber;
-                LinePosition = other.LinePosition;
+                this._filename = other.Filename;
+                this._lineNumber = other.LineNumber;
+                this._linePosition = other.LinePosition;
             }
         }
 
         /// <summary>
-        ///     The filename related to this text position
+        /// The filename related to this text position
         /// </summary>
-        public string Filename { get; }
+        public string Filename
+        {
+            get { return _filename; }
+        }
 
         /// <summary>
-        ///     The line number related to this text position
+        /// The line number related to this text position
         /// </summary>
-        public int LineNumber { get; }
+        public int LineNumber
+        {
+            get { return _lineNumber; }
+        }
 
         /// <summary>
-        ///     The line position related to this text position
+        /// The line position related to this text position
         /// </summary>
-        public int LinePosition { get; }
+        public int LinePosition
+        {
+            get { return _linePosition; }
+        }
     }
 }

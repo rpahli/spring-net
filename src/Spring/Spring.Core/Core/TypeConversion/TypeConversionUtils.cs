@@ -23,31 +23,31 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using System.ComponentModel;
-using System.Reflection;
-using Spring.Collections.Generic;
 using Spring.Util;
+using System.Reflection;
 
 #endregion
 
 namespace Spring.Core.TypeConversion
 {
     /// <summary>
-    ///     Utility methods that are used to convert objects from one type into another.
+    /// Utility methods that are used to convert objects from one type into another.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     public class TypeConversionUtils
     {
         /// <summary>
-        ///     Convert the value to the required <see cref="System.Type" /> (if necessary from a string).
+        /// Convert the value to the required <see cref="System.Type"/> (if necessary from a string).
         /// </summary>
         /// <param name="newValue">The proposed change value.</param>
         /// <param name="requiredType">
-        ///     The <see cref="System.Type" /> we must convert to.
+        /// The <see cref="System.Type"/> we must convert to.
         /// </param>
         /// <param name="propertyName">Property name, used for error reporting purposes...</param>
         /// <exception cref="Spring.Objects.ObjectsException">
-        ///     If there is an internal error.
+        /// If there is an internal error.
         /// </exception>
         /// <returns>The new value, possibly the result of type conversion.</returns>
         public static object ConvertValueIfNecessary(Type requiredType, object newValue, string propertyName)
@@ -67,19 +67,22 @@ namespace Spring.Core.TypeConversion
                     Type componentType = requiredType.GetElementType();
                     if (newValue is ICollection)
                     {
-                        ICollection elements = (ICollection) newValue;
+                        ICollection elements = (ICollection)newValue;
                         return ToArrayWithTypeConversion(componentType, elements, propertyName);
                     }
-                    if (newValue is string)
+                    else if (newValue is string)
                     {
                         if (requiredType.Equals(typeof(char[])))
                         {
-                            return ((string) newValue).ToCharArray();
+                            return ((string)newValue).ToCharArray();
                         }
-                        string[] elements = StringUtils.CommaDelimitedListToStringArray((string) newValue);
-                        return ToArrayWithTypeConversion(componentType, elements, propertyName);
+                        else
+                        {
+                            string[] elements = StringUtils.CommaDelimitedListToStringArray((string)newValue);
+                            return ToArrayWithTypeConversion(componentType, elements, propertyName);
+                        }
                     }
-                    if (!newValue.GetType().IsArray)
+                    else if (!newValue.GetType().IsArray)
                     {
                         // A plain value: convert it to an array with a single component.
                         Array result = Array.CreateInstance(componentType, 1);
@@ -89,55 +92,50 @@ namespace Spring.Core.TypeConversion
                     }
                 }
                 // if required type is some ISet<T>, convert all the elements
-                if (requiredType != null && requiredType.IsGenericType &&
-                    TypeImplementsGenericInterface(requiredType, typeof(Collections.Generic.ISet<>)))
+                if (requiredType != null && requiredType.IsGenericType && TypeImplementsGenericInterface(requiredType, typeof(Spring.Collections.Generic.ISet<>)))
                 {
                     // convert individual elements to array elements
                     Type componentType = requiredType.GetGenericArguments()[0];
                     if (newValue is ICollection)
                     {
-                        ICollection elements = (ICollection) newValue;
-                        return ToTypedCollectionWithTypeConversion(typeof(HashedSet<>), componentType, elements,
-                            propertyName);
+                        ICollection elements = (ICollection)newValue;
+                        return ToTypedCollectionWithTypeConversion(typeof(Spring.Collections.Generic.HashedSet<>), componentType, elements, propertyName);
                     }
                 }
 
                 // if required type is some IList<T>, convert all the elements
-                if (requiredType != null && requiredType.IsGenericType &&
-                    TypeImplementsGenericInterface(requiredType, typeof(IList<>)))
+                if (requiredType != null && requiredType.IsGenericType && TypeImplementsGenericInterface(requiredType, typeof(IList<>)))
                 {
                     // convert individual elements to array elements
                     Type componentType = requiredType.GetGenericArguments()[0];
                     if (newValue is ICollection)
                     {
-                        ICollection elements = (ICollection) newValue;
-                        return ToTypedCollectionWithTypeConversion(typeof(List<>), componentType, elements,
-                            propertyName);
+                        ICollection elements = (ICollection)newValue;
+                        return ToTypedCollectionWithTypeConversion(typeof(List<>), componentType, elements, propertyName);
                     }
                 }
 
                 // if required type is some IDictionary<K,V>, convert all the elements
-                if (requiredType != null && requiredType.IsGenericType &&
-                    TypeImplementsGenericInterface(requiredType, typeof(IDictionary<,>)))
+                if (requiredType != null && requiredType.IsGenericType && TypeImplementsGenericInterface(requiredType, typeof(IDictionary<,>)))
                 {
                     Type[] typeParameters = requiredType.GetGenericArguments();
                     Type keyType = typeParameters[0];
                     Type valueType = typeParameters[1];
                     if (newValue is IDictionary)
                     {
-                        IDictionary elements = (IDictionary) newValue;
+                        IDictionary elements = (IDictionary)newValue;
                         Type targetCollectionType = typeof(Dictionary<,>);
-                        Type collectionType = targetCollectionType.MakeGenericType(keyType, valueType);
+                        Type collectionType = targetCollectionType.MakeGenericType(new Type[] { keyType, valueType });
                         object typedCollection = Activator.CreateInstance(collectionType);
 
-                        MethodInfo addMethod = collectionType.GetMethod("Add", new[] {keyType, valueType});
+                        MethodInfo addMethod = collectionType.GetMethod("Add", new Type[] { keyType, valueType });
                         int i = 0;
                         foreach (DictionaryEntry entry in elements)
                         {
                             string propertyExpr = BuildIndexedPropertyName(propertyName, i);
                             object key = ConvertValueIfNecessary(keyType, entry.Key, propertyExpr + ".Key");
                             object value = ConvertValueIfNecessary(valueType, entry.Value, propertyExpr + ".Value");
-                            addMethod.Invoke(typedCollection, new[] {key, value});
+                            addMethod.Invoke(typedCollection, new object[] { key, value });
                             i++;
                         }
                         return typedCollection;
@@ -145,16 +143,14 @@ namespace Spring.Core.TypeConversion
                 }
 
                 // if required type is some IEnumerable<T>, convert all the elements
-                if (requiredType != null && requiredType.IsGenericType &&
-                    TypeImplementsGenericInterface(requiredType, typeof(IEnumerable<>)))
+                if (requiredType != null && requiredType.IsGenericType && TypeImplementsGenericInterface(requiredType, typeof(IEnumerable<>)))
                 {
                     // convert individual elements to array elements
                     Type componentType = requiredType.GetGenericArguments()[0];
                     if (newValue is ICollection)
                     {
-                        ICollection elements = (ICollection) newValue;
-                        return ToTypedCollectionWithTypeConversion(typeof(List<>), componentType, elements,
-                            propertyName);
+                        ICollection elements = (ICollection)newValue;
+                        return ToTypedCollectionWithTypeConversion(typeof(List<>), componentType, elements, propertyName);
                     }
                 }
 
@@ -172,7 +168,7 @@ namespace Spring.Core.TypeConversion
                         {
                             if (newValue is string)
                             {
-                                newValue = typeConverter.ConvertFromInvariantString((string) newValue);
+                                newValue = typeConverter.ConvertFromInvariantString((string)newValue);
                             }
                         }
                     }
@@ -187,7 +183,9 @@ namespace Spring.Core.TypeConversion
                         {
                             // look if it's an enum
                             if (requiredType != null
-                                && requiredType.IsEnum && !(newValue is float) && !(newValue is double))
+                                && requiredType.IsEnum
+                                && (!(newValue is float)
+                                    && (!(newValue is double))))
                             {
                                 // convert numeric value into enum's underlying type
                                 Type numericType = Enum.GetUnderlyingType(requiredType);
@@ -221,9 +219,7 @@ namespace Spring.Core.TypeConversion
                     throw new TypeMismatchException(
                         CreatePropertyChangeEventArgs(propertyName, null, newValue), requiredType, ex);
                 }
-                if (newValue == null && (requiredType == null ||
-                                         !Type.GetType("System.Nullable`1")
-                                             .Equals(requiredType.GetGenericTypeDefinition())))
+                if (newValue == null && (requiredType == null || !Type.GetType("System.Nullable`1").Equals(requiredType.GetGenericTypeDefinition())))
                 {
                     throw new TypeMismatchException(
                         CreatePropertyChangeEventArgs(propertyName, null, newValue), requiredType);
@@ -238,34 +234,30 @@ namespace Spring.Core.TypeConversion
             int i = 0;
             foreach (object element in elements)
             {
-                object value =
-                    ConvertValueIfNecessary(componentType, element, BuildIndexedPropertyName(propertyName, i));
+                object value = ConvertValueIfNecessary(componentType, element, BuildIndexedPropertyName(propertyName, i));
                 destination.SetValue(value, i);
                 i++;
             }
             return destination;
         }
 
-        private static object ToTypedCollectionWithTypeConversion(Type targetCollectionType, Type componentType,
-            ICollection elements, string propertyName)
+        private static object ToTypedCollectionWithTypeConversion(Type targetCollectionType, Type componentType, ICollection elements, string propertyName)
         {
             if (!TypeImplementsGenericInterface(targetCollectionType, typeof(ICollection<>)))
             {
-                throw new ArgumentException("argument must be a type that derives from ICollection<T>",
-                    "targetCollectionType");
+                throw new ArgumentException("argument must be a type that derives from ICollection<T>", "targetCollectionType");
             }
 
 
-            Type collectionType = targetCollectionType.MakeGenericType(componentType);
+            Type collectionType = targetCollectionType.MakeGenericType(new Type[] { componentType });
 
             object typedCollection = Activator.CreateInstance(collectionType);
 
             int i = 0;
             foreach (object element in elements)
             {
-                object value =
-                    ConvertValueIfNecessary(componentType, element, BuildIndexedPropertyName(propertyName, i));
-                collectionType.GetMethod("Add").Invoke(typedCollection, new[] {value});
+                object value = ConvertValueIfNecessary(componentType, element, BuildIndexedPropertyName(propertyName, i));
+                collectionType.GetMethod("Add").Invoke(typedCollection, new object[] { value });
                 i++;
             }
             return typedCollection;
@@ -273,7 +265,9 @@ namespace Spring.Core.TypeConversion
 
         private static string BuildIndexedPropertyName(string propertyName, int index)
         {
-            return propertyName != null ? propertyName + "[" + index + "]" : null;
+            return (propertyName != null ?
+                    propertyName + "[" + index + "]" :
+                    null);
         }
 
         private static bool IsAssignableFrom(object newValue, Type requiredType)
@@ -292,28 +286,28 @@ namespace Spring.Core.TypeConversion
         }
 
         /// <summary>
-        ///     Utility method to create a property change event.
+        /// Utility method to create a property change event.
         /// </summary>
         /// <param name="fullPropertyName">
-        ///     The full name of the property that has changed.
+        /// The full name of the property that has changed.
         /// </param>
         /// <param name="oldValue">The property old value</param>
         /// <param name="newValue">The property new value</param>
         /// <returns>
-        ///     A new <see cref="Spring.Core.PropertyChangeEventArgs" />.
+        /// A new <see cref="Spring.Core.PropertyChangeEventArgs"/>.
         /// </returns>
         private static PropertyChangeEventArgs CreatePropertyChangeEventArgs(string fullPropertyName, object oldValue,
-            object newValue)
+                                                                             object newValue)
         {
             return new PropertyChangeEventArgs(fullPropertyName, oldValue, newValue);
         }
 
         /// <summary>
-        ///     Determines if a Type implements a specific generic interface.
+        /// Determines if a Type implements a specific generic interface.
         /// </summary>
-        /// <param name="candidateType">Candidate <see lang="Type" /> to evaluate.</param>
-        /// <param name="matchingInterface">The <see lang="interface" /> to test for in the Candidate <see lang="Type" />.</param>
-        /// <returns><see lang="true" /> if a match, else <see lang="false" /></returns>
+        /// <param name="candidateType">Candidate <see lang="Type"/> to evaluate.</param>
+        /// <param name="matchingInterface">The <see lang="interface"/> to test for in the Candidate <see lang="Type"/>.</param>
+        /// <returns><see lang="true" /> if a match, else <see lang="false"/></returns>
         private static bool TypeImplementsGenericInterface(Type candidateType, Type matchingInterface)
         {
             if (!matchingInterface.IsInterface)
@@ -329,19 +323,20 @@ namespace Spring.Core.TypeConversion
             bool match = false;
             Type[] implementedInterfaces = candidateType.GetInterfaces();
             foreach (Type interfaceType in implementedInterfaces)
+            {
                 if (IsMatchingGenericInterface(interfaceType, matchingInterface))
                 {
                     match = true;
                     break;
                 }
+            }
 
             return match;
         }
 
         private static bool IsMatchingGenericInterface(Type candidateInterfaceType, Type matchingGenericInterface)
         {
-            return candidateInterfaceType.IsGenericType &&
-                   candidateInterfaceType.GetGenericTypeDefinition() == matchingGenericInterface;
+            return candidateInterfaceType.IsGenericType && candidateInterfaceType.GetGenericTypeDefinition() == matchingGenericInterface;
         }
     }
 }

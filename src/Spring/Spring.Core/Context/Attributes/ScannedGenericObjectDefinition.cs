@@ -19,34 +19,35 @@
 #endregion
 
 using System;
-using System.Reflection;
-using Spring.Logging;
+
+using Common.Logging;
+
 using Spring.Objects;
-using Spring.Objects.Factory.Attributes;
 using Spring.Objects.Factory.Config;
 using Spring.Objects.Factory.Support;
 using Spring.Objects.Factory.Xml;
 using Spring.Stereotype;
+using Spring.Objects.Factory.Attributes;
 
 namespace Spring.Context.Attributes
 {
     /// <summary>
-    ///     A GenericObjectDefinition that provides attribute driven propulation
-    ///     of properties like LazyInit, Scope or Qualifier
+    /// A GenericObjectDefinition that provides attribute driven propulation
+    /// of properties like LazyInit, Scope or Qualifier
     /// </summary>
     public class ScannedGenericObjectDefinition : GenericObjectDefinition
     {
-        private static readonly ILogger Log = LogManager.GetCurrentClassLogger();
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
         /// <summary>
-        ///     Name provided by the Component Attribute
+        /// Name provided by the Component Attribute
         /// </summary>
         private string _componentName;
 
         /// <summary>
-        ///     Creates a GenericObjectDefinition that applies the default values provided
-        ///     in the XML Spring config document. Additionally parses the specific class
-        ///     attributesthat allows the definition of LazyInit, Scope or Qualifier
+        /// Creates a GenericObjectDefinition that applies the default values provided
+        /// in the XML Spring config document. Additionally parses the specific class
+        /// attributesthat allows the definition of LazyInit, Scope or Qualifier
         /// </summary>
         /// <param name="typeOfObject">Type of scanned component</param>
         /// <param name="defaults">Defualts provided in Spring Config document</param>
@@ -60,57 +61,42 @@ namespace Spring.Context.Attributes
             ParseScopeAttribute();
             ParseQualifierAttribute();
 
-            Log.Debug($"ComponentName: {_componentName}; {ToString()}");
-        }
-
-        /// <summary>
-        ///     Provides the name of the object scanned
-        /// </summary>
-        /// <returns>return the provided attribute name of the full object type name</returns>
-        public string ComponentName
-        {
-            get { return _componentName; }
+            Log.Debug(m => m("ComponentName: {0}; {1}", _componentName, ToString()));
         }
 
         private void ParseName()
         {
-            ComponentAttribute attr =
-                Attribute.GetCustomAttribute(ObjectType, typeof(ComponentAttribute), true) as ComponentAttribute;
+            var attr = Attribute.GetCustomAttribute(ObjectType, typeof (ComponentAttribute), true) as ComponentAttribute;
             if (attr != null && !string.IsNullOrEmpty(attr.Name))
-            {
                 _componentName = attr.Name;
-            }
         }
 
         private void ApplyDefaults(DocumentDefaultsDefinition defaults)
         {
             if (defaults == null)
-            {
                 return;
-            }
 
             bool lazyInit = false;
             bool.TryParse(defaults.LazyInit, out lazyInit);
             IsLazyInit = lazyInit;
-
-            if (!string.IsNullOrEmpty(defaults.Autowire))
+            
+            if (!String.IsNullOrEmpty(defaults.Autowire))
             {
-                AutowireMode = GetAutowireMode(defaults.Autowire);
-            }
+               AutowireMode = GetAutowireMode(defaults.Autowire);
+            }            
         }
 
         private AutoWiringMode GetAutowireMode(string value)
         {
-            AutoWiringMode autoWiringMode;
-            autoWiringMode = (AutoWiringMode) Enum.Parse(typeof(AutoWiringMode), value, true);
-            return autoWiringMode;
+           AutoWiringMode autoWiringMode;
+           autoWiringMode = (AutoWiringMode)Enum.Parse(typeof(AutoWiringMode), value, true);
+           return autoWiringMode;
         }
 
 
         private void ParseScopeAttribute()
         {
-            ScopeAttribute attr =
-                Attribute.GetCustomAttribute(ObjectType, typeof(ScopeAttribute), true) as ScopeAttribute;
+            var attr = Attribute.GetCustomAttribute(ObjectType, typeof(ScopeAttribute), true) as ScopeAttribute;
             if (attr != null)
             {
                 Scope = attr.ObjectScope.ToString().ToLower();
@@ -124,25 +110,20 @@ namespace Spring.Context.Attributes
 
         private void ParseLazyAttribute()
         {
-            LazyAttribute attr = Attribute.GetCustomAttribute(ObjectType, typeof(LazyAttribute), true) as LazyAttribute;
+            var attr = Attribute.GetCustomAttribute(ObjectType, typeof(LazyAttribute), true) as LazyAttribute;
             if (attr != null)
-            {
                 IsLazyInit = attr.LazyInitialize;
-            }
         }
 
         private void ParseQualifierAttribute()
         {
-            QualifierAttribute attr =
-                Attribute.GetCustomAttribute(ObjectType, typeof(QualifierAttribute), true) as QualifierAttribute;
+            var attr = Attribute.GetCustomAttribute(ObjectType, typeof(QualifierAttribute), true) as QualifierAttribute;
             if (attr != null)
             {
-                AutowireCandidateQualifier qualifier = new AutowireCandidateQualifier(attr.GetType());
+                var qualifier = new AutowireCandidateQualifier(attr.GetType());
 
                 if (!string.IsNullOrEmpty(attr.Value))
-                {
                     qualifier.SetAttribute(AutowireCandidateQualifier.VALUE_KEY, attr.Value);
-                }
 
                 ParseQualifierProperties(attr, qualifier);
 
@@ -152,16 +133,30 @@ namespace Spring.Context.Attributes
 
         private void ParseQualifierProperties(QualifierAttribute attr, AutowireCandidateQualifier qualifier)
         {
-            foreach (PropertyInfo property in attr.GetType().GetProperties())
+            foreach (var property in attr.GetType().GetProperties())
+            {
                 if (!property.Name.Equals("TypeId") && !property.Name.Equals("Value"))
                 {
                     object value = property.GetValue(attr, null);
                     if (value != null)
                     {
-                        ObjectMetadataAttribute attribute = new ObjectMetadataAttribute(property.Name, value);
+                        var attribute = new ObjectMetadataAttribute(property.Name, value);
                         qualifier.AddMetadataAttribute(attribute);
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Provides the name of the object scanned
+        /// </summary>
+        /// <returns>return the provided attribute name of the full object type name</returns>
+        public string ComponentName
+        {
+            get
+            {
+                return _componentName;
+            }
         }
     }
 }

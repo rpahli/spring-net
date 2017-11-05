@@ -25,28 +25,28 @@ using Spring.Collections;
 namespace Spring.Expressions.Processors
 {
     /// <summary>
-    ///     Implementation of the distinct processor.
+    /// Implementation of the distinct processor.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     public class DistinctProcessor : ICollectionProcessor
     {
         /// <summary>
-        ///     Returns distinct items from the collection.
+        /// Returns distinct items from the collection.
         /// </summary>
         /// <param name="source">
-        ///     The source collection to process.
+        /// The source collection to process.
         /// </param>
         /// <param name="args">
-        ///     0: boolean flag specifying whether to include <c>null</c>
-        ///     in the results or not. Default is false, which means that
-        ///     <c>null</c> values will not be included in the results.
+        /// 0: boolean flag specifying whether to include <c>null</c>
+        /// in the results or not. Default is false, which means that
+        /// <c>null</c> values will not be included in the results.
         /// </param>
         /// <returns>
-        ///     A collection containing distinct source collection elements.
+        /// A collection containing distinct source collection elements.
         /// </returns>
         /// <exception cref="ArgumentException">
-        ///     If there is more than one argument, or if the single optional argument
-        ///     is not <b>Boolean</b>.
+        /// If there is more than one argument, or if the single optional argument 
+        /// is not <b>Boolean</b>.
         /// </exception>
         public object Process(ICollection source, object[] args)
         {
@@ -54,7 +54,7 @@ namespace Spring.Expressions.Processors
             {
                 return null;
             }
-
+            
             bool includeNulls = false;
             if (args.Length == 1)
             {

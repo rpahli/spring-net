@@ -22,64 +22,69 @@ using System.Globalization;
 
 namespace Spring.Context.Events
 {
+	/// <summary>
+	/// Event object sent to listeners registered with an
+	/// <see cref="Spring.Context.IApplicationContext"/> to inform them of
+	/// context lifecycle events.
+	/// </summary>
+	/// <author>Griffin Caprio (.NET)</author>
+	/// <seealso cref="Spring.Context.IApplicationContext"/>
+	/// <seealso cref="Spring.Context.IApplicationEventListener"/>
+	/// <seealso cref="Spring.Context.EventListenerAttribute"/>
+	public class ContextEventArgs : ApplicationEventArgs
+	{
+		/// <summary>
+		/// The various context event types.
+		/// </summary>
+		public enum ContextEvent
+		{
+			/// <summary>
+			/// The event type when the context is refreshed or created.
+			/// </summary>
+			Refreshed,
+
+			/// <summary>
+			/// The event type when the context is closed.
+			/// </summary>
+			Closed
+		} ;
+
+		private readonly ContextEvent _contextEvent;
+
+		/// <summary>
+		/// Creates a new instance of the ContextEventArgs class to represent the
+		/// supplied context event.
+		/// </summary>
+		/// <param name="e">The type of context event.</param>
+		public ContextEventArgs(ContextEvent e)
+		{
+			_contextEvent = e;
+		}
+
+		/// <summary>
+		/// The event type.
+		/// </summary>
+		public ContextEvent Event
+		{
+			get { return _contextEvent; }
+		}
+
+		/// <summary>
+		/// Returns a string representation of this object.
+		/// </summary>
+		/// <returns>A string representation of this object.</returns>
+		public override string ToString()
+		{
+			return string.Format(
+				CultureInfo.InvariantCulture,
+				"{0} [{1}]", GetType().Name, Event);
+		}
+	}
+
     /// <summary>
-    ///     Event object sent to listeners registered with an
-    ///     <see cref="Spring.Context.IApplicationContext" /> to inform them of
-    ///     context lifecycle events.
-    /// </summary>
-    /// <author>Griffin Caprio (.NET)</author>
-    /// <seealso cref="Spring.Context.IApplicationContext" />
-    /// <seealso cref="Spring.Context.IApplicationEventListener" />
-    /// <seealso cref="Spring.Context.EventListenerAttribute" />
-    public class ContextEventArgs : ApplicationEventArgs
-    {
-        /// <summary>
-        ///     The various context event types.
-        /// </summary>
-        public enum ContextEvent
-        {
-            /// <summary>
-            ///     The event type when the context is refreshed or created.
-            /// </summary>
-            Refreshed,
-
-            /// <summary>
-            ///     The event type when the context is closed.
-            /// </summary>
-            Closed
-        }
-
-        /// <summary>
-        ///     Creates a new instance of the ContextEventArgs class to represent the
-        ///     supplied context event.
-        /// </summary>
-        /// <param name="e">The type of context event.</param>
-        public ContextEventArgs(ContextEvent e)
-        {
-            Event = e;
-        }
-
-        /// <summary>
-        ///     The event type.
-        /// </summary>
-        public ContextEvent Event { get; }
-
-        /// <summary>
-        ///     Returns a string representation of this object.
-        /// </summary>
-        /// <returns>A string representation of this object.</returns>
-        public override string ToString()
-        {
-            return string.Format(
-                CultureInfo.InvariantCulture,
-                "{0} [{1}]", GetType().Name, Event);
-        }
-    }
-
-    /// <summary>
-    ///     Event object sent to listeners registered with an
-    ///     <see cref="Spring.Context.IApplicationContext" /> to inform them of
-    ///     context <see cref="ContextEventArgs.ContextEvent.Refreshed" /> lifecycle event.
+    /// Event object sent to listeners registered with an
+    /// <see cref="Spring.Context.IApplicationContext"/> to inform them of
+    /// context <see cref="ContextEventArgs.ContextEvent.Refreshed"/> lifecycle event.
     /// </summary>
     public class ContextRefreshedEventArgs : ContextEventArgs
     {
@@ -89,9 +94,9 @@ namespace Spring.Context.Events
     }
 
     /// <summary>
-    ///     Event object sent to listeners registered with an
-    ///     <see cref="Spring.Context.IApplicationContext" /> to inform them of
-    ///     context <see cref="ContextEventArgs.ContextEvent.Closed" /> lifecycle event.
+    /// Event object sent to listeners registered with an
+    /// <see cref="Spring.Context.IApplicationContext"/> to inform them of
+    /// context <see cref="ContextEventArgs.ContextEvent.Closed"/> lifecycle event.
     /// </summary>
     public class ContextClosedEventArgs : ContextEventArgs
     {

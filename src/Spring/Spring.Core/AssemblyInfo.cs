@@ -20,13 +20,12 @@
 
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Security;
 
 [assembly: ComVisible(false)]
 [assembly: AssemblyTitle("Spring.Core")]
 [assembly: AssemblyDescription("Core functionality for Spring.Net IoC container")]
 
 #if !NET_4_0
-[assembly: AllowPartiallyTrustedCallers]
-[assembly: SecurityCritical]
+[assembly: System.Security.AllowPartiallyTrustedCallers]
+[assembly: System.Security.SecurityCritical]
 #endif

@@ -30,76 +30,80 @@ using System.IO;
 namespace Spring.Core.TypeConversion
 {
     /// <summary>
-    ///     Converter for <see cref="System.IO.FileInfo" /> instances.
+    /// Converter for <see cref="System.IO.FileInfo"/> instances.
     /// </summary>
     /// <author>Juergen Hoeller</author>
     /// <author>Mark Pollack (.NET)</author>
     public class FileInfoConverter : TypeConverter
     {
         #region Constructor (s) / Destructor
-
+        /// <summary>
+        /// Creates a new instance of the
+        /// <see cref="Spring.Core.TypeConversion.FileInfoConverter"/> class.
+        /// </summary>
+        public FileInfoConverter () {}
         #endregion
 
         #region Methods
-
         /// <summary>
-        ///     Returns whether this converter can convert an object of one
-        ///     <see cref="System.Type" /> to a <see cref="System.IO.FileInfo" />
+        /// Returns whether this converter can convert an object of one
+        /// <see cref="System.Type"/> to a <see cref="System.IO.FileInfo"/>
         /// </summary>
         /// <remarks>
-        ///     <p>
-        ///         Currently only supports conversion from a
-        ///         <see cref="System.String" /> instance.
-        ///     </p>
+        /// <p>
+        /// Currently only supports conversion from a
+        /// <see cref="System.String"/> instance.
+        /// </p>
         /// </remarks>
         /// <param name="context">
-        ///     A <see cref="System.ComponentModel.ITypeDescriptorContext" />
-        ///     that provides a format context.
+        /// A <see cref="System.ComponentModel.ITypeDescriptorContext"/>
+        /// that provides a format context.
         /// </param>
         /// <param name="sourceType">
-        ///     A <see cref="System.Type" /> that represents the
-        ///     <see cref="System.Type" /> you want to convert from.
+        /// A <see cref="System.Type"/> that represents the
+        /// <see cref="System.Type"/> you want to convert from.
         /// </param>
         /// <returns>True if the conversion is possible.</returns>
-        public override bool CanConvertFrom(
-            ITypeDescriptorContext context,
-            Type sourceType)
+        public override bool CanConvertFrom (
+            ITypeDescriptorContext context, 
+            Type sourceType) 
         {
-            if (sourceType == typeof(string))
+            if (sourceType == typeof (string)) 
             {
                 return true;
             }
-            return base.CanConvertFrom(context, sourceType);
+            return base.CanConvertFrom (context, sourceType);
         }
 
         /// <summary>
-        ///     Convert from a string value to a <see cref="System.IO.FileInfo" /> instance.
+        /// Convert from a string value to a <see cref="System.IO.FileInfo"/> instance.
         /// </summary>
         /// <param name="context">
-        ///     A <see cref="System.ComponentModel.ITypeDescriptorContext" />
-        ///     that provides a format context.
+        /// A <see cref="System.ComponentModel.ITypeDescriptorContext"/>
+        /// that provides a format context.
         /// </param>
         /// <param name="culture">
-        ///     The <see cref="System.Globalization.CultureInfo" /> to use
-        ///     as the current culture.
+        /// The <see cref="System.Globalization.CultureInfo"/> to use
+        /// as the current culture. 
         /// </param>
         /// <param name="value">
-        ///     The value that is to be converted.
+        /// The value that is to be converted.
         /// </param>
         /// <returns>
-        ///     A <see cref="System.IO.FileInfo" /> if successful.
+        /// A <see cref="System.IO.FileInfo"/> if successful. 
         /// </returns>
-        public override object ConvertFrom(
-            ITypeDescriptorContext context,
-            CultureInfo culture, object value)
+        public override object ConvertFrom (
+            ITypeDescriptorContext context, 
+            CultureInfo culture, object value) 
         {
-            if (value is string)
-            {
+            if (value is string) 
+            {          
                 return new FileInfo(value as string);
             }
-            return base.ConvertFrom(context, culture, value);
+            return base.ConvertFrom (context, culture, value);
         }
-
         #endregion
+
     }
+
 }

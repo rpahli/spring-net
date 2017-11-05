@@ -26,29 +26,29 @@ using Spring.Objects.Factory;
 namespace Spring.Context.Support
 {
     /// <summary>
-    ///     Represents a reference to a Spring-managed object.
+    /// Represents a reference to a Spring-managed object.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class ReferenceNode : BaseNode
     {
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
-        public ReferenceNode()
+        public ReferenceNode():base()
         {
         }
 
         /// <summary>
-        ///     Create a new instance from SerializationInfo
+        /// Create a new instance from SerializationInfo
         /// </summary>
         protected ReferenceNode(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-
+        
         /// <summary>
-        ///     Returns a value for the integer literal node.
+        /// Returns a value for the integer literal node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
@@ -58,10 +58,10 @@ namespace Spring.Context.Support
             IApplicationContext ctx;
             string objectName;
 
-            if (getNumberOfChildren() == 2)
+            if (this.getNumberOfChildren() == 2)
             {
-                string contextName = getFirstChild().getText();
-                objectName = getFirstChild().getNextSibling().getText();
+                string contextName = this.getFirstChild().getText();
+                objectName = this.getFirstChild().getNextSibling().getText();
                 ctx = ContextRegistry.GetContext(contextName);
                 if (ctx == null)
                 {
@@ -70,10 +70,10 @@ namespace Spring.Context.Support
             }
             else
             {
-                objectName = getFirstChild().getText();
-                IObjectFactory currentObjectFactory = evalContext.Variables != null
-                    ? (IObjectFactory) evalContext.Variables[Expression.ReservedVariableNames.CurrentObjectFactory]
-                    : null;
+                objectName = this.getFirstChild().getText();
+                IObjectFactory currentObjectFactory = (evalContext.Variables != null)
+                                                          ? (IObjectFactory)evalContext.Variables[Expression.ReservedVariableNames.CurrentObjectFactory]
+                                                          : null;
 
                 // this is a local reference within an object factory
                 if (currentObjectFactory != null)

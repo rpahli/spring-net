@@ -25,29 +25,29 @@ using Spring.Util;
 namespace Spring.Expressions
 {
     /// <summary>
-    ///     Represents logical "greater than" operator.
+    /// Represents logical "greater than" operator.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class OpGreater : BinaryOperator
     {
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
-        public OpGreater()
+        public OpGreater():base()
         {
         }
 
         /// <summary>
-        ///     Create a new instance from SerializationInfo
+        /// Create a new instance from SerializationInfo
         /// </summary>
         protected OpGreater(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-
+        
         /// <summary>
-        ///     Returns a value for the logical "greater than" operator node.
+        /// Returns a value for the logical "greater than" operator node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>

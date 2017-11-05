@@ -24,31 +24,33 @@ using Spring.Util;
 namespace Spring.Expressions.Processors
 {
     /// <summary>
-    ///     Implementation of the minimum aggregator.
+    /// Implementation of the minimum aggregator.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     public class MinAggregator : ICollectionProcessor
     {
         /// <summary>
-        ///     Returns the smallest item in the source collection.
+        /// Returns the smallest item in the source collection.
         /// </summary>
         /// <param name="source">
-        ///     The source collection to process.
+        /// The source collection to process.
         /// </param>
         /// <param name="args">
-        ///     Ignored.
+        /// Ignored.
         /// </param>
         /// <returns>
-        ///     The smallest item in the source collection.
+        /// The smallest item in the source collection.
         /// </returns>
         public object Process(ICollection source, object[] args)
         {
             object minItem = null;
             foreach (object item in source)
-                if (minItem == null && item != null || CompareUtils.Compare(minItem, item) > 0)
+            {
+                if ((minItem == null && item != null) || (CompareUtils.Compare(minItem, item) > 0))
                 {
                     minItem = item;
                 }
+            }
             return minItem;
         }
     }

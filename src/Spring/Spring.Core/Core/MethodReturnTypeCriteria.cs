@@ -28,8 +28,8 @@ using System.Reflection;
 namespace Spring.Core
 {
     /// <summary>
-    ///     Criteria that is satisfied if the return <see cref="System.Type" /> of a given
-    ///     <see cref="System.Reflection.MethodInfo" /> matches a given <see cref="System.Type" />.
+    /// Criteria that is satisfied if the return <see cref="System.Type"/> of a given
+    /// <see cref="System.Reflection.MethodInfo"/> matches a given <see cref="System.Type"/>.
     /// </summary>
     /// <author>Rick Evans</author>
     public class MethodReturnTypeCriteria : ICriteria
@@ -37,25 +37,46 @@ namespace Spring.Core
         #region Constants
 
         /// <summary>
-        ///     The return <see cref="System.Type" /> to match against if no
-        ///     <see cref="System.Type" /> is provided explictly.
+        /// The return <see cref="System.Type"/> to match against if no
+        /// <see cref="System.Type"/> is provided explictly.
         /// </summary>
-        private static readonly Type DefaultType = typeof(void);
+        private static readonly Type DefaultType = typeof (void);
 
         #endregion
 
-        #region Fields
+        #region Constructor (s) / Destructor
 
-        private Type _type;
+        /// <summary>
+        /// Creates a new instance of the
+        /// <see cref="MethodReturnTypeCriteria"/> class.
+        /// </summary>
+        public MethodReturnTypeCriteria()
+            : this(DefaultType)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new instance of the
+        /// <see cref="MethodReturnTypeCriteria"/> class.
+        /// </summary>
+        /// <param name="type">
+        /// The <see cref="System.Type"/> that the return type of a given
+        /// <see cref="System.Reflection.MethodInfo"/> must match in order to satisfy
+        /// this criteria.
+        /// </param>
+        public MethodReturnTypeCriteria(Type type)
+        {
+            ReturnType = type;
+        }
 
         #endregion
 
         #region Properties
 
         /// <summary>
-        ///     The <see cref="System.Type" /> that the return type of a given
-        ///     <see cref="System.Reflection.MethodInfo" /> must match in order to satisfy
-        ///     this criteria.
+        /// The <see cref="System.Type"/> that the return type of a given
+        /// <see cref="System.Reflection.MethodInfo"/> must match in order to satisfy
+        /// this criteria.
         /// </summary>
         public Type ReturnType
         {
@@ -68,13 +89,13 @@ namespace Spring.Core
         #region Methods
 
         /// <summary>
-        ///     Does the supplied <paramref name="datum" /> satisfy the criteria encapsulated by
-        ///     this instance?
+        /// Does the supplied <paramref name="datum"/> satisfy the criteria encapsulated by
+        /// this instance?
         /// </summary>
         /// <param name="datum">The datum to be checked by this criteria instance.</param>
         /// <returns>
-        ///     True if the supplied <paramref name="datum" /> satisfies the criteria encapsulated
-        ///     by this instance; false if not or the supplied <paramref name="datum" /> is null.
+        /// True if the supplied <paramref name="datum"/> satisfies the criteria encapsulated
+        /// by this instance; false if not or the supplied <paramref name="datum"/> is null.
         /// </returns>
         public bool IsSatisfied(object datum)
         {
@@ -89,30 +110,9 @@ namespace Spring.Core
 
         #endregion
 
-        #region Constructor (s) / Destructor
+        #region Fields
 
-        /// <summary>
-        ///     Creates a new instance of the
-        ///     <see cref="MethodReturnTypeCriteria" /> class.
-        /// </summary>
-        public MethodReturnTypeCriteria()
-            : this(DefaultType)
-        {
-        }
-
-        /// <summary>
-        ///     Creates a new instance of the
-        ///     <see cref="MethodReturnTypeCriteria" /> class.
-        /// </summary>
-        /// <param name="type">
-        ///     The <see cref="System.Type" /> that the return type of a given
-        ///     <see cref="System.Reflection.MethodInfo" /> must match in order to satisfy
-        ///     this criteria.
-        /// </param>
-        public MethodReturnTypeCriteria(Type type)
-        {
-            ReturnType = type;
-        }
+        private Type _type;
 
         #endregion
     }

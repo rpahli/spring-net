@@ -25,39 +25,39 @@ using System.Runtime.Serialization;
 namespace Spring.Expressions
 {
     /// <summary>
-    ///     Represents local function node.
+    /// Represents local function node.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class LocalFunctionNode : NodeWithArguments
     {
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
         public LocalFunctionNode()
         {
         }
 
         /// <summary>
-        ///     Create a new instance from SerializationInfo
+        /// Create a new instance from SerializationInfo
         /// </summary>
         protected LocalFunctionNode(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-
+        
         /// <summary>
-        ///     Evaluates function represented by this node.
+        /// Evaluates function represented by this node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
         /// <returns>Result of the function evaluation.</returns>
         protected override object Get(object context, EvaluationContext evalContext)
         {
-            string name = getText();
+            string name = this.getText();
             IDictionary locals = evalContext.LocalVariables;
             LambdaExpressionNode lambda = locals[name] as LambdaExpressionNode;
-
+            
             if (lambda == null)
             {
                 throw new InvalidOperationException("Function '" + name + "' is not defined.");

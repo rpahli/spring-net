@@ -25,55 +25,61 @@ using Spring.Util;
 namespace Spring.Expressions
 {
     /// <summary>
-    ///     Represents logical inequality operator.
+    /// Represents logical inequality operator.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class OpNotEqual : BinaryOperator
     {
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
-        public OpNotEqual()
+        public OpNotEqual():base()
         {
         }
 
         /// <summary>
-        ///     Create a new instance from SerializationInfo
+        /// Create a new instance from SerializationInfo
         /// </summary>
         protected OpNotEqual(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-
+        
         /// <summary>
-        ///     Returns a value for the logical inequality operator node.
+        /// Returns a value for the logical inequality operator node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
         /// <returns>Node's value.</returns>
         protected override object Get(object context, EvaluationContext evalContext)
         {
-            object leftVal = GetLeftValue(context, evalContext);
-            object rightVal = GetRightValue(context, evalContext);
+            object leftVal = GetLeftValue( context, evalContext );
+            object rightVal = GetRightValue( context, evalContext );
 
             if (leftVal == null)
             {
-                return rightVal != null;
+                return (rightVal != null);
             }
-            if (rightVal == null)
+            else if (rightVal == null)
             {
                 return true;
             }
-            if (leftVal.GetType() == rightVal.GetType())
+            else if (leftVal.GetType() == rightVal.GetType())
             {
                 if (leftVal is Array)
                 {
                     return !ArrayUtils.AreEqual(leftVal as Array, rightVal as Array);
                 }
-                return !leftVal.Equals(rightVal);
+                else
+                {
+                    return !leftVal.Equals(rightVal);
+                }
             }
-            return CompareUtils.Compare(leftVal, rightVal) != 0;
+            else
+            {
+                return CompareUtils.Compare(leftVal, rightVal) != 0;
+            }
         }
     }
 }

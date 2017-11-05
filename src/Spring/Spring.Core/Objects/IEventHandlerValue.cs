@@ -21,39 +21,51 @@
 
 namespace Spring.Objects
 {
-    /// <summary>
-    ///     Describes an event handler.
+	/// <summary>
+	/// Describes an event handler.
     /// </summary>
     /// <author>Rick Evans</author>
-    public interface IEventHandlerValue
+	public interface IEventHandlerValue 
     {
         /// <summary>
-        ///     The source of the event.
+        /// The source of the event.
         /// </summary>
-        object Source { get; set; }
+        object Source 
+        {
+            get;
+            set;
+        }
 
         /// <summary>
-        ///     The name of the method that is going to handle the event.
+        /// The name of the method that is going to handle the event.
         /// </summary>
-        string MethodName { get; set; }
+        string MethodName 
+        {
+            get;
+            set;
+        }
 
         /// <summary>
-        ///     The name of the event that is being wired up.
+        /// The name of the event that is being wired up.
         /// </summary>
-        string EventName { get; set; }
+        string EventName 
+        {
+            get;
+            set;
+        }
 
         /// <summary>
-        ///     Wires up the specified handler to the named event on the
-        ///     supplied event source.
+        /// Wires up the specified handler to the named event on the
+        /// supplied event source.
         /// </summary>
         /// <param name="source">
-        ///     The object (an object instance, a <see cref="System.Type" />, etc)
-        ///     exposing the named event.
+        /// The object (an object instance, a <see cref="System.Type"/>, etc)
+        /// exposing the named event.
         /// </param>
         /// <param name="handler">
-        ///     The handler for the event (an object instance, a
-        ///     <see cref="System.Type" />, etc).
+        /// The handler for the event (an object instance, a
+        /// <see cref="System.Type"/>, etc).
         /// </param>
-        void Wire(object source, object handler);
-    }
+        void Wire (object source, object handler);
+	}
 }

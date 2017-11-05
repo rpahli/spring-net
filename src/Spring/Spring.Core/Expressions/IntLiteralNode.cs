@@ -24,7 +24,7 @@ using System.Runtime.Serialization;
 namespace Spring.Expressions
 {
     /// <summary>
-    ///     Represents parsed integer literal node.
+    /// Represents parsed integer literal node.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
@@ -33,30 +33,30 @@ namespace Spring.Expressions
         private object nodeValue;
 
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
         public IntLiteralNode()
         {
         }
 
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
         public IntLiteralNode(string text)
         {
-            Text = text;
+            this.Text = text;
         }
 
         /// <summary>
-        ///     Create a new instance from SerializationInfo
+        /// Create a new instance from SerializationInfo
         /// </summary>
         protected IntLiteralNode(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-
+        
         /// <summary>
-        ///     Returns a value for the integer literal node.
+        /// Returns a value for the integer literal node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
@@ -69,14 +69,14 @@ namespace Spring.Expressions
                 {
                     if (nodeValue == null)
                     {
-                        string n = getText();
+                        string n = this.getText();
                         try
                         {
-                            nodeValue = int.Parse(n);
+                            nodeValue = Int32.Parse(n);
                         }
                         catch (OverflowException)
                         {
-                            nodeValue = long.Parse(n);
+                            nodeValue = Int64.Parse(n);
                         }
                     }
                 }

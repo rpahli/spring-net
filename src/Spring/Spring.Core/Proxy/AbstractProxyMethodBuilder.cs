@@ -21,9 +21,9 @@
 #region Imports
 
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+
 using Spring.Util;
 
 #endregion
@@ -31,25 +31,44 @@ using Spring.Util;
 namespace Spring.Proxy
 {
     /// <summary>
-    ///     Base class for method builders that contains common functionalities.
+    /// Base class for method builders that contains common functionalities.
     /// </summary>
     /// <author>Bruno Baia</author>
     public abstract class AbstractProxyMethodBuilder : IProxyMethodBuilder
     {
+        #region Fields
+
+        /// <summary>
+        /// The type builder to use.
+        /// </summary>
+        protected TypeBuilder typeBuilder;
+
+        /// <summary>
+        /// The <see cref="IProxyTypeGenerator"/> implementation to use.
+        /// </summary>
+        protected IProxyTypeGenerator proxyGenerator;
+
+        /// <summary>
+        /// Indicates whether interfaces should be implemented explicitly.
+        /// </summary>
+        protected bool explicitImplementation;
+
+        #endregion
+
         #region Constructor(s) / Destructor
 
         /// <summary>
-        ///     Creates a new instance of the method builder.
+        /// Creates a new instance of the method builder.
         /// </summary>
         /// <param name="typeBuilder">The type builder to use.</param>
         /// <param name="proxyGenerator">
-        ///     The <see cref="IProxyTypeGenerator" /> implementation to use.
+        /// The <see cref="IProxyTypeGenerator"/> implementation to use.
         /// </param>
         /// <param name="explicitImplementation">
-        ///     <see langword="true" /> if the interface is to be
-        ///     implemented explicitly; otherwise <see langword="false" />.
+        /// <see langword="true"/> if the interface is to be
+        /// implemented explicitly; otherwise <see langword="false"/>.
         /// </param>
-        public AbstractProxyMethodBuilder(TypeBuilder typeBuilder,
+        public AbstractProxyMethodBuilder(TypeBuilder typeBuilder, 
             IProxyTypeGenerator proxyGenerator, bool explicitImplementation)
         {
             this.typeBuilder = typeBuilder;
@@ -62,18 +81,18 @@ namespace Spring.Proxy
         #region IProxyMethodBuilder Members
 
         /// <summary>
-        ///     Dynamically builds proxy method.
+        /// Dynamically builds proxy method.
         /// </summary>
         /// <param name="method">The method to proxy.</param>
         /// <param name="interfaceMethod">
-        ///     The interface definition of the method, if applicable.
+        /// The interface definition of the method, if applicable.
         /// </param>
         /// <returns>
-        ///     The <see cref="System.Reflection.Emit.MethodBuilder" /> for the proxy method.
+        /// The <see cref="System.Reflection.Emit.MethodBuilder"/> for the proxy method.
         /// </returns>
         public virtual MethodBuilder BuildProxyMethod(MethodInfo method, MethodInfo interfaceMethod)
         {
-            MethodBuilder methodBuilder =
+            MethodBuilder methodBuilder = 
                 DefineMethod(method, interfaceMethod, explicitImplementation);
 
             ILGenerator il = methodBuilder.GetILGenerator();
@@ -82,8 +101,8 @@ namespace Spring.Proxy
 
             il.Emit(OpCodes.Ret);
 
-            if (explicitImplementation ||
-                interfaceMethod != null && interfaceMethod.Name != method.Name)
+            if (explicitImplementation || 
+                (interfaceMethod != null && interfaceMethod.Name != method.Name))
             {
                 typeBuilder.DefineMethodOverride(methodBuilder, interfaceMethod);
             }
@@ -93,30 +112,11 @@ namespace Spring.Proxy
 
         #endregion
 
-        #region Fields
-
-        /// <summary>
-        ///     The type builder to use.
-        /// </summary>
-        protected TypeBuilder typeBuilder;
-
-        /// <summary>
-        ///     The <see cref="IProxyTypeGenerator" /> implementation to use.
-        /// </summary>
-        protected IProxyTypeGenerator proxyGenerator;
-
-        /// <summary>
-        ///     Indicates whether interfaces should be implemented explicitly.
-        /// </summary>
-        protected bool explicitImplementation;
-
-        #endregion
-
         #region Protected Methods
 
         /// <summary>
-        ///     Generates the IL instructions that pushes
-        ///     the proxy instance on stack.
+        /// Generates the IL instructions that pushes 
+        /// the proxy instance on stack.
         /// </summary>
         /// <param name="il">The IL generator to use.</param>
         protected virtual void PushProxy(ILGenerator il)
@@ -125,8 +125,8 @@ namespace Spring.Proxy
         }
 
         /// <summary>
-        ///     Generates the IL instructions that pushes
-        ///     the target instance on which calls should be delegated to.
+        /// Generates the IL instructions that pushes 
+        /// the target instance on which calls should be delegated to.
         /// </summary>
         /// <param name="il">The IL generator to use.</param>
         protected virtual void PushTarget(ILGenerator il)
@@ -135,18 +135,18 @@ namespace Spring.Proxy
         }
 
         /// <summary>
-        ///     Defines proxy method for the target object.
+        /// Defines proxy method for the target object.
         /// </summary>
         /// <param name="method">The method to proxy.</param>
         /// <param name="intfMethod">
-        ///     The interface definition of the method, if applicable.
+        /// The interface definition of the method, if applicable.
         /// </param>
         /// <param name="explicitImplementation">
-        ///     <see langword="true" /> if the supplied <paramref name="intfMethod" /> is to be
-        ///     implemented explicitly; otherwise <see langword="false" />.
+        /// <see langword="true"/> if the supplied <paramref name="intfMethod"/> is to be
+        /// implemented explicitly; otherwise <see langword="false"/>.
         /// </param>
         /// <returns>
-        ///     The <see cref="System.Reflection.Emit.MethodBuilder" /> for the proxy method.
+        /// The <see cref="System.Reflection.Emit.MethodBuilder"/> for the proxy method.
         /// </returns>
         protected virtual MethodBuilder DefineMethod(
             MethodInfo method, MethodInfo intfMethod, bool explicitImplementation)
@@ -159,17 +159,17 @@ namespace Spring.Proxy
             {
                 name = method.Name;
                 attributes = MethodAttributes.Public | MethodAttributes.ReuseSlot
-                             | MethodAttributes.HideBySig | MethodAttributes.Virtual;
+                    | MethodAttributes.HideBySig | MethodAttributes.Virtual;
             }
             else
             {
                 attributes = MethodAttributes.HideBySig
-                             | MethodAttributes.NewSlot | MethodAttributes.Virtual
-                             | MethodAttributes.Final;
+                    | MethodAttributes.NewSlot | MethodAttributes.Virtual
+                    | MethodAttributes.Final;
 
                 if (explicitImplementation || method.Name.IndexOf('.') != -1)
                 {
-                    name = string.Format("{0}.{1}",
+                    name = String.Format("{0}.{1}", 
                         intfMethod.DeclaringType.FullName, intfMethod.Name);
                     attributes |= MethodAttributes.Private;
                 }
@@ -180,7 +180,7 @@ namespace Spring.Proxy
                 }
             }
 
-            if (intfMethod != null && intfMethod.IsSpecialName || method.IsSpecialName)
+            if ((intfMethod != null && intfMethod.IsSpecialName) || method.IsSpecialName)
             {
                 attributes |= MethodAttributes.SpecialName;
             }
@@ -215,10 +215,10 @@ namespace Spring.Proxy
         */
 
         /// <summary>
-        ///     Defines generic method parameters based on proxied method metadata.
+        /// Defines generic method parameters based on proxied method metadata.
         /// </summary>
         /// <param name="methodBuilder">
-        ///     The <see cref="System.Reflection.Emit.MethodBuilder" /> to use.
+        /// The <see cref="System.Reflection.Emit.MethodBuilder"/> to use.
         /// </param>
         /// <param name="method">The method to proxy.</param>
         protected void DefineGenericParameters(MethodBuilder methodBuilder, MethodInfo method)
@@ -237,34 +237,32 @@ namespace Spring.Proxy
                     gtpBuilders[i].SetGenericParameterAttributes(genericArguments[i].GenericParameterAttributes);
 
                     Type[] constraints = genericArguments[i].GetGenericParameterConstraints();
-                    List<Type> interfaces = new List<Type>(constraints.Length);
+                    System.Collections.Generic.List<Type> interfaces = new System.Collections.Generic.List<Type>(constraints.Length);
                     foreach (Type constraint in constraints)
+                    {
                         if (constraint.IsClass)
-                        {
                             gtpBuilders[i].SetBaseTypeConstraint(constraint);
-                        }
                         else
-                        {
                             interfaces.Add(constraint);
-                        }
+                    }
                     gtpBuilders[i].SetInterfaceConstraints(interfaces.ToArray());
                 }
             }
         }
 
         /// <summary>
-        ///     Generates the proxy method.
+        /// Generates the proxy method.
         /// </summary>
         /// <param name="il">The IL generator to use.</param>
         /// <param name="method">The method to proxy.</param>
         /// <param name="interfaceMethod">
-        ///     The interface definition of the method, if applicable.
+        /// The interface definition of the method, if applicable.
         /// </param>
         protected abstract void GenerateMethod(
             ILGenerator il, MethodInfo method, MethodInfo interfaceMethod);
 
         /// <summary>
-        ///     Calls target method directly.
+        /// Calls target method directly.
         /// </summary>
         /// <param name="il">The IL generator to use.</param>
         /// <param name="targetMethod">The method to invoke.</param>
@@ -283,14 +281,16 @@ namespace Spring.Proxy
             // setup parameters for call
             ParameterInfo[] paramArray = targetMethod.GetParameters();
             for (int i = 0; i < paramArray.Length; i++)
+            {
                 il.Emit(OpCodes.Ldarg_S, i + 1);
+            }
 
             // call method
             il.EmitCall(OpCodes.Callvirt, targetMethod, null);
         }
 
         /// <summary>
-        ///     Emits code to ensure that target on stack understands the method and throw a sensible exception otherwise.
+        /// Emits code to ensure that target on stack understands the method and throw a sensible exception otherwise.
         /// </summary>
         /// <param name="il">The IL generator to use.</param>
         /// <param name="method">The method to test for</param>
@@ -305,7 +305,7 @@ namespace Spring.Proxy
         }
 
         /// <summary>
-        ///     Calls base method directly.
+        /// Calls base method directly.
         /// </summary>
         /// <param name="il">The IL generator to use.</param>
         /// <param name="method">The method to proxy.</param>
@@ -323,21 +323,23 @@ namespace Spring.Proxy
             // setup parameters for call
             ParameterInfo[] paramArray = method.GetParameters();
             for (int i = 0; i < paramArray.Length; i++)
+            {
                 il.Emit(OpCodes.Ldarg_S, i + 1);
+            }
 
             // call method
             il.EmitCall(OpCodes.Call, method, null);
         }
 
         /// <summary>
-        ///     Replaces a raw reference with a reference to a proxy.
+        /// Replaces a raw reference with a reference to a proxy.
         /// </summary>
         /// <remarks>
-        ///     <p>
-        ///         If the target object returns reference to itself -- 'this' --
-        ///         we need to treat it as a special case and return a reference
-        ///         to a proxy object instead.
-        ///     </p>
+        /// <p>
+        /// If the target object returns reference to itself -- 'this' --
+        /// we need to treat it as a special case and return a reference
+        /// to a proxy object instead.
+        /// </p>
         /// </remarks>
         /// <param name="il">The IL generator to use.</param>
         /// <param name="returnValue">The location of the return value.</param>
@@ -363,14 +365,14 @@ namespace Spring.Proxy
         }
 
         /// <summary>
-        ///     Generates code that throws <see cref="InvalidOperationException" />.
+        /// Generates code that throws <see cref="InvalidOperationException"/>.
         /// </summary>
         /// <param name="il">IL generator to use.</param>
         /// <param name="exceptionType">the type of the exception to throw</param>
         /// <param name="message">Error message to use.</param>
         protected static void EmitThrowException(ILGenerator il, Type exceptionType, string message)
         {
-            ConstructorInfo NewException = exceptionType.GetConstructor(new[] {typeof(string)});
+            ConstructorInfo NewException = exceptionType.GetConstructor(new Type[] { typeof(string) });
 
             il.Emit(OpCodes.Ldstr, message);
             il.Emit(OpCodes.Newobj, NewException);
@@ -386,10 +388,10 @@ namespace Spring.Proxy
     {
         // methods
         public static readonly MethodInfo GetTypeFromHandleMethod =
-            typeof(Type).GetMethod("GetTypeFromHandle", new[] {typeof(RuntimeTypeHandle)});
+            typeof(Type).GetMethod("GetTypeFromHandle", new Type[] { typeof(RuntimeTypeHandle) });
 
         public static readonly MethodInfo UnderstandsMethod =
-            typeof(AssertUtils).GetMethod("Understands", new[] {typeof(object), typeof(string), typeof(Type)});
+            typeof(AssertUtils).GetMethod("Understands", new Type[] { typeof(object), typeof(string), typeof(Type) });
     }
 
     #endregion

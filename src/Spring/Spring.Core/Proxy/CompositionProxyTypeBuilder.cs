@@ -29,23 +29,50 @@ using System.Reflection.Emit;
 namespace Spring.Proxy
 {
     /// <summary>
-    ///     Builds a proxy type using composition.
+    /// Builds a proxy type using composition.
     /// </summary>
     /// <remarks>
-    ///     <note>
-    ///         In order for this builder to work, the target <b>must</b> implement
-    ///         one or more interfaces.
-    ///     </note>
+    /// <note>
+    /// In order for this builder to work, the target <b>must</b> implement
+    /// one or more interfaces.
+    /// </note>
     /// </remarks>
     /// <author>Aleksandar Seovic</author>
     /// <author>Bruno Baia</author>
     public class CompositionProxyTypeBuilder : AbstractProxyTypeBuilder
     {
+        #region Fields
+
+        private bool explicitInterfaceImplementation = false;
+
+        /// <summary>
+        /// Target instance calls should be delegated to.
+        /// </summary>
+        protected FieldBuilder targetInstance;
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets a value indicating whether interfaces should be implemented explicitly.
+        /// </summary>
+        /// <value>
+        /// <see langword="true"/> if they should be; otherwise, <see langword="false"/>.
+        /// </value>
+        public bool ExplicitInterfaceImplementation
+        {
+            get { return explicitInterfaceImplementation; }
+            set { explicitInterfaceImplementation = value; }
+        }
+
+        #endregion
+
         #region Constructor(s) / Destructor
 
         /// <summary>
-        ///     Creates a new instance of the
-        ///     <see cref="CompositionProxyTypeBuilder" /> class.
+        /// Creates a new instance of the 
+        /// <see cref="CompositionProxyTypeBuilder"/> class.
         /// </summary>
         public CompositionProxyTypeBuilder()
         {
@@ -54,65 +81,22 @@ namespace Spring.Proxy
 
         #endregion
 
-        #region Properties
-
-        /// <summary>
-        ///     Gets or sets a value indicating whether interfaces should be implemented explicitly.
-        /// </summary>
-        /// <value>
-        ///     <see langword="true" /> if they should be; otherwise, <see langword="false" />.
-        /// </value>
-        public bool ExplicitInterfaceImplementation { get; set; } = false;
-
-        #endregion
-
-        /// <summary>
-        ///     Allows subclasses to generate additional code
-        /// </summary>
-        protected virtual void ImplementCustom(TypeBuilder builder)
-        {
-        }
-
-        #region IProxyTypeGenerator Members
-
-        /// <summary>
-        ///     Generates the IL instructions that pushes
-        ///     the target instance on which calls should be delegated to.
-        /// </summary>
-        /// <param name="il">The IL generator to use.</param>
-        public override void PushTarget(ILGenerator il)
-        {
-            il.Emit(OpCodes.Ldarg_0);
-            il.Emit(OpCodes.Ldfld, targetInstance);
-        }
-
-        #endregion
-
-        #region Fields
-
-        /// <summary>
-        ///     Target instance calls should be delegated to.
-        /// </summary>
-        protected FieldBuilder targetInstance;
-
-        #endregion
-
         #region IProxyTypeBuilder Members
 
         /// <summary>
-        ///     Creates a proxy that delegates calls to an instance of the
-        ///     target object.
+        /// Creates a proxy that delegates calls to an instance of the
+        /// target object.
         /// </summary>
         /// <remarks>
-        ///     <p>
-        ///         Only interfaces can be proxied using composition, so the target
-        ///         <b>must</b> implement one or more interfaces.
-        ///     </p>
+        /// <p>
+        /// Only interfaces can be proxied using composition, so the target
+        /// <b>must</b> implement one or more interfaces.
+        /// </p>
         /// </remarks>
         /// <returns>The generated proxy class.</returns>
         /// <exception cref="System.ArgumentException">
-        ///     If the <see cref="IProxyTypeBuilder.TargetType" />
-        ///     does not implement any interfaces.
+        /// If the <see cref="IProxyTypeBuilder.TargetType"/>
+        /// does not implement any interfaces.
         /// </exception>
         public override Type BuildProxyType()
         {
@@ -135,9 +119,11 @@ namespace Spring.Proxy
 
             // implement interfaces
             foreach (Type intf in Interfaces)
+            {
                 ImplementInterface(typeBuilder,
                     CreateTargetProxyMethodBuilder(typeBuilder),
                     intf, TargetType);
+            }
 
             ImplementCustom(typeBuilder);
 
@@ -145,11 +131,32 @@ namespace Spring.Proxy
         }
 
         /// <summary>
-        ///     Create an <see cref="IProxyMethodBuilder" /> to create interface implementations
+        /// Create an <see cref="IProxyMethodBuilder"/> to create interface implementations
         /// </summary>
         protected virtual IProxyMethodBuilder CreateTargetProxyMethodBuilder(TypeBuilder typeBuilder)
         {
-            return new TargetProxyMethodBuilder(typeBuilder, this, ExplicitInterfaceImplementation);
+            return new TargetProxyMethodBuilder(typeBuilder, this, explicitInterfaceImplementation);
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Allows subclasses to generate additional code
+        /// </summary>
+        protected virtual void ImplementCustom(TypeBuilder builder)
+        { }
+
+        #region IProxyTypeGenerator Members
+
+        /// <summary>
+        /// Generates the IL instructions that pushes 
+        /// the target instance on which calls should be delegated to.
+        /// </summary>
+        /// <param name="il">The IL generator to use.</param>
+        public override void PushTarget(ILGenerator il)
+        {
+            il.Emit(OpCodes.Ldarg_0);
+            il.Emit(OpCodes.Ldfld, targetInstance);
         }
 
         #endregion
@@ -157,10 +164,10 @@ namespace Spring.Proxy
         #region Protected Methods
 
         /// <summary>
-        ///     Deaclares a field that holds the target object instance.
+        /// Deaclares a field that holds the target object instance.
         /// </summary>
         /// <param name="builder">
-        ///     The <see cref="System.Type" /> builder to use for code generation.
+        /// The <see cref="System.Type"/> builder to use for code generation.
         /// </param>
         protected virtual void DeclareTargetInstanceField(TypeBuilder builder)
         {
@@ -168,13 +175,13 @@ namespace Spring.Proxy
         }
 
         /// <summary>
-        ///     Generates the proxy constructor.
+        /// Generates the proxy constructor.
         /// </summary>
         /// <remarks>
-        ///     <p>
-        ///         This implementation creates instance of the target object for delegation
-        ///         using constructor arguments.
-        ///     </p>
+        /// <p>
+        /// This implementation creates instance of the target object for delegation
+        /// using constructor arguments.
+        /// </p>
         /// </remarks>
         /// <param name="builder">The constructor builder to use.</param>
         /// <param name="il">The IL generator to use.</param>
@@ -185,7 +192,9 @@ namespace Spring.Proxy
             int paramCount = constructor.GetParameters().Length;
             il.Emit(OpCodes.Ldarg_0);
             for (int i = 1; i <= paramCount; i++)
+            {
                 il.Emit(OpCodes.Ldarg_S, i);
+            }
 
             il.Emit(OpCodes.Newobj, constructor);
             il.Emit(OpCodes.Stfld, targetInstance);

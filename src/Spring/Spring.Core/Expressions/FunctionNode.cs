@@ -25,21 +25,21 @@ using Spring.Reflection.Dynamic;
 namespace Spring.Expressions
 {
     /// <summary>
-    ///     Represents parsed function node.
+    /// Represents parsed function node.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class FunctionNode : NodeWithArguments
     {
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
         public FunctionNode()
         {
         }
 
         /// <summary>
-        ///     Create a new instance from SerializationInfo
+        /// Create a new instance from SerializationInfo
         /// </summary>
         protected FunctionNode(SerializationInfo info, StreamingContext context)
             : base(info, context)
@@ -47,14 +47,14 @@ namespace Spring.Expressions
         }
 
         /// <summary>
-        ///     Evaluates function represented by this node.
+        /// Evaluates function represented by this node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
         /// <returns>Result of the function evaluation.</returns>
         protected override object Get(object context, EvaluationContext evalContext)
         {
-            string name = getText();
+            string name = this.getText();
 
             object[] argValues = ResolveArguments(evalContext);
 
@@ -77,7 +77,7 @@ namespace Spring.Expressions
                 }
                 catch (ArgumentMismatchException ame)
                 {
-                    throw new InvalidOperationException("Failed executing function " + name + ": " + ame.Message);
+                    throw new InvalidOperationException( "Failed executing function " + name + ": " + ame.Message );
                 }
             }
 

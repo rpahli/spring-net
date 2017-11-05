@@ -24,6 +24,7 @@ using System;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
+
 using Spring.Core.TypeResolution;
 using Spring.Util;
 
@@ -32,96 +33,123 @@ using Spring.Util;
 namespace Spring.Objects.Factory.Config
 {
     /// <summary>
-    ///     <see cref="Spring.Objects.Factory.IFactoryObject" /> implementation that
-    ///     retrieves a static or non-static <b>public</b> field value.
+    /// <see cref="Spring.Objects.Factory.IFactoryObject"/> implementation that
+    /// retrieves a static or non-static <b>public</b> field value.
     /// </summary>
     /// <remarks>
-    ///     <p>
-    ///         Typically used for retrieving <b>public</b> constants.
-    ///     </p>
+    /// <p>
+    /// Typically used for retrieving <b>public</b> constants.
+    /// </p>
     /// </remarks>
     /// <example>
-    ///     <p>
-    ///         The following example retrieves the <see cref="System.DBNull.Value" /> field value...
-    ///     </p>
-    ///     <code escaped="true">
-    ///  <object id="dbnull" type="Spring.Objects.Factory.Config.FieldRetrievingFactoryObject, Spring.Core">
-    ///             <property name="TargetType" value="System.DBNull" />
-    ///             <property name="TargetField" value="Value" />
-    ///         </object>
-    ///  </code>
-    ///     <p>
-    ///         The previous example could also have been written using the convenience
-    ///         <see cref="Spring.Objects.Factory.Config.FieldRetrievingFactoryObject.StaticField" />
-    ///         property, like so...
-    ///     </p>
-    ///     <code escaped="true">
-    ///  <object id="dbnull" type="Spring.Objects.Factory.Config.FieldRetrievingFactoryObject, Spring.Core">
-    ///             <property name="StaticField" value="System.DBNull.Value" />
-    ///         </object>
-    ///  </code>
-    ///     <p>
-    ///         This class also implements the <see cref="Spring.Objects.Factory.IObjectNameAware" />
-    ///         interface
-    ///         (<see cref="Spring.Objects.Factory.Config.FieldRetrievingFactoryObject.ObjectName" />).
-    ///         If the id (or name) of one's
-    ///         <see cref="Spring.Objects.Factory.Config.FieldRetrievingFactoryObject" />
-    ///         object definition is set to the <see cref="System.Type.AssemblyQualifiedName" />
-    ///         of the <see langword="static" /> field to be retrieved, then the id (or
-    ///         name) of one's object definition will be used for the name of the
-    ///         <see langword="static" /> field lookup. See below for an example of this
-    ///         concise style of definition.
-    ///     </p>
-    ///     <code escaped="true">
-    ///  <!-- returns the value of the DBNull.Value field -->
-    ///  <object id="System.DBNull.Value"
-    ///             type="Spring.Objects.Factory.Config.FieldRetrievingFactoryObject, Spring.Core" />
-    /// 
-    ///  <!-- returns the value of the Type.Delimiter field -->
-    ///  <object id="System.Type.Delimiter"
-    ///             type="Spring.Objects.Factory.Config.FieldRetrievingFactoryObject, Spring.Core" />
-    ///  </code>
-    ///     <p>
-    ///         The usage for retrieving instance fields is similar. No example is shown
-    ///         because public instance fields are <i>generally</i> bad practice; but if
-    ///         you have some legacy code that exposes public instance fields, or if you
-    ///         just really like coding public instance fields, then you can use this
-    ///         <see cref="Spring.Objects.Factory.IFactoryObject" /> implementation to
-    ///         retrieve such field values.
-    ///     </p>
+    /// <p>
+    /// The following example retrieves the <see cref="System.DBNull.Value"/> field value...
+    /// </p>
+    /// <code escaped="true">
+    /// <object id="dbnull" type="Spring.Objects.Factory.Config.FieldRetrievingFactoryObject, Spring.Core">
+    ///     <property name="TargetType" value="System.DBNull"/>
+    ///     <property name="TargetField" value="Value"/>
+    /// </object>
+    /// </code>
+    /// <p>
+    /// The previous example could also have been written using the convenience
+    /// <see cref="Spring.Objects.Factory.Config.FieldRetrievingFactoryObject.StaticField"/>
+    /// property, like so...
+    /// </p>
+    /// <code escaped="true">
+    /// <object id="dbnull" type="Spring.Objects.Factory.Config.FieldRetrievingFactoryObject, Spring.Core">
+    ///     <property name="StaticField" value="System.DBNull.Value"/>
+    /// </object>
+    /// </code>
+    /// <p>
+    /// This class also implements the <see cref="Spring.Objects.Factory.IObjectNameAware"/>
+    /// interface
+    /// (<see cref="Spring.Objects.Factory.Config.FieldRetrievingFactoryObject.ObjectName"/>).
+    /// If the id (or name) of one's
+    /// <see cref="Spring.Objects.Factory.Config.FieldRetrievingFactoryObject"/>
+    /// object definition is set to the <see cref="System.Type.AssemblyQualifiedName"/>
+    /// of the <see langword="static"/> field to be retrieved, then the id (or
+    /// name) of one's object definition will be used for the name of the
+    /// <see langword="static"/> field lookup. See below for an example of this
+    /// concise style of definition.
+    /// </p>
+    /// <code escaped="true">
+    /// <!-- returns the value of the DBNull.Value field -->
+    /// <object id="System.DBNull.Value"
+    ///         type="Spring.Objects.Factory.Config.FieldRetrievingFactoryObject, Spring.Core"/>
+    ///
+    /// <!-- returns the value of the Type.Delimiter field -->
+    /// <object id="System.Type.Delimiter"
+    ///         type="Spring.Objects.Factory.Config.FieldRetrievingFactoryObject, Spring.Core"/>
+    /// </code>
+    /// <p>
+    /// The usage for retrieving instance fields is similar. No example is shown
+    /// because public instance fields are <i>generally</i> bad practice; but if
+    /// you have some legacy code that exposes public instance fields, or if you
+    /// just really like coding public instance fields, then you can use this
+    /// <see cref="Spring.Objects.Factory.IFactoryObject"/> implementation to
+    /// retrieve such field values.
+    /// </p>
     /// </example>
     /// <author>Juergen Hoeller</author>
     /// <author>Rick Evans (.NET)</author>
     [Serializable]
     public class FieldRetrievingFactoryObject : IFactoryObject, IInitializingObject, IObjectNameAware
     {
-        private FieldInfo field;
-        private string objectName;
-        private string staticField;
         private string targetField;
         private object targetObject;
         private Type targetType;
+        private FieldInfo field;
+        private string objectName;
+        private string staticField;
 
         /// <summary>
-        ///     The <see cref="System.Type.AssemblyQualifiedName" /> of the
-        ///     <see langword="static" /> field to be retrieved.
+        /// The <see cref="System.Type.AssemblyQualifiedName"/> of the
+        /// <see langword="static"/> field to be retrieved.
         /// </summary>
         public string StaticField
         {
-            set { staticField = value; }
+            set { this.staticField = value; }
         }
 
         /// <summary>
-        ///     The name of the field the value of which is to be retrieved.
+        /// Set the name of the object in the object factory that created this object.
+        /// </summary>
+        /// <value>
+        /// The name of the object in the factory.
+        /// </value>
+        /// <remarks>
+        /// <p>
+        /// In the context of the
+        /// <see cref="Spring.Objects.Factory.Config.FieldRetrievingFactoryObject"/>
+        /// class, the
+        /// <see cref="Spring.Objects.Factory.Config.FieldRetrievingFactoryObject.ObjectName"/>
+        /// value will be interepreted as the value of the
+        /// <see cref="Spring.Objects.Factory.Config.FieldRetrievingFactoryObject.StaticField"/>
+        /// property if no value has been explicitly assigned to the
+        /// <see cref="Spring.Objects.Factory.Config.FieldRetrievingFactoryObject.StaticField"/>
+        /// property. This allows for concise object definitions with just an id or name;
+        /// see the class documentation for
+        /// <see cref="Spring.Objects.Factory.Config.FieldRetrievingFactoryObject"/>
+        /// for an example of this style of usage.
+        /// </p>
+        /// </remarks>
+        public string ObjectName
+        {
+            set { this.objectName = value; }
+        }
+
+        /// <summary>
+        /// The name of the field the value of which is to be retrieved.
         /// </summary>
         /// <remarks>
-        ///     <p>
-        ///         If the
-        ///         <see cref="Spring.Objects.Factory.Config.FieldRetrievingFactoryObject.TargetObject" />
-        ///         has been set (and is not <cref lang="null" />), then the value of this property
-        ///         refers to an instance field name; it otherwise refers to a <see langword="static" />
-        ///         field name.
-        ///     </p>
+        /// <p>
+        /// If the
+        /// <see cref="Spring.Objects.Factory.Config.FieldRetrievingFactoryObject.TargetObject"/>
+        /// has been set (and is not <cref lang="null"/>), then the value of this property
+        /// refers to an instance field name; it otherwise refers to a <see langword="static"/>
+        /// field name.
+        /// </p>
         /// </remarks>
         public string TargetField
         {
@@ -130,7 +158,7 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        ///     The object instance on which the field is defined.
+        /// The object instance on which the field is defined.
         /// </summary>
         public object TargetObject
         {
@@ -139,7 +167,7 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        ///     The <see cref="System.Type" /> on which the field is defined.
+        /// The <see cref="System.Type"/> on which the field is defined.
         /// </summary>
         public Type TargetType
         {
@@ -148,17 +176,17 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        ///     The <see cref="System.Type" /> of object that this
-        ///     <see cref="Spring.Objects.Factory.IFactoryObject" /> creates, or
-        ///     <cref lang="null" /> if not known in advance.
+        /// The <see cref="System.Type"/> of object that this
+        /// <see cref="Spring.Objects.Factory.IFactoryObject"/> creates, or
+        /// <cref lang="null"/> if not known in advance.
         /// </summary>
         public Type ObjectType
         {
-            get { return field == null ? null : field.FieldType; }
+            get { return (this.field == null) ? null : this.field.FieldType; }
         }
 
         /// <summary>
-        ///     Is the object managed by this factory a singleton or a prototype?
+        /// Is the object managed by this factory a singleton or a prototype?
         /// </summary>
         public bool IsSingleton
         {
@@ -166,39 +194,21 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        ///     Return an instance (possibly shared or independent) of the object
-        ///     managed by this factory.
-        /// </summary>
-        /// <returns>
-        ///     An instance (possibly shared or independent) of the object managed by
-        ///     this factory.
-        /// </returns>
-        /// <see cref="Spring.Objects.Factory.IFactoryObject.GetObject" />
-        public object GetObject()
-        {
-            if (TargetObject != null)
-            {
-                return field.GetValue(TargetObject);
-            }
-            return field.GetValue(null);
-        }
-
-        /// <summary>
-        ///     Invoked by an <see cref="Spring.Objects.Factory.IObjectFactory" />
-        ///     after it has set all object properties supplied
-        ///     (and satisfied <see cref="Spring.Objects.Factory.IObjectFactoryAware" />
-        ///     and ApplicationContextAware).
+        /// Invoked by an <see cref="Spring.Objects.Factory.IObjectFactory"/>
+        /// after it has set all object properties supplied
+        /// (and satisfied <see cref="Spring.Objects.Factory.IObjectFactoryAware"/>
+        /// and ApplicationContextAware).
         /// </summary>
         /// <remarks>
-        ///     <p>
-        ///         This method allows the object instance to perform initialization only
-        ///         possible when all object properties have been set and to throw an
-        ///         exception in the event of misconfiguration.
-        ///     </p>
+        /// <p>
+        /// This method allows the object instance to perform initialization only
+        /// possible when all object properties have been set and to throw an
+        /// exception in the event of misconfiguration.
+        /// </p>
         /// </remarks>
         /// <exception cref="System.Exception">
-        ///     In the event of misconfiguration (such as failure to set an essential
-        ///     property) or if initialization fails.
+        /// In the event of misconfiguration (such as failure to set an essential
+        /// property) or if initialization fails.
         /// </exception>
         public void AfterPropertiesSet()
         {
@@ -216,9 +226,9 @@ namespace Spring.Objects.Factory.Config
                 }
 
                 // if no other property specified, use the object name for the static field expression...
-                if (StringUtils.IsNullOrEmpty(staticField))
+                if (StringUtils.IsNullOrEmpty(this.staticField))
                 {
-                    staticField = objectName;
+                    this.staticField = this.objectName;
                 }
                 ParseAndSetFromStaticFieldValue();
             }
@@ -238,8 +248,8 @@ namespace Spring.Objects.Factory.Config
                 fieldFlags |= BindingFlags.Instance;
                 TargetType = TargetObject.GetType();
             }
-            field = targetType.GetField(TargetField, fieldFlags);
-            if (field == null)
+            this.field = targetType.GetField(TargetField, fieldFlags);
+            if (this.field == null)
             {
                 throw new ObjectDefinitionStoreException(
                     string.Format(
@@ -250,35 +260,29 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        ///     Set the name of the object in the object factory that created this object.
+        /// Return an instance (possibly shared or independent) of the object
+        /// managed by this factory.
         /// </summary>
-        /// <value>
-        ///     The name of the object in the factory.
-        /// </value>
-        /// <remarks>
-        ///     <p>
-        ///         In the context of the
-        ///         <see cref="Spring.Objects.Factory.Config.FieldRetrievingFactoryObject" />
-        ///         class, the
-        ///         <see cref="Spring.Objects.Factory.Config.FieldRetrievingFactoryObject.ObjectName" />
-        ///         value will be interepreted as the value of the
-        ///         <see cref="Spring.Objects.Factory.Config.FieldRetrievingFactoryObject.StaticField" />
-        ///         property if no value has been explicitly assigned to the
-        ///         <see cref="Spring.Objects.Factory.Config.FieldRetrievingFactoryObject.StaticField" />
-        ///         property. This allows for concise object definitions with just an id or name;
-        ///         see the class documentation for
-        ///         <see cref="Spring.Objects.Factory.Config.FieldRetrievingFactoryObject" />
-        ///         for an example of this style of usage.
-        ///     </p>
-        /// </remarks>
-        public string ObjectName
+        /// <returns>
+        /// An instance (possibly shared or independent) of the object managed by
+        /// this factory.
+        /// </returns>
+        /// <see cref="Spring.Objects.Factory.IFactoryObject.GetObject"/>
+        public object GetObject()
         {
-            set { objectName = value; }
+            if (TargetObject != null)
+            {
+                return this.field.GetValue(TargetObject);
+            }
+            else
+            {
+                return this.field.GetValue(null);
+            }
         }
 
         private void ParseAndSetFromStaticFieldValue()
         {
-            TypeAssemblyHolder info = new TypeAssemblyHolder(staticField);
+            TypeAssemblyHolder info = new TypeAssemblyHolder(this.staticField);
             // the info.TypeName should now contains the Type name, followed by a
             // period, followed by the name of the field
             int lastDotIndex = info.TypeName.LastIndexOf('.');

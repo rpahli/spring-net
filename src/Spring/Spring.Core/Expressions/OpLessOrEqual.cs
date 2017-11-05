@@ -25,37 +25,37 @@ using Spring.Util;
 namespace Spring.Expressions
 {
     /// <summary>
-    ///     Represents logical "less than or equal" operator.
+    /// Represents logical "less than or equal" operator.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class OpLessOrEqual : BinaryOperator
     {
         /// <summary>
-        ///     Create a new instance
+        /// Create a new instance
         /// </summary>
-        public OpLessOrEqual()
+        public OpLessOrEqual():base()
         {
         }
 
         /// <summary>
-        ///     Create a new instance from SerializationInfo
+        /// Create a new instance from SerializationInfo
         /// </summary>
         protected OpLessOrEqual(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-
+        
         /// <summary>
-        ///     Returns a value for the logical "less than or equal" operator node.
+        /// Returns a value for the logical "less than or equal" operator node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
         /// <returns>Node's value.</returns>
         protected override object Get(object context, EvaluationContext evalContext)
         {
-            object left = GetLeftValue(context, evalContext);
-            object right = GetRightValue(context, evalContext);
+            object left = GetLeftValue( context, evalContext );
+            object right = GetRightValue( context, evalContext );
 
             return CompareUtils.Compare(left, right) <= 0;
         }

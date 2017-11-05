@@ -22,21 +22,20 @@ using Spring.Objects.Factory.Config;
 
 namespace Spring.Objects.Factory.Support
 {
+
     /// <summary>
-    ///     Strategy interface for generating object names for object definitions
+    /// Strategy interface for generating object names for object definitions
     /// </summary>
     /// <author>Juergen Hoeller</author>
     /// <author>Mark Pollack (.NET)</author>
     public interface IObjectNameGenerator
     {
         /// <summary>
-        ///     Generates an object name for the given object definition.
+        /// Generates an object name for the given object definition.
         /// </summary>
         /// <param name="definition">The object definition to generate a name for.</param>
-        /// <param name="registry">
-        ///     The object definitions registry that the given definition is
-        ///     supposed to be registerd with
-        /// </param>
+        /// <param name="registry">The object definitions registry that the given definition is
+        /// supposed to be registerd with</param>
         /// <returns>the generated object name</returns>
         string GenerateObjectName(IObjectDefinition definition, IObjectDefinitionRegistry registry);
     }

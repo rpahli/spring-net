@@ -23,8 +23,8 @@ using System.Collections;
 namespace Spring.Collections
 {
     /// <summary>
-    ///     Synchronized <see cref="IDictionaryEnumerator" /> that should be returned by synchronized
-    ///     dictionary implementations in order to ensure that the enumeration is thread safe.
+    /// Synchronized <see cref="IDictionaryEnumerator"/> that should be returned by synchronized
+    /// dictionary implementations in order to ensure that the enumeration is thread safe.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     internal class SynchronizedDictionaryEnumerator : SynchronizedEnumerator, IDictionaryEnumerator

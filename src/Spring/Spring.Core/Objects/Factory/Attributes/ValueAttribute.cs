@@ -25,11 +25,13 @@ namespace Spring.Objects.Factory.Attributes
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
     public class ValueAttribute : Attribute
     {
+        private string _expression;
+
         public ValueAttribute(string expression)
         {
-            Expression = expression;
+            _expression = expression;
         }
 
-        public string Expression { get; }
+        public string Expression { get { return _expression; } }
     }
 }
