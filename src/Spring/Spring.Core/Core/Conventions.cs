@@ -18,23 +18,23 @@
 
 #endregion
 
-using System;
 using Spring.Util;
 
 namespace Spring.Core
 {
     /// <summary>
-    /// Provides methods to support various naming and other conventions used throughout the framework.
-    /// Mainly for internal use within the framework.
+    ///     Provides methods to support various naming and other conventions used throughout the framework.
+    ///     Mainly for internal use within the framework.
     /// </summary>
     /// <author>Rob Harrop</author>
     /// <author>Juergen Hoeller</author>
     /// <author>Mark Pollack (.NET)</author>
     public sealed class Conventions
     {
-        /// <summary> Convert <code>String</code>s in attribute name format (lowercase, hyphens separating words)
-        /// into property name format (camel-cased). For example, <code>transaction-manager</code> is
-        /// converted into <code>transactionManager</code>.
+        /// <summary>
+        ///     Convert <code>String</code>s in attribute name format (lowercase, hyphens separating words)
+        ///     into property name format (camel-cased). For example, <code>transaction-manager</code> is
+        ///     converted into <code>transactionManager</code>.
         /// </summary>
         public static string AttributeNameToPropertyName(string attributeName)
         {
@@ -56,15 +56,15 @@ namespace Spring.Core
                 }
                 else if (upperCaseNext)
                 {
-                    result[currPos++] = Char.ToUpper(c);
+                    result[currPos++] = char.ToUpper(c);
                     upperCaseNext = false;
-                }                  
+                }
                 else
                 {
                     result[currPos++] = c;
                 }
             }
-            return new String(result, 0, currPos);
+            return new string(result, 0, currPos);
         }
     }
 }

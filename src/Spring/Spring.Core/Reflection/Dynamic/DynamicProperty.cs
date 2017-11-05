@@ -22,9 +22,7 @@
 
 using System.Collections.Generic;
 using System.Reflection;
-
-using Common.Logging;
-
+using Spring.Logging;
 using Spring.Util;
 
 #endregion
@@ -34,54 +32,60 @@ namespace Spring.Reflection.Dynamic
     #region IDynamicProperty interface
 
     /// <summary>
-    /// Defines methods that dynamic property class has to implement.
+    ///     Defines methods that dynamic property class has to implement.
     /// </summary>
     public interface IDynamicProperty
     {
         /// <summary>
-        /// Gets the value of the dynamic property for the specified target object.
+        ///     Gets the value of the dynamic property for the specified target object.
         /// </summary>
         /// <param name="target">
-        /// Target object to get property value from.
+        ///     Target object to get property value from.
         /// </param>
         /// <returns>
-        /// A property value.
+        ///     A property value.
         /// </returns>
         object GetValue(object target);
 
         /// <summary>
-        /// Gets the value of the dynamic property for the specified target object.
+        ///     Gets the value of the dynamic property for the specified target object.
         /// </summary>
         /// <param name="target">
-        /// Target object to set property value on.
+        ///     Target object to set property value on.
         /// </param>
         /// <param name="value">
-        /// A new property value.
+        ///     A new property value.
         /// </param>
         void SetValue(object target, object value);
 
         /// <summary>
-        /// Gets the value of the dynamic property for the specified target object.
+        ///     Gets the value of the dynamic property for the specified target object.
         /// </summary>
         /// <param name="target">
-        /// Target object to get property value from.
+        ///     Target object to get property value from.
         /// </param>
-        /// <param name="index">Optional index values for indexed properties. This value should be null reference for non-indexed properties.</param>
+        /// <param name="index">
+        ///     Optional index values for indexed properties. This value should be null reference for non-indexed
+        ///     properties.
+        /// </param>
         /// <returns>
-        /// A property value.
+        ///     A property value.
         /// </returns>
         object GetValue(object target, params object[] index);
 
         /// <summary>
-        /// Gets the value of the dynamic property for the specified target object.
+        ///     Gets the value of the dynamic property for the specified target object.
         /// </summary>
         /// <param name="target">
-        /// Target object to set property value on.
+        ///     Target object to set property value on.
         /// </param>
         /// <param name="value">
-        /// A new property value.
+        ///     A new property value.
         /// </param>
-        /// <param name="index">Optional index values for indexed properties. This value should be null reference for non-indexed properties.</param>
+        /// <param name="index">
+        ///     Optional index values for indexed properties. This value should be null reference for non-indexed
+        ///     properties.
+        /// </param>
         void SetValue(object target, object value, params object[] index);
     }
 
@@ -90,25 +94,111 @@ namespace Spring.Reflection.Dynamic
     #region Safe wrapper
 
     /// <summary>
-    /// Safe wrapper for the dynamic property.
+    ///     Safe wrapper for the dynamic property.
     /// </summary>
     /// <remarks>
-    /// <see cref="SafeProperty"/> will attempt to use dynamic
-    /// property if possible, but it will fall back to standard
-    /// reflection if necessary.
+    ///     <see cref="SafeProperty" /> will attempt to use dynamic
+    ///     property if possible, but it will fall back to standard
+    ///     reflection if necessary.
     /// </remarks>
     public class SafeProperty : IDynamicProperty
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(SafeProperty));
+        private static readonly ILogger Log = LogManager.GetLogger(typeof(SafeProperty));
 
-        private readonly PropertyInfo propertyInfo;
+        private readonly PropertyGetterDelegate getter;
+
+        private readonly PropertySetterDelegate setter;
+
+        /// <summary>
+        ///     Creates a new instance of the safe property wrapper.
+        /// </summary>
+        /// <param name="propertyInfo">Property to wrap.</param>
+        public SafeProperty(PropertyInfo propertyInfo)
+        {
+            AssertUtils.ArgumentNotNull(propertyInfo, "You cannot create a dynamic property for a null value.");
+
+            PropertyInfo = propertyInfo;
+            DynamicPropertyCacheEntry pi = GetOrCreateDynamicProperty(propertyInfo);
+            getter = pi.Getter;
+            setter = pi.Setter;
+        }
+
+        /// <summary>
+        ///     Internal PropertyInfo accessor.
+        /// </summary>
+        internal PropertyInfo PropertyInfo { get; }
+
+        /// <summary>
+        ///     Gets the value of the dynamic property for the specified target object.
+        /// </summary>
+        /// <param name="target">
+        ///     Target object to get property value from.
+        /// </param>
+        /// <returns>
+        ///     A property value.
+        /// </returns>
+        public object GetValue(object target)
+        {
+            return getter(target);
+        }
+
+        /// <summary>
+        ///     Gets the value of the dynamic property for the specified target object.
+        /// </summary>
+        /// <param name="target">
+        ///     Target object to get property value from.
+        /// </param>
+        /// <param name="index">
+        ///     Optional index values for indexed properties. This value should be null reference for non-indexed
+        ///     properties.
+        /// </param>
+        /// <returns>
+        ///     A property value.
+        /// </returns>
+        public object GetValue(object target, params object[] index)
+        {
+            return getter(target, index);
+        }
+
+        /// <summary>
+        ///     Gets the value of the dynamic property for the specified target object.
+        /// </summary>
+        /// <param name="target">
+        ///     Target object to set property value on.
+        /// </param>
+        /// <param name="value">
+        ///     A new property value.
+        /// </param>
+        public void SetValue(object target, object value)
+        {
+            setter(target, value);
+        }
+
+        /// <summary>
+        ///     Gets the value of the dynamic property for the specified target object.
+        /// </summary>
+        /// <param name="target">
+        ///     Target object to set property value on.
+        /// </param>
+        /// <param name="value">
+        ///     A new property value.
+        /// </param>
+        /// <param name="index">
+        ///     Optional index values for indexed properties. This value should be null reference for non-indexed
+        ///     properties.
+        /// </param>
+        public void SetValue(object target, object value, params object[] index)
+        {
+            setter(target, value, index);
+        }
 
         #region Cache
 
-        private static readonly IDictionary<PropertyInfo, DynamicPropertyCacheEntry> propertyCache = new Dictionary<PropertyInfo, DynamicPropertyCacheEntry>();
+        private static readonly IDictionary<PropertyInfo, DynamicPropertyCacheEntry> propertyCache =
+            new Dictionary<PropertyInfo, DynamicPropertyCacheEntry>();
 
         /// <summary>
-        /// Holds cached Getter/Setter delegates for a Property
+        ///     Holds cached Getter/Setter delegates for a Property
         /// </summary>
         private class DynamicPropertyCacheEntry
         {
@@ -123,14 +213,15 @@ namespace Spring.Reflection.Dynamic
         }
 
         /// <summary>
-        /// Obtains cached property info or creates a new entry, if none is found.
+        ///     Obtains cached property info or creates a new entry, if none is found.
         /// </summary>
         private static DynamicPropertyCacheEntry GetOrCreateDynamicProperty(PropertyInfo property)
         {
             DynamicPropertyCacheEntry propertyInfo;
             if (!propertyCache.TryGetValue(property, out propertyInfo))
             {
-                propertyInfo = new DynamicPropertyCacheEntry(DynamicReflectionManager.CreatePropertyGetter(property), DynamicReflectionManager.CreatePropertySetter(property));
+                propertyInfo = new DynamicPropertyCacheEntry(DynamicReflectionManager.CreatePropertyGetter(property),
+                    DynamicReflectionManager.CreatePropertySetter(property));
                 lock (propertyCache)
                 {
                     propertyCache[property] = propertyInfo;
@@ -140,120 +231,39 @@ namespace Spring.Reflection.Dynamic
         }
 
         #endregion
-
-        private readonly PropertyGetterDelegate getter;
-        private readonly PropertySetterDelegate setter;
-
-        /// <summary>
-        /// Creates a new instance of the safe property wrapper.
-        /// </summary>
-        /// <param name="propertyInfo">Property to wrap.</param>
-        public SafeProperty(PropertyInfo propertyInfo)
-        {
-            AssertUtils.ArgumentNotNull(propertyInfo, "You cannot create a dynamic property for a null value.");
-
-            this.propertyInfo = propertyInfo;
-            DynamicPropertyCacheEntry pi = GetOrCreateDynamicProperty(propertyInfo);
-            getter = pi.Getter;
-            setter = pi.Setter;
-        }
-
-        /// <summary>
-        /// Gets the value of the dynamic property for the specified target object.
-        /// </summary>
-        /// <param name="target">
-        /// Target object to get property value from.
-        /// </param>
-        /// <returns>
-        /// A property value.
-        /// </returns>
-        public object GetValue(object target)
-        {
-            return getter(target);
-        }
-
-        /// <summary>
-        /// Gets the value of the dynamic property for the specified target object.
-        /// </summary>
-        /// <param name="target">
-        /// Target object to get property value from.
-        /// </param>
-        /// <param name="index">Optional index values for indexed properties. This value should be null reference for non-indexed properties.</param>
-        /// <returns>
-        /// A property value.
-        /// </returns>
-        public object GetValue(object target, params object[] index)
-        {
-            return getter(target, index);
-        }
-
-        /// <summary>
-        /// Gets the value of the dynamic property for the specified target object.
-        /// </summary>
-        /// <param name="target">
-        /// Target object to set property value on.
-        /// </param>
-        /// <param name="value">
-        /// A new property value.
-        /// </param>
-        public void SetValue(object target, object value)
-        {
-            setter(target, value);
-        }
-
-        /// <summary>
-        /// Gets the value of the dynamic property for the specified target object.
-        /// </summary>
-        /// <param name="target">
-        /// Target object to set property value on.
-        /// </param>
-        /// <param name="value">
-        /// A new property value.
-        /// </param>
-        /// <param name="index">Optional index values for indexed properties. This value should be null reference for non-indexed properties.</param>
-        public void SetValue(object target, object value, params object[] index)
-        {
-            setter(target, value, index);
-        }
-
-        /// <summary>
-        /// Internal PropertyInfo accessor.
-        /// </summary>
-        internal PropertyInfo PropertyInfo
-        {
-            get { return propertyInfo; }
-        }
     }
 
     #endregion
 
     /// <summary>
-    /// Factory class for dynamic properties.
+    ///     Factory class for dynamic properties.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     public class DynamicProperty : BaseDynamicMember
     {
         /// <summary>
-        /// Creates safe dynamic property instance for the specified <see cref="PropertyInfo"/>.
+        ///     Creates safe dynamic property instance for the specified <see cref="PropertyInfo" />.
         /// </summary>
         /// <remarks>
-        /// <p>This factory method will create a dynamic property with a "safe" wrapper.</p>
-        /// <p>Safe wrapper will attempt to use generated dynamic property if possible,
-        /// but it will fall back to standard reflection if necessary.</p>
+        ///     <p>This factory method will create a dynamic property with a "safe" wrapper.</p>
+        ///     <p>
+        ///         Safe wrapper will attempt to use generated dynamic property if possible,
+        ///         but it will fall back to standard reflection if necessary.
+        ///     </p>
         /// </remarks>
         /// <param name="property">Property info to create dynamic property for.</param>
-        /// <returns>Safe dynamic property for the specified <see cref="PropertyInfo"/>.</returns>
-        /// <seealso cref="SafeProperty"/>
+        /// <returns>Safe dynamic property for the specified <see cref="PropertyInfo" />.</returns>
+        /// <seealso cref="SafeProperty" />
         public static IDynamicProperty CreateSafe(PropertyInfo property)
         {
             return new SafeProperty(property);
         }
 
         /// <summary>
-        /// Creates dynamic property instance for the specified <see cref="PropertyInfo"/>.
+        ///     Creates dynamic property instance for the specified <see cref="PropertyInfo" />.
         /// </summary>
         /// <param name="property">Property info to create dynamic property for.</param>
-        /// <returns>Dynamic property for the specified <see cref="PropertyInfo"/>.</returns>
+        /// <returns>Dynamic property for the specified <see cref="PropertyInfo" />.</returns>
         public static IDynamicProperty Create(PropertyInfo property)
         {
             AssertUtils.ArgumentNotNull(property, "You cannot create a dynamic property for a null value.");

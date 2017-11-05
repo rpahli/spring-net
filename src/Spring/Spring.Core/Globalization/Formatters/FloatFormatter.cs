@@ -20,111 +20,115 @@
 
 using System;
 using System.Globalization;
-
 using Spring.Util;
 
 namespace Spring.Globalization.Formatters
 {
-	/// <summary>
-	/// Implementation of <see cref="IFormatter"/> that can be used to
-	/// format and parse floating point numbers.
-	/// </summary>
-	/// <remarks>
-	/// <para>
-	/// This formatter allows you to format and parse numbers that conform 
-	/// to <see cref="NumberStyles.Float"/> number style (leading and trailing 
-	/// white space, leading sign, decimal point, exponent).
-	/// </para>
-	/// </remarks>
+    /// <summary>
+    ///     Implementation of <see cref="IFormatter" /> that can be used to
+    ///     format and parse floating point numbers.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         This formatter allows you to format and parse numbers that conform
+    ///         to <see cref="NumberStyles.Float" /> number style (leading and trailing
+    ///         white space, leading sign, decimal point, exponent).
+    ///     </para>
+    /// </remarks>
     /// <author>Aleksandar Seovic</author>
     public class FloatFormatter : IFormatter
-	{
+    {
         /// <summary>
-        /// Default format string.
+        ///     Default format string.
         /// </summary>
         public const string DefaultFormat = "{0:F}";
 
-        private string format;
-		private NumberFormatInfo numberInfo;
-
-        #region Constructors
+        private readonly string format;
+        private readonly NumberFormatInfo numberInfo;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FloatFormatter"/> class,
-        /// using default format string of '{0:F}' and current thread's culture.
-        /// </summary>
-        public FloatFormatter() : this(DefaultFormat, CultureInfo.CurrentCulture)
-        {}
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FloatFormatter"/> class,
-        /// using specified format string and current thread's culture.
-        /// </summary>
-        /// <param name="format">The format string.</param>
-        public FloatFormatter(string format) : this(format, CultureInfo.CurrentCulture)
-        {}
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FloatFormatter"/> class,
-        /// using default format string of '{0:F}' and specified culture.
-        /// </summary>
-        /// <param name="culture">The culture.</param>
-        public FloatFormatter(CultureInfo culture) : this(DefaultFormat, culture)
-        {}
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FloatFormatter"/> class,
-        /// using specified format string and current thread's culture.
-        /// </summary>
-        /// <param name="format">The format string.</param>
-        /// <param name="cultureName">The culture name.</param>
-        public FloatFormatter(string format, string cultureName) : this(format, CultureInfo.CreateSpecificCulture(cultureName))
-        {}
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FloatFormatter"/> class,
-        /// using specified format string and culture.
-        /// </summary>
-        /// <param name="format">The format string.</param>
-        /// <param name="culture">The culture.</param>
-        public FloatFormatter(string format, CultureInfo culture)
-        {
-            this.format = format;
-            this.numberInfo = culture.NumberFormat;
-        }
-
-	    #endregion
-
-        /// <summary>
-        /// Formats the specified float value.
+        ///     Formats the specified float value.
         /// </summary>
         /// <param name="value">The value to format.</param>
         /// <returns>Formatted floating point number.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="value"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">If <paramref name="value"/> is not a number.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="value" /> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="value" /> is not a number.</exception>
         public string Format(object value)
-	    {
+        {
             AssertUtils.ArgumentNotNull(value, "value");
             if (!NumberUtils.IsNumber(value))
             {
                 throw new ArgumentException("FloatFormatter can only be used to format numbers.");
             }
 
-	        return String.Format(numberInfo, format, value);
-	    }
+            return string.Format(numberInfo, format, value);
+        }
 
         /// <summary>
-        /// Parses the specified float value.
+        ///     Parses the specified float value.
         /// </summary>
         /// <param name="value">The float value to parse.</param>
-        /// <returns>Parsed float value as a <see cref="Double"/>.</returns>
+        /// <returns>Parsed float value as a <see cref="Double" />.</returns>
         public object Parse(string value)
-	    {
+        {
             if (!StringUtils.HasText(value))
             {
                 return 0d;
             }
-	        return Double.Parse(value, NumberStyles.Float, numberInfo);
-	    }
-	}
+            return double.Parse(value, NumberStyles.Float, numberInfo);
+        }
+
+        #region Constructors
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="FloatFormatter" /> class,
+        ///     using default format string of '{0:F}' and current thread's culture.
+        /// </summary>
+        public FloatFormatter() : this(DefaultFormat, CultureInfo.CurrentCulture)
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="FloatFormatter" /> class,
+        ///     using specified format string and current thread's culture.
+        /// </summary>
+        /// <param name="format">The format string.</param>
+        public FloatFormatter(string format) : this(format, CultureInfo.CurrentCulture)
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="FloatFormatter" /> class,
+        ///     using default format string of '{0:F}' and specified culture.
+        /// </summary>
+        /// <param name="culture">The culture.</param>
+        public FloatFormatter(CultureInfo culture) : this(DefaultFormat, culture)
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="FloatFormatter" /> class,
+        ///     using specified format string and current thread's culture.
+        /// </summary>
+        /// <param name="format">The format string.</param>
+        /// <param name="cultureName">The culture name.</param>
+        public FloatFormatter(string format, string cultureName) : this(format,
+            CultureInfo.CreateSpecificCulture(cultureName))
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="FloatFormatter" /> class,
+        ///     using specified format string and culture.
+        /// </summary>
+        /// <param name="format">The format string.</param>
+        /// <param name="culture">The culture.</param>
+        public FloatFormatter(string format, CultureInfo culture)
+        {
+            this.format = format;
+            numberInfo = culture.NumberFormat;
+        }
+
+        #endregion
+    }
 }

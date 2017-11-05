@@ -35,81 +35,64 @@ using Spring.Util;
 namespace Spring.Objects.Factory.Xml
 {
     /// <summary>
-    /// Provides a resolution mechanism for configuration parsers.
+    ///     Provides a resolution mechanism for configuration parsers.
     /// </summary>
     /// <remarks>
-    /// <p>
-    /// The <see cref="DefaultObjectDefinitionDocumentReader"/> uses this registry
-    /// class to find the parser handling a specific namespace.
-    /// </p>
+    ///     <p>
+    ///         The <see cref="DefaultObjectDefinitionDocumentReader" /> uses this registry
+    ///         class to find the parser handling a specific namespace.
+    ///     </p>
     /// </remarks>
     /// <author>Aleksandar Seovic</author>
     public class NamespaceParserRegistry
     {
         /// <summary>
-        /// Resolves xml entities by using the <see cref="IResourceLoader"/> infrastructure.
-        /// </summary>
-        private class XmlResourceUrlResolver : XmlUrlResolver
-        {
-            public override object GetEntity(Uri absoluteUri, string role, Type ofObjectToReturn)
-            {
-                IResourceLoader resourceLoader = new ConfigurableResourceLoader();
-                IResource resource = resourceLoader.GetResource(absoluteUri.AbsoluteUri);
-                return resource.InputStream;
-                //return base.GetEntity( absoluteUri, role, ofObjectToReturn );
-            }
-
-            public override Uri ResolveUri(Uri baseUri, string relativeUri)
-            {
-                // TODO: resolve Uri using IResource instance
-                return base.ResolveUri(baseUri, relativeUri);
-            }
-        }
-
-        /// <summary>
-        /// Name of the .Net config section that contains definitions 
-        /// for custom config parsers.
+        ///     Name of the .Net config section that contains definitions
+        ///     for custom config parsers.
         /// </summary>
         private const string ConfigParsersSectionName = "spring/parsers";
 
-        #region Fields
-
-        private static IDictionary parsers;
-        private readonly static IDictionary wellknownNamespaceParserTypeNames;
-        private static XmlSchemaSet schemas;
-
-        #endregion
-
         /// <summary>
-        /// Creates a new instance of the NamespaceParserRegistry class.
+        ///     Creates a new instance of the NamespaceParserRegistry class.
         /// </summary>
         static NamespaceParserRegistry()
         {
             wellknownNamespaceParserTypeNames = new CaseInsensitiveHashtable();
-            wellknownNamespaceParserTypeNames["http://www.springframework.net/tx"] = "Spring.Transaction.Config.TxNamespaceParser, Spring.Data";
-            wellknownNamespaceParserTypeNames["http://www.springframework.net/aop"] = "Spring.Aop.Config.AopNamespaceParser, Spring.Aop";
-            wellknownNamespaceParserTypeNames["http://www.springframework.net/context"] = "Spring.Context.Config.ContextNamespaceParser, Spring.Core";
-            wellknownNamespaceParserTypeNames["http://www.springframework.net/db"] = "Spring.Data.Config.DatabaseNamespaceParser, Spring.Data";
-            wellknownNamespaceParserTypeNames["http://www.springframework.net/database"] = "Spring.Data.Config.DatabaseNamespaceParser, Spring.Data";
-            wellknownNamespaceParserTypeNames["http://www.springframework.net/remoting"] = "Spring.Remoting.Config.RemotingNamespaceParser, Spring.Services";
-            wellknownNamespaceParserTypeNames["http://www.springframework.net/wcf"] = "Spring.ServiceModel.Config.WcfNamespaceParser, Spring.Services";
-            wellknownNamespaceParserTypeNames["http://www.springframework.net/nms"] = "Spring.Messaging.Nms.Config.NmsNamespaceParser, Spring.Messaging.Nms";
-            wellknownNamespaceParserTypeNames["http://www.springframework.net/ems"] = "Spring.Messaging.Ems.Config.EmsNamespaceParser, Spring.Messaging.Ems";
-            wellknownNamespaceParserTypeNames["http://www.springframework.net/validation"] = "Spring.Validation.Config.ValidationNamespaceParser, Spring.Core";
-            wellknownNamespaceParserTypeNames["http://www.springframework.net/nvelocity"] = "Spring.Template.Velocity.Config.TemplateNamespaceParser, Spring.Template.Velocity";
+            wellknownNamespaceParserTypeNames["http://www.springframework.net/tx"] =
+                "Spring.Transaction.Config.TxNamespaceParser, Spring.Data";
+            wellknownNamespaceParserTypeNames["http://www.springframework.net/aop"] =
+                "Spring.Aop.Config.AopNamespaceParser, Spring.Aop";
+            wellknownNamespaceParserTypeNames["http://www.springframework.net/context"] =
+                "Spring.Context.Config.ContextNamespaceParser, Spring.Core";
+            wellknownNamespaceParserTypeNames["http://www.springframework.net/db"] =
+                "Spring.Data.Config.DatabaseNamespaceParser, Spring.Data";
+            wellknownNamespaceParserTypeNames["http://www.springframework.net/database"] =
+                "Spring.Data.Config.DatabaseNamespaceParser, Spring.Data";
+            wellknownNamespaceParserTypeNames["http://www.springframework.net/remoting"] =
+                "Spring.Remoting.Config.RemotingNamespaceParser, Spring.Services";
+            wellknownNamespaceParserTypeNames["http://www.springframework.net/wcf"] =
+                "Spring.ServiceModel.Config.WcfNamespaceParser, Spring.Services";
+            wellknownNamespaceParserTypeNames["http://www.springframework.net/nms"] =
+                "Spring.Messaging.Nms.Config.NmsNamespaceParser, Spring.Messaging.Nms";
+            wellknownNamespaceParserTypeNames["http://www.springframework.net/ems"] =
+                "Spring.Messaging.Ems.Config.EmsNamespaceParser, Spring.Messaging.Ems";
+            wellknownNamespaceParserTypeNames["http://www.springframework.net/validation"] =
+                "Spring.Validation.Config.ValidationNamespaceParser, Spring.Core";
+            wellknownNamespaceParserTypeNames["http://www.springframework.net/nvelocity"] =
+                "Spring.Template.Velocity.Config.TemplateNamespaceParser, Spring.Template.Velocity";
 
             Reset();
         }
 
         /// <summary>
-        /// Reset the list of registered parsers to "factory"-setting
+        ///     Reset the list of registered parsers to "factory"-setting
         /// </summary>
         /// <remarks>use for unit tests only</remarks>
         public static void Reset()
         {
             parsers = new HybridDictionary();
             schemas = new XmlSchemaSet();
-            schemas.XmlResolver = new XmlResourceUrlResolver();            
+            schemas.XmlResolver = new XmlResourceUrlResolver();
 
             RegisterParser(new ObjectsNamespaceParser());
             // register custom config parsers
@@ -117,7 +100,7 @@ namespace Spring.Objects.Factory.Xml
         }
 
         /// <summary>
-        /// Registers the <see cref="INamespaceParser"/> type for wellknown namespaces
+        ///     Registers the <see cref="INamespaceParser" /> type for wellknown namespaces
         /// </summary>
         /// <returns><c>true</c> if the parser could be registered, <c>false</c> otherwise</returns>
         internal static bool RegisterWellknownNamespaceParserType(string namespaceUri)
@@ -126,7 +109,7 @@ namespace Spring.Objects.Factory.Xml
 
             if (wellknownNamespaceParserTypeNames.Contains(namespaceUri))
             {
-                string parserTypeName = (string)wellknownNamespaceParserTypeNames[namespaceUri];
+                string parserTypeName = (string) wellknownNamespaceParserTypeNames[namespaceUri];
                 // assume, that all Spring.XXX assemblies have same version + public key
                 // get the ", Version=x.x.x.x, Culture=neutral, PublicKeyToken=65e474d141e25e07" part of Spring.Core and append it
                 string name = typeof(NamespaceParserRegistry).Assembly.GetName().Name;
@@ -142,8 +125,8 @@ namespace Spring.Objects.Factory.Xml
         }
 
         /// <summary>
-        /// Constructs a "assembly://..." qualified schemaLocation url using the given type
-        /// to obtain the assembly name.
+        ///     Constructs a "assembly://..." qualified schemaLocation url using the given type
+        ///     to obtain the assembly name.
         /// </summary>
         public static string GetAssemblySchemaLocation(Type schemaLocationAssemblyHint, string schemaLocation)
         {
@@ -155,29 +138,29 @@ namespace Spring.Objects.Factory.Xml
         }
 
         /// <summary>
-        /// Returns a parser for the given namespace.
+        ///     Returns a parser for the given namespace.
         /// </summary>
         /// <param name="namespaceURI">
-        /// The namespace for which to lookup the parser implementation.
+        ///     The namespace for which to lookup the parser implementation.
         /// </param>
         /// <returns>
-        /// A parser for a given <paramref name="namespaceURI"/>, or
-        /// <see langword="null"/> if no parser was found.
+        ///     A parser for a given <paramref name="namespaceURI" />, or
+        ///     <see langword="null" /> if no parser was found.
         /// </returns>
         public static INamespaceParser GetParser(string namespaceURI)
         {
-            INamespaceParser parser = (INamespaceParser)parsers[namespaceURI];
+            INamespaceParser parser = (INamespaceParser) parsers[namespaceURI];
             if (parser == null)
             {
                 bool ok = RegisterWellknownNamespaceParserType(namespaceURI);
                 if (ok)
                 {
-                    parser = (INamespaceParser)parsers[namespaceURI];
-                    
+                    parser = (INamespaceParser) parsers[namespaceURI];
+
                     //work-around for SPRNET-1277 where we're inconsistent re: exposing /db or /database as the final namespace element
                     if (parser == null && namespaceURI == "http://www.springframework.net/db")
                     {
-                        parser = (INamespaceParser)parsers["http://www.springframework.net/database"];
+                        parser = (INamespaceParser) parsers["http://www.springframework.net/database"];
                     }
                 }
             }
@@ -185,10 +168,10 @@ namespace Spring.Objects.Factory.Xml
         }
 
         /// <summary>
-        /// Returns a schema collection containing validation schemas for all registered parsers.
+        ///     Returns a schema collection containing validation schemas for all registered parsers.
         /// </summary>
         /// <returns>
-        /// A schema collection containing validation schemas for all registered parsers.
+        ///     A schema collection containing validation schemas for all registered parsers.
         /// </returns>
         public static XmlSchemaSet GetSchemas()
         {
@@ -196,15 +179,15 @@ namespace Spring.Objects.Factory.Xml
         }
 
         /// <summary>
-        /// Pegisters parser, using default namespace and schema location
-        /// as defined by the <see cref="NamespaceParserAttribute"/>.
+        ///     Pegisters parser, using default namespace and schema location
+        ///     as defined by the <see cref="NamespaceParserAttribute" />.
         /// </summary>
         /// <param name="parserType">
-        /// The <see cref="System.Type"/> of the parser that will be activated
-        /// when an element in its default namespace is encountered.
+        ///     The <see cref="System.Type" /> of the parser that will be activated
+        ///     when an element in its default namespace is encountered.
         /// </param>
         /// <exception cref="System.ArgumentNullException">
-        /// If <paramref name="parserType"/> is <see langword="null"/>.
+        ///     If <paramref name="parserType" /> is <see langword="null" />.
         /// </exception>
         public static void RegisterParser(Type parserType)
         {
@@ -212,35 +195,35 @@ namespace Spring.Objects.Factory.Xml
         }
 
         /// <summary>
-        /// Associates a parser with a namespace.
+        ///     Associates a parser with a namespace.
         /// </summary>
         /// <remarks>
-        /// <note>
-        /// Parsers registered with the same <paramref name="namespaceUri"/> as that
-        /// of a parser that has previously been registered will overwrite the existing
-        /// parser.
-        /// </note>
+        ///     <note>
+        ///         Parsers registered with the same <paramref name="namespaceUri" /> as that
+        ///         of a parser that has previously been registered will overwrite the existing
+        ///         parser.
+        ///     </note>
         /// </remarks>
         /// <param name="parserType">
-        /// The <see cref="System.Type"/> of the parser that will be activated
-        /// when the attendant <paramref name="namespaceUri"/> is
-        /// encountered.
+        ///     The <see cref="System.Type" /> of the parser that will be activated
+        ///     when the attendant <paramref name="namespaceUri" /> is
+        ///     encountered.
         /// </param>
         /// <param name="namespaceUri">
-        /// The namespace with which to associate instance of the parser.
+        ///     The namespace with which to associate instance of the parser.
         /// </param>
         /// <param name="schemaLocation">
-        /// The location of the XML schema that should be used for validation 
-        /// of the XML elements that belong to the specified namespace 
-        /// (can be any valid Spring.NET resource URI).
+        ///     The location of the XML schema that should be used for validation
+        ///     of the XML elements that belong to the specified namespace
+        ///     (can be any valid Spring.NET resource URI).
         /// </param>
         /// <exception cref="System.ArgumentException">
-        /// If the <paramref name="parserType"/> is not a <see cref="System.Type"/>
-        /// that implements the <see cref="INamespaceParser"/>
-        /// interface.
+        ///     If the <paramref name="parserType" /> is not a <see cref="System.Type" />
+        ///     that implements the <see cref="INamespaceParser" />
+        ///     interface.
         /// </exception>
         /// <exception cref="System.ArgumentNullException">
-        /// If <paramref name="parserType"/> is <see langword="null"/>.
+        ///     If <paramref name="parserType" /> is <see langword="null" />.
         /// </exception>
         public static void RegisterParser(Type parserType, string namespaceUri, string schemaLocation)
         {
@@ -248,9 +231,9 @@ namespace Spring.Objects.Factory.Xml
 
             INamespaceParser np = null;
 
-            if ((typeof(INamespaceParser)).IsAssignableFrom(parserType))
+            if (typeof(INamespaceParser).IsAssignableFrom(parserType))
             {
-                np = (INamespaceParser)ObjectUtils.InstantiateType(parserType);
+                np = (INamespaceParser) ObjectUtils.InstantiateType(parserType);
             }
             // TODO (EE): workaround to enable smooth transition between 1.x and 2.0 style namespace handling
             else if (typeof(IObjectDefinitionParser).IsAssignableFrom(parserType))
@@ -273,33 +256,34 @@ namespace Spring.Objects.Factory.Xml
                         schemaLocation = defaults.SchemaLocation;
                         if (defaults.SchemaLocationAssemblyHint != null)
                         {
-                            schemaLocation = GetAssemblySchemaLocation(defaults.SchemaLocationAssemblyHint, schemaLocation);
+                            schemaLocation =
+                                GetAssemblySchemaLocation(defaults.SchemaLocationAssemblyHint, schemaLocation);
                         }
                     }
                 }
 
-                IObjectDefinitionParser odParser = (IObjectDefinitionParser)ObjectUtils.InstantiateType(parserType);
+                IObjectDefinitionParser odParser = (IObjectDefinitionParser) ObjectUtils.InstantiateType(parserType);
                 np = new ObjectDefinitionParserNamespaceParser(odParser);
             }
             else
             {
                 throw new ArgumentException(
-                        string.Format("The [{0}] Type must implement the INamespaceParser interface.", parserType.Name)
-                        , "parserType");
+                    string.Format("The [{0}] Type must implement the INamespaceParser interface.", parserType.Name)
+                    , "parserType");
             }
 
             RegisterParser(np, namespaceUri, schemaLocation);
         }
 
         /// <summary>
-        /// Pegisters parser, using default namespace and schema location
-        /// as defined by the <see cref="NamespaceParserAttribute"/>.
+        ///     Pegisters parser, using default namespace and schema location
+        ///     as defined by the <see cref="NamespaceParserAttribute" />.
         /// </summary>
         /// <param name="parser">
-        /// The parser instance.
+        ///     The parser instance.
         /// </param>
         /// <exception cref="System.ArgumentNullException">
-        /// If <paramref name="parser"/> is <see langword="null"/>.
+        ///     If <paramref name="parser" /> is <see langword="null" />.
         /// </exception>
         public static void RegisterParser(INamespaceParser parser)
         {
@@ -307,30 +291,30 @@ namespace Spring.Objects.Factory.Xml
         }
 
         /// <summary>
-        /// Associates a parser with a namespace.
+        ///     Associates a parser with a namespace.
         /// </summary>
         /// <remarks>
-        /// <note>
-        /// Parsers registered with the same <paramref name="namespaceUri"/> as that
-        /// of a parser that has previously been registered will overwrite the existing
-        /// parser.
-        /// </note>
+        ///     <note>
+        ///         Parsers registered with the same <paramref name="namespaceUri" /> as that
+        ///         of a parser that has previously been registered will overwrite the existing
+        ///         parser.
+        ///     </note>
         /// </remarks>
         /// <param name="namespaceUri">
-        /// The namespace with which to associate instance of the parser.
+        ///     The namespace with which to associate instance of the parser.
         /// </param>
         /// <param name="parser">
-        /// The parser instance.
+        ///     The parser instance.
         /// </param>
         /// <param name="schemaLocation">
-        /// The location of the XML schema that should be used for validation 
-        /// of the XML elements that belong to the specified namespace 
-        /// (can be any valid Spring.NET resource URI).
+        ///     The location of the XML schema that should be used for validation
+        ///     of the XML elements that belong to the specified namespace
+        ///     (can be any valid Spring.NET resource URI).
         /// </param>
         /// <exception cref="System.ArgumentNullException">
-        /// If <paramref name="parser"/> is <see langword="null"/>, or if 
-        /// <paramref name="namespaceUri"/> is not specified and parser class
-        /// does not have default value defined using <see cref="NamespaceParserAttribute"/>.
+        ///     If <paramref name="parser" /> is <see langword="null" />, or if
+        ///     <paramref name="namespaceUri" /> is not specified and parser class
+        ///     does not have default value defined using <see cref="NamespaceParserAttribute" />.
         /// </exception>
         public static void RegisterParser(INamespaceParser parser, string namespaceUri, string schemaLocation)
         {
@@ -364,18 +348,18 @@ namespace Spring.Objects.Factory.Xml
 
             // register parser
             lock (parsers.SyncRoot)
-                lock (schemas)
+            lock (schemas)
+            {
+                parsers[namespaceUri] = parser;
+                if (StringUtils.HasText(schemaLocation) && !schemas.Contains(namespaceUri))
                 {
-                    parsers[namespaceUri] = parser;
-                    if (StringUtils.HasText(schemaLocation) && !schemas.Contains(namespaceUri))
-                    {
-                        RegisterSchema(namespaceUri, schemaLocation);
-                    }
+                    RegisterSchema(namespaceUri, schemaLocation);
                 }
+            }
         }
 
         /// <summary>
-        /// Register a schema as well-known
+        ///     Register a schema as well-known
         /// </summary>
         /// <param name="namespaceUri"></param>
         /// <param name="schemaLocation"></param>
@@ -395,31 +379,51 @@ namespace Spring.Objects.Factory.Xml
         }
 
         /// <summary>
-        /// Returns default values for the parser namespace and schema location as 
-        /// defined by the <see cref="NamespaceParserAttribute"/>.
+        ///     Returns default values for the parser namespace and schema location as
+        ///     defined by the <see cref="NamespaceParserAttribute" />.
         /// </summary>
         /// <param name="parserType">
-        /// A type of the parser.
+        ///     A type of the parser.
         /// </param>
         /// <returns>
-        /// A <see cref="NamespaceParserAttribute"/> instance containing
-        /// default values for the parser namsepace and schema location
+        ///     A <see cref="NamespaceParserAttribute" /> instance containing
+        ///     default values for the parser namsepace and schema location
         /// </returns>
         private static NamespaceParserAttribute GetDefaults(Type parserType)
         {
             object[] attrs = parserType.GetCustomAttributes(typeof(NamespaceParserAttribute), true);
             if (attrs.Length > 0)
             {
-                return (NamespaceParserAttribute)attrs[0];
+                return (NamespaceParserAttribute) attrs[0];
             }
             return null;
+        }
+
+        /// <summary>
+        ///     Resolves xml entities by using the <see cref="IResourceLoader" /> infrastructure.
+        /// </summary>
+        private class XmlResourceUrlResolver : XmlUrlResolver
+        {
+            public override object GetEntity(Uri absoluteUri, string role, Type ofObjectToReturn)
+            {
+                IResourceLoader resourceLoader = new ConfigurableResourceLoader();
+                IResource resource = resourceLoader.GetResource(absoluteUri.AbsoluteUri);
+                return resource.InputStream;
+                //return base.GetEntity( absoluteUri, role, ofObjectToReturn );
+            }
+
+            public override Uri ResolveUri(Uri baseUri, string relativeUri)
+            {
+                // TODO: resolve Uri using IResource instance
+                return base.ResolveUri(baseUri, relativeUri);
+            }
         }
 
         #region ObjectDefinitionParserNamespaceParser Utility class
 
         /// <summary>
-        /// Adapts the <see cref="IObjectDefinitionParser"/> interface to <see cref="INamespaceParser"/>.
-        /// Only for smooth transition between 1.x and 2.0 style namespace handling, will be dropped for 2.0
+        ///     Adapts the <see cref="IObjectDefinitionParser" /> interface to <see cref="INamespaceParser" />.
+        ///     Only for smooth transition between 1.x and 2.0 style namespace handling, will be dropped for 2.0
         /// </summary>
         private class ObjectDefinitionParserNamespaceParser : INamespaceParser
         {
@@ -440,11 +444,20 @@ namespace Spring.Objects.Factory.Xml
                 return odParser.ParseElement(element, parserContext);
             }
 
-            public ObjectDefinitionHolder Decorate(XmlNode node, ObjectDefinitionHolder definition, ParserContext parserContext)
+            public ObjectDefinitionHolder Decorate(XmlNode node, ObjectDefinitionHolder definition,
+                ParserContext parserContext)
             {
                 return null;
             }
         }
+
+        #endregion
+
+        #region Fields
+
+        private static IDictionary parsers;
+        private static readonly IDictionary wellknownNamespaceParserTypeNames;
+        private static XmlSchemaSet schemas;
 
         #endregion
     }

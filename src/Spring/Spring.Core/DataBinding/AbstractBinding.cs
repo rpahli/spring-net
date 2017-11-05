@@ -7,31 +7,66 @@ using Spring.Validation;
 namespace Spring.DataBinding
 {
     /// <summary>
-    /// Abstract base class for <see cref="IBinding"/> implementations.
+    ///     Abstract base class for <see cref="IBinding" /> implementations.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     public abstract class AbstractBinding : IBinding
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:System.Object"></see> class.
+        /// </summary>
+        protected AbstractBinding()
+        {
+            ErrorMessage = new BindingErrorMessage(Id, "Binding-Error");
+            ErrorProviders = new[] {ALL_BINDINGERRORS_PROVIDER};
+        }
+
+        /// <summary>
+        ///     Determines whether the specified <see cref="T:System.Object"></see> is equal to the current
+        ///     <see cref="T:System.Object"></see>.
+        /// </summary>
+        /// <returns>
+        ///     true if the specified <see cref="T:System.Object"></see> is equal to the current <see cref="T:System.Object"></see>
+        ///     ; otherwise, false.
+        /// </returns>
+        /// <param name="obj">
+        ///     The <see cref="T:System.Object"></see> to compare with the current <see cref="T:System.Object"></see>
+        ///     .
+        /// </param>
+        /// <filterpriority>2</filterpriority>
+        public override bool Equals(object obj)
+        {
+            AbstractBinding other = obj as AbstractBinding;
+            return other != null && Id == other.Id;
+        }
+
+        /// <summary>
+        ///     Serves as a hash function for a particular type. <see cref="M:System.Object.GetHashCode"></see> is suitable for use
+        ///     in hashing algorithms and data structures like a hash table.
+        /// </summary>
+        /// <returns>
+        ///     A hash code for the current <see cref="T:System.Object"></see>.
+        /// </returns>
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
+
         #region Fields
 
         /// <summary>
-        /// The name of the always filled error provider
+        ///     The name of the always filled error provider
         /// </summary>
         public static readonly string ALL_BINDINGERRORS_PROVIDER = "__all_bindingerrors";
 
         // each Binding instance needs its own ID
-        private readonly string BINDING_ID = Guid.NewGuid().ToString("N");
-
-        private BindingDirection direction = BindingDirection.Bidirectional;
-        private BindingErrorMessage errorMessage;
-        private string[] errorProviders;
 
         #endregion
 
         #region Properties
 
         /// <summary>
-        /// Gets or sets a flag specifying whether this binding is valid.
+        ///     Gets or sets a flag specifying whether this binding is valid.
         /// </summary>
         /// <value>
         ///     <c>true</c> if this binding evaluated without errors;
@@ -42,12 +77,12 @@ namespace Spring.DataBinding
             if (errors == null) return true;
 
             IList<ErrorMessage> errorList = errors.GetErrors(ALL_BINDINGERRORS_PROVIDER);
-            return (errorList == null) || (!errorList.Contains(this.ErrorMessage));
+            return errorList == null || !errorList.Contains(ErrorMessage);
         }
 
         /// <summary>
-        /// Marks this binding's state as invalid for this validationErrors collection. 
-        /// Returns false if <paramref name="validationErrors"/> is null.
+        ///     Marks this binding's state as invalid for this validationErrors collection.
+        ///     Returns false if <paramref name="validationErrors" /> is null.
         /// </summary>
         /// <param name="validationErrors"></param>
         /// <returns>false, if validationErrors is null</returns>
@@ -55,74 +90,50 @@ namespace Spring.DataBinding
         {
             if (validationErrors != null)
             {
-                foreach (string provider in this.ErrorProviders)
-                {
-                    validationErrors.AddError(provider, this.ErrorMessage);
-                }
+                foreach (string provider in ErrorProviders)
+                    validationErrors.AddError(provider, ErrorMessage);
                 return true;
             }
             return false;
         }
 
-        ///<summary>
-        /// Gets the unique ID of this binding instance.
-        ///</summary>
-        public string Id
-        {
-            get { return BINDING_ID; }
-        }
+        /// <summary>
+        ///     Gets the unique ID of this binding instance.
+        /// </summary>
+        public string Id { get; } = Guid.NewGuid().ToString("N");
 
         /// <summary>
-        /// Gets or sets the <see cref="BindingDirection"/>.
+        ///     Gets or sets the <see cref="BindingDirection" />.
         /// </summary>
         /// <value>The binding direction.</value>
-        public BindingDirection Direction
-        {
-            get { return direction; }
-            set { direction = value; }
-        }
+        public BindingDirection Direction { get; set; } = BindingDirection.Bidirectional;
 
         /// <summary>
-        /// Gets the error message.
+        ///     Gets the error message.
         /// </summary>
         /// <value>The error message.</value>
-        public BindingErrorMessage ErrorMessage
-        {
-            get { return errorMessage; }
-        }
+        public BindingErrorMessage ErrorMessage { get; private set; }
 
         /// <summary>
-        /// Gets the error providers.
+        ///     Gets the error providers.
         /// </summary>
-        public string[] ErrorProviders
-        {
-            get { return errorProviders; }
-        }
+        public string[] ErrorProviders { get; private set; }
 
         #endregion
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:System.Object"></see> class.
-        /// </summary>
-        protected AbstractBinding()
-        {
-            this.errorMessage = new BindingErrorMessage( this.Id, "Binding-Error");
-            this.errorProviders = new string[] { ALL_BINDINGERRORS_PROVIDER };
-        }
 
         #region IBinding Implementation
 
         /// <summary>
-        /// Binds source object to target object.
+        ///     Binds source object to target object.
         /// </summary>
         /// <param name="source">
-        /// The source object.
+        ///     The source object.
         /// </param>
         /// <param name="target">
-        /// The target object.
+        ///     The target object.
         /// </param>
         /// <param name="validationErrors">
-        /// Validation errors collection that type conversion errors should be added to.
+        ///     Validation errors collection that type conversion errors should be added to.
         /// </param>
         public virtual void BindSourceToTarget(object source, object target, IValidationErrors validationErrors)
         {
@@ -130,16 +141,16 @@ namespace Spring.DataBinding
         }
 
         /// <summary>
-        /// Binds target object to source object.
+        ///     Binds target object to source object.
         /// </summary>
         /// <param name="source">
-        /// The source object.
+        ///     The source object.
         /// </param>
         /// <param name="target">
-        /// The target object.
+        ///     The target object.
         /// </param>
         /// <param name="validationErrors">
-        /// Validation errors collection that type conversion errors should be added to.
+        ///     Validation errors collection that type conversion errors should be added to.
         /// </param>
         public virtual void BindTargetToSource(object source, object target, IValidationErrors validationErrors)
         {
@@ -147,48 +158,50 @@ namespace Spring.DataBinding
         }
 
         /// <summary>
-        /// Binds source object to target object.
+        ///     Binds source object to target object.
         /// </summary>
         /// <param name="source">
-        ///   The source object.
+        ///     The source object.
         /// </param>
         /// <param name="target">
-        ///   The target object.
+        ///     The target object.
         /// </param>
         /// <param name="validationErrors">
-        ///   Validation errors collection that type conversion errors should be added to.
+        ///     Validation errors collection that type conversion errors should be added to.
         /// </param>
         /// <param name="variables">
-        ///   Variables that should be used during expression evaluation.
+        ///     Variables that should be used during expression evaluation.
         /// </param>
-        public abstract void BindSourceToTarget(object source, object target, IValidationErrors validationErrors, IDictionary<string, object> variables);
+        public abstract void BindSourceToTarget(object source, object target, IValidationErrors validationErrors,
+            IDictionary<string, object> variables);
 
         /// <summary>
-        /// Binds target object to source object.
+        ///     Binds target object to source object.
         /// </summary>
         /// <param name="source">
-        ///   The source object.
+        ///     The source object.
         /// </param>
         /// <param name="target">
-        ///   The target object.
+        ///     The target object.
         /// </param>
         /// <param name="validationErrors">
-        ///   Validation errors collection that type conversion errors should be added to.
+        ///     Validation errors collection that type conversion errors should be added to.
         /// </param>
         /// <param name="variables">
-        ///   Variables that should be used during expression evaluation.
+        ///     Variables that should be used during expression evaluation.
         /// </param>
-        public abstract void BindTargetToSource(object source, object target, IValidationErrors validationErrors, IDictionary<string, object> variables);
+        public abstract void BindTargetToSource(object source, object target, IValidationErrors validationErrors,
+            IDictionary<string, object> variables);
 
         /// <summary>
-        /// Sets error message that should be displayed in the case 
-        /// of a non-fatal binding error.
+        ///     Sets error message that should be displayed in the case
+        ///     of a non-fatal binding error.
         /// </summary>
         /// <param name="messageId">
-        /// Resource ID of the error message.
+        ///     Resource ID of the error message.
         /// </param>
         /// <param name="errorProviders">
-        /// List of error providers message should be added to.
+        ///     List of error providers message should be added to.
         /// </param>
         public void SetErrorMessage(string messageId, params string[] errorProviders)
         {
@@ -198,39 +211,15 @@ namespace Spring.DataBinding
                 throw new ArgumentException("At least one error provider has to be specified.", "providers");
             }
 
-            this.errorMessage = new BindingErrorMessage(this.BINDING_ID, messageId, null);
+            ErrorMessage = new BindingErrorMessage(Id, messageId, null);
             Set providers = new HashedSet();
             providers.Add(ALL_BINDINGERRORS_PROVIDER);
             providers.AddAll(errorProviders);
             errorProviders = new string[providers.Count];
             providers.CopyTo(errorProviders, 0);
-            this.errorProviders = errorProviders;
+            ErrorProviders = errorProviders;
         }
 
         #endregion
-
-        ///<summary>
-        ///Determines whether the specified <see cref="T:System.Object"></see> is equal to the current <see cref="T:System.Object"></see>.
-        ///</summary>
-        ///<returns>
-        ///true if the specified <see cref="T:System.Object"></see> is equal to the current <see cref="T:System.Object"></see>; otherwise, false.
-        ///</returns>
-        ///<param name="obj">The <see cref="T:System.Object"></see> to compare with the current <see cref="T:System.Object"></see>. </param><filterpriority>2</filterpriority>
-        public override bool Equals(object obj)
-        {
-            AbstractBinding other = obj as AbstractBinding;
-            return (other != null) && (this.Id == other.Id);
-        }
-
-        ///<summary>
-        ///Serves as a hash function for a particular type. <see cref="M:System.Object.GetHashCode"></see> is suitable for use in hashing algorithms and data structures like a hash table.
-        ///</summary>
-        ///<returns>
-        ///A hash code for the current <see cref="T:System.Object"></see>.
-        ///</returns>
-        public override int GetHashCode()
-        {
-            return this.Id.GetHashCode();
-        }
     }
 }

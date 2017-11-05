@@ -21,41 +21,39 @@
 namespace Spring.Objects.Factory.Support
 {
     /// <summary>
-    /// The possible object scope values.
+    ///     The possible object scope values.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     public enum ObjectScope
     {
-        ///<summary>
-        /// 
-        ///</summary>
+        /// <summary>
+        /// </summary>
         Singleton = 0,
 
         /// <summary>
-        /// Application scope.
+        ///     Application scope.
         /// </summary>
         Application = Singleton,
 
         /// <summary>
-        /// Session scope.
+        ///     Session scope.
         /// </summary>
         Session = 1,
 
         /// <summary>
-        /// Request scope.
+        ///     Request scope.
         /// </summary>
         Request = 2,
 
         /// <summary>
-        /// 
         /// </summary>
         Prototype = -1,
 
         /// <summary>
-        /// Default scope (currently
-        /// <see cref="Spring.Objects.Factory.Support.ObjectScope.Application"/>).
+        ///     Default scope (currently
+        ///     <see cref="Spring.Objects.Factory.Support.ObjectScope.Application" />).
         /// </summary>
-        /// <seealso cref="Spring.Objects.Factory.Support.ObjectScope.Application"/>
+        /// <seealso cref="Spring.Objects.Factory.Support.ObjectScope.Application" />
         Default = Application
     }
 }

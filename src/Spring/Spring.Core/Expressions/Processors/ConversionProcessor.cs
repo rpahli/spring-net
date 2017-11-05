@@ -29,22 +29,22 @@ using Spring.Core.TypeConversion;
 namespace Spring.Expressions.Processors
 {
     /// <summary>
-    /// Converts all elements in the input list to a given target type.
+    ///     Converts all elements in the input list to a given target type.
     /// </summary>
     /// <author>Erich Eichinger</author>
     public class ConversionProcessor : ICollectionProcessor
     {
         /// <summary>
-        /// Processes a list of source items and returns a result.
+        ///     Processes a list of source items and returns a result.
         /// </summary>
         /// <param name="source">
-        /// The source list to process.
+        ///     The source list to process.
         /// </param>
         /// <param name="args">
-        /// An optional processor arguments array.
+        ///     An optional processor arguments array.
         /// </param>
         /// <returns>
-        /// The processing result.
+        ///     The processing result.
         /// </returns>
         public object Process(ICollection source, object[] args)
         {
@@ -59,11 +59,11 @@ namespace Spring.Expressions.Processors
             {
                 throw new ArgumentNullException("args", "convert() processor requires a Type value argument.");
             }
-            else if (args.Length == 1)
+            if (args.Length == 1)
             {
                 if (args[0] is Type)
                 {
-                    targetType = (Type)args[0];
+                    targetType = (Type) args[0];
                 }
                 else
                 {
@@ -73,13 +73,13 @@ namespace Spring.Expressions.Processors
             else if (args.Length > 1)
             {
                 throw new ArgumentException("Only a single argument can be specified for a convert() processor.");
-            }        
-    
+            }
+
             ArrayList result = new ArrayList();
-            foreach(object val in source)
+            foreach (object val in source)
             {
                 object newVal = TypeConversionUtils.ConvertValueIfNecessary(targetType, val, null);
-                result.Add(newVal);                
+                result.Add(newVal);
             }
 
             return result.ToArray(targetType);

@@ -24,8 +24,8 @@ using System.Collections.Generic;
 namespace Spring.Objects.Factory.Config
 {
     /// <summary>
-    /// Implementation of <see cref="IVariableSource"/> that
-    /// resolves variable name against command line arguments.
+    ///     Implementation of <see cref="IVariableSource" /> that
+    ///     resolves variable name against command line arguments.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
@@ -35,25 +35,25 @@ namespace Spring.Objects.Factory.Config
         private const string DEFAULT_VALUE_SEPARATOR = ":";
 
         private string argumentPrefix = DEFAULT_ARG_PREFIX;
-        private string valueSeparator = DEFAULT_VALUE_SEPARATOR;
-
-        private string[] commandLineArgs;
         protected IDictionary<string, string> arguments;
 
-        private object objectMonitor = new object();
+        private readonly string[] commandLineArgs;
+
+        private readonly object objectMonitor = new object();
+        private string valueSeparator = DEFAULT_VALUE_SEPARATOR;
 
         /// <summary>
-        /// Default constructor. 
-        /// Initializes command line arguments from the environment.
+        ///     Default constructor.
+        ///     Initializes command line arguments from the environment.
         /// </summary>
         public CommandLineArgsVariableSource()
         {
-            this.commandLineArgs = Environment.GetCommandLineArgs();
+            commandLineArgs = Environment.GetCommandLineArgs();
         }
 
         /// <summary>
-        /// Constructor that allows arguments to be passed externally.
-        /// Useful for testing.
+        ///     Constructor that allows arguments to be passed externally.
+        ///     Useful for testing.
         /// </summary>
         public CommandLineArgsVariableSource(string[] commandLineArgs)
         {
@@ -61,12 +61,12 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        /// Gets or sets a prefix that should be used to 
-        /// identify arguments to extract values from.
+        ///     Gets or sets a prefix that should be used to
+        ///     identify arguments to extract values from.
         /// </summary>
         /// <value>
-        /// A prefix that should be used to identify arguments 
-        /// to extract values from. Defaults to slash ("/").
+        ///     A prefix that should be used to identify arguments
+        ///     to extract values from. Defaults to slash ("/").
         /// </value>
         public string ArgumentPrefix
         {
@@ -75,12 +75,12 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        /// Gets or sets a character that should be used to
-        /// separate argument name from its value.
+        ///     Gets or sets a character that should be used to
+        ///     separate argument name from its value.
         /// </summary>
         /// <value>
-        /// A character that should be used to separate argument 
-        /// name from its value. Defaults to colon (":").
+        ///     A character that should be used to separate argument
+        ///     name from its value. Defaults to colon (":").
         /// </value>
         public string ValueSeparator
         {
@@ -89,8 +89,8 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        /// Before requesting a variable resolution, a client should
-        /// ask, whether the source can resolve a particular variable name.
+        ///     Before requesting a variable resolution, a client should
+        ///     ask, whether the source can resolve a particular variable name.
         /// </summary>
         /// <param name="name">the name of the variable to resolve</param>
         /// <returns><c>true</c> if the variable can be resolved, <c>false</c> otherwise</returns>
@@ -107,13 +107,13 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        /// Resolves variable value for the specified variable name.
+        ///     Resolves variable value for the specified variable name.
         /// </summary>
         /// <param name="name">
-        /// The name of the variable to resolve.
+        ///     The name of the variable to resolve.
         /// </param>
         /// <returns>
-        /// The variable value if able to resolve, <c>null</c> otherwise.
+        ///     The variable value if able to resolve, <c>null</c> otherwise.
         /// </returns>
         public string ResolveVariable(string name)
         {
@@ -130,11 +130,11 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        /// Initializes command line arguments dictionary.
+        ///     Initializes command line arguments dictionary.
         /// </summary>
         protected virtual void InitArguments()
         {
-            this.arguments = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            arguments = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
             foreach (string arg in commandLineArgs)
             {
@@ -143,7 +143,7 @@ namespace Spring.Objects.Factory.Config
                 {
                     string argName = arg.Substring(argumentPrefix.Length, separatorIndex - argumentPrefix.Length);
                     string argValue = arg.Substring(separatorIndex + valueSeparator.Length);
-                    this.arguments[argName] = argValue;
+                    arguments[argName] = argValue;
                 }
             }
         }

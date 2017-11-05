@@ -25,57 +25,34 @@ using Spring.Util;
 namespace Spring.Validation.Validators
 {
     /// <summary>
-    /// Validates that the value is valid URL.
+    ///     Validates that the value is valid URL.
     /// </summary>
     /// <author>Goran Milosavljevic</author>
     public class UrlValidator : BaseSimpleValidator
     {
-        #region Constructors
+        #region Data members
 
         /// <summary>
-        /// Creates a new instance of the <b>UrlValidator</b> class.
+        ///     Regular expression used for validation of object passed to this <see cref="UrlValidator" />.
         /// </summary>
-        public UrlValidator()
-        {
-        }
-
-        /// <summary>
-        /// Creates a new instance of the <b>UrlValidator</b> class.
-        /// </summary>
-        /// <param name="test">The expression to validate.</param>
-        /// <param name="when">The expression that determines if this validator should be evaluated.</param>
-        public UrlValidator(string test, string when)
-            : base(test, when)
-        {
-            AssertUtils.ArgumentHasText(test, "test");
-        }
-
-        /// <summary>
-        /// Creates a new instance of the <b>UrlValidator</b> class.
-        /// </summary>
-        /// <param name="test">The expression to validate.</param>
-        /// <param name="when">The expression that determines if this validator should be evaluated.</param>
-        public UrlValidator(IExpression test, IExpression when)
-            : base(test, when)
-        {
-            AssertUtils.ArgumentNotNull(test, "test");
-        }
+        private static readonly string urlCheck =
+            "((http|https)://)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(([0-9]{1,5})?/.*)?";
 
         #endregion
 
         #region BaseValidator methods
 
         /// <summary>
-        /// Validates the supplied <paramref name="objectToValidate"/>.
+        ///     Validates the supplied <paramref name="objectToValidate" />.
         /// </summary>
         /// <remarks>
-        /// In the case of the <see cref="UrlValidator"/> class,
-        /// the test should be a string variable that will be evaluated and the object
-        /// obtained as a result of this evaluation will be tested using the URL validation rules.
+        ///     In the case of the <see cref="UrlValidator" /> class,
+        ///     the test should be a string variable that will be evaluated and the object
+        ///     obtained as a result of this evaluation will be tested using the URL validation rules.
         /// </remarks>
         /// <param name="objectToValidate">The object to validate.</param>
         /// <returns>
-        /// <see lang="true"/> if the supplied <paramref name="objectToValidate"/> is valid.
+        ///     <see lang="true" /> if the supplied <paramref name="objectToValidate" /> is valid.
         /// </returns>
         protected override bool Validate(object objectToValidate)
         {
@@ -91,13 +68,37 @@ namespace Spring.Validation.Validators
 
         #endregion
 
-        #region Data members
+        #region Constructors
 
         /// <summary>
-        /// Regular expression used for validation of object passed to this <see cref="UrlValidator"/>.
+        ///     Creates a new instance of the <b>UrlValidator</b> class.
         /// </summary>
-        private static string urlCheck = "((http|https)://)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(([0-9]{1,5})?/.*)?";
-        
+        public UrlValidator()
+        {
+        }
+
+        /// <summary>
+        ///     Creates a new instance of the <b>UrlValidator</b> class.
+        /// </summary>
+        /// <param name="test">The expression to validate.</param>
+        /// <param name="when">The expression that determines if this validator should be evaluated.</param>
+        public UrlValidator(string test, string when)
+            : base(test, when)
+        {
+            AssertUtils.ArgumentHasText(test, "test");
+        }
+
+        /// <summary>
+        ///     Creates a new instance of the <b>UrlValidator</b> class.
+        /// </summary>
+        /// <param name="test">The expression to validate.</param>
+        /// <param name="when">The expression that determines if this validator should be evaluated.</param>
+        public UrlValidator(IExpression test, IExpression when)
+            : base(test, when)
+        {
+            AssertUtils.ArgumentNotNull(test, "test");
+        }
+
         #endregion
     }
 }

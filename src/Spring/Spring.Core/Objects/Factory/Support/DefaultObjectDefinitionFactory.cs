@@ -21,7 +21,6 @@
 #region Imports
 
 using System;
-
 using Spring.Core.TypeResolution;
 using Spring.Util;
 
@@ -29,41 +28,46 @@ using Spring.Util;
 
 namespace Spring.Objects.Factory.Support
 {
-	/// <summary>
-	/// Default implementation of the
-	/// <see cref="IObjectDefinitionFactory"/>
-	/// interface.
-	/// </summary>
-	/// <remarks>
-	/// <p>
-	/// Does <b>not</b> support per <see cref="System.AppDomain"/>
-	/// <see cref="System.Type"/> loading.
-	/// </p>
-	/// </remarks>
-	/// <author>Aleksandar Seovic</author>
+    /// <summary>
+    ///     Default implementation of the
+    ///     <see cref="IObjectDefinitionFactory" />
+    ///     interface.
+    /// </summary>
+    /// <remarks>
+    ///     <p>
+    ///         Does <b>not</b> support per <see cref="System.AppDomain" />
+    ///         <see cref="System.Type" /> loading.
+    ///     </p>
+    /// </remarks>
+    /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class DefaultObjectDefinitionFactory : IObjectDefinitionFactory
-	{
-	    #region IObjectDefinitionFactory Members
+    {
+        #region IObjectDefinitionFactory Members
 
         /// <summary>
-        /// Factory style method for getting concrete
-        /// <see cref="IConfigurableObjectDefinition"/>
-        /// instances.
+        ///     Factory style method for getting concrete
+        ///     <see cref="IConfigurableObjectDefinition" />
+        ///     instances.
         /// </summary>
-        /// /// <remarks>If no parent is specified, a RootObjectDefinition is created, otherwise a 
-        /// ChildObjectDefinition.</remarks>
-        /// <param name="typeName">The <see cref="System.Type"/> of the defined object.</param>
+        /// ///
+        /// <remarks>
+        ///     If no parent is specified, a RootObjectDefinition is created, otherwise a
+        ///     ChildObjectDefinition.
+        /// </remarks>
+        /// <param name="typeName">The <see cref="System.Type" /> of the defined object.</param>
         /// <param name="parent">The name of the parent object definition (if any).</param>
-        /// <param name="domain">The <see cref="System.AppDomain"/> against which any class names
-        /// will be resolved into <see cref="System.Type"/> instances.</param>
+        /// <param name="domain">
+        ///     The <see cref="System.AppDomain" /> against which any class names
+        ///     will be resolved into <see cref="System.Type" /> instances.
+        /// </param>
         /// <returns>
-        /// An
-        /// <see cref="IConfigurableObjectDefinition"/>
-        /// instance.
+        ///     An
+        ///     <see cref="IConfigurableObjectDefinition" />
+        ///     instance.
         /// </returns>
-	    public virtual AbstractObjectDefinition CreateObjectDefinition(string typeName, string parent, AppDomain domain)
-	    {
+        public virtual AbstractObjectDefinition CreateObjectDefinition(string typeName, string parent, AppDomain domain)
+        {
             Type objectType = null;
             if (StringUtils.HasText(typeName) && domain != null)
             {
@@ -72,41 +76,34 @@ namespace Spring.Objects.Factory.Support
                     objectType = TypeResolutionUtils.ResolveType(typeName);
                 }
                 // try later....
-                catch { }
+                catch
+                {
+                }
             }
             if (StringUtils.IsNullOrEmpty(parent))
             {
                 if (objectType != null)
-                {                    
-                    return new RootObjectDefinition(objectType);
-
-                }
-                else
                 {
-                    RootObjectDefinition rootObjectDefinition = new RootObjectDefinition();
-                    rootObjectDefinition.ObjectTypeName = typeName;
-                    return rootObjectDefinition;
+                    return new RootObjectDefinition(objectType);
                 }
+                RootObjectDefinition rootObjectDefinition = new RootObjectDefinition();
+                rootObjectDefinition.ObjectTypeName = typeName;
+                return rootObjectDefinition;
+            }
+            if (objectType != null)
+            {
+                ChildObjectDefinition childObjectDefinition = new ChildObjectDefinition(parent);
+                childObjectDefinition.ObjectType = objectType;
+                return childObjectDefinition;
             }
             else
             {
-                if (objectType != null)
-                {
-                    ChildObjectDefinition childObjectDefinition = new ChildObjectDefinition(parent);
-                    childObjectDefinition.ObjectType = objectType;
-                    return childObjectDefinition;
-                }
-                else
-                {
-                    ChildObjectDefinition childObjectDefinition = new ChildObjectDefinition(parent);
-                    childObjectDefinition.ObjectTypeName = typeName;
-                    return childObjectDefinition;
-                }
+                ChildObjectDefinition childObjectDefinition = new ChildObjectDefinition(parent);
+                childObjectDefinition.ObjectTypeName = typeName;
+                return childObjectDefinition;
             }
-	    }
+        }
 
-	    #endregion
-
-
-	}
+        #endregion
+    }
 }

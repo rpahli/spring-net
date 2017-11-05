@@ -22,7 +22,6 @@
 
 using System;
 using System.Collections;
-
 using Spring.Collections;
 using Spring.Core;
 using Spring.Core.TypeConversion;
@@ -34,7 +33,7 @@ using Spring.Util;
 namespace Spring.Objects.Factory.Config
 {
     /// <summary>
-    /// Tag subclass used to hold a set of managed elements.
+    ///     Tag subclass used to hold a set of managed elements.
     /// </summary>
     /// <author>Juergen Hoeller</author>
     /// <author>Rick Evans (.NET)</author>
@@ -47,16 +46,16 @@ namespace Spring.Objects.Factory.Config
 
 
         /// <summary>
-        /// Creates a new set instance based on either a list or a hash table,
-        /// depending on which will be more efficient based on the data-set
-        /// size.
+        ///     Creates a new set instance based on either a list or a hash table,
+        ///     depending on which will be more efficient based on the data-set
+        ///     size.
         /// </summary>
         public ManagedSet()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HybridSet"/> class with a given capacity
+        ///     Initializes a new instance of the <see cref="HybridSet" /> class with a given capacity
         /// </summary>
         /// <param name="size">The size.</param>
         public ManagedSet(int size) : base(size)
@@ -64,42 +63,43 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        /// Gets or sets the unresolved name for the <see cref="System.Type"/> 
-        /// of the elements of this managed set.
+        ///     Gets or sets the unresolved name for the <see cref="System.Type" />
+        ///     of the elements of this managed set.
         /// </summary>
         /// <value>The unresolved name for the type of the elements of this managed set.</value>
         public string ElementTypeName
         {
-            get { return this.elementTypeName; }
-            set { this.elementTypeName = value; }
+            get { return elementTypeName; }
+            set { elementTypeName = value; }
         }
 
         /// <summary>
-        /// Resolves this managed collection at runtime.
+        ///     Resolves this managed collection at runtime.
         /// </summary>
         /// <param name="objectName">
-        /// The name of the top level object that is having the value of one of it's
-        /// collection properties resolved.
+        ///     The name of the top level object that is having the value of one of it's
+        ///     collection properties resolved.
         /// </param>
         /// <param name="definition">
-        /// The definition of the named top level object.
+        ///     The definition of the named top level object.
         /// </param>
         /// <param name="propertyName">
-        /// The name of the property the value of which is being resolved.
+        ///     The name of the property the value of which is being resolved.
         /// </param>
         /// <param name="resolver">
-        /// The callback that will actually do the donkey work of resolving
-        /// this managed collection.
+        ///     The callback that will actually do the donkey work of resolving
+        ///     this managed collection.
         /// </param>
         /// <returns>A fully resolved collection.</returns>
-        public ICollection Resolve(string objectName, IObjectDefinition definition, string propertyName, ManagedCollectionElementResolver resolver)
+        public ICollection Resolve(string objectName, IObjectDefinition definition, string propertyName,
+            ManagedCollectionElementResolver resolver)
         {
             ISet set = new HybridSet();
-            
+
             Type elementType = null;
-            if (StringUtils.HasText(this.elementTypeName))
+            if (StringUtils.HasText(elementTypeName))
             {
-                elementType = TypeResolutionUtils.ResolveType(this.elementTypeName);
+                elementType = TypeResolutionUtils.ResolveType(elementTypeName);
             }
 
             string elementName = propertyName + "[(set-element)]";
@@ -111,15 +111,16 @@ namespace Spring.Objects.Factory.Config
                 {
                     try
                     {
-                        resolvedElement = TypeConversionUtils.ConvertValueIfNecessary(elementType, resolvedElement, propertyName);
+                        resolvedElement =
+                            TypeConversionUtils.ConvertValueIfNecessary(elementType, resolvedElement, propertyName);
                     }
                     catch (TypeMismatchException)
                     {
                         throw new TypeMismatchException(
-                            String.Format(
-                                    "Unable to convert managed set element '{0}' from [{1}] into [{2}] during initialization"
-                                    + " of property '{3}' for object '{4}'. Do you have an appropriate type converter registered?", 
-                                    resolvedElement, resolvedElement.GetType(), elementType, propertyName, objectName));
+                            string.Format(
+                                "Unable to convert managed set element '{0}' from [{1}] into [{2}] during initialization"
+                                + " of property '{3}' for object '{4}'. Do you have an appropriate type converter registered?",
+                                resolvedElement, resolvedElement.GetType(), elementType, propertyName, objectName));
                     }
                 }
 
@@ -130,31 +131,34 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        /// Gets a value indicating whether this instance is merge enabled for this instance
+        ///     Gets a value indicating whether this instance is merge enabled for this instance
         /// </summary>
         /// <value>
-        /// 	<c>true</c> if this instance is merge enabled; otherwise, <c>false</c>.
+        ///     <c>true</c> if this instance is merge enabled; otherwise, <c>false</c>.
         /// </value>
         public bool MergeEnabled
         {
-            get { return this.mergeEnabled; }
-            set { this.mergeEnabled = value; }
+            get { return mergeEnabled; }
+            set { mergeEnabled = value; }
         }
 
         /// <summary>
-        /// Merges the current value set with that of the supplied object.
+        ///     Merges the current value set with that of the supplied object.
         /// </summary>
-        /// <remarks>The supplied object is considered the parent, and values in the 
-        /// callee's value set must override those of the supplied object.
+        /// <remarks>
+        ///     The supplied object is considered the parent, and values in the
+        ///     callee's value set must override those of the supplied object.
         /// </remarks>
         /// <param name="parent">The parent object to merge with</param>
         /// <returns>The result of the merge operation</returns>
         /// <exception cref="ArgumentNullException">If the supplied parent is <code>null</code></exception>
-        /// <exception cref="InvalidOperationException">If merging is not enabled for this instance,
-        /// (i.e. <code>MergeEnabled</code> equals <code>false</code>.</exception>
+        /// <exception cref="InvalidOperationException">
+        ///     If merging is not enabled for this instance,
+        ///     (i.e. <code>MergeEnabled</code> equals <code>false</code>.
+        /// </exception>
         public object Merge(object parent)
         {
-            if (!this.mergeEnabled)
+            if (!mergeEnabled)
             {
                 throw new InvalidOperationException(
                     "Not allowed to merge when the 'MergeEnabled' property is set to 'false'");
@@ -170,13 +174,9 @@ namespace Spring.Objects.Factory.Config
             }
             ISet merged = new ManagedSet();
             foreach (object element in pSet)
-            {
                 merged.Add(element);
-            }
             foreach (object o in this)
-            {
                 merged.Add(o);
-            }
             return merged;
         }
     }

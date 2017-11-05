@@ -20,39 +20,37 @@
 
 #region Imports
 
-
-
 #endregion
 
 using System;
 
-namespace Spring.Objects.Factory.Support {
-
-	/// <summary>
-	/// The various modes of dependency checking.
+namespace Spring.Objects.Factory.Support
+{
+    /// <summary>
+    ///     The various modes of dependency checking.
     /// </summary>
     /// <author>Rick Evans (.NET)</author>
     [Serializable]
-    public enum DependencyCheckingMode 
+    public enum DependencyCheckingMode
     {
         /// <summary>
-        /// DO not do any dependency checking.
+        ///     DO not do any dependency checking.
         /// </summary>
         None = 0,
 
         /// <summary>
-        /// Check object references.
+        ///     Check object references.
         /// </summary>
         Objects = 1,
 
         /// <summary>
-        /// Just check primitive (string, int, etc) values.
+        ///     Just check primitive (string, int, etc) values.
         /// </summary>
         Simple = 2,
 
         /// <summary>
-        /// Check everything.
+        ///     Check everything.
         /// </summary>
         All = 3
-	}
+    }
 }

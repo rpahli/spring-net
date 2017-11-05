@@ -30,84 +30,84 @@ using System.Text.RegularExpressions;
 namespace Spring.Core.TypeConversion
 {
     #region Specifier parsers
- 
+
     using TimeSpanNullable = Nullable<TimeSpan>;
-    
+
     /// <summary>
-    /// Base parser for <see cref="TimeSpanConverter"/> custom specifiers.
+    ///     Base parser for <see cref="TimeSpanConverter" /> custom specifiers.
     /// </summary>
-    abstract class SpecifierParser 
+    internal abstract class SpecifierParser
     {
-        const RegexOptions ParsingOptions = RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.IgnoreCase;
+        private const RegexOptions ParsingOptions =
+            RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.IgnoreCase;
 
         /// <summary>
-        /// Specifier
+        ///     Specifier
         /// </summary>
         public abstract string Specifier { get; }
 
         /// <summary>
-        /// Convert int value to a Timespan based on the specifier
+        ///     Convert int value to a Timespan based on the specifier
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
         public abstract TimeSpan Parse(int value);
 
         /// <summary>
-        /// Check if the string contains the specifier and 
+        ///     Check if the string contains the specifier and
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public TimeSpanNullable Match(string value) 
+        public TimeSpanNullable Match(string value)
         {
             string regex = @"^(\d+)" + Specifier + "$";
             Match match = Regex.Match(value, regex, ParsingOptions);
 
             if (!match.Success) return new TimeSpanNullable();
 
-            return new TimeSpanNullable(Parse(int.Parse(match.Groups[1].Value)));
-        }  
-      
+            return Parse(int.Parse(match.Groups[1].Value));
+        }
     }
 
     /// <summary>
-    /// Recognize 10d as ten days
+    ///     Recognize 10d as ten days
     /// </summary>
-    class DaySpecifier: SpecifierParser 
+    internal class DaySpecifier : SpecifierParser
     {
         /// <summary>
-        /// Day specifier: d
+        ///     Day specifier: d
         /// </summary>
-        public override string Specifier 
+        public override string Specifier
         {
             get { return "d"; }
         }
 
         /// <summary>
-        /// Parse value as days
+        ///     Parse value as days
         /// </summary>
         /// <param name="value">Timespan in days</param>
         /// <returns></returns>
-        public override TimeSpan Parse(int value) 
+        public override TimeSpan Parse(int value)
         {
             return TimeSpan.FromDays(value);
         }
     }
 
     /// <summary>
-    /// Recognize 10h as ten hours
+    ///     Recognize 10h as ten hours
     /// </summary>
-    class HourSpecifier : SpecifierParser 
+    internal class HourSpecifier : SpecifierParser
     {
         /// <summary>
-        /// Hour specifier: h
+        ///     Hour specifier: h
         /// </summary>
-        public override string Specifier 
+        public override string Specifier
         {
             get { return "h"; }
         }
 
         /// <summary>
-        /// Parse value as hours
+        ///     Parse value as hours
         /// </summary>
         /// <param name="value">Timespan in hours</param>
         /// <returns></returns>
@@ -118,72 +118,72 @@ namespace Spring.Core.TypeConversion
     }
 
     /// <summary>
-    /// Recognize 10m as ten minutes
+    ///     Recognize 10m as ten minutes
     /// </summary>
-    class MinuteSpecifier : SpecifierParser 
+    internal class MinuteSpecifier : SpecifierParser
     {
         /// <summary>
-        /// Minute specifier: m
+        ///     Minute specifier: m
         /// </summary>
-        public override string Specifier 
+        public override string Specifier
         {
             get { return "m"; }
         }
 
         /// <summary>
-        /// Parse value as minutes
+        ///     Parse value as minutes
         /// </summary>
         /// <param name="value">Timespan in minutes</param>
         /// <returns></returns>
-        public override TimeSpan Parse(int value) 
+        public override TimeSpan Parse(int value)
         {
             return TimeSpan.FromMinutes(value);
         }
     }
 
     /// <summary>
-    /// Recognize 10s as ten seconds
+    ///     Recognize 10s as ten seconds
     /// </summary>
-    class SecondSpecifier : SpecifierParser 
+    internal class SecondSpecifier : SpecifierParser
     {
         /// <summary>
-        /// Second specifier: s
+        ///     Second specifier: s
         /// </summary>
-        public override string Specifier 
+        public override string Specifier
         {
             get { return "s"; }
         }
 
         /// <summary>
-        /// Parse value as seconds
+        ///     Parse value as seconds
         /// </summary>
         /// <param name="value">Timespan in seconds</param>
         /// <returns></returns>
-        public override TimeSpan Parse(int value) 
+        public override TimeSpan Parse(int value)
         {
             return TimeSpan.FromSeconds(value);
         }
     }
 
     /// <summary>
-    /// Recognize 10ms as ten milliseconds
+    ///     Recognize 10ms as ten milliseconds
     /// </summary>
-    class MillisecondSpecifier : SpecifierParser 
+    internal class MillisecondSpecifier : SpecifierParser
     {
         /// <summary>
-        /// Millisecond specifier: ms
+        ///     Millisecond specifier: ms
         /// </summary>
-        public override string Specifier 
+        public override string Specifier
         {
             get { return "ms"; }
         }
 
         /// <summary>
-        /// Parse value as milliseconds
+        ///     Parse value as milliseconds
         /// </summary>
         /// <param name="value">Timespan in milliseconds</param>
         /// <returns></returns>
-        public override TimeSpan Parse(int value) 
+        public override TimeSpan Parse(int value)
         {
             return TimeSpan.FromMilliseconds(value);
         }
@@ -192,7 +192,7 @@ namespace Spring.Core.TypeConversion
     #endregion
 
     /// <summary>
-    /// Converter for <see cref="System.TimeSpan"/> instances.
+    ///     Converter for <see cref="System.TimeSpan" /> instances.
     /// </summary>
     /// <author>Bruno Baia</author>
     /// <author>Roberto Paterlini</author>
@@ -200,63 +200,60 @@ namespace Spring.Core.TypeConversion
     {
         #region Constants
 
-        static readonly SpecifierParser[] Specifiers = {
-                                                  new DaySpecifier(), 
-                                                  new HourSpecifier(), 
-                                                  new MinuteSpecifier(), 
-                                                  new SecondSpecifier(),
-                                                  new MillisecondSpecifier()
-                                              };
+        private static readonly SpecifierParser[] Specifiers =
+        {
+            new DaySpecifier(),
+            new HourSpecifier(),
+            new MinuteSpecifier(),
+            new SecondSpecifier(),
+            new MillisecondSpecifier()
+        };
 
         #endregion
 
         #region Constructor (s) / Destructor
-
-        /// <summary>
-        /// Creates a new instance of the
-        /// <see cref="Spring.Core.TypeConversion.TimeSpanConverter"/> class.
-        /// </summary>
-        public TimeSpanConverter() { }
 
         #endregion
 
         #region Methods
 
         /// <summary>
-        /// Convert from a string value to a <see cref="System.TimeSpan"/> instance.
+        ///     Convert from a string value to a <see cref="System.TimeSpan" /> instance.
         /// </summary>
         /// <param name="context">
-        /// A <see cref="System.ComponentModel.ITypeDescriptorContext"/>
-        /// that provides a format context.
+        ///     A <see cref="System.ComponentModel.ITypeDescriptorContext" />
+        ///     that provides a format context.
         /// </param>
         /// <param name="culture">
-        /// The <see cref="System.Globalization.CultureInfo"/> to use
-        /// as the current culture. 
+        ///     The <see cref="System.Globalization.CultureInfo" /> to use
+        ///     as the current culture.
         /// </param>
         /// <param name="value">
-        /// The value that is to be converted.
+        ///     The value that is to be converted.
         /// </param>
         /// <returns>
-        /// A <see cref="System.TimeSpan"/> if successful. 
+        ///     A <see cref="System.TimeSpan" /> if successful.
         /// </returns>
         public override object ConvertFrom(
             ITypeDescriptorContext context,
             CultureInfo culture, object value)
         {
             string stringValue = value as string;
-            if (stringValue!=null)
+            if (stringValue != null)
             {
                 try
                 {
                     stringValue = stringValue.Trim();
 
-                    foreach (SpecifierParser specifierParser in Specifiers) 
+                    foreach (SpecifierParser specifierParser in Specifiers)
                     {
                         TimeSpanNullable res = specifierParser.Match(stringValue);
                         if (res.HasValue) return res.Value;
                     }
                 }
-                catch { }
+                catch
+                {
+                }
             }
             return base.ConvertFrom(context, culture, value);
         }

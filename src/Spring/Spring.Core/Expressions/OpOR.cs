@@ -25,37 +25,37 @@ using Spring.Util;
 namespace Spring.Expressions
 {
     /// <summary>
-    /// Represents OR operator (both, bitwise and logical).
+    ///     Represents OR operator (both, bitwise and logical).
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class OpOR : BinaryOperator
     {
         /// <summary>
-        /// Create a new instance
+        ///     Create a new instance
         /// </summary>
-        public OpOR():base()
+        public OpOR()
         {
         }
 
         /// <summary>
-        /// Create a new instance
+        ///     Create a new instance
         /// </summary>
         public OpOR(BaseNode left, BaseNode right)
-            :base(left, right)
+            : base(left, right)
         {
         }
 
         /// <summary>
-        /// Create a new instance from SerializationInfo
+        ///     Create a new instance from SerializationInfo
         /// </summary>
         protected OpOR(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-        
+
         /// <summary>
-        /// Returns a value for the logical OR operator node.
+        ///     Returns a value for the logical OR operator node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
@@ -63,7 +63,7 @@ namespace Spring.Expressions
         protected override object Get(object context, EvaluationContext evalContext)
         {
             object l = GetLeftValue(context, evalContext);
-            
+
             if (NumberUtils.IsInteger(l))
             {
                 object r = GetRightValue(context, evalContext);
@@ -86,8 +86,8 @@ namespace Spring.Expressions
                 }
             }
 
-            return Convert.ToBoolean(l) || 
-                Convert.ToBoolean(GetRightValue(context, evalContext));
+            return Convert.ToBoolean(l) ||
+                   Convert.ToBoolean(GetRightValue(context, evalContext));
         }
     }
 }

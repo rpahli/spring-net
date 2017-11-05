@@ -29,30 +29,68 @@ using Spring.Util;
 namespace Spring.Context.Attributes
 {
     /// <summary>
-    /// AssemblyTypeScanner that only accepts types that also meet the requirements of being ObjectDefintions.
+    ///     AssemblyTypeScanner that only accepts types that also meet the requirements of being ObjectDefintions.
     /// </summary>
     [Serializable]
     public class AssemblyObjectDefinitionScanner : RequiredConstraintAssemblyTypeScanner
     {
         private readonly List<Func<Assembly, bool>> _assemblyExclusionPredicates = new List<Func<Assembly, bool>>();
 
-        private readonly IList<string> _springAssemblyExcludePrefixes = new List<string>()
-                                                                     {
-                                                                         "Spring.",
-                                                                         "NHibernate.",
-                                                                         "Common.Logging",
-                                                                         "log4net",
-                                                                         "Quartz",
-                                                                         "NVelocity",
-                                                                         "Rhino.Mocks",
-                                                                         "Apache.NMS"
-                                                                     };
+        private readonly IList<string> _springAssemblyExcludePrefixes = new List<string>
+        {
+            "Spring.",
+            "NHibernate.",
+            "Common.Logging",
+            "log4net",
+            "Quartz",
+            "NVelocity",
+            "Rhino.Mocks",
+            "Apache.NMS"
+        };
 
         private IObjectNameGenerator _objectNameGenerator = new AttributeObjectNameGenerator();
 
         /// <summary>
-        /// Provides the name generator for all scanned objects.
-        /// Default is <see cref="AttributeObjectNameGenerator"/>
+        ///     Initializes a new instance of the <see cref="AssemblyObjectDefinitionScanner" /> class.
+        /// </summary>
+        public AssemblyObjectDefinitionScanner()
+        {
+            AssemblyLoadExclusionPredicates.Add(candidate => _springAssemblyExcludePrefixes.Any(candidate.StartsWith)
+                                                             && candidate != "Spring.Core.Tests");
+            AssemblyLoadExclusionPredicates.Add(name => name.StartsWith("System."));
+            AssemblyLoadExclusionPredicates.Add(name => name.StartsWith("Microsoft."));
+            AssemblyLoadExclusionPredicates.Add(name => name == "mscorlib");
+            AssemblyLoadExclusionPredicates.Add(name => name == "System");
+        }
+
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="AssemblyObjectDefinitionScanner" /> class.
+        /// </summary>
+        /// <param name="assembliesToIncludePredicates">The assemblies to include predicates.</param>
+        public AssemblyObjectDefinitionScanner(params Func<string, bool>[] assembliesToIncludePredicates)
+        {
+            //force exclude for ALL assemblies
+            AssemblyLoadExclusionPredicates.Add(name => true);
+
+            //since all assemblies are EXCLUDED above, these will be the ONLY assemblies to be loaded
+            foreach (Func<string, bool> predicate in assembliesToIncludePredicates)
+                AssemblyLoadInclusionPredicates.Add(predicate);
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="AssemblyObjectDefinitionScanner" /> class.
+        /// </summary>
+        /// <param name="assembliesToInclude">The names of assemblies to include.</param>
+        public AssemblyObjectDefinitionScanner(params string[] assembliesToInclude)
+            : this(name => assembliesToInclude.Any(candidate => candidate == name))
+        {
+            AssertUtils.ArgumentNotNull(assembliesToInclude, "assembliesToInclude");
+        }
+
+        /// <summary>
+        ///     Provides the name generator for all scanned objects.
+        ///     Default is <see cref="AttributeObjectNameGenerator" />
         /// </summary>
         public IObjectNameGenerator ObjectNameGenerator
         {
@@ -61,7 +99,7 @@ namespace Spring.Context.Attributes
         }
 
         /// <summary>
-        /// Registers the defintions for types.
+        ///     Registers the defintions for types.
         /// </summary>
         /// <param name="registry">The registry.</param>
         /// <param name="typesToRegister">The types to register.</param>
@@ -69,32 +107,33 @@ namespace Spring.Context.Attributes
         {
             foreach (Type type in typesToRegister)
             {
-                var definition = new ScannedGenericObjectDefinition(type, Defaults);
+                ScannedGenericObjectDefinition definition = new ScannedGenericObjectDefinition(type, Defaults);
                 string objectName = ObjectNameGenerator.GenerateObjectName(definition, registry);
                 string fullname = type.FullName;
 
-                Logger.Debug(m => m("Register Type: {0} with object name '{1}'", fullname, objectName));
+                Logger.Debug($"Register Type: {fullname} with object name '{objectName}'");
                 registry.RegisterObjectDefinition(objectName, definition);
             }
         }
 
 
         /// <summary>
-        /// Applies the assembly filters to the assembly candidates.
+        ///     Applies the assembly filters to the assembly candidates.
         /// </summary>
         /// <param name="assemblyCandidates">The assembly candidates.</param>
         /// <returns></returns>
         protected override IEnumerable<Assembly> ApplyAssemblyFiltersTo(IEnumerable<Assembly> assemblyCandidates)
         {
-            return assemblyCandidates.Where(candidate => IsIncludedAssembly(candidate) && !IsExcludedAssembly(candidate));
+            return assemblyCandidates.Where(
+                candidate => IsIncludedAssembly(candidate) && !IsExcludedAssembly(candidate));
         }
 
         /// <summary>
-        /// Determines whether the specified candidate is and excluded assembly.
+        ///     Determines whether the specified candidate is and excluded assembly.
         /// </summary>
         /// <param name="candidate">The candidate.</param>
         /// <returns>
-        /// 	<c>true</c> if the specified candidate is an excluded assembly ; otherwise, <c>false</c>.
+        ///     <c>true</c> if the specified candidate is an excluded assembly ; otherwise, <c>false</c>.
         /// </returns>
         protected virtual bool IsExcludedAssembly(Assembly candidate)
         {
@@ -102,11 +141,11 @@ namespace Spring.Context.Attributes
         }
 
         /// <summary>
-        /// Determines whether the required constraint is satisfied by the specified type.
+        ///     Determines whether the required constraint is satisfied by the specified type.
         /// </summary>
         /// <param name="type">The type.</param>
         /// <returns>
-        /// 	<c>true</c> if the required constraint is satisfied by the specified type; otherwise, <c>false</c>.
+        ///     <c>true</c> if the required constraint is satisfied by the specified type; otherwise, <c>false</c>.
         /// </returns>
         protected override bool IsRequiredConstraintSatisfiedBy(Type type)
         {
@@ -119,7 +158,8 @@ namespace Spring.Context.Attributes
                 }
                 catch (AmbiguousMatchException)
                 {
-                    Logger.Error(m => m("Type {0} has more than one ComponentAttributes assigned to it.", type.FullName));
+                    Logger.Error($"Type {type.FullName} has more than one ComponentAttributes assigned to it.");
+
                     return false;
                 }
             }
@@ -129,8 +169,8 @@ namespace Spring.Context.Attributes
             foreach (CustomAttributeData customAttributeData in CustomAttributeData.GetCustomAttributes(type))
             {
                 if (customAttributeData.Constructor.DeclaringType != null &&
-                    (customAttributeData.Constructor.DeclaringType.FullName == typeof(ComponentAttribute).FullName &&
-                    !type.IsAbstract))
+                    customAttributeData.Constructor.DeclaringType.FullName == typeof(ComponentAttribute).FullName &&
+                    !type.IsAbstract)
                 {
                     satisfied = true;
                     break;
@@ -141,7 +181,7 @@ namespace Spring.Context.Attributes
         }
 
         /// <summary>
-        /// Sets the default filters.
+        ///     Sets the default filters.
         /// </summary>
         protected override void SetDefaultFilters()
         {
@@ -149,7 +189,8 @@ namespace Spring.Context.Attributes
             base.SetDefaultFilters();
 
             //add the desired assembly exclusions to the list
-            _assemblyExclusionPredicates.Add(assembly => _springAssemblyExcludePrefixes.Any(name => name.StartsWith(assembly.GetName().Name))
+            _assemblyExclusionPredicates.Add(assembly =>
+                _springAssemblyExcludePrefixes.Any(name => name.StartsWith(assembly.GetName().Name))
                 && assembly.GetName().Name != "Spring.Core.Tests");
             _assemblyExclusionPredicates.Add(assembly => assembly.GetName().Name.StartsWith("System."));
             _assemblyExclusionPredicates.Add(assembly => assembly.GetName().Name.StartsWith("Microsoft."));
@@ -158,53 +199,13 @@ namespace Spring.Context.Attributes
         }
 
         /// <summary>
-        /// Scans the and register types.
+        ///     Scans the and register types.
         /// </summary>
         /// <param name="registry">The registry within which to register the types.</param>
         public virtual void ScanAndRegisterTypes(IObjectDefinitionRegistry registry)
         {
             IEnumerable<Type> configTypes = Scan();
             RegisterDefinitionsForTypes(registry, configTypes);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AssemblyObjectDefinitionScanner"/> class.
-        /// </summary>
-        public AssemblyObjectDefinitionScanner()
-        {
-            AssemblyLoadExclusionPredicates.Add(candidate => _springAssemblyExcludePrefixes.Any(candidate.StartsWith)
-                && candidate != "Spring.Core.Tests");
-            AssemblyLoadExclusionPredicates.Add(name => name.StartsWith("System."));
-            AssemblyLoadExclusionPredicates.Add(name => name.StartsWith("Microsoft."));
-            AssemblyLoadExclusionPredicates.Add(name => name == "mscorlib");
-            AssemblyLoadExclusionPredicates.Add(name => name == "System");
-        }
-
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AssemblyObjectDefinitionScanner"/> class.
-        /// </summary>
-        /// <param name="assembliesToIncludePredicates">The assemblies to include predicates.</param>
-        public AssemblyObjectDefinitionScanner(params Func<string, bool>[] assembliesToIncludePredicates)
-        {
-            //force exclude for ALL assemblies
-            AssemblyLoadExclusionPredicates.Add(name => true);
-
-            //since all assemblies are EXCLUDED above, these will be the ONLY assemblies to be loaded
-            foreach (var predicate in assembliesToIncludePredicates)
-            {
-                AssemblyLoadInclusionPredicates.Add(predicate);
-            }
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AssemblyObjectDefinitionScanner"/> class.
-        /// </summary>
-        /// <param name="assembliesToInclude">The names of assemblies to include.</param>
-        public AssemblyObjectDefinitionScanner(params string[] assembliesToInclude)
-            : this(name => assembliesToInclude.Any(candidate => candidate == name))
-        {
-            AssertUtils.ArgumentNotNull(assembliesToInclude, "assembliesToInclude");
         }
     }
 }

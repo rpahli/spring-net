@@ -29,171 +29,165 @@ using Spring.Collections;
 
 namespace Spring.Objects.Factory.Support
 {
-	/// <summary>
-	/// A collection (with set semantics) of method overrides, determining which, if any,
-	/// methods on a managed object the Spring.NET IoC container will override at runtime.
-	/// </summary>
-	/// <author>Rod Johnson</author>
-	/// <author>Rick Evans</author>
+    /// <summary>
+    ///     A collection (with set semantics) of method overrides, determining which, if any,
+    ///     methods on a managed object the Spring.NET IoC container will override at runtime.
+    /// </summary>
+    /// <author>Rod Johnson</author>
+    /// <author>Rick Evans</author>
     [Serializable]
     public class MethodOverrides : IEnumerable
-	{
-		#region Constructor (s) / Destructor
+    {
+        #region Constructor (s) / Destructor
 
-		/// <summary>
-		/// Creates a new instance of the
-		/// <see cref="Spring.Objects.Factory.Support.MethodOverrides"/> class.
-		/// </summary>
-		public MethodOverrides()
-		{
-		}
+        /// <summary>
+        ///     Creates a new instance of the
+        ///     <see cref="Spring.Objects.Factory.Support.MethodOverrides" /> class.
+        /// </summary>
+        public MethodOverrides()
+        {
+        }
 
-		/// <summary>
-		/// Creates a new instance of the
-		/// <see cref="Spring.Objects.Factory.Support.MethodOverrides"/> class.
-		/// </summary>
-		/// <remarks>
-		/// <p>
-		/// Deep copy constructoe.
-		/// </p>
-		/// </remarks>
-		/// <param name="other">
-		/// The instance supplying initial overrides for this new instance.
-		/// </param>
-		public MethodOverrides(MethodOverrides other)
-		{
-			AddAll(other);
-		}
+        /// <summary>
+        ///     Creates a new instance of the
+        ///     <see cref="Spring.Objects.Factory.Support.MethodOverrides" /> class.
+        /// </summary>
+        /// <remarks>
+        ///     <p>
+        ///         Deep copy constructoe.
+        ///     </p>
+        /// </remarks>
+        /// <param name="other">
+        ///     The instance supplying initial overrides for this new instance.
+        /// </param>
+        public MethodOverrides(MethodOverrides other)
+        {
+            AddAll(other);
+        }
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		/// <summary>
-		/// The collection of method overrides.
-		/// </summary>
-		public ISet Overrides
-		{
-			get { return _overrides; }
-		}
+        /// <summary>
+        ///     The collection of method overrides.
+        /// </summary>
+        public ISet Overrides { get; } = new HybridSet();
 
-		/// <summary>
-		/// Returns true if this instance contains no overrides.
-		/// </summary>
-		public bool IsEmpty
-		{
-			get { return Overrides.IsEmpty; }
-		}
+        /// <summary>
+        ///     Returns true if this instance contains no overrides.
+        /// </summary>
+        public bool IsEmpty
+        {
+            get { return Overrides.IsEmpty; }
+        }
 
-		#endregion
+        #endregion
 
-		#region Methods
+        #region Methods
 
-		/// <summary>
-		/// Copy all given method overrides into this object.
-		/// </summary>
-		/// <param name="other">
-		/// The overrides to be copied into this object.
-		/// </param>
-		public void AddAll(MethodOverrides other)
-		{
-			if (other != null)
-			{
-				Overrides.AddAll(other.Overrides);
-				_overloadedMethodNames.AddAll(other._overloadedMethodNames);
-			}
-		}
+        /// <summary>
+        ///     Copy all given method overrides into this object.
+        /// </summary>
+        /// <param name="other">
+        ///     The overrides to be copied into this object.
+        /// </param>
+        public void AddAll(MethodOverrides other)
+        {
+            if (other != null)
+            {
+                Overrides.AddAll(other.Overrides);
+                _overloadedMethodNames.AddAll(other._overloadedMethodNames);
+            }
+        }
 
-		/// <summary>
-		/// Adds the supplied <paramref name="theOverride"/> to the overrides contained
-		/// within this instance.
-		/// </summary>
-		/// <param name="theOverride">
-		/// The <see cref="Spring.Objects.Factory.Support.MethodOverride"/> to be
-		/// added.
-		/// </param>
-		public void Add(MethodOverride theOverride)
-		{
-			Overrides.Add(theOverride);
-		}
+        /// <summary>
+        ///     Adds the supplied <paramref name="theOverride" /> to the overrides contained
+        ///     within this instance.
+        /// </summary>
+        /// <param name="theOverride">
+        ///     The <see cref="Spring.Objects.Factory.Support.MethodOverride" /> to be
+        ///     added.
+        /// </param>
+        public void Add(MethodOverride theOverride)
+        {
+            Overrides.Add(theOverride);
+        }
 
-		/// <summary>
-		/// Adds the supplied <paramref name="methodName"/> to the overloaded method names
-		/// contained within this instance.
-		/// </summary>
-		/// <param name="methodName">
-		/// The overloaded method name to be added.
-		/// </param>
-		public void AddOverloadedMethodName(string methodName)
-		{
-			_overloadedMethodNames.Add(methodName);
-		}
+        /// <summary>
+        ///     Adds the supplied <paramref name="methodName" /> to the overloaded method names
+        ///     contained within this instance.
+        /// </summary>
+        /// <param name="methodName">
+        ///     The overloaded method name to be added.
+        /// </param>
+        public void AddOverloadedMethodName(string methodName)
+        {
+            _overloadedMethodNames.Add(methodName);
+        }
 
-		/// <summary>
-		/// Returns true if the supplied <paramref name="methodName"/> is present within
-		/// the overloaded method names contained within this instance.
-		/// </summary>
-		/// <param name="methodName">
-		/// The overloaded method name to be checked.
-		/// </param>
-		/// <returns>
-		/// True if the supplied <paramref name="methodName"/> is present within
-		/// the overloaded method names contained within this instance.
-		/// </returns>
-		public bool IsOverloadedMethodName(string methodName)
-		{
-			return _overloadedMethodNames.Contains(methodName);
-		}
+        /// <summary>
+        ///     Returns true if the supplied <paramref name="methodName" /> is present within
+        ///     the overloaded method names contained within this instance.
+        /// </summary>
+        /// <param name="methodName">
+        ///     The overloaded method name to be checked.
+        /// </param>
+        /// <returns>
+        ///     True if the supplied <paramref name="methodName" /> is present within
+        ///     the overloaded method names contained within this instance.
+        /// </returns>
+        public bool IsOverloadedMethodName(string methodName)
+        {
+            return _overloadedMethodNames.Contains(methodName);
+        }
 
-		/// <summary>
-		/// Return the override for the given method, if any.
-		/// </summary>
-		/// <param name="method">
-		/// The method to check for overrides for.
-		/// </param>
-		/// <returns>
-		/// the override for the given method, if any.
-		/// </returns>
-		public MethodOverride GetOverride(MethodInfo method)
-		{
-			foreach (MethodOverride ovr in Overrides)
-			{
-				if (ovr.Matches(method))
-				{
-					return ovr;
-				}
-			}
-			return null;
-		}
+        /// <summary>
+        ///     Return the override for the given method, if any.
+        /// </summary>
+        /// <param name="method">
+        ///     The method to check for overrides for.
+        /// </param>
+        /// <returns>
+        ///     the override for the given method, if any.
+        /// </returns>
+        public MethodOverride GetOverride(MethodInfo method)
+        {
+            foreach (MethodOverride ovr in Overrides)
+                if (ovr.Matches(method))
+                {
+                    return ovr;
+                }
+            return null;
+        }
 
-		/// <summary>
-		/// Returns an <see cref="System.Collections.IEnumerator"/> that can iterate
-		/// through a collection.
-		/// </summary>
-		/// <remarks>
-		/// <p>
-		/// The returned <see cref="System.Collections.IEnumerator"/> is the
-		/// <see cref="System.Collections.IEnumerator"/> exposed by the
-		/// <see cref="Spring.Objects.Factory.Support.MethodOverrides.Overrides"/>
-		/// property.
-		/// </p>
-		/// </remarks>
-		/// <returns>
-		/// An <see cref="System.Collections.IEnumerator"/> that can iterate through a
-		/// collection.
-		/// </returns>
-		public IEnumerator GetEnumerator()
-		{
-			return Overrides.GetEnumerator();
-		}
+        /// <summary>
+        ///     Returns an <see cref="System.Collections.IEnumerator" /> that can iterate
+        ///     through a collection.
+        /// </summary>
+        /// <remarks>
+        ///     <p>
+        ///         The returned <see cref="System.Collections.IEnumerator" /> is the
+        ///         <see cref="System.Collections.IEnumerator" /> exposed by the
+        ///         <see cref="Spring.Objects.Factory.Support.MethodOverrides.Overrides" />
+        ///         property.
+        ///     </p>
+        /// </remarks>
+        /// <returns>
+        ///     An <see cref="System.Collections.IEnumerator" /> that can iterate through a
+        ///     collection.
+        /// </returns>
+        public IEnumerator GetEnumerator()
+        {
+            return Overrides.GetEnumerator();
+        }
 
-		#endregion
+        #endregion
 
-		#region Fields
+        #region Fields
 
-		private ISet _overrides = new HybridSet();
-		private ISet _overloadedMethodNames = new HybridSet();
+        private readonly ISet _overloadedMethodNames = new HybridSet();
 
-		#endregion
-	}
+        #endregion
+    }
 }

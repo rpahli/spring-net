@@ -29,126 +29,124 @@ using System.Collections.Generic;
 namespace Spring.Objects.Factory.Config
 {
     /// <summary>
-    /// Holder for event handler values for an object.
+    ///     Holder for event handler values for an object.
     /// </summary>
     /// <author>Rick Evans (.NET)</author>
     [Serializable]
-    public class EventValues 
+    public class EventValues
     {
         #region Constants
+
         /// <summary>
-        /// The empty array of <see cref="Spring.Objects.IEventHandlerValue"/>s.
+        ///     The empty array of <see cref="Spring.Objects.IEventHandlerValue" />s.
         /// </summary>
-        private static readonly IEventHandlerValue [] EmptyHandlers = new IEventHandlerValue [] {};
+        private static readonly IEventHandlerValue[] EmptyHandlers = { };
+
+        #endregion
+
+        #region Fields
+
         #endregion
 
         #region Constructor (s) / Destructor
-        /// <summary>
-        /// Creates a new instance of the
-        /// <see cref="Spring.Objects.Factory.Config.EventValues"/> class.
-        /// </summary>
-        public EventValues() {}
 
         /// <summary>
-        /// Creates a new instance of the
-        /// <see cref="Spring.Objects.Factory.Config.EventValues"/> class.
+        ///     Creates a new instance of the
+        ///     <see cref="Spring.Objects.Factory.Config.EventValues" /> class.
+        /// </summary>
+        public EventValues()
+        {
+        }
+
+        /// <summary>
+        ///     Creates a new instance of the
+        ///     <see cref="Spring.Objects.Factory.Config.EventValues" /> class.
         /// </summary>
         /// <param name="other">
-        /// The <see cref="Spring.Objects.Factory.Config.EventValues"/>
-        /// to be used to populate this instance.
+        ///     The <see cref="Spring.Objects.Factory.Config.EventValues" />
+        ///     to be used to populate this instance.
         /// </param>
         public EventValues(EventValues other)
         {
-            AddAll (other);
+            AddAll(other);
         }
+
         #endregion
 
         #region Properties
+
         /// <summary>
-        /// The mapping of event names to an
-        /// <see cref="System.Collections.ICollection"/> of
-        /// <see cref="Spring.Objects.IEventHandlerValue"/>s.
+        ///     The mapping of event names to an
+        ///     <see cref="System.Collections.ICollection" /> of
+        ///     <see cref="Spring.Objects.IEventHandlerValue" />s.
         /// </summary>
-        protected IDictionary<string, IList<IEventHandlerValue>> EventHandlers 
+        protected IDictionary<string, IList<IEventHandlerValue>> EventHandlers { get; } =
+            new Dictionary<string, IList<IEventHandlerValue>>();
+
+        /// <summary>
+        ///     Gets the <see cref="System.Collections.ICollection" /> of events
+        ///     that have handlers associated with them.
+        /// </summary>
+        public ICollection<string> Events
         {
-            get 
-            {
-                return _eventHandlers;
-            }
+            get { return EventHandlers.Keys; }
         }
 
         /// <summary>
-        /// Gets the <see cref="System.Collections.ICollection"/> of events
-        /// that have handlers associated with them.
+        ///     Gets the <see cref="System.Collections.ICollection" /> of
+        ///     <see cref="Spring.Objects.IEventHandlerValue" />s for the supplied
+        ///     event name.
         /// </summary>
-        public ICollection<string> Events 
-        {
-            get 
-            {
-                return EventHandlers.Keys;
-            }
-        }
-
-        /// <summary>
-        /// Gets the <see cref="System.Collections.ICollection"/> of
-        /// <see cref="Spring.Objects.IEventHandlerValue"/>s for the supplied
-        /// event name.
-        /// </summary>
-        public ICollection<IEventHandlerValue> this [string eventName] 
+        public ICollection<IEventHandlerValue> this[string eventName]
         {
             get
             {
                 IList<IEventHandlerValue> handlers;
                 if (!EventHandlers.TryGetValue(eventName, out handlers))
                 {
-                    handlers = EventValues.EmptyHandlers;
+                    handlers = EmptyHandlers;
                 }
                 return handlers;
             }
         }
+
         #endregion
 
         #region Methods
+
         /// <summary>
-        /// Copy all given argument values into this object.
+        ///     Copy all given argument values into this object.
         /// </summary>
         /// <param name="other">
-        /// The <see cref="Spring.Objects.Factory.Config.EventValues"/>
-        /// to be used to populate this instance.
+        ///     The <see cref="Spring.Objects.Factory.Config.EventValues" />
+        ///     to be used to populate this instance.
         /// </param>
-        public void AddAll (EventValues other) 
+        public void AddAll(EventValues other)
         {
-            if (other != null) 
+            if (other != null)
             {
-                foreach (IList handlers in other.EventHandlers.Values) 
-                {
-                    foreach (IEventHandlerValue handler in handlers) 
-                    {
-                        AddHandler (handler);
-                    }
-                }
+                foreach (IList handlers in other.EventHandlers.Values)
+                foreach (IEventHandlerValue handler in handlers)
+                    AddHandler(handler);
             }
         }
 
         /// <summary>
-        /// Adds the supplied handler to the collection of event handlers.
+        ///     Adds the supplied handler to the collection of event handlers.
         /// </summary>
         /// <param name="handler">The handler to be added.</param>
-        public void AddHandler (IEventHandlerValue handler)
+        public void AddHandler(IEventHandlerValue handler)
         {
             IList<IEventHandlerValue> handlers;
 
-            if (!EventHandlers.TryGetValue(handler.EventName, out handlers)) 
+            if (!EventHandlers.TryGetValue(handler.EventName, out handlers))
             {
                 handlers = new List<IEventHandlerValue>();
-                EventHandlers [handler.EventName] = handlers;
+                EventHandlers[handler.EventName] = handlers;
             }
-            handlers.Add (handler);
+            handlers.Add(handler);
         }
-        #endregion
 
-        #region Fields
-        private IDictionary<string, IList<IEventHandlerValue>> _eventHandlers = new Dictionary<string, IList<IEventHandlerValue>>();
         #endregion
-	}
+    }
 }

@@ -31,7 +31,7 @@ using Spring.Util;
 namespace Spring.Proxy
 {
     /// <summary>
-    /// Allows easy access to existing and creation of new dynamic proxies.
+    ///     Allows easy access to existing and creation of new dynamic proxies.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     /// <author>Bruno Baia</author>
@@ -40,12 +40,12 @@ namespace Spring.Proxy
         #region Fields
 
         /// <summary>
-        /// The name of the assembly that defines proxy types created.
+        ///     The name of the assembly that defines proxy types created.
         /// </summary>
         public const string ASSEMBLY_NAME = "Spring.Proxy";
 
         /// <summary>
-        /// The attributes of the proxy type to generate.
+        ///     The attributes of the proxy type to generate.
         /// </summary>
         private const TypeAttributes TYPE_ATTRIBUTES = TypeAttributes.BeforeFieldInit | TypeAttributes.Public;
 
@@ -54,7 +54,7 @@ namespace Spring.Proxy
         #region Public Methods
 
         /// <summary>
-        /// Creates an appropriate type builder.
+        ///     Creates an appropriate type builder.
         /// </summary>
         /// <param name="typeName">The proxy type name.</param>
         /// <param name="baseType">The type to extends if provided.</param>
@@ -69,29 +69,30 @@ namespace Spring.Proxy
                 {
                     return module.DefineType(typeName, TYPE_ATTRIBUTES);
                 }
-                else
-                {
-                    return module.DefineType(typeName, TYPE_ATTRIBUTES, baseType);
-                }
+                return module.DefineType(typeName, TYPE_ATTRIBUTES, baseType);
             }
             catch (ArgumentException ex)
             {
                 Type alreadyRegisteredType = module.GetType(typeName, true);
 
                 string msg;
-                
+
                 if (alreadyRegisteredType != null)
+                {
                     msg = "Proxy already registered for \"{0}\" as Type \"{1}\".";
+                }
                 else
+                {
                     msg = "Proxy already registered for \"{0}\".";
+                }
 
                 throw new ArgumentException(string.Format(msg, typeName, alreadyRegisteredType.FullName), ex);
             }
         }
 
         /// <summary>
-        /// Saves dynamically generated assembly to disk.
-        /// Can only be called in DEBUG_DYNAMIC mode, per ConditionalAttribute rules.
+        ///     Saves dynamically generated assembly to disk.
+        ///     Can only be called in DEBUG_DYNAMIC mode, per ConditionalAttribute rules.
         /// </summary>
         [Conditional("DEBUG_DYNAMIC")]
         public static void SaveAssembly()

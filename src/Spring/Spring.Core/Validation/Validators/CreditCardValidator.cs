@@ -29,86 +29,50 @@ using Spring.Util;
 namespace Spring.Validation.Validators
 {
     /// <summary>
-    /// Perform credit card validations.
+    ///     Perform credit card validations.
     /// </summary>
     /// <remarks>
-    /// By default, all supported card types are allowed. You can specify
-    /// which credit card type validator should be used by setting
-    /// the value of <see cref="CardType"/> property to a concrete <see cref="ICreditCardType"/>
-    /// instance.
+    ///     By default, all supported card types are allowed. You can specify
+    ///     which credit card type validator should be used by setting
+    ///     the value of <see cref="CardType" /> property to a concrete <see cref="ICreditCardType" />
+    ///     instance.
     /// </remarks>
     public class CreditCardValidator : BaseSimpleValidator
     {
+        #region Data members
+
+        #endregion
+
         #region Properties
 
         /// <summary>
-        /// Credit card type validator to use.
+        ///     Credit card type validator to use.
         /// </summary>
         /// <remarks>
-        /// Can be concrete implementations of <see cref="ICreditCardType"/> 
-        /// interface. The following are available implementations:
-        /// <see cref="Visa"/>, <see cref="Mastercard"/>, <see cref="Amex"/>, 
-        /// <see cref="Discover"/>.
+        ///     Can be concrete implementations of <see cref="ICreditCardType" />
+        ///     interface. The following are available implementations:
+        ///     <see cref="Visa" />, <see cref="Mastercard" />, <see cref="Amex" />,
+        ///     <see cref="Discover" />.
         /// </remarks>
-        public ICreditCardType CardType
-        {
-            get { return m_cardType; }
-            set { m_cardType = value; }
-        }
-
-        #endregion
-        
-        #region Constructors
-               
-        /// <summary>
-        /// Creates a new instance of the <b>UrlValidator</b> class.
-        /// </summary>
-        public CreditCardValidator()
-        {}
-
-        /// <summary>
-        /// Creates a new instance of the <b>UrlValidator</b> class.
-        /// </summary>
-        /// <param name="test">The expression to validate.</param>
-        /// <param name="when">The expression that determines if this validator should be evaluated.</param>
-        /// <param name="cardType">Credit Card type validator to use.</param>
-        public CreditCardValidator(string test, string when, ICreditCardType cardType)
-            : base(test, when)
-        {
-            AssertUtils.ArgumentHasText(test, "test");
-            this.m_cardType = cardType;
-        }
-
-        /// <summary>
-        /// Creates a new instance of the <b>UrlValidator</b> class.
-        /// </summary>
-        /// <param name="test">The expression to validate.</param>
-        /// <param name="when">The expression that determines if this validator should be evaluated.</param>
-        /// <param name="cardType">Credit Card type validator to use.</param>
-        public CreditCardValidator(IExpression test, IExpression when, ICreditCardType cardType)
-            : base(test, when)
-        {
-            AssertUtils.ArgumentNotNull(test, "test");
-            this.m_cardType = cardType;
-        }
+        public ICreditCardType CardType { get; set; }
 
         #endregion
 
         #region BaseValidator methods
 
         /// <summary>
-        /// Validates the supplied <paramref name="objectToValidate"/>.
+        ///     Validates the supplied <paramref name="objectToValidate" />.
         /// </summary>
         /// <remarks>
-        /// In the case of the <see cref="CreditCardValidator"/> class,
-        /// the test should be a string variable that will be evaluated and the object
-        /// obtained as a result of this evaluation will be checked if it is
-        /// a valid credit card number.
+        ///     In the case of the <see cref="CreditCardValidator" /> class,
+        ///     the test should be a string variable that will be evaluated and the object
+        ///     obtained as a result of this evaluation will be checked if it is
+        ///     a valid credit card number.
         /// </remarks>
         /// <param name="objectToValidate">The object to validate.</param>
         /// <returns>
-        /// <see lang="true"/> if the supplied <paramref name="objectToValidate"/> is valid 
-        /// credit card number.
+        ///     <see lang="true" /> if the supplied <paramref name="objectToValidate" /> is valid
+        ///     credit card number.
         /// </returns>
         protected override bool Validate(object objectToValidate)
         {
@@ -117,8 +81,45 @@ namespace Spring.Validation.Validators
             {
                 return true;
             }
-            
+
             return IsValid(text);
+        }
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        ///     Creates a new instance of the <b>UrlValidator</b> class.
+        /// </summary>
+        public CreditCardValidator()
+        {
+        }
+
+        /// <summary>
+        ///     Creates a new instance of the <b>UrlValidator</b> class.
+        /// </summary>
+        /// <param name="test">The expression to validate.</param>
+        /// <param name="when">The expression that determines if this validator should be evaluated.</param>
+        /// <param name="cardType">Credit Card type validator to use.</param>
+        public CreditCardValidator(string test, string when, ICreditCardType cardType)
+            : base(test, when)
+        {
+            AssertUtils.ArgumentHasText(test, "test");
+            CardType = cardType;
+        }
+
+        /// <summary>
+        ///     Creates a new instance of the <b>UrlValidator</b> class.
+        /// </summary>
+        /// <param name="test">The expression to validate.</param>
+        /// <param name="when">The expression that determines if this validator should be evaluated.</param>
+        /// <param name="cardType">Credit Card type validator to use.</param>
+        public CreditCardValidator(IExpression test, IExpression when, ICreditCardType cardType)
+            : base(test, when)
+        {
+            AssertUtils.ArgumentNotNull(test, "test");
+            CardType = cardType;
         }
 
         #endregion
@@ -126,18 +127,18 @@ namespace Spring.Validation.Validators
         #region CreditCardValidator methods
 
         /// <summary>
-        /// Checks if the <paramref name="card"/> is a valid credit card number.
+        ///     Checks if the <paramref name="card" /> is a valid credit card number.
         /// </summary>
         /// <param name="card">
-        /// The card number to validate.
+        ///     The card number to validate.
         /// </param>
         /// <returns>
-        /// <b>true</b> if the card number is valid.
+        ///     <b>true</b> if the card number is valid.
         /// </returns>
-        public bool IsValid(String card)
+        public bool IsValid(string card)
         {
             // check card number length
-            if ((card == null) || (card.Length < 13) || (card.Length > 19))
+            if (card == null || card.Length < 13 || card.Length > 19)
             {
                 return false;
             }
@@ -152,42 +153,39 @@ namespace Spring.Validation.Validators
             if (CardType != null)
             {
                 return ValidateCard(card);
-            } 
-            else
-            {
-                throw new ArgumentException("Property CardType cannot be null.");
             }
+            throw new ArgumentException("Property CardType cannot be null.");
         }
-        
+
         /// <summary>
-        /// Validates card number with the specified <see cref="CardType"/> validator.
+        ///     Validates card number with the specified <see cref="CardType" /> validator.
         /// </summary>
         /// <param name="cardNumber">
-        /// Credit card number to validate.
+        ///     Credit card number to validate.
         /// </param>
         /// <returns>
-        /// <b>true</b> if credit card number is a valid number of credit card type specified.
+        ///     <b>true</b> if credit card number is a valid number of credit card type specified.
         /// </returns>
         private bool ValidateCard(string cardNumber)
         {
-            String card = cardNumber == null ? null : cardNumber.Trim();
-            
+            string card = cardNumber == null ? null : cardNumber.Trim();
+
             if (card == null)
             {
                 return false;
             }
-            
+
             return CardType.Matches(card);
         }
 
         /// <summary>
-        /// Checks for a valid credit card number.
+        ///     Checks for a valid credit card number.
         /// </summary>
         /// <param name="cardNumber">
-        /// Credit Card Number.
+        ///     Credit Card Number.
         /// </param>
         /// <returns>
-        /// <b>true</b> if the card number passes the LuhnCheck.
+        ///     <b>true</b> if the card number passes the LuhnCheck.
         /// </returns>
         private bool LuhnCheck(string cardNumber)
         {
@@ -200,7 +198,7 @@ namespace Spring.Validation.Validators
                 int digit;
                 try
                 {
-                    digit = Int32.Parse(cardNumber[count] + "");
+                    digit = int.Parse(cardNumber[count] + "");
                 }
                 catch (FormatException)
                 {
@@ -208,7 +206,8 @@ namespace Spring.Validation.Validators
                 }
 
                 if (((count & 1) ^ oddOrEven) == 0)
-                { // not
+                {
+                    // not
                     digit *= 2;
                     if (digit > 9)
                     {
@@ -218,102 +217,96 @@ namespace Spring.Validation.Validators
                 sum += digit;
             }
 
-            return (sum == 0) ? false : (sum % 10 == 0);
+            return sum == 0 ? false : sum % 10 == 0;
         }
 
-        #endregion        
-
-        #region Data members
-
-        private ICreditCardType m_cardType;
-        
         #endregion
     }
 
     #region CreditCardType classes
 
     /// <summary>
-    /// CreditCardType interface defines how validation is performed
-    /// for one type/brand of credit card.
+    ///     CreditCardType interface defines how validation is performed
+    ///     for one type/brand of credit card.
     /// </summary>
     public interface ICreditCardType
     {
         /// <summary>
-        /// Returns true if the card number matches this type of 
-        /// credit card.
+        ///     Returns true if the card number matches this type of
+        ///     credit card.
         /// </summary>
         /// <param name="card">
-        /// The card number, never null.
+        ///     The card number, never null.
         /// </param>
         /// <returns>
-        /// <b>true</b> if the number matches.
+        ///     <b>true</b> if the number matches.
         /// </returns>
-        bool Matches(String card);
+        bool Matches(string card);
     }
 
     /// <summary>
-    /// Visa credit card type validation support.
+    ///     Visa credit card type validation support.
     /// </summary>
     public class Visa : ICreditCardType
     {
-        private static readonly String PREFIX = "4";
+        private static readonly string PREFIX = "4";
 
         /// <summary>
-        /// Indicates, wheter the given credit card number matches a visa number.
+        ///     Indicates, wheter the given credit card number matches a visa number.
         /// </summary>
-        public bool Matches(String card)
+        public bool Matches(string card)
         {
-            return (card.Substring(0, 1).Equals(PREFIX) && (card.Length == 13 || card.Length == 16));
+            return card.Substring(0, 1).Equals(PREFIX) && (card.Length == 13 || card.Length == 16);
         }
     }
 
     /// <summary>
-    /// American Express credit card type validation support.
+    ///     American Express credit card type validation support.
     /// </summary>
     public class Amex : ICreditCardType
     {
-        private static readonly String PREFIX = "34,37,";
+        private static readonly string PREFIX = "34,37,";
 
         /// <summary>
-        /// Indicates, wheter the given credit card number matches an amex number.
+        ///     Indicates, wheter the given credit card number matches an amex number.
         /// </summary>
-        public bool Matches(String card)
+        public bool Matches(string card)
         {
-            String prefix2 = card.Substring(0, 2) + ",";
-            return ((PREFIX.IndexOf(prefix2) != -1) && (card.Length == 15));
+            string prefix2 = card.Substring(0, 2) + ",";
+            return PREFIX.IndexOf(prefix2) != -1 && card.Length == 15;
         }
     }
 
     /// <summary>
-    /// Discover credit card type validation support.
+    ///     Discover credit card type validation support.
     /// </summary>
     public class Discover : ICreditCardType
     {
-        private static readonly String PREFIX = "6011";
+        private static readonly string PREFIX = "6011";
 
         /// <summary>
-        /// Indicates, wheter the given credit card number matches a discover number.
+        ///     Indicates, wheter the given credit card number matches a discover number.
         /// </summary>
-        public bool Matches(String card)
+        public bool Matches(string card)
         {
-            return (card.Substring(0, 4).Equals(PREFIX) && (card.Length == 16));
+            return card.Substring(0, 4).Equals(PREFIX) && card.Length == 16;
         }
     }
 
     /// <summary>
-    /// Mastercard credit card type validation support.
+    ///     Mastercard credit card type validation support.
     /// </summary>
     public class Mastercard : ICreditCardType
     {
-        private static readonly String PREFIX = "51,52,53,54,55,";
+        private static readonly string PREFIX = "51,52,53,54,55,";
 
         /// <summary>
-        /// Indicates, wheter the given credit card number matches a mastercard number.
+        ///     Indicates, wheter the given credit card number matches a mastercard number.
         /// </summary>
-        public bool Matches(String card)
+        public bool Matches(string card)
         {
-            String prefix2 = card.Substring(0, 2) + ",";
-            return ((PREFIX.IndexOf(prefix2) != -1) && (card.Length == 16));
+            string prefix2 = card.Substring(0, 2) + ",";
+            return PREFIX.IndexOf(prefix2) != -1 && card.Length == 16;
         }
     }
 

@@ -22,17 +22,69 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
-
-using Common.Logging;
+using Spring.Logging;
 
 namespace Spring.Util
 {
     /// <summary>
-    /// A utility  class for raising events in a generic and consistent fashion.
+    ///     A utility  class for raising events in a generic and consistent fashion.
     /// </summary>
     /// <author>Rick Evans</author>
     public class EventRaiser
     {
+        protected readonly ILogger Log;
+
+        /// <summary>
+        ///     Create a new EventRaiser instance
+        /// </summary>
+        public EventRaiser()
+        {
+            Log = LogManager.GetLogger(GetType());
+        }
+
+        /// <summary>
+        ///     Raises the event encapsulated by the supplied
+        ///     <paramref name="source" />, passing the supplied <paramref name="arguments" />
+        ///     to the event.
+        /// </summary>
+        /// <param name="source">The event to be raised.</param>
+        /// <param name="arguments">The arguments to the event.</param>
+        /// <returns>a map of sink/exception entries that occurred during event raising</returns>
+        public virtual IEventExceptionsCollector Raise(Delegate source, params object[] arguments)
+        {
+            EventExceptionsCollector exceptions = new EventExceptionsCollector();
+
+            if (source != null)
+            {
+                Delegate[] delegates = source.GetInvocationList();
+                foreach (Delegate sink in delegates)
+                    Invoke(sink, arguments, exceptions);
+            }
+            return exceptions;
+        }
+
+        /// <summary>
+        ///     Invokes the supplied <paramref name="sink" />, passing the supplied
+        ///     <paramref name="arguments" /> to the sink.
+        /// </summary>
+        /// <param name="sink">The sink to be invoked.</param>
+        /// <param name="arguments">The arguments to the sink.</param>
+        /// <param name="exceptions">the map of sink/exception entries to add any exception to</param>
+        protected virtual void Invoke(Delegate sink, object[] arguments, EventExceptionsCollector exceptions)
+        {
+            try
+            {
+                sink.DynamicInvoke(arguments);
+            }
+            catch (TargetInvocationException ex)
+            {
+                // unwrap the exception that actually caused the TargetInvocationException and throw that...
+                Exception cause = ReflectionUtils.UnwrapTargetInvocationException(ex);
+                exceptions.Add(sink, cause);
+                throw cause;
+            }
+        }
+
         protected class EventExceptionsCollector : IEventExceptionsCollector
         {
             private readonly Dictionary<Delegate, Exception> _eventExceptions;
@@ -72,90 +124,35 @@ namespace Spring.Util
                 _eventExceptions.Add(source, exception);
             }
         }
-
-        protected readonly ILog Log;
-
-        /// <summary>
-        /// Create a new EventRaiser instance
-        /// </summary>
-        public EventRaiser()
-        {
-            Log = LogManager.GetLogger(this.GetType());
-        }
-
-        /// <summary>
-        /// Raises the event encapsulated by the supplied
-        /// <paramref name="source"/>, passing the supplied <paramref name="arguments"/>
-        /// to the event.
-        /// </summary>
-        /// <param name="source">The event to be raised.</param>
-        /// <param name="arguments">The arguments to the event.</param>
-        /// <returns>a map of sink/exception entries that occurred during event raising</returns>
-        public virtual IEventExceptionsCollector Raise(Delegate source, params object[] arguments)  
-        {
-            EventExceptionsCollector exceptions = new EventExceptionsCollector();
-
-            if (source != null)
-            {
-                Delegate [] delegates = source.GetInvocationList ();
-                foreach (Delegate sink in delegates) 
-                {
-                    Invoke (sink, arguments, exceptions);
-                }
-            }
-            return exceptions;
-        }
-
-        /// <summary>
-        /// Invokes the supplied <paramref name="sink"/>, passing the supplied
-        /// <paramref name="arguments"/> to the sink.
-        /// </summary>
-        /// <param name="sink">The sink to be invoked.</param>
-        /// <param name="arguments">The arguments to the sink.</param>
-        /// <param name="exceptions">the map of sink/exception entries to add any exception to</param>
-        protected virtual void Invoke(Delegate sink, object[] arguments, EventExceptionsCollector exceptions) 
-        {
-            try 
-            {
-                sink.DynamicInvoke (arguments);
-            } 
-            catch (TargetInvocationException ex) 
-            {
-                // unwrap the exception that actually caused the TargetInvocationException and throw that...
-                Exception cause = ReflectionUtils.UnwrapTargetInvocationException(ex);
-                exceptions.Add(sink, cause);
-                throw cause;
-            }
-        }
     }
 
     /// <summary>
-    /// Raises events <b>defensively</b>.
+    ///     Raises events <b>defensively</b>.
     /// </summary>
     /// <remarks>
-    /// <p>
-    /// Raising events defensively means that as the raised event is passed to each handler,
-    /// any <see cref="System.Exception"/> thrown by a handler will be caught and silently
-    /// ignored.
-    /// </p>
+    ///     <p>
+    ///         Raising events defensively means that as the raised event is passed to each handler,
+    ///         any <see cref="System.Exception" /> thrown by a handler will be caught and silently
+    ///         ignored.
+    ///     </p>
     /// </remarks>
     /// <author>Rick Evans</author>
     public class DefensiveEventRaiser : EventRaiser
     {
         /// <summary>
-        /// <b>Defensively</b> invokes the supplied <paramref name="sink"/>, passing the
-        /// supplied <paramref name="arguments"/> to the sink.
+        ///     <b>Defensively</b> invokes the supplied <paramref name="sink" />, passing the
+        ///     supplied <paramref name="arguments" /> to the sink.
         /// </summary>
         /// <param name="sink">The sink to be invoked.</param>
         /// <param name="arguments">The arguments to the sink.</param>
         /// <param name="exceptions">the map of sink/exception entries to add any exception to</param>
-        protected override void Invoke(Delegate sink, object[] arguments, EventExceptionsCollector exceptions) 
+        protected override void Invoke(Delegate sink, object[] arguments, EventExceptionsCollector exceptions)
         {
-            try 
+            try
             {
-                sink.DynamicInvoke (arguments);
+                sink.DynamicInvoke(arguments);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.Warn("Error during raising an event from " + new StackTrace(), ex);
                 exceptions.Add(sink, ex);

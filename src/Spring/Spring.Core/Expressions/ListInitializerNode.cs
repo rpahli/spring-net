@@ -24,30 +24,30 @@ using System.Runtime.Serialization;
 
 namespace Spring.Expressions
 {
-	/// <summary>
-	/// Represents parsed list initializer node in the navigation expression.
-	/// </summary>
+    /// <summary>
+    ///     Represents parsed list initializer node in the navigation expression.
+    /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class ListInitializerNode : NodeWithArguments
-	{
+    {
         /// <summary>
-        /// Create a new instance
+        ///     Create a new instance
         /// </summary>
         public ListInitializerNode()
         {
         }
 
         /// <summary>
-        /// Create a new instance from SerializationInfo
+        ///     Create a new instance from SerializationInfo
         /// </summary>
         protected ListInitializerNode(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-	    
+
         /// <summary>
-        /// Creates new instance of the list defined by this node.
+        ///     Creates new instance of the list defined by this node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>

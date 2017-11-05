@@ -21,15 +21,18 @@
 namespace Spring.Objects.Factory.Config
 {
     /// <summary>
-    /// A generic implementation of an <see cref="IObjectFactoryPostProcessor"/>, that delegates post processing to a passed delegate
+    ///     A generic implementation of an <see cref="IObjectFactoryPostProcessor" />, that delegates post processing to a
+    ///     passed delegate
     /// </summary>
     /// <remarks>
-    /// This comes in handy when you want to perform specific tasks on an object factory, e.g. doing special initialization.
+    ///     This comes in handy when you want to perform specific tasks on an object factory, e.g. doing special
+    ///     initialization.
     /// </remarks>
     /// <example>
-    /// The example below is taken from a unit test. The snippet causes 'someObject' to be registered each time <see cref="Spring.Context.Support.AbstractApplicationContext.Refresh"/> is called on 
-    /// the context instance:
-    /// <code>
+    ///     The example below is taken from a unit test. The snippet causes 'someObject' to be registered each time
+    ///     <see cref="Spring.Context.Support.AbstractApplicationContext.Refresh" /> is called on
+    ///     the context instance:
+    ///     <code>
     /// IConfigurableApplicationContext ctx = new XmlApplicationContext(false, &quot;name&quot;, false, null);
     /// ctx.AddObjectFactoryPostProcessor(new DelegateObjectFactoryConfigurer( of =&gt;
     ///     {
@@ -42,30 +45,25 @@ namespace Spring.Objects.Factory.Config
     {
         public delegate void ObjectFactoryConfigurationHandler(IConfigurableListableObjectFactory objectFactory);
 
-        private ObjectFactoryConfigurationHandler _configurationHandler;
-
-        /// <summary>
-        /// Get or Set the handler to delegate configuration to
-        /// </summary>
-        public ObjectFactoryConfigurationHandler ConfigurationHandler
-        {
-            get { return _configurationHandler; }
-            set { _configurationHandler = value; }
-        }
-
         public DelegateObjectFactoryConfigurer()
-        { }
+        {
+        }
 
         public DelegateObjectFactoryConfigurer(ObjectFactoryConfigurationHandler configurationHandler)
         {
-            _configurationHandler = configurationHandler;
+            ConfigurationHandler = configurationHandler;
         }
+
+        /// <summary>
+        ///     Get or Set the handler to delegate configuration to
+        /// </summary>
+        public ObjectFactoryConfigurationHandler ConfigurationHandler { get; set; }
 
         public void PostProcessObjectFactory(IConfigurableListableObjectFactory factory)
         {
-            if (_configurationHandler != null)
+            if (ConfigurationHandler != null)
             {
-                _configurationHandler(factory);
+                ConfigurationHandler(factory);
             }
         }
     }

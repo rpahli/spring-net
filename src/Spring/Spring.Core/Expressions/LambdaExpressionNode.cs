@@ -26,45 +26,45 @@ using Spring.Expressions.Parser.antlr.collections;
 namespace Spring.Expressions
 {
     /// <summary>
-    /// Represents lambda expression.
+    ///     Represents lambda expression.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class LambdaExpressionNode : BaseNode
     {
         /// <summary>
-        /// caches argumentNames of this instance
+        ///     caches argumentNames of this instance
         /// </summary>
         private string[] argumentNames;
-        
+
         /// <summary>
-        /// caches body expression of this lambda function
+        ///     caches body expression of this lambda function
         /// </summary>
         private BaseNode bodyExpression;
 
         /// <summary>
-        /// Create a new instance
+        ///     Create a new instance
         /// </summary>
         public LambdaExpressionNode()
         {
         }
 
         /// <summary>
-        /// Create a new instance from SerializationInfo
+        ///     Create a new instance from SerializationInfo
         /// </summary>
         protected LambdaExpressionNode(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-        
+
         /// <summary>
-        /// Gets argument names for this lambda expression.
+        ///     Gets argument names for this lambda expression.
         /// </summary>
         public string[] ArgumentNames
         {
             get
             {
-                if(bodyExpression == null)
+                if (bodyExpression == null)
                 {
                     InitializeLambda();
                 }
@@ -73,14 +73,14 @@ namespace Spring.Expressions
         }
 
         /// <summary>
-        /// Assigns value of the right operand to the left one.
+        ///     Assigns value of the right operand to the left one.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
         /// <returns>Node's value.</returns>
         protected override object Get(object context, EvaluationContext evalContext)
         {
-            if(bodyExpression == null)
+            if (bodyExpression == null)
             {
                 InitializeLambda();
             }
@@ -90,24 +90,24 @@ namespace Spring.Expressions
         }
 
         /// <summary>
-        /// Evaluates this node, switching local variables map to the ones specified in <paramref name="argValues"/>.
+        ///     Evaluates this node, switching local variables map to the ones specified in <paramref name="argValues" />.
         /// </summary>
         protected override object Get(object context, EvaluationContext evalContext, object[] argValues)
         {
-            string[] argNames = this.ArgumentNames;
+            string[] argNames = ArgumentNames;
 
             if (argValues.Length != argNames.Length)
             {
-                throw new ArgumentMismatchException(string.Format("Invalid number of arguments - expected {0} arguments, but was called with {1}", argNames.Length, argValues.Length));
+                throw new ArgumentMismatchException(string.Format(
+                    "Invalid number of arguments - expected {0} arguments, but was called with {1}", argNames.Length,
+                    argValues.Length));
             }
 
             IDictionary arguments = new Hashtable();
             for (int i = 0; i < argValues.Length; i++)
-            {
                 arguments[argNames[i]] = argValues[i];
-            }
 
-            EvaluationContext ec = (EvaluationContext)evalContext;
+            EvaluationContext ec = evalContext;
             using (ec.SwitchLocalVariables(arguments))
             {
                 object result = Get(context, ec);
@@ -121,14 +121,14 @@ namespace Spring.Expressions
             {
                 if (bodyExpression == null)
                 {
-                    if (this.getNumberOfChildren() == 1)
+                    if (getNumberOfChildren() == 1)
                     {
                         argumentNames = new string[0];
-                        bodyExpression = (BaseNode)this.getFirstChild();
+                        bodyExpression = (BaseNode) getFirstChild();
                     }
                     else
                     {
-                        AST argsNode = this.getFirstChild();
+                        AST argsNode = getFirstChild();
                         argumentNames = new string[argsNode.getNumberOfChildren()];
                         AST argNode = argsNode.getFirstChild();
                         int i = 0;
@@ -138,7 +138,7 @@ namespace Spring.Expressions
                             argNode = argNode.getNextSibling();
                         }
 
-                        bodyExpression = (BaseNode)argsNode.getNextSibling();
+                        bodyExpression = (BaseNode) argsNode.getNextSibling();
                     }
                 }
             }

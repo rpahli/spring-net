@@ -24,11 +24,11 @@ using System.Collections.Specialized;
 namespace Spring.Objects.Factory.Config
 {
     /// <summary>
-    /// Implementation of <see cref="IVariableSource"/> that
-    /// resolves variable name against provided variables.
+    ///     Implementation of <see cref="IVariableSource" /> that
+    ///     resolves variable name against provided variables.
     /// </summary>
     /// <remarks>
-    /// Variable name resolution is case insensitive.
+    ///     Variable name resolution is case insensitive.
     /// </remarks>
     /// <author>Bruno Baia</author>
     [Serializable]
@@ -37,15 +37,15 @@ namespace Spring.Objects.Factory.Config
         private NameValueCollection _variables;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ConfigurableVariableSource"/>.
+        ///     Initializes a new instance of <see cref="ConfigurableVariableSource" />.
         /// </summary>
         public ConfigurableVariableSource()
         {
-            this._variables = new NameValueCollection();
+            _variables = new NameValueCollection();
         }
 
         /// <summary>
-        /// Gets or sets variables.
+        ///     Gets or sets variables.
         /// </summary>
         public NameValueCollection Variables
         {
@@ -54,28 +54,28 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        /// Before requesting a variable resolution, a client should
-        /// ask, whether the source can resolve a particular variable name.
+        ///     Before requesting a variable resolution, a client should
+        ///     ask, whether the source can resolve a particular variable name.
         /// </summary>
         /// <param name="name">the name of the variable to resolve</param>
         /// <returns><c>true</c> if the variable can be resolved, <c>false</c> otherwise</returns>
         public bool CanResolveVariable(string name)
         {
-            return this._variables.Get(name) != null;
+            return _variables.Get(name) != null;
         }
 
         /// <summary>
-        /// Resolves variable value for the specified variable name.
+        ///     Resolves variable value for the specified variable name.
         /// </summary>
         /// <param name="name">
-        /// The name of the variable to resolve.
+        ///     The name of the variable to resolve.
         /// </param>
         /// <returns>
-        /// The variable value if able to resolve, <c>null</c> otherwise.
+        ///     The variable value if able to resolve, <c>null</c> otherwise.
         /// </returns>
         public string ResolveVariable(string name)
         {
-            return this._variables.Get(name);
+            return _variables.Get(name);
         }
     }
 }

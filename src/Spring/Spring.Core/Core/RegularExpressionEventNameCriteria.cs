@@ -22,7 +22,6 @@
 
 using System.Reflection;
 using System.Text.RegularExpressions;
-
 using Spring.Util;
 
 #endregion
@@ -30,9 +29,9 @@ using Spring.Util;
 namespace Spring.Core
 {
     /// <summary>
-    /// Criteria that is satisfied if the <c>Name</c> property of an
-    /// <see cref="System.Reflection.EventInfo"/> instance matches a
-    /// supplied regular expression pattern.
+    ///     Criteria that is satisfied if the <c>Name</c> property of an
+    ///     <see cref="System.Reflection.EventInfo" /> instance matches a
+    ///     supplied regular expression pattern.
     /// </summary>
     /// <author>Rick Evans</author>
     public class RegularExpressionEventNameCriteria : RegularExpressionCriteria
@@ -40,51 +39,22 @@ namespace Spring.Core
         #region Constants
 
         /// <summary>
-        /// The default event name pattern... matches pretty much any event name.
+        ///     The default event name pattern... matches pretty much any event name.
         /// </summary>
         private const string MatchAnyEventNamePattern = ".+";
-
-        #endregion
-
-        #region Constructor (s) / Destructor
-
-        /// <summary>
-        /// Creates a new instance of the
-        /// <see cref="RegularExpressionEventNameCriteria"/> class.
-        /// </summary>
-        public RegularExpressionEventNameCriteria()
-            : this(RegularExpressionEventNameCriteria.MatchAnyEventNamePattern)
-        {
-            Options = RegexOptions.IgnoreCase;
-        }
-
-        /// <summary>
-        /// Creates a new instance of the
-        /// <see cref="RegularExpressionEventNameCriteria"/> class.
-        /// </summary>
-        /// <param name="eventNamePattern">
-        /// The pattern that <see cref="System.Reflection.EventInfo"/> names
-        /// must match against in order to satisfy this criteria.
-        /// </param>
-        public RegularExpressionEventNameCriteria(string eventNamePattern)
-        {
-            Options = RegexOptions.IgnoreCase;
-            Pattern = StringUtils.HasText(eventNamePattern) ?
-                      eventNamePattern : RegularExpressionEventNameCriteria.MatchAnyEventNamePattern;
-        }
 
         #endregion
 
         #region Methods
 
         /// <summary>
-        /// Does the supplied <paramref name="datum"/> satisfy the criteria encapsulated by
-        /// this instance?
+        ///     Does the supplied <paramref name="datum" /> satisfy the criteria encapsulated by
+        ///     this instance?
         /// </summary>
         /// <param name="datum">The datum to be checked by this criteria instance.</param>
         /// <returns>
-        /// True if the supplied <paramref name="datum"/> satisfies the criteria encapsulated
-        /// by this instance; false if not or the supplied <paramref name="datum"/> is null.
+        ///     True if the supplied <paramref name="datum" /> satisfies the criteria encapsulated
+        ///     by this instance; false if not or the supplied <paramref name="datum" /> is null.
         /// </returns>
         public override bool IsSatisfied(object datum)
         {
@@ -95,6 +65,34 @@ namespace Spring.Core
                 satisfied = IsMatch(evt.Name);
             }
             return satisfied;
+        }
+
+        #endregion
+
+        #region Constructor (s) / Destructor
+
+        /// <summary>
+        ///     Creates a new instance of the
+        ///     <see cref="RegularExpressionEventNameCriteria" /> class.
+        /// </summary>
+        public RegularExpressionEventNameCriteria()
+            : this(MatchAnyEventNamePattern)
+        {
+            Options = RegexOptions.IgnoreCase;
+        }
+
+        /// <summary>
+        ///     Creates a new instance of the
+        ///     <see cref="RegularExpressionEventNameCriteria" /> class.
+        /// </summary>
+        /// <param name="eventNamePattern">
+        ///     The pattern that <see cref="System.Reflection.EventInfo" /> names
+        ///     must match against in order to satisfy this criteria.
+        /// </param>
+        public RegularExpressionEventNameCriteria(string eventNamePattern)
+        {
+            Options = RegexOptions.IgnoreCase;
+            Pattern = StringUtils.HasText(eventNamePattern) ? eventNamePattern : MatchAnyEventNamePattern;
         }
 
         #endregion

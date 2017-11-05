@@ -24,21 +24,21 @@ using System.Runtime.Serialization;
 namespace Spring.Expressions
 {
     /// <summary>
-    /// Represents parsed default node in the navigation expression.
+    ///     Represents parsed default node in the navigation expression.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class DefaultNode : BinaryOperator
-    {        
+    {
         /// <summary>
-        /// Create a new instance
+        ///     Create a new instance
         /// </summary>
         public DefaultNode()
         {
         }
 
         /// <summary>
-        /// Create a new instance from SerializationInfo
+        ///     Create a new instance from SerializationInfo
         /// </summary>
         protected DefaultNode(SerializationInfo info, StreamingContext context)
             : base(info, context)
@@ -46,7 +46,7 @@ namespace Spring.Expressions
         }
 
         /// <summary>
-        /// Returns left operand if it is not null, or the right operand if it is.
+        ///     Returns left operand if it is not null, or the right operand if it is.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
@@ -56,7 +56,7 @@ namespace Spring.Expressions
             object leftVal = GetValue(Left, context, evalContext);
             object rightVal = GetValue(Right, context, evalContext);
 
-            return (leftVal != null ? leftVal : rightVal);
+            return leftVal != null ? leftVal : rightVal;
         }
     }
 }

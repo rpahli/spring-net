@@ -23,7 +23,6 @@
 using System;
 using System.Collections.Generic;
 using System.Xml;
-
 using Spring.Core.TypeResolution;
 using Spring.Expressions;
 using Spring.Objects;
@@ -38,7 +37,7 @@ using Spring.Util;
 namespace Spring.Validation.Config
 {
     /// <summary>
-    /// Implementation of the custom configuration parser for validator definitions.
+    ///     Implementation of the custom configuration parser for validator definitions.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [
@@ -51,8 +50,7 @@ namespace Spring.Validation.Config
     {
         private const string ValidatorTypePrefix = "validator: ";
 
-        [ThreadStatic]
-        private int definitionCount = 0;
+        [ThreadStatic] private int definitionCount;
 
         static ValidationNamespaceParser()
         {
@@ -66,41 +64,45 @@ namespace Spring.Validation.Config
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ValidationNamespaceParser"/> class.
+        ///     Initializes a new instance of the <see cref="ValidationNamespaceParser" /> class.
         /// </summary>
         public ValidationNamespaceParser()
         {
             // generate unique key for instance field to be stored in LogicalThreadContext
-            string FIELDPREFIX = typeof(ValidationNamespaceParser).FullName + base.GetHashCode();
+            string FIELDPREFIX = typeof(ValidationNamespaceParser).FullName + GetHashCode();
         }
 
 
         /// <summary>
-        /// Parse the specified element and register any resulting
-        /// IObjectDefinitions with the IObjectDefinitionRegistry that is
-        /// embedded in the supplied ParserContext.
+        ///     Parse the specified element and register any resulting
+        ///     IObjectDefinitions with the IObjectDefinitionRegistry that is
+        ///     embedded in the supplied ParserContext.
         /// </summary>
         /// <param name="element">The element to be parsed into one or more IObjectDefinitions</param>
-        /// <param name="parserContext">The object encapsulating the current state of the parsing
-        /// process.</param>
+        /// <param name="parserContext">
+        ///     The object encapsulating the current state of the parsing
+        ///     process.
+        /// </param>
         /// <returns>
-        /// The primary IObjectDefinition (can be null as explained above)
+        ///     The primary IObjectDefinition (can be null as explained above)
         /// </returns>
         /// <remarks>
-        /// Implementations should return the primary IObjectDefinition
-        /// that results from the parse phase if they wish to used nested
-        /// inside (for example) a <code>&lt;property&gt;</code> tag.
-        /// <para>Implementations may return null if they will not
-        /// be used in a nested scenario.
-        /// </para>
+        ///     Implementations should return the primary IObjectDefinition
+        ///     that results from the parse phase if they wish to used nested
+        ///     inside (for example) a <code>&lt;property&gt;</code> tag.
+        ///     <para>
+        ///         Implementations may return null if they will not
+        ///         be used in a nested scenario.
+        ///     </para>
         /// </remarks>
         public override IObjectDefinition ParseElement(XmlElement element, ParserContext parserContext)
         {
             if (!element.HasAttribute("id"))
             {
-                throw new ObjectDefinitionStoreException(parserContext.ReaderContext.Resource, "validator", "Top-level validator element must have an 'id' attribute defined.");
+                throw new ObjectDefinitionStoreException(parserContext.ReaderContext.Resource, "validator",
+                    "Top-level validator element must have an 'id' attribute defined.");
             }
-            this.definitionCount = 0;
+            definitionCount = 0;
 
             ParseAndRegisterValidator(element, parserContext);
 
@@ -109,7 +111,7 @@ namespace Spring.Validation.Config
         }
 
         /// <summary>
-        /// Parses the validator definition.
+        ///     Parses the validator definition.
         /// </summary>
         /// <param name="id">Validator's identifier.</param>
         /// <param name="element">The element to parse.</param>
@@ -120,7 +122,7 @@ namespace Spring.Validation.Config
             string typeName = GetTypeName(element);
             string parent = GetAttributeValue(element, ObjectDefinitionConstants.ParentAttribute);
 
-            string name = "validator: " + (StringUtils.HasText(id) ? id : this.definitionCount.ToString());
+            string name = "validator: " + (StringUtils.HasText(id) ? id : definitionCount.ToString());
 
             MutablePropertyValues properties = new MutablePropertyValues();
             IConfigurableObjectDefinition od
@@ -133,11 +135,16 @@ namespace Spring.Validation.Config
 
             ParseAttributeIntoProperty(element, ValidatorDefinitionConstants.TestAttribute, properties, "Test");
             ParseAttributeIntoProperty(element, ValidatorDefinitionConstants.WhenAttribute, properties, "When");
-            ParseAttributeIntoProperty(element, ValidatorDefinitionConstants.GroupFastValidateAttribute, properties, "FastValidate");
-            ParseAttributeIntoProperty(element, ValidatorDefinitionConstants.RegexExpressionAttribute, properties, "Expression");
-            ParseAttributeIntoProperty(element, ValidatorDefinitionConstants.CollectionValidateAllAttribute, properties, "ValidateAll");
-            ParseAttributeIntoProperty(element, ValidatorDefinitionConstants.CollectionContextAttribute, properties, "Context");
-            ParseAttributeIntoProperty(element, ValidatorDefinitionConstants.CollectionIncludeElementsErrors, properties, "IncludeElementErrors");
+            ParseAttributeIntoProperty(element, ValidatorDefinitionConstants.GroupFastValidateAttribute, properties,
+                "FastValidate");
+            ParseAttributeIntoProperty(element, ValidatorDefinitionConstants.RegexExpressionAttribute, properties,
+                "Expression");
+            ParseAttributeIntoProperty(element, ValidatorDefinitionConstants.CollectionValidateAllAttribute, properties,
+                "ValidateAll");
+            ParseAttributeIntoProperty(element, ValidatorDefinitionConstants.CollectionContextAttribute, properties,
+                "Context");
+            ParseAttributeIntoProperty(element, ValidatorDefinitionConstants.CollectionIncludeElementsErrors,
+                properties, "IncludeElementErrors");
 
 // TODO: (EE) - is this a mistake to check 'validateAll' but add 'context' then?
 //            if (StringUtils.HasText(validateAll))
@@ -156,8 +163,9 @@ namespace Spring.Validation.Config
                     switch (child.LocalName)
                     {
                         case ValidatorDefinitionConstants.PropertyElement:
-                            string propertyName = GetAttributeValue(child, ValidatorDefinitionConstants.PropertyNameAttribute);
-                            properties.Add(propertyName, base.ParsePropertyValue(child, name, childParserContext));
+                            string propertyName = GetAttributeValue(child,
+                                ValidatorDefinitionConstants.PropertyNameAttribute);
+                            properties.Add(propertyName, ParsePropertyValue(child, name, childParserContext));
                             break;
                         case ValidatorDefinitionConstants.MessageElement:
                             actions.Add(ParseErrorMessageAction(child, childParserContext));
@@ -190,10 +198,12 @@ namespace Spring.Validation.Config
         }
 
         /// <summary>
-        /// Parses the attribute of the given <paramref name="attName"/> from the XmlElement and, if available, adds a property of the given <paramref name="propName"/> with
-        /// the parsed value.
+        ///     Parses the attribute of the given <paramref name="attName" /> from the XmlElement and, if available, adds a
+        ///     property of the given <paramref name="propName" /> with
+        ///     the parsed value.
         /// </summary>
-        private void ParseAttributeIntoProperty(XmlElement element, string attName, MutablePropertyValues properties, string propName)
+        private void ParseAttributeIntoProperty(XmlElement element, string attName, MutablePropertyValues properties,
+            string propName)
         {
             string test = GetAttributeValue(element, attName);
             if (StringUtils.HasText(test))
@@ -203,11 +213,11 @@ namespace Spring.Validation.Config
         }
 
         /// <summary>
-        /// Parses and potentially registers a validator.
+        ///     Parses and potentially registers a validator.
         /// </summary>
         /// <remarks>
-        /// Only validators that have <code>id</code> attribute specified are registered 
-        /// as separate object definitions within application context.
+        ///     Only validators that have <code>id</code> attribute specified are registered
+        ///     as separate object definitions within application context.
         /// </remarks>
         /// <param name="element">Validator XML element.</param>
         /// <param name="parserContext">The parser helper.</param>
@@ -219,13 +229,13 @@ namespace Spring.Validation.Config
             if (StringUtils.HasText(id))
             {
                 parserContext.ReaderContext.Registry.RegisterObjectDefinition(id, validator);
-                this.definitionCount++;
+                definitionCount++;
             }
             return validator;
         }
 
         /// <summary>
-        /// Gets the name of the object type for the specified element.
+        ///     Gets the name of the object type for the specified element.
         /// </summary>
         /// <param name="element">The element.</param>
         /// <returns>The name of the object type.</returns>
@@ -240,7 +250,7 @@ namespace Spring.Validation.Config
         }
 
         /// <summary>
-        /// Creates an error message action based on the specified message element.
+        ///     Creates an error message action based on the specified message element.
         /// </summary>
         /// <param name="message">The message element.</param>
         /// <param name="parserContext">The parser helper.</param>
@@ -253,7 +263,8 @@ namespace Spring.Validation.Config
 
             foreach (XmlElement param in message.ChildNodes)
             {
-                IExpression paramExpression = Expression.Parse(GetAttributeValue(param, MessageConstants.ParameterValueAttribute));
+                IExpression paramExpression =
+                    Expression.Parse(GetAttributeValue(param, MessageConstants.ParameterValueAttribute));
                 parameters.Add(paramExpression);
             }
 
@@ -274,7 +285,8 @@ namespace Spring.Validation.Config
             }
 
             IConfigurableObjectDefinition action =
-                parserContext.ReaderContext.ObjectDefinitionFactory.CreateObjectDefinition(typeName, null, parserContext.ReaderContext.Reader.Domain);
+                parserContext.ReaderContext.ObjectDefinitionFactory.CreateObjectDefinition(typeName, null,
+                    parserContext.ReaderContext.Reader.Domain);
             action.ConstructorArgumentValues = ctorArgs;
             action.PropertyValues = properties;
 
@@ -286,7 +298,7 @@ namespace Spring.Validation.Config
             string typeName = "Spring.Validation.Actions.ExceptionAction, Spring.Core";
             string throwExpression = GetAttributeValue(element, ValidatorDefinitionConstants.ThrowAttribute);
 
-            
+
             ConstructorArgumentValues ctorArgs = new ConstructorArgumentValues();
             ctorArgs.AddGenericArgumentValue(throwExpression);
 
@@ -298,7 +310,8 @@ namespace Spring.Validation.Config
             }
 
             IConfigurableObjectDefinition action =
-                parserContext.ReaderContext.ObjectDefinitionFactory.CreateObjectDefinition(typeName, null, parserContext.ReaderContext.Reader.Domain);
+                parserContext.ReaderContext.ObjectDefinitionFactory.CreateObjectDefinition(typeName, null,
+                    parserContext.ReaderContext.Reader.Domain);
             action.ConstructorArgumentValues = ctorArgs;
             action.PropertyValues = properties;
 
@@ -306,7 +319,7 @@ namespace Spring.Validation.Config
         }
 
         /// <summary>
-        /// Creates a generic action based on the specified element.
+        ///     Creates a generic action based on the specified element.
         /// </summary>
         /// <param name="element">The action definition element.</param>
         /// <param name="parserContext">The parser helper.</param>
@@ -315,21 +328,22 @@ namespace Spring.Validation.Config
         {
             string typeName = GetAttributeValue(element, ObjectDefinitionConstants.TypeAttribute);
             string when = GetAttributeValue(element, ValidatorDefinitionConstants.WhenAttribute);
-            MutablePropertyValues properties = base.ParsePropertyElements("validator:action", element, parserContext);
+            MutablePropertyValues properties = ParsePropertyElements("validator:action", element, parserContext);
             if (StringUtils.HasText(when))
             {
                 properties.Add("When", when);
             }
 
             IConfigurableObjectDefinition action =
-                parserContext.ReaderContext.ObjectDefinitionFactory.CreateObjectDefinition(typeName, null, parserContext.ReaderContext.Reader.Domain);
+                parserContext.ReaderContext.ObjectDefinitionFactory.CreateObjectDefinition(typeName, null,
+                    parserContext.ReaderContext.Reader.Domain);
             action.PropertyValues = properties;
 
             return action;
         }
 
         /// <summary>
-        /// Creates object definition for the validator reference.
+        ///     Creates object definition for the validator reference.
         /// </summary>
         /// <param name="element">The action definition element.</param>
         /// <param name="parserContext">The parser helper.</param>
@@ -353,7 +367,8 @@ namespace Spring.Validation.Config
             }
 
             IConfigurableObjectDefinition reference =
-                parserContext.ReaderContext.ObjectDefinitionFactory.CreateObjectDefinition(typeName, null, parserContext.ReaderContext.Reader.Domain);
+                parserContext.ReaderContext.ObjectDefinitionFactory.CreateObjectDefinition(typeName, null,
+                    parserContext.ReaderContext.Reader.Domain);
             reference.PropertyValues = properties;
             return reference;
         }

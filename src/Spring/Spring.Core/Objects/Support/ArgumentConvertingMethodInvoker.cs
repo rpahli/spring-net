@@ -22,7 +22,6 @@
 
 using System;
 using System.ComponentModel;
-
 using Spring.Core.TypeConversion;
 using Spring.Util;
 
@@ -30,89 +29,75 @@ using Spring.Util;
 
 namespace Spring.Objects.Support
 {
-	/// <summary>
-	/// Specialisation of the <see cref="MethodInvoker"/> class that tries
-	/// to convert the given arguments for the actual target method via an
-	/// appropriate <see cref="Spring.Objects.IObjectWrapper"/> implementation.
-	/// </summary>
-	/// <author>Juergen Hoeller</author>
-	/// <author>Rick Evans</author>
-	/// <seealso cref="MethodInvoker"/>
-	public class ArgumentConvertingMethodInvoker : MethodInvoker
-	{
-		#region Constructor (s) / Destructor
+    /// <summary>
+    ///     Specialisation of the <see cref="MethodInvoker" /> class that tries
+    ///     to convert the given arguments for the actual target method via an
+    ///     appropriate <see cref="Spring.Objects.IObjectWrapper" /> implementation.
+    /// </summary>
+    /// <author>Juergen Hoeller</author>
+    /// <author>Rick Evans</author>
+    /// <seealso cref="MethodInvoker" />
+    public class ArgumentConvertingMethodInvoker : MethodInvoker
+    {
+        #region Fields
 
-		/// <summary>
-		/// Creates a new instance of the
-		/// <see cref="Spring.Objects.Support.ArgumentConvertingMethodInvoker"/> class.
-		/// </summary>
-		public ArgumentConvertingMethodInvoker()
-		{
-		}
+        #endregion
 
-		#endregion
+        #region Constructor (s) / Destructor
 
-		#region Properties
+        #endregion
 
-		private ObjectWrapper Wrapper
-		{
-			get { return _wrapper; }
-		}
+        #region Properties
 
-		#endregion
+        private ObjectWrapper Wrapper { get; } = new ObjectWrapper();
 
-		#region Methods
+        #endregion
 
-		/// <summary>
-		/// Prepare the specified method.
-		/// </summary>
-		/// <remarks>
-		/// <p>
-		/// The method can be invoked any number of times afterwards.
-		/// </p>
-		/// </remarks>
-		/// <exception cref="System.ArgumentException">
-		/// If all required properties are not set.
-		/// </exception>
-		/// <exception cref="System.MissingMethodException">
-		/// If the specified method could not be found.
-		/// </exception>
-		public override void Prepare()
-		{
-			base.Prepare();
-			// try to convert the arguments for the chosen method
-		    Type[] requiredTypes = ReflectionUtils.GetParameterTypes(GetPreparedMethod());
-			object[] arguments = PreparedArguments;
-			object[] convertedArguments = new object[arguments.Length];
-			for (int i = 0; i < arguments.Length; ++i)
-			{
-				convertedArguments[i] = TypeConversionUtils.ConvertValueIfNecessary(requiredTypes[i], arguments[i], null);
-			}
-			PreparedArguments = convertedArguments;
-		}
+        #region Methods
 
-		/// <summary>
-		/// Register the given custom <see cref="System.ComponentModel.TypeConverter"/>
-		/// for all properties of the given <see cref="System.Type"/>.
-		/// </summary>
-		/// <param name="requiredType">
-		/// The <see cref="System.Type"/> of property.
-		/// </param>
-		/// <param name="typeConverter">
-		/// The <see cref="System.ComponentModel.TypeConverter"/> to register.
-		/// </param>
-		public virtual void RegisterCustomConverter(
-			Type requiredType, TypeConverter typeConverter)
-		{
-			TypeConverterRegistry.RegisterConverter(requiredType, typeConverter);
-		}
+        /// <summary>
+        ///     Prepare the specified method.
+        /// </summary>
+        /// <remarks>
+        ///     <p>
+        ///         The method can be invoked any number of times afterwards.
+        ///     </p>
+        /// </remarks>
+        /// <exception cref="System.ArgumentException">
+        ///     If all required properties are not set.
+        /// </exception>
+        /// <exception cref="System.MissingMethodException">
+        ///     If the specified method could not be found.
+        /// </exception>
+        public override void Prepare()
+        {
+            base.Prepare();
+            // try to convert the arguments for the chosen method
+            Type[] requiredTypes = ReflectionUtils.GetParameterTypes(GetPreparedMethod());
+            object[] arguments = PreparedArguments;
+            object[] convertedArguments = new object[arguments.Length];
+            for (int i = 0; i < arguments.Length; ++i)
+                convertedArguments[i] =
+                    TypeConversionUtils.ConvertValueIfNecessary(requiredTypes[i], arguments[i], null);
+            PreparedArguments = convertedArguments;
+        }
 
-		#endregion
+        /// <summary>
+        ///     Register the given custom <see cref="System.ComponentModel.TypeConverter" />
+        ///     for all properties of the given <see cref="System.Type" />.
+        /// </summary>
+        /// <param name="requiredType">
+        ///     The <see cref="System.Type" /> of property.
+        /// </param>
+        /// <param name="typeConverter">
+        ///     The <see cref="System.ComponentModel.TypeConverter" /> to register.
+        /// </param>
+        public virtual void RegisterCustomConverter(
+            Type requiredType, TypeConverter typeConverter)
+        {
+            TypeConverterRegistry.RegisterConverter(requiredType, typeConverter);
+        }
 
-		#region Fields
-
-		private readonly ObjectWrapper _wrapper = new ObjectWrapper();
-
-		#endregion
-	}
+        #endregion
+    }
 }

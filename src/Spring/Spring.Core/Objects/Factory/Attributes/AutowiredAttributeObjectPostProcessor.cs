@@ -21,110 +21,115 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Linq;
-
+using System.Reflection;
 using Spring.Collections;
 using Spring.Core;
+using Spring.Logging;
 using Spring.Objects.Factory.Config;
-
-using Common.Logging;
-
 using Spring.Objects.Factory.Support;
 
 namespace Spring.Objects.Factory.Attributes
 {
     /// <summary>
-    /// <see cref="IInstantiationAwareObjectPostProcessor"/> implementation
-    /// that autowires annotated fields, properties and arbitrary config methods.
-    /// Such members to be injected are detected through an attribute: by default,
-    /// Spring's <see cref="AutowiredAttribute"/>.
-    /// 
-    /// Only one constructor (at max) of any given bean class may carry this
-    /// annotation with the 'required' parameter set to <code>true</code>, 
-    /// indicating <i>the</i> constructor to autowire when used as a Spring bean. 
-    /// If multiple <i>non-required</i> constructors carry the annotation, they 
-    /// will be considered as candidates for autowiring. The constructor with 
-    /// the greatest number of dependencies that can be satisfied by matching
-    /// beans in the Spring container will be chosen. If none of the candidates
-    /// can be satisfied, then a default constructor (if present) will be used.
-    /// An annotated constructor does not have to be public.
-    /// 
-    /// Fields are injected right after construction of a bean, before any
-    /// config methods are invoked. Such a config field does not have to be public.
-    /// 
-    /// Config methods may have an arbitrary name and any number of arguments; each of
-    /// those arguments will be autowired with a matching bean in the Spring container.
-    /// Bean property setter methods are effectively just a special case of such a
-    /// general config method. Config methods do not have to be public.
-    /// 
-    /// Note: A default AutowiredAttributeObjectPostProcessor will be registered
-    /// by the "context:annotation-config" and "context:component-scan" XML tags.
-    /// Remove or turn off the default annotation configuration there if you intend
-    /// to specify a custom AutowiredAnnotationBeanPostProcessor bean definition.
-    /// <b>NOTE:</b> Annotation injection will be performed <i>before</i> XML injection;
-    /// thus the latter configuration will override the former for properties wired through
-    /// both approaches.
+    ///     <see cref="IInstantiationAwareObjectPostProcessor" /> implementation
+    ///     that autowires annotated fields, properties and arbitrary config methods.
+    ///     Such members to be injected are detected through an attribute: by default,
+    ///     Spring's <see cref="AutowiredAttribute" />.
+    ///     Only one constructor (at max) of any given bean class may carry this
+    ///     annotation with the 'required' parameter set to <code>true</code>,
+    ///     indicating <i>the</i> constructor to autowire when used as a Spring bean.
+    ///     If multiple <i>non-required</i> constructors carry the annotation, they
+    ///     will be considered as candidates for autowiring. The constructor with
+    ///     the greatest number of dependencies that can be satisfied by matching
+    ///     beans in the Spring container will be chosen. If none of the candidates
+    ///     can be satisfied, then a default constructor (if present) will be used.
+    ///     An annotated constructor does not have to be public.
+    ///     Fields are injected right after construction of a bean, before any
+    ///     config methods are invoked. Such a config field does not have to be public.
+    ///     Config methods may have an arbitrary name and any number of arguments; each of
+    ///     those arguments will be autowired with a matching bean in the Spring container.
+    ///     Bean property setter methods are effectively just a special case of such a
+    ///     general config method. Config methods do not have to be public.
+    ///     Note: A default AutowiredAttributeObjectPostProcessor will be registered
+    ///     by the "context:annotation-config" and "context:component-scan" XML tags.
+    ///     Remove or turn off the default annotation configuration there if you intend
+    ///     to specify a custom AutowiredAnnotationBeanPostProcessor bean definition.
+    ///     <b>NOTE:</b> Annotation injection will be performed <i>before</i> XML injection;
+    ///     thus the latter configuration will override the former for properties wired through
+    ///     both approaches.
     /// </summary>
-    public class AutowiredAttributeObjectPostProcessor : InstantiationAwareObjectPostProcessorAdapter, IObjectFactoryAware, IOrdered
+    public class AutowiredAttributeObjectPostProcessor : InstantiationAwareObjectPostProcessorAdapter,
+        IObjectFactoryAware, IOrdered
     {
-        private static readonly ILog logger = LogManager.GetLogger<AutowiredAttributeObjectPostProcessor>();
-
-        private int order = int.MaxValue - 2;
+        private static readonly ILogger logger = LogManager.GetLogger<AutowiredAttributeObjectPostProcessor>();
 
         private static IConfigurableListableObjectFactory objectFactory;
 
-        private readonly SynchronizedHashtable candidateConstructorsCache = new SynchronizedHashtable();
-
-        private readonly IDictionary<Type, InjectionMetadata> injectionMetadataCache = new Dictionary<Type, InjectionMetadata>();
-
         private readonly IList<Type> autowiredPropertyTypes = new List<Type>();
 
+        private readonly SynchronizedHashtable candidateConstructorsCache = new SynchronizedHashtable();
+
+        private readonly IDictionary<Type, InjectionMetadata> injectionMetadataCache =
+            new Dictionary<Type, InjectionMetadata>();
+
         /// <summary>
-        /// Return the order value of this object, where a higher value means greater in
-        ///             terms of sorting.
+        ///     Create a new instance of an Autowire Post Processor
+        ///     with standard attributes of <see cref="AutowiredAttribute" />
+        ///     and <see cref="ValueAttribute" />
         /// </summary>
-        /// <remarks>
-        /// <p>Normally starting with 0 or 1, with <see cref="F:System.Int32.MaxValue"/> indicating
-        ///             greatest. Same order values will result in arbitrary positions for the affected
-        ///             objects.
-        ///             </p><p>Higher value can be interpreted as lower priority, consequently the first object
-        ///             has highest priority.
-        ///             </p>
-        /// </remarks>
-        /// <returns>
-        /// The order value.
-        /// </returns>
-        public int Order
+        public AutowiredAttributeObjectPostProcessor()
         {
-            get { return order; }
-            private set { order = value; }
+            autowiredPropertyTypes.Add(typeof(AutowiredAttribute));
+            autowiredPropertyTypes.Add(typeof(ValueAttribute));
         }
 
         /// <summary>
-        /// Callback that supplies the owning factory to an object instance.
+        ///     Callback that supplies the owning factory to an object instance.
         /// </summary>
         /// <value>
-        /// Owning <see cref="T:Spring.Objects.Factory.IObjectFactory"/>
-        ///             (may not be <see langword="null"/>). The object can immediately
-        ///             call methods on the factory.
+        ///     Owning <see cref="T:Spring.Objects.Factory.IObjectFactory" />
+        ///     (may not be <see langword="null" />). The object can immediately
+        ///     call methods on the factory.
         /// </value>
         /// <remarks>
-        /// <p>Invoked after population of normal object properties but before an init
-        ///             callback like <see cref="T:Spring.Objects.Factory.IInitializingObject"/>'s
-        ///             <see cref="M:Spring.Objects.Factory.IInitializingObject.AfterPropertiesSet"/>
-        ///             method or a custom init-method.
-        ///             </p>
+        ///     <p>
+        ///         Invoked after population of normal object properties but before an init
+        ///         callback like <see cref="T:Spring.Objects.Factory.IInitializingObject" />'s
+        ///         <see cref="M:Spring.Objects.Factory.IInitializingObject.AfterPropertiesSet" />
+        ///         method or a custom init-method.
+        ///     </p>
         /// </remarks>
-        /// <exception cref="T:Spring.Objects.ObjectsException">In case of initialization errors.
-        ///             </exception>
+        /// <exception cref="T:Spring.Objects.ObjectsException">
+        ///     In case of initialization errors.
+        /// </exception>
         public IObjectFactory ObjectFactory
         {
             set { objectFactory = (IConfigurableListableObjectFactory) value; }
         }
 
         /// <summary>
-        /// Add a Autowired Attribute Type
+        ///     Return the order value of this object, where a higher value means greater in
+        ///     terms of sorting.
+        /// </summary>
+        /// <remarks>
+        ///     <p>
+        ///         Normally starting with 0 or 1, with <see cref="F:System.Int32.MaxValue" /> indicating
+        ///         greatest. Same order values will result in arbitrary positions for the affected
+        ///         objects.
+        ///     </p>
+        ///     <p>
+        ///         Higher value can be interpreted as lower priority, consequently the first object
+        ///         has highest priority.
+        ///     </p>
+        /// </remarks>
+        /// <returns>
+        ///     The order value.
+        /// </returns>
+        public int Order { get; } = int.MaxValue - 2;
+
+        /// <summary>
+        ///     Add a Autowired Attribute Type
         /// </summary>
         public void AddAutowiredType(Type attributeType)
         {
@@ -135,18 +140,7 @@ namespace Spring.Objects.Factory.Attributes
         }
 
         /// <summary>
-        /// Create a new instance of an Autowire Post Processor
-        /// with standard attributes of <see cref="AutowiredAttribute"/> 
-        /// and <see cref="ValueAttribute"/>
-        /// </summary>
-        public AutowiredAttributeObjectPostProcessor()
-        {
-            autowiredPropertyTypes.Add(typeof (AutowiredAttribute));
-            autowiredPropertyTypes.Add(typeof (ValueAttribute));
-        }
-
-        /// <summary>
-        /// Determines the candidate constructors to use for the given object.
+        ///     Determines the candidate constructors to use for the given object.
         /// </summary>
         /// <param name="objectType">The raw Type of the object.</param>
         /// <param name="objectName">Name of the object.</param>
@@ -171,21 +165,24 @@ namespace Spring.Objects.Factory.Attributes
                         IList<ConstructorInfo> candidates = new List<ConstructorInfo>(rawCandidates.Length);
                         ConstructorInfo requiredConstructor = null;
                         ConstructorInfo defaultConstructor = null;
-                        foreach (var candidate in rawCandidates)
+                        foreach (ConstructorInfo candidate in rawCandidates)
                         {
                             AutowiredAttribute attr =
-                                Attribute.GetCustomAttribute(candidate, typeof (AutowiredAttribute)) as AutowiredAttribute;
+                                Attribute.GetCustomAttribute(candidate, typeof(AutowiredAttribute)) as
+                                    AutowiredAttribute;
                             if (attr != null)
                             {
                                 if (requiredConstructor != null)
                                 {
-                                    throw new ObjectCreationException("Invalid autowire-marked constructor: " + candidate +
+                                    throw new ObjectCreationException("Invalid autowire-marked constructor: " +
+                                                                      candidate +
                                                                       ". Found another constructor with 'required' Autowired annotation: " +
                                                                       requiredConstructor);
                                 }
                                 if (candidate.GetParameters().Length == 0)
                                 {
-                                    throw new InvalidOperationException("Autowired annotation requires at least one argument: " + candidate);
+                                    throw new InvalidOperationException(
+                                        "Autowired annotation requires at least one argument: " + candidate);
                                 }
                                 if (attr.Required)
                                 {
@@ -222,52 +219,55 @@ namespace Spring.Objects.Factory.Attributes
                     }
                 }
             }
-            return (candidateConstructors.Length > 0 ? candidateConstructors : null);
+            return candidateConstructors.Length > 0 ? candidateConstructors : null;
         }
 
         /// <summary>
-        /// Finds autowire candidates and verifies them
+        ///     Finds autowire candidates and verifies them
         /// </summary>
         /// <param name="objectType">
-        /// The <see cref="System.Type"/> of the target object that is to be
-        /// instantiated.
+        ///     The <see cref="System.Type" /> of the target object that is to be
+        ///     instantiated.
         /// </param>
         /// <param name="objectName">
-        /// The name of the target object.
+        ///     The name of the target object.
         /// </param>
         /// <returns>
-        /// The object to expose instead of a default instance of the target
-        /// object.
+        ///     The object to expose instead of a default instance of the target
+        ///     object.
         /// </returns>
         /// <exception cref="Spring.Objects.ObjectsException">
-        /// In the case of any errors.
+        ///     In the case of any errors.
         /// </exception>
-        /// <seealso cref="Spring.Objects.Factory.Support.AbstractObjectDefinition.HasObjectType"/>
-        /// <seealso cref="Spring.Objects.Factory.Support.IConfigurableObjectDefinition.FactoryMethodName"/>
+        /// <seealso cref="Spring.Objects.Factory.Support.AbstractObjectDefinition.HasObjectType" />
+        /// <seealso cref="Spring.Objects.Factory.Support.IConfigurableObjectDefinition.FactoryMethodName" />
         public override object PostProcessBeforeInstantiation(Type objectType, string objectName)
         {
-            var objectDefinition = objectFactory.GetObjectDefinition(objectName) as RootObjectDefinition;
+            RootObjectDefinition objectDefinition =
+                objectFactory.GetObjectDefinition(objectName) as RootObjectDefinition;
             if (objectType != null)
             {
-                var metadata = FindAutowiringMetadata(objectType);
+                InjectionMetadata metadata = FindAutowiringMetadata(objectType);
                 metadata.CheckConfigMembers(objectDefinition);
             }
             return null;
         }
 
         /// <summary>
-        /// Injects autoried annotated properties, fields, methods into objectInstance
+        ///     Injects autoried annotated properties, fields, methods into objectInstance
         /// </summary>
         /// <param name="pvs"></param>
         /// <param name="pis"></param>
         /// <param name="objectInstance"></param>
         /// <param name="objectName">Name of the object.</param>
-        /// <returns>The actual property values to apply to the given object (can be the 
-        /// passed-in PropertyValues instances0 or null to skip property population.</returns>
+        /// <returns>
+        ///     The actual property values to apply to the given object (can be the
+        ///     passed-in PropertyValues instances0 or null to skip property population.
+        /// </returns>
         public override IPropertyValues PostProcessPropertyValues(IPropertyValues pvs, IList<PropertyInfo> pis,
             object objectInstance, string objectName)
         {
-            var metadata = FindAutowiringMetadata(objectInstance.GetType());
+            InjectionMetadata metadata = FindAutowiringMetadata(objectInstance.GetType());
             try
             {
                 metadata.Inject(objectInstance, objectName, pvs);
@@ -286,7 +286,7 @@ namespace Spring.Objects.Factory.Attributes
             {
                 return metadata;
             }
-            
+
             lock (injectionMetadataCache)
             {
                 if (!injectionMetadataCache.TryGetValue(objectType, out metadata))
@@ -300,20 +300,17 @@ namespace Spring.Objects.Factory.Attributes
 
         private InjectionMetadata BuildAutowiringMetadata(Type objectType)
         {
-            var elements = new List<InjectionMetadata.InjectedElement>();
+            List<InjectionMetadata.InjectedElement> elements = new List<InjectionMetadata.InjectedElement>();
 
             do
             {
-                foreach (var autowiredType in autowiredPropertyTypes)
+                foreach (Type autowiredType in autowiredPropertyTypes)
                 {
-                    var currElements = new List<InjectionMetadata.InjectedElement>();
-                    foreach (
-                        var property in
-                            objectType.GetProperties(BindingFlags.NonPublic | BindingFlags.Public |
-                                                     BindingFlags.Instance))
+                    List<InjectionMetadata.InjectedElement> currElements = new List<InjectionMetadata.InjectedElement>();
+                    foreach (PropertyInfo property in objectType.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance))
                     {
-                        var required = true;
-                        var attr = Attribute.GetCustomAttribute(property, autowiredType);
+                        bool required = true;
+                        Attribute attr = Attribute.GetCustomAttribute(property, autowiredType);
                         if (attr is AutowiredAttribute)
                         {
                             required = ((AutowiredAttribute) attr).Required;
@@ -323,12 +320,11 @@ namespace Spring.Objects.Factory.Attributes
                             currElements.Add(new AutowiredPropertyElement(property, required));
                         }
                     }
-                    foreach (
-                        var field in
-                            objectType.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance))
+
+                    foreach (FieldInfo field in objectType.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance))
                     {
-                        var required = true;
-                        var attr = Attribute.GetCustomAttribute(field, autowiredType);
+                        bool required = true;
+                        Attribute attr = Attribute.GetCustomAttribute(field, autowiredType);
                         if (attr is AutowiredAttribute)
                         {
                             required = ((AutowiredAttribute) attr).Required;
@@ -338,28 +334,29 @@ namespace Spring.Objects.Factory.Attributes
                             currElements.Add(new AutowiredFieldElement(field, required));
                         }
                     }
-                    foreach (
-                        var method in
-                            objectType.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance))
+
+                    foreach (MethodInfo method in objectType.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance))
                     {
-                        var required = true;
-                        var attr = Attribute.GetCustomAttribute(method, autowiredType);
+                        bool required = true;
+                        Attribute attr = Attribute.GetCustomAttribute(method, autowiredType);
+
                         if (attr is AutowiredAttribute)
                         {
                             required = ((AutowiredAttribute) attr).Required;
                         }
+
                         if (attr != null && method.DeclaringType == objectType)
                         {
                             if (method.IsStatic)
                             {
-                                logger.Warn(
-                                    m => m("Autowired annotation is not supported on static methods: " + method.Name));
+                                logger.Warn($"Autowired annotation is not supported on static methods: {method.Name}");
+
                                 continue;
                             }
                             if (method.IsGenericMethod)
                             {
-                                logger.Warn(
-                                    m => m("Autowired annotation is not supported on generic methods: " + method.Name));
+                                logger.Warn($"Autowired annotation is not supported on generic methods: {method.Name}");
+
                                 continue;
                             }
                             currElements.Add(new AutowiredMethodElement(method, required));
@@ -368,13 +365,13 @@ namespace Spring.Objects.Factory.Attributes
                     elements.InsertRange(0, currElements);
                 }
                 objectType = objectType.BaseType;
-            } while (objectType != null && objectType != typeof (Object));
+            } while (objectType != null && objectType != typeof(object));
 
             return new InjectionMetadata(objectType, elements);
         }
 
         /// <summary>
-        /// Register the specified bean as dependent on the autowired beans.
+        ///     Register the specified bean as dependent on the autowired beans.
         /// </summary>
         private static void RegisterDependentObjects(string objectName, IList autowiredObjectNames)
         {
@@ -383,55 +380,53 @@ namespace Spring.Objects.Factory.Attributes
                 return;
             }
 
-            var objectDefinition = objectFactory.GetObjectDefinition(objectName) as RootObjectDefinition;
+            RootObjectDefinition objectDefinition =
+                objectFactory.GetObjectDefinition(objectName) as RootObjectDefinition;
             if (objectDefinition == null)
             {
                 return;
             }
 
             IList<string> dependsOn = new List<string>(objectDefinition.DependsOn);
-            foreach (var name in autowiredObjectNames)
+            foreach (object name in autowiredObjectNames)
             {
-                var autowiredObjectName = name as string;
+                string autowiredObjectName = name as string;
                 if (!dependsOn.Contains(autowiredObjectName))
                 {
                     dependsOn.Add(autowiredObjectName);
-                    logger.Debug(
-                        m =>
-                            m("Autowiring by type from object name '{0}' to object named '{1}'", objectName,
-                                autowiredObjectName));
+
+                    logger.Debug($"Autowiring by type from object name '{objectName}' to object named '{autowiredObjectName}'");
                 }
             }
             objectDefinition.DependsOn = dependsOn;
         }
 
-        private static object ResolvedCachedArgument(String objectName, Object cachedArgument)
+        private static object ResolvedCachedArgument(string objectName, object cachedArgument)
         {
             if (cachedArgument is DependencyDescriptor)
             {
-                var descriptor = (DependencyDescriptor) cachedArgument;
+                DependencyDescriptor descriptor = (DependencyDescriptor) cachedArgument;
                 return objectFactory.ResolveDependency(descriptor, objectName, null);
             }
-            else if (cachedArgument is RuntimeObjectReference)
+
+            if (cachedArgument is RuntimeObjectReference)
             {
                 return objectFactory.GetObject(((RuntimeObjectReference) cachedArgument).ObjectName);
             }
-            else
-            {
-                return cachedArgument;
-            }
+
+            return cachedArgument;
         }
 
         /// <summary>
-        /// Class representing injection information about an annotated field.
+        ///     Class representing injection information about an annotated field.
         /// </summary>
         private class AutowiredPropertyElement : InjectionMetadata.InjectedElement
         {
             private readonly bool _required;
 
-            private bool _cached = false;
+            private bool _cached;
 
-            private Object _cachedFieldValue;
+            private object _cachedFieldValue;
 
             public AutowiredPropertyElement(PropertyInfo property, bool required)
                 : base(property)
@@ -439,19 +434,19 @@ namespace Spring.Objects.Factory.Attributes
                 _required = required;
             }
 
-            public override void Inject(Object instance, String objectName, IPropertyValues pvs)
+            public override void Inject(object instance, string objectName, IPropertyValues pvs)
             {
-                var property = (PropertyInfo) Member;
+                PropertyInfo property = (PropertyInfo) Member;
                 try
                 {
-                    Object value;
+                    object value;
                     if (_cached)
                     {
                         value = ResolvedCachedArgument(objectName, _cachedFieldValue);
                     }
                     else
                     {
-                        var descriptor = new DependencyDescriptor(property, _required);
+                        DependencyDescriptor descriptor = new DependencyDescriptor(property, _required);
                         IList autowiredObjectNames = new ArrayList();
                         value = objectFactory.ResolveDependency(descriptor, objectName, autowiredObjectNames);
                         lock (this)
@@ -464,7 +459,7 @@ namespace Spring.Objects.Factory.Attributes
                                     RegisterDependentObjects(objectName, autowiredObjectNames);
                                     if (autowiredObjectNames.Count == 1)
                                     {
-                                        var autowiredBeanName = autowiredObjectNames[0] as string;
+                                        string autowiredBeanName = autowiredObjectNames[0] as string;
                                         if (objectFactory.ContainsObject(autowiredBeanName))
                                         {
                                             if (objectFactory.IsTypeMatch(autowiredBeanName, property.GetType()))
@@ -495,15 +490,15 @@ namespace Spring.Objects.Factory.Attributes
         }
 
         /// <summary>
-        /// Class representing injection information about an annotated field.
+        ///     Class representing injection information about an annotated field.
         /// </summary>
         private class AutowiredFieldElement : InjectionMetadata.InjectedElement
         {
             private readonly bool _required;
 
-            private bool _cached = false;
+            private bool _cached;
 
-            private Object _cachedFieldValue;
+            private object _cachedFieldValue;
 
             public AutowiredFieldElement(FieldInfo field, bool required)
                 : base(field)
@@ -511,19 +506,19 @@ namespace Spring.Objects.Factory.Attributes
                 _required = required;
             }
 
-            public override void Inject(Object instance, String objectName, IPropertyValues pvs)
+            public override void Inject(object instance, string objectName, IPropertyValues pvs)
             {
-                var field = (FieldInfo) Member;
+                FieldInfo field = (FieldInfo) Member;
                 try
                 {
-                    Object value;
+                    object value;
                     if (_cached)
                     {
                         value = ResolvedCachedArgument(objectName, _cachedFieldValue);
                     }
                     else
                     {
-                        var descriptor = new DependencyDescriptor(field, _required);
+                        DependencyDescriptor descriptor = new DependencyDescriptor(field, _required);
                         IList autowiredObjectNames = new ArrayList();
                         value = objectFactory.ResolveDependency(descriptor, objectName, autowiredObjectNames);
                         lock (this)
@@ -536,7 +531,7 @@ namespace Spring.Objects.Factory.Attributes
                                     RegisterDependentObjects(objectName, autowiredObjectNames);
                                     if (autowiredObjectNames.Count == 1)
                                     {
-                                        var autowiredBeanName = autowiredObjectNames[0] as string;
+                                        string autowiredBeanName = autowiredObjectNames[0] as string;
                                         if (objectFactory.ContainsObject(autowiredBeanName))
                                         {
                                             if (objectFactory.IsTypeMatch(autowiredBeanName, field.GetType()))
@@ -566,16 +561,14 @@ namespace Spring.Objects.Factory.Attributes
             }
         }
 
-        ///
         /// Class representing injection information about an annotated method.
-        ///
         private class AutowiredMethodElement : InjectionMetadata.InjectedElement
         {
             private readonly bool _required;
 
-            private bool _cached = false;
+            private bool _cached;
 
-            private volatile Object[] _cachedMethodArguments;
+            private volatile object[] _cachedMethodArguments;
 
             public AutowiredMethodElement(MethodInfo method, bool required)
                 : base(method)
@@ -583,12 +576,12 @@ namespace Spring.Objects.Factory.Attributes
                 _required = required;
             }
 
-            public override void Inject(Object target, string objectName, IPropertyValues pvs)
+            public override void Inject(object target, string objectName, IPropertyValues pvs)
             {
                 MethodInfo method = Member as MethodInfo;
                 try
                 {
-                    Object[] arguments;
+                    object[] arguments;
                     if (_cached)
                     {
                         arguments = ResolveCachedArguments(objectName);
@@ -596,8 +589,8 @@ namespace Spring.Objects.Factory.Attributes
                     else
                     {
                         Type[] paramTypes = method.GetParameters().Select(p => p.ParameterType).ToArray();
-                        arguments = new Object[paramTypes.Length];
-                        var descriptors = new DependencyDescriptor[paramTypes.Length];
+                        arguments = new object[paramTypes.Length];
+                        DependencyDescriptor[] descriptors = new DependencyDescriptor[paramTypes.Length];
                         IList autowiredBeanNames = new ArrayList();
                         for (int i = 0; i < arguments.Length; i++)
                         {
@@ -617,11 +610,9 @@ namespace Spring.Objects.Factory.Attributes
                             {
                                 if (arguments != null)
                                 {
-                                    _cachedMethodArguments = new Object[arguments.Length];
+                                    _cachedMethodArguments = new object[arguments.Length];
                                     for (int i = 0; i < arguments.Length; i++)
-                                    {
                                         _cachedMethodArguments[i] = descriptors[i];
-                                    }
                                     RegisterDependentObjects(objectName, autowiredBeanNames);
                                     if (autowiredBeanNames.Count == paramTypes.Length)
                                     {
@@ -658,17 +649,15 @@ namespace Spring.Objects.Factory.Attributes
                 }
             }
 
-            private Object[] ResolveCachedArguments(string objectName)
+            private object[] ResolveCachedArguments(string objectName)
             {
                 if (_cachedMethodArguments == null)
                 {
                     return null;
                 }
-                Object[] arguments = new Object[_cachedMethodArguments.Length];
+                object[] arguments = new object[_cachedMethodArguments.Length];
                 for (int i = 0; i < arguments.Length; i++)
-                {
                     arguments[i] = ResolvedCachedArgument(objectName, _cachedMethodArguments[i]);
-                }
                 return arguments;
             }
         }

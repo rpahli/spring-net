@@ -25,29 +25,29 @@ using Spring.Util;
 namespace Spring.Expressions
 {
     /// <summary>
-    /// Represents arithmetic division operator.
+    ///     Represents arithmetic division operator.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class OpDIVIDE : BinaryOperator
     {
         /// <summary>
-        /// Create a new instance
+        ///     Create a new instance
         /// </summary>
         public OpDIVIDE()
         {
         }
 
         /// <summary>
-        /// Create a new instance from SerializationInfo
+        ///     Create a new instance from SerializationInfo
         /// </summary>
         protected OpDIVIDE(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-        
+
         /// <summary>
-        /// Returns a value for the arithmetic division operator node.
+        ///     Returns a value for the arithmetic division operator node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
@@ -61,14 +61,11 @@ namespace Spring.Expressions
             {
                 return NumberUtils.Divide(left, right);
             }
-            else
-            {
-                throw new ArgumentException("Cannot divide instances of '"
-                                            + left.GetType().FullName
-                                            + "' and '"
-                                            + right.GetType().FullName
-                                            + "'.");
-            }
+            throw new ArgumentException("Cannot divide instances of '"
+                                        + left.GetType().FullName
+                                        + "' and '"
+                                        + right.GetType().FullName
+                                        + "'.");
         }
     }
 }

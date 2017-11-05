@@ -20,45 +20,44 @@
 
 using System;
 using System.Runtime.Serialization;
-
 using Spring.Core.TypeResolution;
 
 namespace Spring.Expressions
 {
     /// <summary>
-    /// Represents parsed attribute node in the navigation expression.
+    ///     Represents parsed attribute node in the navigation expression.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class AttributeNode : ConstructorNode
     {
         /// <summary>
-        /// Create a new instance
+        ///     Create a new instance
         /// </summary>
         public AttributeNode()
         {
         }
 
         /// <summary>
-        /// Create a new instance from SerializationInfo
+        ///     Create a new instance from SerializationInfo
         /// </summary>
         protected AttributeNode(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-        
+
         /// <summary>
-        /// Tries to determine attribute type based on the specified
-        /// attribute type name.
+        ///     Tries to determine attribute type based on the specified
+        ///     attribute type name.
         /// </summary>
         /// <param name="typeName">
-        /// Attribute type name to resolve.
+        ///     Attribute type name to resolve.
         /// </param>
         /// <returns>
-        /// Resolved attribute type.
+        ///     Resolved attribute type.
         /// </returns>
         /// <exception cref="TypeLoadException">
-        /// If type cannot be resolved.
+        ///     If type cannot be resolved.
         /// </exception>
         protected override Type GetObjectType(string typeName)
         {

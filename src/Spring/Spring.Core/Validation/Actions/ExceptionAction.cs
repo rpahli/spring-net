@@ -20,77 +20,73 @@
 
 using System;
 using System.Collections.Generic;
-using Common.Logging;
 using Spring.Expressions;
+using Spring.Logging;
 
 namespace Spring.Validation.Actions
 {
     public class ExceptionAction : BaseValidationAction
     {
-        private ILog log = LogManager.GetLogger(typeof(ExceptionAction));
-        private IExpression throwsExpression;
+        private readonly ILogger log = LogManager.GetLogger(typeof(ExceptionAction));
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExceptionAction"/> class.
+        ///     Initializes a new instance of the <see cref="ExceptionAction" /> class.
         /// </summary>
         public ExceptionAction()
         {
         }
 
-                /// <summary>
-        /// Initializes a new instance of the <see cref="ExceptionAction"/> class.
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="ExceptionAction" /> class.
         /// </summary>
-        /// <param name="exceptionExpression">Expression that defines the exception to throw when the validator is not valid.</param>        
+        /// <param name="exceptionExpression">Expression that defines the exception to throw when the validator is not valid.</param>
         public ExceptionAction(string exceptionExpression)
-            : this((exceptionExpression != null ? Expression.Parse(exceptionExpression) : null))
-        {}
+            : this(exceptionExpression != null ? Expression.Parse(exceptionExpression) : null)
+        {
+        }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExceptionAction"/> class with an expression
-        /// that defines the exception to throw. 
+        ///     Initializes a new instance of the <see cref="ExceptionAction" /> class with an expression
+        ///     that defines the exception to throw.
         /// </summary>
         public ExceptionAction(IExpression throwsExpression)
         {
-            this.throwsExpression = throwsExpression;
+            ThrowsExpression = throwsExpression;
         }
 
         /// <summary>
-        /// Gets or sets the exception to throw
+        ///     Gets or sets the exception to throw
         /// </summary>
         /// <value>The throws.</value>
-        public IExpression ThrowsExpression
-        {
-            get { return throwsExpression; }
-            set { throwsExpression = value; }
-        }
+        public IExpression ThrowsExpression { get; set; }
 
         /// <summary>
-        /// Called when associated validator is invalid.
+        ///     Called when associated validator is invalid.
         /// </summary>
         /// <param name="validationContext">Validation context.</param>
         /// <param name="contextParams">Additional context parameters.</param>
         /// <param name="errors">Validation errors container.</param>
-        protected override void OnInvalid(object validationContext, IDictionary<string, object> contextParams, IValidationErrors errors)
+        protected override void OnInvalid(object validationContext, IDictionary<string, object> contextParams,
+            IValidationErrors errors)
         {
-            if (throwsExpression != null)
+            if (ThrowsExpression != null)
             {
                 object o = null;
                 try
                 {
-                    o = throwsExpression.GetValue(null, contextParams);
+                    o = ThrowsExpression.GetValue(null, contextParams);
                 }
                 catch (Exception e)
                 {
-                    log.Error("Was not able to evaluate action expression [" + throwsExpression + "]", e);
+                    log.Error("Was not able to evaluate action expression [" + ThrowsExpression + "]", e);
                 }
                 Exception exception = o as Exception;
                 if (exception != null)
                 {
                     throw exception;
-                }                
-            }          
+                }
+            }
             throw new ValidationException(errors);
         }
-
     }
 }

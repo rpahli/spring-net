@@ -22,7 +22,6 @@
 
 using System;
 using System.Collections.Generic;
-
 using Spring.Objects.Factory.Xml;
 using Spring.Util;
 
@@ -31,45 +30,41 @@ using Spring.Util;
 namespace Spring.Objects.Factory.Config
 {
     /// <summary>
-    /// Holder for an <see cref="Spring.Objects.Factory.Config.IObjectDefinition"/> with
-    /// name and aliases.
+    ///     Holder for an <see cref="Spring.Objects.Factory.Config.IObjectDefinition" /> with
+    ///     name and aliases.
     /// </summary>
     /// <remarks>
-    /// <p>
-    /// Recognized by
-    /// <see cref="Spring.Objects.Factory.Support.AbstractAutowireCapableObjectFactory"/>
-    /// for inner object definitions. Registered by
-    /// <see cref="ObjectsNamespaceParser"/>,
-    /// which also uses it as general holder for a parsed object definition.
-    /// </p>
-    /// <p>
-    /// Can also be used for programmatic registration of inner object
-    /// definitions. If you don't care about the functionality offered by the
-    /// <see cref="Spring.Objects.Factory.IObjectNameAware"/> interface and the like,
-    /// registering <see cref="Spring.Objects.Factory.Support.RootObjectDefinition"/>
-    /// or <see cref="Spring.Objects.Factory.Support.ChildObjectDefinition"/> is good enough.
-    /// </p>
+    ///     <p>
+    ///         Recognized by
+    ///         <see cref="Spring.Objects.Factory.Support.AbstractAutowireCapableObjectFactory" />
+    ///         for inner object definitions. Registered by
+    ///         <see cref="ObjectsNamespaceParser" />,
+    ///         which also uses it as general holder for a parsed object definition.
+    ///     </p>
+    ///     <p>
+    ///         Can also be used for programmatic registration of inner object
+    ///         definitions. If you don't care about the functionality offered by the
+    ///         <see cref="Spring.Objects.Factory.IObjectNameAware" /> interface and the like,
+    ///         registering <see cref="Spring.Objects.Factory.Support.RootObjectDefinition" />
+    ///         or <see cref="Spring.Objects.Factory.Support.ChildObjectDefinition" /> is good enough.
+    ///     </p>
     /// </remarks>
     /// <author>Juergen Hoeller</author>
     /// <author>Simon White (.NET)</author>
     [Serializable]
     public class ObjectDefinitionHolder
     {
-        private IObjectDefinition objectDefinition;
-        private string objectName;
-        private IList<string> aliases;
-
         #region Constructor () / Destructor
 
         /// <summary>
-        /// Creates a new instance of the
-        /// <see cref="ObjectDefinitionHolder"/> class.
+        ///     Creates a new instance of the
+        ///     <see cref="ObjectDefinitionHolder" /> class.
         /// </summary>
         /// <param name="definition">
-        /// The object definition to be held by this instance.
+        ///     The object definition to be held by this instance.
         /// </param>
         /// <param name="name">
-        /// The name of the object definition.
+        ///     The name of the object definition.
         /// </param>
         public ObjectDefinitionHolder(IObjectDefinition definition, string name)
             : this(definition, name, StringUtils.EmptyStrings)
@@ -77,22 +72,22 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        /// Creates a new instance of the
-        /// <see cref="ObjectDefinitionHolder"/> class.
+        ///     Creates a new instance of the
+        ///     <see cref="ObjectDefinitionHolder" /> class.
         /// </summary>
         /// <param name="definition">
-        /// The object definition to be held by this instance.
+        ///     The object definition to be held by this instance.
         /// </param>
         /// <param name="name">The name of the object.</param>
         /// <param name="aliases">
-        /// Any aliases for the supplied <paramref name="definition"/>
+        ///     Any aliases for the supplied <paramref name="definition" />
         /// </param>
         public ObjectDefinitionHolder(
             IObjectDefinition definition, string name, IList<string> aliases)
         {
-            this.objectDefinition = definition;
-            this.objectName = name;
-            this.aliases = aliases ?? new List<string>(0);
+            ObjectDefinition = definition;
+            ObjectName = name;
+            Aliases = aliases ?? new List<string>(0);
         }
 
         #endregion
@@ -100,47 +95,38 @@ namespace Spring.Objects.Factory.Config
         #region Properties
 
         /// <summary>
-        /// The <see cref="Spring.Objects.Factory.Config.IObjectDefinition"/> held by this
-        /// instance.
+        ///     The <see cref="Spring.Objects.Factory.Config.IObjectDefinition" /> held by this
+        ///     instance.
         /// </summary>
-        public IObjectDefinition ObjectDefinition
-        {
-            get { return objectDefinition; }
-        }
+        public IObjectDefinition ObjectDefinition { get; }
 
         /// <summary>
-        /// The name of the object definition.
+        ///     The name of the object definition.
         /// </summary>
-        public string ObjectName
-        {
-            get { return objectName; }
-        }
+        public string ObjectName { get; }
 
         /// <summary>
-        /// Any aliases for the object definition.
+        ///     Any aliases for the object definition.
         /// </summary>
         /// <remarks>
-        /// <p>
-        /// Guaranteed to never return <cref lang="null"/>; if the associated
-        /// <see cref="ObjectDefinition"/>
-        /// does not have any aliases associated with it, then an empty
-        /// <see cref="System.String"/> array will be returned.
-        /// </p>
+        ///     <p>
+        ///         Guaranteed to never return <cref lang="null" />; if the associated
+        ///         <see cref="ObjectDefinition" />
+        ///         does not have any aliases associated with it, then an empty
+        ///         <see cref="System.String" /> array will be returned.
+        ///     </p>
         /// </remarks>
-        public IList<string> Aliases
-        {
-            get { return aliases; }
-        }
+        public IList<string> Aliases { get; }
 
         /// <summary>
-        /// Checks wether a givin candidate name has a defined object or alias
+        ///     Checks wether a givin candidate name has a defined object or alias
         /// </summary>
         /// <param name="candidateName">name to check if exists</param>
         /// <returns></returns>
         public bool MatchesName(string candidateName)
         {
-            return (!string.IsNullOrEmpty(candidateName) &&
-                    (candidateName.Equals(ObjectName) || Aliases.Contains(candidateName)));
+            return !string.IsNullOrEmpty(candidateName) &&
+                   (candidateName.Equals(ObjectName) || Aliases.Contains(candidateName));
         }
 
         #endregion

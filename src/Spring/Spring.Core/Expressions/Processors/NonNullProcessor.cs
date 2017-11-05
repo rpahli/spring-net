@@ -23,22 +23,22 @@ using System.Collections;
 namespace Spring.Expressions.Processors
 {
     /// <summary>
-    /// Implementation of the non-null processor.
+    ///     Implementation of the non-null processor.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     public class NonNullProcessor : ICollectionProcessor
     {
         /// <summary>
-        /// Returns non-null items from the collection.
+        ///     Returns non-null items from the collection.
         /// </summary>
         /// <param name="source">
-        /// The source collection to process.
+        ///     The source collection to process.
         /// </param>
         /// <param name="args">
-        /// Ignored.
+        ///     Ignored.
         /// </param>
         /// <returns>
-        /// A collection containing non-null source collection elements.
+        ///     A collection containing non-null source collection elements.
         /// </returns>
         public object Process(ICollection source, object[] args)
         {
@@ -49,12 +49,10 @@ namespace Spring.Expressions.Processors
 
             ArrayList list = new ArrayList();
             foreach (object item in source)
-            {
                 if (item != null)
                 {
                     list.Add(item);
                 }
-            }
             return list.ToArray();
         }
     }

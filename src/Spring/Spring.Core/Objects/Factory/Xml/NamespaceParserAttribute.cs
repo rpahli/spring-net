@@ -27,62 +27,41 @@ using System;
 namespace Spring.Objects.Factory.Xml
 {
     /// <summary>
-    /// Attribute that should be used to specify the default namespace
-    /// and schema location for a custom namespace parser.
+    ///     Attribute that should be used to specify the default namespace
+    ///     and schema location for a custom namespace parser.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
-    [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class)]
     public class NamespaceParserAttribute : Attribute
     {
-        private string ns;
-        private string schemaLocation;
-		private Type schemaLocationAssemblyHint;
-    	
         /// <summary>
-        /// Creates a new instance of <see cref="NamespaceParserAttribute"/>.
-        /// </summary>
-        public NamespaceParserAttribute()
-        {}
-
-        /// <summary>
-        /// Gets or sets the default namespace for the configuration parser.
+        ///     Gets or sets the default namespace for the configuration parser.
         /// </summary>
         /// <value>
-        /// The default namespace for the configuration parser.
+        ///     The default namespace for the configuration parser.
         /// </value>
-        public string Namespace
-        {
-            get { return ns; }
-            set { ns = value; }
-        }
+        public string Namespace { get; set; }
 
         /// <summary>
-        /// Gets or sets the default schema location for the configuration parser.
+        ///     Gets or sets the default schema location for the configuration parser.
         /// </summary>
         /// <value>
-        /// The default schema location for the configuration parser.
+        ///     The default schema location for the configuration parser.
         /// </value>
         /// <remarks>
-		/// If the <see cref="SchemaLocationAssemblyHint"/>  property is set, the <see cref="SchemaLocation"/> will always resolve to an assembly-resource 
-		/// and the set <see cref="SchemaLocation"/> will be interpreted relative to this assembly.
-		/// </remarks>
-        public string SchemaLocation
-        {
-            get { return schemaLocation; }
-            set { schemaLocation = value; }
-        }
+        ///     If the <see cref="SchemaLocationAssemblyHint" />  property is set, the <see cref="SchemaLocation" /> will always
+        ///     resolve to an assembly-resource
+        ///     and the set <see cref="SchemaLocation" /> will be interpreted relative to this assembly.
+        /// </remarks>
+        public string SchemaLocation { get; set; }
 
-    	/// <summary>
-    	/// Gets or sets a type from the assembly containing the schema
-    	/// </summary>
-    	/// <remarks>
-    	/// If this property is set, the <see cref="SchemaLocation"/> will always resolve to an assembly-resource 
-    	/// and the <see cref="SchemaLocation"/> will be interpreted relative to this assembly.
-    	/// </remarks>
-    	public Type SchemaLocationAssemblyHint
-    	{
-    		get { return schemaLocationAssemblyHint; }
-    		set { schemaLocationAssemblyHint = value; }
-    	}
+        /// <summary>
+        ///     Gets or sets a type from the assembly containing the schema
+        /// </summary>
+        /// <remarks>
+        ///     If this property is set, the <see cref="SchemaLocation" /> will always resolve to an assembly-resource
+        ///     and the <see cref="SchemaLocation" /> will be interpreted relative to this assembly.
+        /// </remarks>
+        public Type SchemaLocationAssemblyHint { get; set; }
     }
 }

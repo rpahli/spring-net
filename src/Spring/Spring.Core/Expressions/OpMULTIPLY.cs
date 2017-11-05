@@ -27,43 +27,43 @@ using Spring.Util;
 namespace Spring.Expressions
 {
     /// <summary>
-    /// Represents arithmetic multiplication operator.
+    ///     Represents arithmetic multiplication operator.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class OpMULTIPLY : BinaryOperator
     {
         /// <summary>
-        /// Create a new instance
+        ///     Create a new instance
         /// </summary>
-        public OpMULTIPLY():base()
+        public OpMULTIPLY()
         {
         }
 
         /// <summary>
-        /// Create a new instance from SerializationInfo
+        ///     Create a new instance from SerializationInfo
         /// </summary>
         protected OpMULTIPLY(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-        
+
         /// <summary>
-        /// Returns a value for the arithmetic multiplication operator node.
+        ///     Returns a value for the arithmetic multiplication operator node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
         /// <returns>Node's value.</returns>
         protected override object Get(object context, EvaluationContext evalContext)
         {
-            object left = GetLeftValue( context, evalContext );
-            object right = GetRightValue( context, evalContext );
+            object left = GetLeftValue(context, evalContext);
+            object right = GetRightValue(context, evalContext);
 
             if (NumberUtils.IsNumber(left) && NumberUtils.IsNumber(right))
             {
                 return NumberUtils.Multiply(left, right);
             }
-            else if (left is IList || left is ISet)
+            if (left is IList || left is ISet)
             {
                 ISet leftset = new HybridSet(left as ICollection);
                 ISet rightset;
@@ -73,21 +73,21 @@ namespace Spring.Expressions
                 }
                 else if (right is IDictionary)
                 {
-                    rightset = new HybridSet(((IDictionary)right).Keys);
+                    rightset = new HybridSet(((IDictionary) right).Keys);
                 }
                 else
                 {
                     throw new ArgumentException("Cannot subtract instances of '"
-                    + left.GetType().FullName
-                    + "' and '"
-                    + right.GetType().FullName
-                    + "'.");
+                                                + left.GetType().FullName
+                                                + "' and '"
+                                                + right.GetType().FullName
+                                                + "'.");
                 }
                 return leftset.Intersect(rightset);
             }
-            else if (left is IDictionary)
+            if (left is IDictionary)
             {
-                ISet leftset = new HybridSet(((IDictionary)left).Keys);
+                ISet leftset = new HybridSet(((IDictionary) left).Keys);
                 ISet rightset;
                 if (right is IList || right is ISet)
                 {
@@ -95,31 +95,26 @@ namespace Spring.Expressions
                 }
                 else if (right is IDictionary)
                 {
-                    rightset = new HybridSet(((IDictionary)right).Keys);
+                    rightset = new HybridSet(((IDictionary) right).Keys);
                 }
                 else
                 {
                     throw new ArgumentException("Cannot subtract instances of '"
-                    + left.GetType().FullName
-                    + "' and '"
-                    + right.GetType().FullName
-                    + "'.");
+                                                + left.GetType().FullName
+                                                + "' and '"
+                                                + right.GetType().FullName
+                                                + "'.");
                 }
                 IDictionary result = new Hashtable(rightset.Count);
                 foreach (object key in leftset.Intersect(rightset))
-                {
-                    result.Add(key, ((IDictionary)left)[key]);
-                }
+                    result.Add(key, ((IDictionary) left)[key]);
                 return result;
             }
-            else
-            {
-                throw new ArgumentException("Cannot multiply instances of '"
-                                            + left.GetType().FullName
-                                            + "' and '"
-                                            + right.GetType().FullName
-                                            + "'.");
-            }
+            throw new ArgumentException("Cannot multiply instances of '"
+                                        + left.GetType().FullName
+                                        + "' and '"
+                                        + right.GetType().FullName
+                                        + "'.");
         }
     }
 }

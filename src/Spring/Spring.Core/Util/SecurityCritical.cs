@@ -23,28 +23,29 @@ using System.Security;
 
 namespace Spring.Util
 {
-    /// <summary>
-    /// Utility class to be used from within this assembly for executing security critical code 
-    /// NEVER EVER MAKE THIS PUBLIC!
-    /// </summary>
-    /// <author>Erich Eichinger</author>
-    internal class SecurityCritical
-    {
-        internal delegate void PrivilegedCallback();
-
-        [SecurityCritical, SecurityTreatAsSafe]
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        internal static void ExecutePrivileged(IStackWalk permission, PrivilegedCallback callback)
-        {
-            permission.Assert();
-            try
-            {
-                callback();
-            }
-            finally
-            {
-                CodeAccessPermission.RevertAssert();
-            }
-        }
-    }
+//    /// <summary>
+//    ///     Utility class to be used from within this assembly for executing security critical code
+//    ///     NEVER EVER MAKE THIS PUBLIC!
+//    /// </summary>
+//    /// <author>Erich Eichinger</author>
+//    internal class SecurityCritical
+//    {
+//        [SecurityCritical]
+//        [SecurityTreatAsSafe]
+//        [MethodImpl(MethodImplOptions.NoInlining)]
+//        internal static void ExecutePrivileged(IStackWalk permission, PrivilegedCallback callback)
+//        {
+//            permission.Assert();
+//            try
+//            {
+//                callback();
+//            }
+//            finally
+//            {
+//                CodeAccessPermission.RevertAssert();
+//            }
+//        }
+//
+//        internal delegate void PrivilegedCallback();
+//    }
 }

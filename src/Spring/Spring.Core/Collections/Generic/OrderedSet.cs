@@ -24,13 +24,13 @@ using System.Collections.Generic;
 namespace Spring.Collections.Generic
 {
     /// <summary>
-    /// Implements an ordered <c>Set</c> based on a dictionary.
+    ///     Implements an ordered <c>Set</c> based on a dictionary.
     /// </summary>
     [Serializable]
     public class OrderedSet<T> : DictionarySet<T>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="OrderedSet{T}" /> class.
+        ///     Initializes a new instance of the <see cref="OrderedSet{T}" /> class.
         /// </summary>
         public OrderedSet()
         {
@@ -38,7 +38,7 @@ namespace Spring.Collections.Generic
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OrderedSet{T}"/> class.
+        ///     Initializes a new instance of the <see cref="OrderedSet{T}" /> class.
         /// </summary>
         /// <param name="initialValues">A collection of elements that defines the initial set contents.</param>
         public OrderedSet(ICollection<T> initialValues)

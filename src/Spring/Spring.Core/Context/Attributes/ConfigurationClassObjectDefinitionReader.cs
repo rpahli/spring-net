@@ -18,15 +18,13 @@
 
 #endregion
 
-#region
+#region Imports
 
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-
-using Common.Logging;
-
 using Spring.Core.TypeResolution;
+using Spring.Logging;
 using Spring.Objects.Factory.Config;
 using Spring.Objects.Factory.Parsing;
 using Spring.Objects.Factory.Support;
@@ -37,23 +35,24 @@ using Spring.Stereotype;
 namespace Spring.Context.Attributes
 {
     /// <summary>
-    /// Reads the class with the <see cref="ConfigurationAttribute"/> applied and converts it into an <see cref="Spring.Objects.Factory.Config.IObjectDefinition"/> instance.
+    ///     Reads the class with the <see cref="ConfigurationAttribute" /> applied and converts it into an
+    ///     <see cref="Spring.Objects.Factory.Config.IObjectDefinition" /> instance.
     /// </summary>
     public class ConfigurationClassObjectDefinitionReader
     {
-        private static readonly ILog Logger = LogManager.GetLogger<ConfigurationClassObjectDefinitionReader>();
+        private static readonly ILogger Logger = LogManager.GetLogger<ConfigurationClassObjectDefinitionReader>();
 
         private IProblemReporter _problemReporter;
 
-        private IObjectDefinitionRegistry _registry;
+        private readonly IObjectDefinitionRegistry _registry;
 
         /// <summary>
-        /// Initializes a new instance of the ConfigurationClassObjectDefinitionReader class.
+        ///     Initializes a new instance of the ConfigurationClassObjectDefinitionReader class.
         /// </summary>
         /// <param name="registry"></param>
         /// <param name="problemReporter"></param>
         public ConfigurationClassObjectDefinitionReader(IObjectDefinitionRegistry registry,
-                                                        IProblemReporter problemReporter)
+            IProblemReporter problemReporter)
         {
             _registry = registry;
             _problemReporter = problemReporter;
@@ -61,28 +60,25 @@ namespace Spring.Context.Attributes
 
         private static bool HasAttributeOnMethods(Type objectType, Type attributeType)
         {
-            Collections.Generic.ISet<MethodInfo> methods = ConfigurationClassParser.GetAllMethodsWithCustomAttributeForClass(objectType,
-                                                                                                         attributeType);
+            Collections.Generic.ISet<MethodInfo> methods =
+                ConfigurationClassParser.GetAllMethodsWithCustomAttributeForClass(objectType,
+                    attributeType);
             foreach (MethodInfo method in methods)
-            {
                 if (Attribute.GetCustomAttribute(method, attributeType) != null)
                 {
                     return true;
                 }
-            }
             return false;
         }
 
         /// <summary>
-        /// Loads the object definitions.
+        ///     Loads the object definitions.
         /// </summary>
         /// <param name="configurationModel">The configuration model.</param>
         public void LoadObjectDefinitions(Collections.Generic.ISet<ConfigurationClass> configurationModel)
         {
             foreach (ConfigurationClass configClass in configurationModel)
-            {
                 LoadObjectDefinitionsForConfigurationClass(configClass);
-            }
         }
 
         private void LoadObjectDefinitionForConfigurationClassIfNecessary(ConfigurationClass configClass)
@@ -95,21 +91,20 @@ namespace Spring.Context.Attributes
 
             // no Object definition exists yet -> this must be an imported configuration class ([Import]).
             GenericObjectDefinition configObjectDef = new GenericObjectDefinition();
-            String className = configClass.ConfigurationClassType.Name;
+            string className = configClass.ConfigurationClassType.Name;
             configObjectDef.ObjectTypeName = className;
             configObjectDef.ObjectType = configClass.ConfigurationClassType;
             if (CheckConfigurationClassCandidate(configClass.ConfigurationClassType))
             {
-                String configObjectName = ObjectDefinitionReaderUtils.RegisterWithGeneratedName(configObjectDef,
-                                                                                                _registry);
+                string configObjectName = ObjectDefinitionReaderUtils.RegisterWithGeneratedName(configObjectDef,
+                    _registry);
                 configClass.ObjectName = configObjectName;
-                Logger.Debug(m => m("Registered object definition for imported [Configuration] class {0}",
-                                         configObjectName));
+                Logger.Debug($"Registered object definition for imported [Configuration] class {configObjectName}");
             }
         }
 
         /// <summary>
-        /// Checks the class to see if it is a candidate to be a <see cref="ConfigurationAttribute"/> source.
+        ///     Checks the class to see if it is a candidate to be a <see cref="ConfigurationAttribute" /> source.
         /// </summary>
         /// <param name="objectDefinition">The object definition.</param>
         /// <returns></returns>
@@ -118,7 +113,7 @@ namespace Spring.Context.Attributes
             Type objectType = null;
             if (objectDefinition is AbstractObjectDefinition)
             {
-                AbstractObjectDefinition definition = (AbstractObjectDefinition)objectDefinition;
+                AbstractObjectDefinition definition = (AbstractObjectDefinition) objectDefinition;
                 if (definition.HasObjectType)
                 {
                     objectType = definition.ObjectType;
@@ -150,7 +145,7 @@ namespace Spring.Context.Attributes
         {
             if (type != null)
             {
-                return (Attribute.GetCustomAttribute(type, typeof(ConfigurationAttribute)) != null);
+                return Attribute.GetCustomAttribute(type, typeof(ConfigurationAttribute)) != null;
             }
 
             return false;
@@ -161,9 +156,7 @@ namespace Spring.Context.Attributes
             LoadObjectDefinitionForConfigurationClassIfNecessary(configClass);
 
             foreach (ConfigurationClassMethod method in configClass.Methods)
-            {
                 LoadObjectDefinitionsForModelMethod(method);
-            }
 
             LoadObjectDefinitionsFromImportedResources(configClass.ImportedResources);
         }
@@ -177,7 +170,7 @@ namespace Spring.Context.Attributes
 
             objDef.FactoryObjectName = configClass.ObjectName;
             objDef.FactoryMethodName = metadata.Name;
-            objDef.AutowireMode = Objects.Factory.Config.AutoWiringMode.Constructor;
+            objDef.AutowireMode = AutoWiringMode.Constructor;
 
             // consider name and any aliases
             //Dictionary<String, Object> ObjectAttributes = metadata.getAnnotationAttributes(Object.class.getName());
@@ -185,7 +178,7 @@ namespace Spring.Context.Attributes
             List<string> names = new List<string>();
             foreach (object t in objectAttributes)
             {
-                string[] namesAndAliases = ((ObjectDefAttribute)t).NamesToArray;
+                string[] namesAndAliases = ((ObjectDefAttribute) t).NamesToArray;
 
                 if (namesAndAliases != null)
                 {
@@ -193,17 +186,15 @@ namespace Spring.Context.Attributes
                 }
                 else
                 {
-                    namesAndAliases = new[] { metadata.Name };
+                    namesAndAliases = new[] {metadata.Name};
                 }
 
                 names.AddRange(namesAndAliases);
             }
 
-            string objectName = (names.Count > 0 ? names[0] : method.MethodMetadata.Name);
+            string objectName = names.Count > 0 ? names[0] : method.MethodMetadata.Name;
             for (int i = 1; i < names.Count; i++)
-            {
                 _registry.RegisterAlias(objectName, names[i]);
-            }
 
             // has this already been overridden (e.g. via XML)?
             if (_registry.ContainsObjectDefinition(objectName))
@@ -214,9 +205,12 @@ namespace Spring.Context.Attributes
                 {
                     // no -> then it's an external override, probably XML
                     // overriding is legal, return immediately
-                    Logger.Debug(m => m("Skipping loading Object definition for {0}: a definition for object " +
-                                          "'{1}' already exists. This is likely due to an override in XML.", method,
-                                          objectName));
+                    Logger.DebugFormat(
+                        "Skipping loading Object definition for {0}: a definition for object '{1}' already exists. This is likely due to an override in XML.", 
+                        method,
+                        objectName
+                    );
+
                     return;
                 }
             }
@@ -249,33 +243,40 @@ namespace Spring.Context.Attributes
             if (Attribute.GetCustomAttribute(metadata, typeof(ObjectDefAttribute)) != null)
             {
                 objDef.InitMethodName =
-                    (Attribute.GetCustomAttribute(metadata, typeof(ObjectDefAttribute)) as ObjectDefAttribute).
-                        InitMethod;
+                    (Attribute.GetCustomAttribute(metadata, typeof(ObjectDefAttribute)) as ObjectDefAttribute)
+                    .InitMethod;
+
                 objDef.DestroyMethodName =
-                    (Attribute.GetCustomAttribute(metadata, typeof(ObjectDefAttribute)) as ObjectDefAttribute).
-                        DestroyMethod;
+                    (Attribute.GetCustomAttribute(metadata, typeof(ObjectDefAttribute)) as ObjectDefAttribute)
+                    .DestroyMethod;
             }
 
             // consider scoping
             if (Attribute.GetCustomAttribute(metadata, typeof(ScopeAttribute)) != null)
             {
                 objDef.Scope =
-                    (Attribute.GetCustomAttribute(metadata, typeof(ScopeAttribute)) as ScopeAttribute).ObjectScope.ToString();
+                    (Attribute.GetCustomAttribute(metadata, typeof(ScopeAttribute)) as ScopeAttribute).ObjectScope
+                    .ToString();
             }
 
-            Logger.Debug(m => m("Registering Object definition for [ObjectDef] method {0}.{1}()",
-                                            configClass.ConfigurationClassType.Name, objectName));
+            Logger.DebugFormat(
+                "Registering Object definition for [ObjectDef] method {0}.{1}()", 
+                configClass.ConfigurationClassType.Name, 
+                objectName
+            );
 
             _registry.RegisterObjectDefinition(objectName, objDef);
         }
 
-        private void LoadObjectDefinitionsFromImportedResources(IEnumerable<KeyValuePair<string, Type>> importedResources)
+        private void LoadObjectDefinitionsFromImportedResources(
+            IEnumerable<KeyValuePair<string, Type>> importedResources)
         {
             IDictionary<Type, IObjectDefinitionReader> readerInstanceCache =
                 new Dictionary<Type, IObjectDefinitionReader>();
+
             foreach (KeyValuePair<string, Type> entry in importedResources)
             {
-                String resource = entry.Key;
+                string resource = entry.Key;
                 Type readerClass = entry.Value;
 
                 if (!readerInstanceCache.ContainsKey(readerClass))
@@ -283,15 +284,15 @@ namespace Spring.Context.Attributes
                     try
                     {
                         IObjectDefinitionReader readerInstance =
-                            (IObjectDefinitionReader)Activator.CreateInstance(readerClass, _registry);
+                            (IObjectDefinitionReader) Activator.CreateInstance(readerClass, _registry);
 
                         readerInstanceCache.Add(readerClass, readerInstance);
                     }
                     catch (Exception)
                     {
                         throw new InvalidOperationException(
-                            String.Format("Could not instantiate IObjectDefinitionReader class {0}",
-                                          readerClass.FullName));
+                            string.Format("Could not instantiate IObjectDefinitionReader class {0}",
+                                readerClass.FullName));
                     }
                 }
 

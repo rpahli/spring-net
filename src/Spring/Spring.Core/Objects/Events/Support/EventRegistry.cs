@@ -29,37 +29,32 @@ using System.Reflection;
 namespace Spring.Objects.Events.Support
 {
     /// <summary>
-    /// Default implementation of the <see cref="Spring.Objects.Events.IEventRegistry"/>
-    /// interface.
+    ///     Default implementation of the <see cref="Spring.Objects.Events.IEventRegistry" />
+    ///     interface.
     /// </summary>
     /// <author>Griffin Caprio</author>
     public class EventRegistry : IEventRegistry
     {
-        private readonly IList<object> _publishers;
-
         /// <summary>
-        /// Creates a new instance of the EventRegistry class.
+        ///     Creates a new instance of the EventRegistry class.
         /// </summary>
         public EventRegistry()
         {
-            _publishers = new List<object>();
+            Publishers = new List<object>();
         }
 
         /// <summary>
-        /// The list of event publishers.
+        ///     The list of event publishers.
         /// </summary>
         /// <value>The list of event publishers.</value>
-        protected IList<object> Publishers
-        {
-            get { return _publishers; }
-        }
+        protected IList<object> Publishers { get; }
 
         /// <summary>
-        /// Adds the input object to the list of publishers.
+        ///     Adds the input object to the list of publishers.
         /// </summary>
         /// <remarks>
-        /// This publishes <b>all</b> events of the source object to any object
-        /// wishing to subscribe
+        ///     This publishes <b>all</b> events of the source object to any object
+        ///     wishing to subscribe
         /// </remarks>
         /// <param name="source">The source object to publish.</param>
         public virtual void PublishEvents(object source)
@@ -68,8 +63,8 @@ namespace Spring.Objects.Events.Support
         }
 
         /// <summary>
-        /// Subscribes to <b>all</b> events published, if the subscriber implements
-        /// compatible handler methods.
+        ///     Subscribes to <b>all</b> events published, if the subscriber implements
+        ///     compatible handler methods.
         /// </summary>
         /// <param name="subscriber">The subscriber to use.</param>
         public virtual void Subscribe(object subscriber)
@@ -78,30 +73,28 @@ namespace Spring.Objects.Events.Support
         }
 
         /// <summary>
-        /// Subscribes to published events of all objects of a given type, if the
-        /// subscriber implements compatible handler methods.
+        ///     Subscribes to published events of all objects of a given type, if the
+        ///     subscriber implements compatible handler methods.
         /// </summary>
         /// <param name="subscriber">The subscriber to use.</param>
         /// <param name="sourceType">
-        /// The target <see cref="System.Type"/> to subscribe to.
+        ///     The target <see cref="System.Type" /> to subscribe to.
         /// </param>
         public virtual void Subscribe(object subscriber, Type sourceType)
         {
             Type currentSubscriberType = subscriber.GetType();
-            foreach (object currentPublisher in _publishers)
-            {
+            foreach (object currentPublisher in Publishers)
                 if (null == sourceType
                     || sourceType.IsAssignableFrom(currentPublisher.GetType()))
                 {
                     WireOrUnwireSubscriberToPublisher(
                         currentPublisher, currentSubscriberType, subscriber, true);
                 }
-            }
         }
 
         /// <summary>
-        /// Unsubscribes to <b>all</b> events published, if the subscriber
-        /// implmenets compatible handler methods.
+        ///     Unsubscribes to <b>all</b> events published, if the subscriber
+        ///     implmenets compatible handler methods.
         /// </summary>
         /// <param name="subscriber">The subscriber to use</param>
         public virtual void Unsubscribe(object subscriber)
@@ -110,24 +103,22 @@ namespace Spring.Objects.Events.Support
         }
 
         /// <summary>
-        /// Unsubscribes to the published events of all objects of a given
-        /// <see cref="System.Type"/>, if the subscriber implements
-        /// compatible handler methods.
+        ///     Unsubscribes to the published events of all objects of a given
+        ///     <see cref="System.Type" />, if the subscriber implements
+        ///     compatible handler methods.
         /// </summary>
         /// <param name="subscriber">The subscriber to use.</param>
-        /// <param name="sourceType">The target <see cref="System.Type"/> to unsubscribe from</param>
+        /// <param name="sourceType">The target <see cref="System.Type" /> to unsubscribe from</param>
         public virtual void Unsubscribe(object subscriber, Type sourceType)
         {
             Type currentSubscriberType = subscriber.GetType();
-            foreach (object currentPublisher in _publishers)
-            {
+            foreach (object currentPublisher in Publishers)
                 if (null == sourceType
                     || sourceType.IsAssignableFrom(currentPublisher.GetType()))
                 {
                     WireOrUnwireSubscriberToPublisher(
                         currentPublisher, currentSubscriberType, subscriber, false);
                 }
-            }
         }
 
         private static void WireOrUnwireSubscriberToPublisher(

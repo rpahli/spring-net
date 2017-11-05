@@ -24,13 +24,13 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Serialization;
 using Spring.Expressions.Processors;
-using Spring.Util;
 using Spring.Reflection.Dynamic;
+using Spring.Util;
 
 namespace Spring.Expressions
 {
     /// <summary>
-    /// Represents parsed method node in the navigation expression.
+    ///     Represents parsed method node in the navigation expression.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
@@ -38,21 +38,33 @@ namespace Spring.Expressions
     {
         private const BindingFlags BINDING_FLAGS
             = BindingFlags.Public | BindingFlags.NonPublic
-            | BindingFlags.Instance | BindingFlags.Static
-            | BindingFlags.IgnoreCase;
+              | BindingFlags.Instance | BindingFlags.Static
+              | BindingFlags.IgnoreCase;
 
         private static readonly IDictionary collectionProcessorMap = new Hashtable();
         private static readonly IDictionary extensionMethodProcessorMap = new Hashtable();
 
-        private bool initialized = false;
-        private bool cachedIsParamArray = false;
-        private Type paramArrayType;
+        // used to calculate signature hash while caring for arg positions
+        private static readonly int[] s_primes =
+        {
+            17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127,
+            131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239,
+            241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367,
+            373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487, 491,
+            499, 503, 509, 521, 523, 541, 547, 557, 563, 569, 571, 577, 587, 593, 599, 601, 607, 613, 617, 619, 631,
+            641, 643, 647, 653, 659, 661, 673, 677, 683, 691, 701, 709, 719, 727, 733
+        };
+
         private int argumentCount;
         private SafeMethod cachedInstanceMethod;
         private int cachedInstanceMethodHash;
+        private bool cachedIsParamArray;
+
+        private bool initialized;
+        private Type paramArrayType;
 
         /// <summary>
-        /// Static constructor. Initializes a map of special collection processor methods.
+        ///     Static constructor. Initializes a map of special collection processor methods.
         /// </summary>
         static MethodNode()
         {
@@ -72,14 +84,14 @@ namespace Spring.Expressions
         }
 
         /// <summary>
-        /// Create a new instance
+        ///     Create a new instance
         /// </summary>
         public MethodNode()
         {
         }
 
         /// <summary>
-        /// Create a new instance from SerializationInfo
+        ///     Create a new instance from SerializationInfo
         /// </summary>
         protected MethodNode(SerializationInfo info, StreamingContext context)
             : base(info, context)
@@ -87,14 +99,14 @@ namespace Spring.Expressions
         }
 
         /// <summary>
-        /// Returns node's value for the given context.
+        ///     Returns node's value for the given context.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
         /// <returns>Node's value.</returns>
         protected override object Get(object context, EvaluationContext evalContext)
         {
-            string methodName = this.getText();
+            string methodName = getText();
             object[] argValues = ResolveArguments(evalContext);
             ICollectionProcessor localCollectionProcessor = null;
             IMethodCallProcessor methodCallProcessor = null;
@@ -103,10 +115,10 @@ namespace Spring.Expressions
             lock (this)
             {
                 // check if it is a collection and the methodname denotes a collection processor
-                if ((context == null || context is ICollection))
+                if (context == null || context is ICollection)
                 {
                     // predefined collection processor?
-                    localCollectionProcessor = (ICollectionProcessor)collectionProcessorMap[methodName];
+                    localCollectionProcessor = (ICollectionProcessor) collectionProcessorMap[methodName];
 
                     // user-defined collection processor?
                     if (localCollectionProcessor == null && evalContext.Variables != null)
@@ -118,7 +130,7 @@ namespace Spring.Expressions
                 }
 
                 // try extension methods
-                methodCallProcessor = (IMethodCallProcessor)extensionMethodProcessorMap[methodName];
+                methodCallProcessor = (IMethodCallProcessor) extensionMethodProcessorMap[methodName];
                 {
                     // user-defined extension method processor?
                     if (methodCallProcessor == null && evalContext.Variables != null)
@@ -136,7 +148,7 @@ namespace Spring.Expressions
                     if (initialized)
                     {
                         int calculatedHash = CalculateMethodHash(context.GetType(), argValues);
-                        initialized = (calculatedHash == cachedInstanceMethodHash);
+                        initialized = calculatedHash == cachedInstanceMethodHash;
                     }
 
                     if (!initialized)
@@ -149,23 +161,21 @@ namespace Spring.Expressions
 
             if (localCollectionProcessor != null)
             {
-                return localCollectionProcessor.Process((ICollection)context, argValues);
+                return localCollectionProcessor.Process((ICollection) context, argValues);
             }
-            else if (methodCallProcessor != null)
+            if (methodCallProcessor != null)
             {
                 return methodCallProcessor.Process(context, argValues);
             }
-            else if (cachedInstanceMethod != null)
+            if (cachedInstanceMethod != null)
             {
-                object[] paramValues = (cachedIsParamArray)
-                                        ? ReflectionUtils.PackageParamArray(argValues, argumentCount, paramArrayType)
-                                        : argValues;
+                object[] paramValues = cachedIsParamArray
+                    ? ReflectionUtils.PackageParamArray(argValues, argumentCount, paramArrayType)
+                    : argValues;
                 return cachedInstanceMethod.Invoke(context, paramValues);
             }
-            else
-            {
-                throw new ArgumentException(string.Format("Method '{0}' with the specified number and types of arguments does not exist.", methodName));
-            }
+            throw new ArgumentException(string.Format(
+                "Method '{0}' with the specified number and types of arguments does not exist.", methodName));
         }
 
         private int CalculateMethodHash(Type contextType, object[] argValues)
@@ -175,14 +185,16 @@ namespace Spring.Expressions
             {
                 object arg = argValues[i];
                 if (arg != null)
+                {
                     hash += s_primes[i] * arg.GetType().GetHashCode();
+                }
             }
             return hash;
         }
 
         private void Initialize(string methodName, object[] argValues, object context)
         {
-            Type contextType = (context is Type ? context as Type : context.GetType());
+            Type contextType = context is Type ? context as Type : context.GetType();
 
             // check the context type first
             MethodInfo mi = GetBestMethod(contextType, methodName, BINDING_FLAGS, argValues);
@@ -195,7 +207,6 @@ namespace Spring.Expressions
 
             if (mi == null)
             {
-                return;
             }
             else
             {
@@ -203,7 +214,8 @@ namespace Spring.Expressions
                 if (parameters.Length > 0)
                 {
                     ParameterInfo lastParameter = parameters[parameters.Length - 1];
-                    cachedIsParamArray = lastParameter.GetCustomAttributes(typeof(ParamArrayAttribute), false).Length > 0;
+                    cachedIsParamArray =
+                        lastParameter.GetCustomAttributes(typeof(ParamArrayAttribute), false).Length > 0;
                     if (cachedIsParamArray)
                     {
                         paramArrayType = lastParameter.ParameterType.GetElementType();
@@ -217,14 +229,15 @@ namespace Spring.Expressions
         }
 
         /// <summary>
-        /// Gets the best method given the name, argument values, for a given type.
+        ///     Gets the best method given the name, argument values, for a given type.
         /// </summary>
         /// <param name="type">The type on which to search for the method.</param>
         /// <param name="methodName">Name of the method.</param>
         /// <param name="bindingFlags">The binding flags.</param>
         /// <param name="argValues">The arg values.</param>
         /// <returns>Best matching method or null if none found.</returns>
-        public static MethodInfo GetBestMethod(Type type, string methodName, BindingFlags bindingFlags, object[] argValues)
+        public static MethodInfo GetBestMethod(Type type, string methodName, BindingFlags bindingFlags,
+            object[] argValues)
         {
             MethodInfo mi = null;
             try
@@ -233,7 +246,6 @@ namespace Spring.Expressions
             }
             catch (AmbiguousMatchException)
             {
-
                 IList<MethodInfo> overloads = GetCandidateMethods(type, methodName, bindingFlags, argValues.Length);
                 if (overloads.Count > 0)
                 {
@@ -244,14 +256,13 @@ namespace Spring.Expressions
         }
 
 
-
-        private static IList<MethodInfo> GetCandidateMethods(Type type, string methodName, BindingFlags bindingFlags, int argCount)
+        private static IList<MethodInfo> GetCandidateMethods(Type type, string methodName, BindingFlags bindingFlags,
+            int argCount)
         {
             MethodInfo[] methods = type.GetMethods(bindingFlags | BindingFlags.FlattenHierarchy);
             List<MethodInfo> matches = new List<MethodInfo>();
 
             foreach (MethodInfo method in methods)
-            {
                 if (method.Name == methodName)
                 {
                     ParameterInfo[] parameters = method.GetParameters();
@@ -268,27 +279,8 @@ namespace Spring.Expressions
                         }
                     }
                 }
-            }
 
             return matches;
         }
-
-        // used to calculate signature hash while caring for arg positions
-        private static readonly int[] s_primes =
-            {
-                17, 19, 23, 29
-                , 31, 37, 41, 43, 47, 53, 59, 61, 67, 71
-                , 73, 79, 83, 89, 97, 101, 103, 107, 109, 113
-                , 127, 131, 137, 139, 149, 151, 157, 163, 167, 173
-                , 179, 181, 191, 193, 197, 199, 211, 223, 227, 229
-                , 233, 239, 241, 251, 257, 263, 269, 271, 277, 281
-                , 283, 293, 307, 311, 313, 317, 331, 337, 347, 349
-                , 353, 359, 367, 373, 379, 383, 389, 397, 401, 409
-                , 419, 421, 431, 433, 439, 443, 449, 457, 461, 463
-                , 467, 479, 487, 491, 499, 503, 509, 521, 523, 541
-                , 547, 557, 563, 569, 571, 577, 587, 593, 599, 601
-                , 607, 613, 617, 619, 631, 641, 643, 647, 653, 659
-                , 661, 673, 677, 683, 691, 701, 709, 719, 727, 733
-            };
     }
 }

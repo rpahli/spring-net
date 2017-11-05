@@ -27,7 +27,7 @@ using Spring.Expressions.Parser.antlr.collections;
 namespace Spring.Expressions
 {
     /// <summary>
-    /// Base type for nodes that accept arguments.
+    ///     Base type for nodes that accept arguments.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
@@ -37,31 +37,22 @@ namespace Spring.Expressions
         private IDictionary namedArgs;
 
         /// <summary>
-        /// Create a new instance
+        ///     Create a new instance
         /// </summary>
         public NodeWithArguments()
         {
         }
 
         /// <summary>
-        /// Create a new instance
+        ///     Create a new instance
         /// </summary>
         public NodeWithArguments(string text)
         {
-            this.setText(text);
+            setText(text);
         }
 
         /// <summary>
-        /// Append an argument node to the list of child nodes
-        /// </summary>
-        /// <param name="argumentNode"></param>
-        public void AddArgument(BaseNode argumentNode)
-        {
-            base.addChild(argumentNode);
-        }
-
-        /// <summary>
-        /// Create a new instance from SerializationInfo
+        ///     Create a new instance from SerializationInfo
         /// </summary>
         protected NodeWithArguments(SerializationInfo info, StreamingContext context)
             : base(info, context)
@@ -69,7 +60,16 @@ namespace Spring.Expressions
         }
 
         /// <summary>
-        /// Initializes the node. 
+        ///     Append an argument node to the list of child nodes
+        /// </summary>
+        /// <param name="argumentNode"></param>
+        public void AddArgument(BaseNode argumentNode)
+        {
+            addChild(argumentNode);
+        }
+
+        /// <summary>
+        ///     Initializes the node.
         /// </summary>
         private void InitializeNode()
         {
@@ -80,7 +80,7 @@ namespace Spring.Expressions
                     List<BaseNode> argList = new List<BaseNode>();
                     namedArgs = new Hashtable();
 
-                    AST node = this.getFirstChild();
+                    AST node = getFirstChild();
 
                     while (node != null)
                     {
@@ -105,7 +105,7 @@ namespace Spring.Expressions
         }
 
         /// <summary>
-        /// Asserts the argument count.
+        ///     Asserts the argument count.
         /// </summary>
         /// <param name="requiredCount">The required count.</param>
         protected void AssertArgumentCount(int requiredCount)
@@ -120,7 +120,7 @@ namespace Spring.Expressions
         }
 
         /// <summary>
-        /// Resolves the arguments.
+        ///     Resolves the arguments.
         /// </summary>
         /// <param name="evalContext">Current expression evaluation context.</param>
         /// <returns>An array of argument values</returns>
@@ -134,14 +134,12 @@ namespace Spring.Expressions
             int length = args.Length;
             object[] values = new object[length];
             for (int i = 0; i < length; i++)
-            {
                 values[i] = ResolveArgumentInternal(i, evalContext);
-            }
             return values;
         }
 
         /// <summary>
-        /// Resolves the named arguments.
+        ///     Resolves the named arguments.
         /// </summary>
         /// <param name="evalContext">Current expression evaluation context.</param>
         /// <returns>A dictionary of argument name to value mappings.</returns>
@@ -151,7 +149,7 @@ namespace Spring.Expressions
             {
                 InitializeNode();
             }
-            
+
             if (namedArgs.Count == 0)
             {
                 return null;
@@ -159,14 +157,12 @@ namespace Spring.Expressions
 
             IDictionary namesAndValues = new Hashtable(namedArgs.Count);
             foreach (string name in namedArgs.Keys)
-            {
                 namesAndValues[name] = ResolveNamedArgument(name, evalContext);
-            }
             return namesAndValues;
         }
 
         /// <summary>
-        /// Resolves the argument.
+        ///     Resolves the argument.
         /// </summary>
         /// <param name="position">Argument position.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
@@ -181,7 +177,7 @@ namespace Spring.Expressions
         }
 
         /// <summary>
-        /// Resolves the argument without ensuring <see cref="InitializeNode"/> was called.
+        ///     Resolves the argument without ensuring <see cref="InitializeNode" /> was called.
         /// </summary>
         /// <param name="position">Argument position.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
@@ -197,15 +193,14 @@ namespace Spring.Expressions
         }
 
         /// <summary>
-        /// Resolves the named argument.
+        ///     Resolves the named argument.
         /// </summary>
         /// <param name="name">Argument name.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
         /// <returns>Resolved named argument value.</returns>
         private object ResolveNamedArgument(string name, EvaluationContext evalContext)
         {
-            return GetValue(((BaseNode)namedArgs[name]), evalContext.ThisContext, evalContext);
+            return GetValue((BaseNode) namedArgs[name], evalContext.ThisContext, evalContext);
         }
-
     }
 }

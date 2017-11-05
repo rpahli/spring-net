@@ -28,92 +28,24 @@ using Spring.Util;
 namespace Spring.Core.TypeResolution
 {
     /// <summary>
-    /// Holder for the generic arguments when using type parameters.
+    ///     Holder for the generic arguments when using type parameters.
     /// </summary>
     /// <remarks>
-    /// <p>
-    /// Type parameters can be applied to classes, interfaces, 
-    /// structures, methods, delegates, etc...
-    /// </p>
+    ///     <p>
+    ///         Type parameters can be applied to classes, interfaces,
+    ///         structures, methods, delegates, etc...
+    ///     </p>
     /// </remarks>
     public class GenericArgumentsHolder
     {
-        #region Constants
-
-        private static readonly Regex ClrPattern = new Regex(
-              "^"
-              + @"(?'name'\w[\w\d\.]+)"
-              + @"`\d+\s*\["
-              + @"(?'args'(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!)))"
-              + @"\]"
-              + @"(?'remainder'.*)"
-              + @"$"
-              , RegexOptions.CultureInvariant | RegexOptions.Compiled
-            );
-
-        private static readonly Regex CSharpPattern = new Regex(
-              "^"
-              + @"(?'name'\w[\w\d\.]+)"
-              + @"<"
-              + @"(?'args'.*)"
-              + @">"
-              + @"(?'remainder'.*)"
-              + @"$"
-              , RegexOptions.CultureInvariant | RegexOptions.Compiled
-            );
-
-        private static Regex GenericArgumentListPattern = new Regex(
-            @",("
-            + @"(\[(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])" // capture anything between matching brackets
-            + @"|"
-            + @"([^,\[\]]*)" // alternatively capture any string that doesn't contain brackets and commas
-            + @")+"
-            );
-
-        /// <summary>
-        /// The generic arguments prefix.
-        /// </summary>
-        public const char GenericArgumentsQuotePrefix = '[';
-
-        /// <summary>
-        /// The generic arguments suffix.
-        /// </summary>
-        public const char GenericArgumentsQuoteSuffix = ']';
-
-        /// <summary>
-        /// The generic arguments prefix.
-        /// </summary>
-        public const char GenericArgumentsPrefix = '<';
-
-        /// <summary>
-        /// The generic arguments suffix.
-        /// </summary>
-        public const char GenericArgumentsSuffix = '>';
-
-        /// <summary>
-        /// The character that separates a list of generic arguments.
-        /// </summary>
-        public const char GenericArgumentsSeparator = ',';
-
-        #endregion
-
-        #region Fields
-
-        private string unresolvedGenericTypeName;
-        private string unresolvedGenericMethodName;
-        private string[] unresolvedGenericArguments;
-        private string arrayDeclaration;
-
-        #endregion
-
         #region Constructor (s) / Destructor
 
         /// <summary>
-        /// Creates a new instance of the GenericArgumentsHolder class.
+        ///     Creates a new instance of the GenericArgumentsHolder class.
         /// </summary>
         /// <param name="value">
-        /// The string value to parse looking for a generic definition
-        /// and retrieving its generic arguments.
+        ///     The string value to parse looking for a generic definition
+        ///     and retrieving its generic arguments.
         /// </param>
         public GenericArgumentsHolder(string value)
         {
@@ -122,73 +54,135 @@ namespace Spring.Core.TypeResolution
 
         #endregion
 
+        #region Constants
+
+        private static readonly Regex ClrPattern = new Regex(
+            "^"
+            + @"(?'name'\w[\w\d\.]+)"
+            + @"`\d+\s*\["
+            + @"(?'args'(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!)))"
+            + @"\]"
+            + @"(?'remainder'.*)"
+            + @"$"
+            , RegexOptions.CultureInvariant | RegexOptions.Compiled
+        );
+
+        private static readonly Regex CSharpPattern = new Regex(
+            "^"
+            + @"(?'name'\w[\w\d\.]+)"
+            + @"<"
+            + @"(?'args'.*)"
+            + @">"
+            + @"(?'remainder'.*)"
+            + @"$"
+            , RegexOptions.CultureInvariant | RegexOptions.Compiled
+        );
+
+        private static Regex GenericArgumentListPattern = new Regex(
+            @",("
+            + @"(\[(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])" // capture anything between matching brackets
+            + @"|"
+            + @"([^,\[\]]*)" // alternatively capture any string that doesn't contain brackets and commas
+            + @")+"
+        );
+
+        /// <summary>
+        ///     The generic arguments prefix.
+        /// </summary>
+        public const char GenericArgumentsQuotePrefix = '[';
+
+        /// <summary>
+        ///     The generic arguments suffix.
+        /// </summary>
+        public const char GenericArgumentsQuoteSuffix = ']';
+
+        /// <summary>
+        ///     The generic arguments prefix.
+        /// </summary>
+        public const char GenericArgumentsPrefix = '<';
+
+        /// <summary>
+        ///     The generic arguments suffix.
+        /// </summary>
+        public const char GenericArgumentsSuffix = '>';
+
+        /// <summary>
+        ///     The character that separates a list of generic arguments.
+        /// </summary>
+        public const char GenericArgumentsSeparator = ',';
+
+        #endregion
+
+        #region Fields
+
+        private string[] unresolvedGenericArguments;
+        private string arrayDeclaration;
+
+        #endregion
+
         #region Properties
 
         /// <summary>
-        /// The (unresolved) generic type name portion 
-        /// of the original value when parsing a generic type.
+        ///     The (unresolved) generic type name portion
+        ///     of the original value when parsing a generic type.
         /// </summary>
-        public string GenericTypeName
-        {
-            get { return unresolvedGenericTypeName; }
-        }
+        public string GenericTypeName { get; private set; }
 
         /// <summary>
-        /// The (unresolved) generic method name portion 
-        /// of the original value when parsing a generic method.
+        ///     The (unresolved) generic method name portion
+        ///     of the original value when parsing a generic method.
         /// </summary>
-        public string GenericMethodName
-        {
-            get { return unresolvedGenericMethodName; }
-        }
+        public string GenericMethodName { get; private set; }
 
         /// <summary>
-        /// Is the string value contains generic arguments ?
+        ///     Is the string value contains generic arguments ?
         /// </summary>
         /// <remarks>
-        /// <p>
-        /// A generic argument can be a type parameter or a type argument.
-        /// </p>
+        ///     <p>
+        ///         A generic argument can be a type parameter or a type argument.
+        ///     </p>
         /// </remarks>
         public bool ContainsGenericArguments
         {
             get
             {
-                return (unresolvedGenericArguments != null &&
-                    unresolvedGenericArguments.Length > 0);
+                return unresolvedGenericArguments != null &&
+                       unresolvedGenericArguments.Length > 0;
             }
         }
 
         /// <summary>
-        /// Is generic arguments only contains type parameters ?
+        ///     Is generic arguments only contains type parameters ?
         /// </summary>
         public bool IsGenericDefinition
         {
             get
             {
                 if (unresolvedGenericArguments == null)
+                {
                     return false;
+                }
 
                 foreach (string arg in unresolvedGenericArguments)
-                {
                     if (arg.Length > 0)
+                    {
                         return false;
-                }
+                    }
                 return true;
             }
         }
 
         /// <summary>
-        /// Returns the array declaration portion of the definition, e.g. "[,]"
+        ///     Returns the array declaration portion of the definition, e.g. "[,]"
         /// </summary>
         /// <returns></returns>
         public string GetArrayDeclaration()
         {
-            return arrayDeclaration;    
+            return arrayDeclaration;
         }
 
         /// <summary>
-        /// Is this an array type definition?
+        ///     Is this an array type definition?
         /// </summary>
         public bool IsArrayDeclaration
         {
@@ -200,22 +194,24 @@ namespace Spring.Core.TypeResolution
         #region Methods
 
         /// <summary>
-        /// Returns an array of unresolved generic arguments types.
+        ///     Returns an array of unresolved generic arguments types.
         /// </summary>
         /// <remarks>
-        /// <p>
-        /// A empty string represents a type parameter that 
-        /// did not have been substituted by a specific type.
-        /// </p>
+        ///     <p>
+        ///         A empty string represents a type parameter that
+        ///         did not have been substituted by a specific type.
+        ///     </p>
         /// </remarks>
         /// <returns>
-        /// An array of strings that represents the unresolved generic 
-        /// arguments types or an empty array if not generic.
+        ///     An array of strings that represents the unresolved generic
+        ///     arguments types or an empty array if not generic.
         /// </returns>
         public string[] GetGenericArguments()
         {
             if (unresolvedGenericArguments == null)
+            {
                 return StringUtils.EmptyStrings;
+            }
 
             return unresolvedGenericArguments;
         }
@@ -225,8 +221,8 @@ namespace Spring.Core.TypeResolution
             if (originalString.IndexOf('[') == -1 && originalString.IndexOf('<') == -1)
             {
                 // nothing to do
-                unresolvedGenericTypeName = originalString;
-                unresolvedGenericMethodName = originalString;
+                GenericTypeName = originalString;
+                GenericMethodName = originalString;
                 return;
             }
 
@@ -234,14 +230,14 @@ namespace Spring.Core.TypeResolution
 
             bool isClrStyleNotation = originalString.IndexOf('`') > -1;
 
-            Match m = (isClrStyleNotation)
-                          ? ClrPattern.Match(originalString)
-                          : CSharpPattern.Match(originalString);
+            Match m = isClrStyleNotation
+                ? ClrPattern.Match(originalString)
+                : CSharpPattern.Match(originalString);
 
             if (m == null || !m.Success)
             {
-                unresolvedGenericTypeName = originalString;
-                unresolvedGenericMethodName = originalString;
+                GenericTypeName = originalString;
+                GenericMethodName = originalString;
                 return;
             }
 
@@ -256,16 +252,15 @@ namespace Spring.Core.TypeResolution
             {
                 string[] remainderParts = StringUtils.Split(remainder, ",", false, false, "[]");
                 string arrayPart = remainderParts[0].Trim();
-                if (arrayPart[0] == '[' && arrayPart[arrayPart.Length-1] == ']')
+                if (arrayPart[0] == '[' && arrayPart[arrayPart.Length - 1] == ']')
                 {
                     arrayDeclaration = arrayPart;
                     remainder = ", " + string.Join(",", remainderParts, 1, remainderParts.Length - 1);
-                }               
+                }
             }
-            
-            unresolvedGenericMethodName = name + remainder;
-            unresolvedGenericTypeName = name + "`" + unresolvedGenericArguments.Length + remainder;
 
+            GenericMethodName = name + remainder;
+            GenericTypeName = name + "`" + unresolvedGenericArguments.Length + remainder;
 
 
             //            char lBoundary = isClrStyleNotation ? '[' : GenericArgumentsPrefix;
@@ -297,9 +292,9 @@ namespace Spring.Core.TypeResolution
 
         private static string[] ParseGenericArgumentList(string originalArgs)
         {
-            string[] args = StringUtils.Split(originalArgs, ",", true, false, "[]<>"     );
+            string[] args = StringUtils.Split(originalArgs, ",", true, false, "[]<>");
             // remove quotes if necessary
-            for(int i=0;i<args.Length;i++)
+            for (int i = 0; i < args.Length; i++)
             {
                 string arg = args[i];
                 if (arg.Length > 1 && arg[0] == '[')
@@ -356,6 +351,7 @@ namespace Spring.Core.TypeResolution
 
 //            return (string[])args.ToArray(typeof(string));
         }
+
         #endregion
     }
 }

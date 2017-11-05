@@ -24,11 +24,8 @@ namespace Spring.Objects.Factory.Parsing
 {
     public class Location
     {
-        private IResource resource;
-        private object source;
-
         /// <summary>
-        /// Initializes a new instance of the Location class.
+        ///     Initializes a new instance of the Location class.
         /// </summary>
         /// <param name="resource"></param>
         /// <param name="source"></param>
@@ -36,34 +33,21 @@ namespace Spring.Objects.Factory.Parsing
         {
             //TODO: look into re-enabling this since resource *is* NULL when parsing config classes vs. acquiring IResources
             //AssertUtils.ArgumentNotNull(resource, "resource");
-            this.resource = resource;
-            this.source = source;
+            Resource = resource;
+            Source = source;
         }
 
         /// <summary>
-        /// Initializes a new instance of the Location class.
+        ///     Initializes a new instance of the Location class.
         /// </summary>
         /// <param name="resource"></param>
         public Location(IResource resource)
             : this(resource, null)
         {
-
-        }
-        public IResource Resource
-        {
-            get
-            {
-                return resource;
-            }
-        }
-        public object Source
-        {
-            get
-            {
-                return source;
-            }
         }
 
+        public IResource Resource { get; }
 
+        public object Source { get; }
     }
 }

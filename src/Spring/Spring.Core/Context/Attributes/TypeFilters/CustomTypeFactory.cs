@@ -19,22 +19,22 @@
 #endregion
 
 using System;
-using Common.Logging;
 using Spring.Core.TypeResolution;
-using Spring.Util;
+using Spring.Logging;
 using Spring.Objects.Factory.Support;
+using Spring.Util;
 
 namespace Spring.Context.Attributes.TypeFilters
 {
     /// <summary>
-    /// Creates a new instance of a given type string
+    ///     Creates a new instance of a given type string
     /// </summary>
     public static class CustomTypeFactory
     {
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(CustomTypeFactory).FullName);
+        private static readonly ILogger Logger = LogManager.GetLogger(typeof(CustomTypeFactory).FullName);
 
         /// <summary>
-        /// Creates a new instance of given type filter type string
+        ///     Creates a new instance of given type filter type string
         /// </summary>
         /// <param name="expression">Custom type filter to create</param>
         /// <returns>An instance of ITypeFilter or NULL if no instance can be created</returns>
@@ -45,7 +45,7 @@ namespace Spring.Context.Attributes.TypeFilters
 
 
         /// <summary>
-        /// Creates a new instance of given name generator type string
+        ///     Creates a new instance of given name generator type string
         /// </summary>
         /// <param name="expression">Custom type name generator string to create</param>
         /// <returns>An instance of IObjectNameGenerator or NULL if no instance can be created</returns>
@@ -56,21 +56,24 @@ namespace Spring.Context.Attributes.TypeFilters
 
         private static object GetCustomType(string expression)
         {
-            var customTypeFilterType = LoadType(expression);
+            Type customTypeFilterType = LoadType(expression);
             if (customTypeFilterType == null)
+            {
                 return null;
+            }
 
             try
             {
-                var instance = ObjectUtils.InstantiateType(customTypeFilterType);
+                object instance = ObjectUtils.InstantiateType(customTypeFilterType);
                 return instance;
             }
             catch
             {
-                Logger.Error(string.Format("Can't instatiate {0}. Type needs to have a non arg constructor.", expression));
+                Logger.Error(string.Format("Can't instatiate {0}. Type needs to have a non arg constructor.",
+                    expression));
             }
 
-            return null;            
+            return null;
         }
 
 

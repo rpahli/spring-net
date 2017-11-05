@@ -30,33 +30,27 @@ using System.Xml;
 namespace Spring.Util
 {
     /// <summary>
-    /// Utility class for .NET configuration files management.
+    ///     Utility class for .NET configuration files management.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     public class ConfigurationUtils
     {
         /// <summary>
-        /// Avoid BeforeFieldInit pitfall
-        /// </summary>
-        static ConfigurationUtils()
-        { }
-
-        /// <summary>
-        /// Parses the configuration section.
+        ///     Parses the configuration section.
         /// </summary>
         /// <remarks>
-        /// <p>
-        /// Primary purpose of this method is to allow us to parse and 
-        /// load configuration sections using the same API regardless
-        /// of the .NET framework version.
-        /// </p>
-        /// <p>
-        /// If Microsoft paid a bit more attention to preserving backwards
-        /// compatibility we would not even need it, but... :(
-        /// </p>
+        ///     <p>
+        ///         Primary purpose of this method is to allow us to parse and
+        ///         load configuration sections using the same API regardless
+        ///         of the .NET framework version.
+        ///     </p>
+        ///     <p>
+        ///         If Microsoft paid a bit more attention to preserving backwards
+        ///         compatibility we would not even need it, but... :(
+        ///     </p>
         /// </remarks>
         /// <param name="sectionName">Name of the configuration section.</param>
-        /// <returns>Object created by a corresponding <see cref="IConfigurationSectionHandler"/>.</returns>
+        /// <returns>Object created by a corresponding <see cref="IConfigurationSectionHandler" />.</returns>
         public static object GetSection(string sectionName)
         {
             try
@@ -74,18 +68,18 @@ namespace Spring.Util
         }
 
         /// <summary>
-        /// Refresh the configuration section.
+        ///     Refresh the configuration section.
         /// </summary>
         /// <remarks>
-        /// <p>
-        /// Primary purpose of this method is to allow us to parse and 
-        /// load configuration sections using the same API regardless
-        /// of the .NET framework version.
-        /// </p>
-        /// <p>
-        /// If Microsoft paid a bit more attention to preserving backwards
-        /// compatibility we would not even need it, but... :(
-        /// </p>
+        ///     <p>
+        ///         Primary purpose of this method is to allow us to parse and
+        ///         load configuration sections using the same API regardless
+        ///         of the .NET framework version.
+        ///     </p>
+        ///     <p>
+        ///         If Microsoft paid a bit more attention to preserving backwards
+        ///         compatibility we would not even need it, but... :(
+        ///     </p>
         /// </remarks>
         /// <param name="sectionName">Name of the configuration section.</param>
         public static void RefreshSection(string sectionName)
@@ -94,7 +88,7 @@ namespace Spring.Util
         }
 
         /// <summary>
-        /// Creates the configuration exception.
+        ///     Creates the configuration exception.
         /// </summary>
         /// <param name="message">The message to display to the client when the exception is thrown.</param>
         /// <param name="inner">The inner exception.</param>
@@ -107,7 +101,7 @@ namespace Spring.Util
         }
 
         /// <summary>
-        /// Creates the configuration exception.
+        ///     Creates the configuration exception.
         /// </summary>
         /// <param name="message">The message to display to the client when the exception is thrown.</param>
         /// <param name="fileName">Name of the configuration file.</param>
@@ -119,7 +113,7 @@ namespace Spring.Util
         }
 
         /// <summary>
-        /// Creates the configuration exception.
+        ///     Creates the configuration exception.
         /// </summary>
         /// <param name="message">The message to display to the client when the exception is thrown.</param>
         /// <param name="inner">The inner exception.</param>
@@ -131,7 +125,7 @@ namespace Spring.Util
         }
 
         /// <summary>
-        /// Creates the configuration exception.
+        ///     Creates the configuration exception.
         /// </summary>
         /// <param name="message">The message to display to the client when the exception is thrown.</param>
         /// <param name="node">XML node where exception occured.</param>
@@ -142,7 +136,7 @@ namespace Spring.Util
         }
 
         /// <summary>
-        /// Creates the configuration exception.
+        ///     Creates the configuration exception.
         /// </summary>
         /// <param name="message">The message to display to the client when the exception is thrown.</param>
         /// <param name="inner">The inner exception.</param>
@@ -153,30 +147,30 @@ namespace Spring.Util
         }
 
         /// <summary>
-        /// Creates the configuration exception.
+        ///     Creates the configuration exception.
         /// </summary>
         /// <param name="message">The message to display to the client when the exception is thrown.</param>
         /// <returns>Configuration exception.</returns>
         public static Exception CreateConfigurationException(string message)
         {
-            return CreateConfigurationException(message, (Exception)null);
+            return CreateConfigurationException(message, (Exception) null);
         }
 
         /// <summary>
-        /// Creates the configuration exception.
+        ///     Creates the configuration exception.
         /// </summary>
         /// <returns>Configuration exception.</returns>
         public static Exception CreateConfigurationException()
         {
-            return CreateConfigurationException(null, (Exception)null);
+            return CreateConfigurationException(null, (Exception) null);
         }
 
         /// <summary>
-        /// Determines whether the specified exception is configuration exception.
+        ///     Determines whether the specified exception is configuration exception.
         /// </summary>
         /// <param name="exception">The exception to check.</param>
         /// <returns>
-        /// 	<c>true</c> if the specified exception is configuration exception; otherwise, <c>false</c>.
+        ///     <c>true</c> if the specified exception is configuration exception; otherwise, <c>false</c>.
         /// </returns>
         public static bool IsConfigurationException(Exception exception)
         {
@@ -184,7 +178,7 @@ namespace Spring.Util
         }
 
         /// <summary>
-        /// Returns the line number of the specified node.
+        ///     Returns the line number of the specified node.
         /// </summary>
         /// <param name="node">Node to get the line number for.</param>
         /// <returns>The line number of the specified node.</returns>
@@ -192,13 +186,13 @@ namespace Spring.Util
         {
             if (node is ITextPosition)
             {
-                return ((ITextPosition)node).LineNumber;
+                return ((ITextPosition) node).LineNumber;
             }
             return ConfigurationErrorsException.GetLineNumber(node);
         }
 
         /// <summary>
-        /// Returns the name of the file specified node is defined in.
+        ///     Returns the name of the file specified node is defined in.
         /// </summary>
         /// <param name="node">Node to get the file name for.</param>
         /// <returns>The name of the file specified node is defined in.</returns>
@@ -206,43 +200,50 @@ namespace Spring.Util
         {
             if (node is ITextPosition)
             {
-                return ((ITextPosition)node).Filename;
+                return ((ITextPosition) node).Filename;
             }
             return ConfigurationErrorsException.GetFilename(node);
         }
 
         /// <summary>
-        /// Sets the current <see cref="System.Configuration.Internal.IInternalConfigSystem"/> to be used by <see cref="ConfigurationManager"/>.
+        ///     Sets the current <see cref="System.Configuration.Internal.IInternalConfigSystem" /> to be used by
+        ///     <see cref="ConfigurationManager" />.
         /// </summary>
         /// <remarks>
-        /// íf <paramref name="configSystem"/> implements <see cref="IChainableConfigSystem"/>, this method invokes
-        /// <see cref="IChainableConfigSystem.SetInnerConfigurationSystem"/> on the new configSystem to chain them.<br/>
-        /// <b> Note, that this method requires reflection on internals of <see cref="ConfigurationManager"/></b>
+        ///     íf <paramref name="configSystem" /> implements <see cref="IChainableConfigSystem" />, this method invokes
+        ///     <see cref="IChainableConfigSystem.SetInnerConfigurationSystem" /> on the new configSystem to chain them.<br />
+        ///     <b> Note, that this method requires reflection on internals of <see cref="ConfigurationManager" /></b>
         /// </remarks>
         /// <param name="configSystem">the configuration system to set</param>
         /// <param name="enforce">bypasses the check if the current system has already been initialized</param>
         /// <returns>the previous config system, if any</returns>
-        public static System.Configuration.Internal.IInternalConfigSystem SetConfigurationSystem(System.Configuration.Internal.IInternalConfigSystem configSystem, bool enforce)
+        public static System.Configuration.Internal.IInternalConfigSystem SetConfigurationSystem(
+            System.Configuration.Internal.IInternalConfigSystem configSystem, bool enforce)
         {
-            FieldInfo s_configSystem = typeof(ConfigurationManager).GetField("s_configSystem", BindingFlags.Static | BindingFlags.NonPublic);
+            FieldInfo s_configSystem =
+                typeof(ConfigurationManager).GetField("s_configSystem", BindingFlags.Static | BindingFlags.NonPublic);
             // for MONO
             if (s_configSystem == null)
             {
-                s_configSystem = typeof(ConfigurationManager).GetField("configSystem", BindingFlags.Static | BindingFlags.NonPublic);
+                s_configSystem =
+                    typeof(ConfigurationManager).GetField("configSystem", BindingFlags.Static | BindingFlags.NonPublic);
             }
-            System.Configuration.Internal.IInternalConfigSystem innerConfigSystem = (System.Configuration.Internal.IInternalConfigSystem)s_configSystem.GetValue(null);
+            System.Configuration.Internal.IInternalConfigSystem innerConfigSystem =
+                (System.Configuration.Internal.IInternalConfigSystem) s_configSystem.GetValue(null);
             if (configSystem is IChainableConfigSystem)
             {
-                ((IChainableConfigSystem)configSystem).SetInnerConfigurationSystem(innerConfigSystem);
+                ((IChainableConfigSystem) configSystem).SetInnerConfigurationSystem(innerConfigSystem);
             }
 
             try
             {
-                MethodInfo mi = typeof(ConfigurationManager).GetMethod("SetConfigurationSystem", BindingFlags.Static | BindingFlags.NonPublic);
+                MethodInfo mi = typeof(ConfigurationManager).GetMethod("SetConfigurationSystem",
+                    BindingFlags.Static | BindingFlags.NonPublic);
                 if (mi == null)
                 {
-                    mi = typeof(ConfigurationManager).GetMethod("ChangeConfigurationSystem", BindingFlags.Static | BindingFlags.NonPublic);
-                    mi.Invoke(null, new object[] { configSystem });
+                    mi = typeof(ConfigurationManager).GetMethod("ChangeConfigurationSystem",
+                        BindingFlags.Static | BindingFlags.NonPublic);
+                    mi.Invoke(null, new object[] {configSystem});
                 }
                 else
                 {
@@ -250,7 +251,7 @@ namespace Spring.Util
                     {
                         ResetConfigurationSystem();
                     }
-                    mi.Invoke(null, new object[] { configSystem, true });
+                    mi.Invoke(null, new object[] {configSystem, true});
                 }
             }
             catch (InvalidOperationException)
@@ -266,7 +267,7 @@ namespace Spring.Util
         }
 
         /// <summary>
-        /// Resets the global configuration system instance. Use for unit testing only!
+        ///     Resets the global configuration system instance. Use for unit testing only!
         /// </summary>
         public static void ResetConfigurationSystem()
         {
@@ -274,10 +275,12 @@ namespace Spring.Util
             {
                 return;
             }
-            FieldInfo initStateRef = typeof(ConfigurationManager).GetField("s_initState", BindingFlags.NonPublic | BindingFlags.Static);
+            FieldInfo initStateRef =
+                typeof(ConfigurationManager).GetField("s_initState", BindingFlags.NonPublic | BindingFlags.Static);
             object notStarted = Activator.CreateInstance(initStateRef.FieldType);
             initStateRef.SetValue(null, notStarted);
         }
+
         //        private static T CreateDelegate<T>(MethodInfo method)
         //        {
         //            return (T)(object)Delegate.CreateDelegate(typeof(T), method);
@@ -288,6 +291,5 @@ namespace Spring.Util
         //        private static SetConfigurationSystemHandler setConfigurationSystem =
         //            CreateDelegate<SetConfigurationSystemHandler>(typeof(ConfigurationManager).GetMethod("SetConfigurationSystem"
         //                                                         , BindingFlags.Static | BindingFlags.NonPublic));
-
     }
 }

@@ -29,27 +29,27 @@ using Spring.Core.TypeResolution;
 namespace Spring.Objects.Factory.Config
 {
     /// <summary>
-    /// <see cref="Spring.Objects.Factory.Config.IObjectFactoryPostProcessor"/>
-    /// implementation that allows for convenient registration of custom
-    /// type aliases.
+    ///     <see cref="Spring.Objects.Factory.Config.IObjectFactoryPostProcessor" />
+    ///     implementation that allows for convenient registration of custom
+    ///     type aliases.
     /// </summary>
     /// <remarks>
-    /// Type aliases can be used instead of fully qualified type names anywhere
-    /// a type name is expected in a Spring.NET configuration file.
-    /// <p>
-    /// Because the <see cref="Spring.Objects.Factory.Config.TypeAliasConfigurer"/>
-    /// class implements the
-    /// <see cref="Spring.Objects.Factory.Config.IObjectFactoryPostProcessor"/>
-    /// interface, instances of this class that have been exposed in the
-    /// scope of an
-    /// <see cref="Spring.Context.IApplicationContext"/> will
-    /// <i>automatically</i> be picked up by the application context and made
-    /// available to the IoC container whenever resolution of type aliases is required. 
-    /// </p>
+    ///     Type aliases can be used instead of fully qualified type names anywhere
+    ///     a type name is expected in a Spring.NET configuration file.
+    ///     <p>
+    ///         Because the <see cref="Spring.Objects.Factory.Config.TypeAliasConfigurer" />
+    ///         class implements the
+    ///         <see cref="Spring.Objects.Factory.Config.IObjectFactoryPostProcessor" />
+    ///         interface, instances of this class that have been exposed in the
+    ///         scope of an
+    ///         <see cref="Spring.Context.IApplicationContext" /> will
+    ///         <i>automatically</i> be picked up by the application context and made
+    ///         available to the IoC container whenever resolution of type aliases is required.
+    ///     </p>
     /// </remarks>
     /// <author>Mark Pollack</author>
-    /// <seealso cref="Spring.Objects.Factory.Config.IObjectFactoryPostProcessor"/>
-    /// <seealso cref="Spring.Context.IApplicationContext"/>	
+    /// <seealso cref="Spring.Objects.Factory.Config.IObjectFactoryPostProcessor" />
+    /// <seealso cref="Spring.Context.IApplicationContext" />
     [Serializable]
     public class TypeAliasConfigurer : AbstractConfigurer
     {
@@ -57,18 +57,18 @@ namespace Spring.Objects.Factory.Config
 
 
         /// <summary>
-        /// The type aliases to register.
+        ///     The type aliases to register.
         /// </summary>
         /// <remarks>
-        /// <p>
-        /// The <see cref="System.Collections.IDictionary"/> has the
-        /// contains the alias name as the key and type as the value.
-        /// The key name can either be a string or an object, in which case
-        /// ToString() will be used to obtain the string name.
-        /// the value can be the fully qualified name of the type as a string or
-        /// an actual <see cref="System.Type"/> of the class that 
-        /// being aliased.
-        /// </p>
+        ///     <p>
+        ///         The <see cref="System.Collections.IDictionary" /> has the
+        ///         contains the alias name as the key and type as the value.
+        ///         The key name can either be a string or an object, in which case
+        ///         ToString() will be used to obtain the string name.
+        ///         the value can be the fully qualified name of the type as a string or
+        ///         an actual <see cref="System.Type" /> of the class that
+        ///         being aliased.
+        ///     </p>
         /// </remarks>
         public IDictionary TypeAliases
         {
@@ -76,15 +76,15 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        /// Registers any type aliases.  The supplied
-        /// <paramref name="factory"/> is not used since type aliases
-        /// are registered with a global <see cref="TypeRegistry"/>
+        ///     Registers any type aliases.  The supplied
+        ///     <paramref name="factory" /> is not used since type aliases
+        ///     are registered with a global <see cref="TypeRegistry" />
         /// </summary>
         /// <param name="factory">
-        /// The object factory.
+        ///     The object factory.
         /// </param>
         /// <exception cref="Spring.Objects.ObjectsException">
-        /// In case of errors.
+        ///     In case of errors.
         /// </exception>
         public override void PostProcessObjectFactory(
             IConfigurableListableObjectFactory factory)
@@ -99,7 +99,5 @@ namespace Spring.Objects.Factory.Config
                 }
             }
         }
-
-
     }
 }

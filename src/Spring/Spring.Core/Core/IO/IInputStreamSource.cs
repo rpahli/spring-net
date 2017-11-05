@@ -26,41 +26,38 @@ using System.IO;
 
 namespace Spring.Core.IO
 {
-	/// <summary>
-    /// Simple interface for objects that are sources for
-    /// <see cref="System.IO.Stream"/>s.
-	/// </summary>
-	/// <remarks>
-	/// <p>
-    /// This is the base interface for the abstraction encapsulated by
-    /// Spring.NET's <see cref="Spring.Core.IO.IResource"/> interface.
-	/// </p>
+    /// <summary>
+    ///     Simple interface for objects that are sources for
+    ///     <see cref="System.IO.Stream" />s.
+    /// </summary>
+    /// <remarks>
+    ///     <p>
+    ///         This is the base interface for the abstraction encapsulated by
+    ///         Spring.NET's <see cref="Spring.Core.IO.IResource" /> interface.
+    ///     </p>
     /// </remarks>
     /// <author>Juergen Hoeller</author>
     /// <author>Rick Evans (.NET)</author>
-    /// <seealso cref="Spring.Core.IO.IResource"/>
-	public interface IInputStreamSource 
+    /// <seealso cref="Spring.Core.IO.IResource" />
+    public interface IInputStreamSource
     {
         /// <summary>
-        /// Return an <see cref="System.IO.Stream"/> for this resource.
+        ///     Return an <see cref="System.IO.Stream" /> for this resource.
         /// </summary>
         /// <remarks>
-        /// <note type="caution">
-        /// Clients of this interface must be aware that every access of this
-        /// property will create a <i>fresh</i> <see cref="System.IO.Stream"/>;
-        /// it is the responsibility of the calling code to close any such
-        /// <see cref="System.IO.Stream"/>.
-        /// </note>
+        ///     <note type="caution">
+        ///         Clients of this interface must be aware that every access of this
+        ///         property will create a <i>fresh</i> <see cref="System.IO.Stream" />;
+        ///         it is the responsibility of the calling code to close any such
+        ///         <see cref="System.IO.Stream" />.
+        ///     </note>
         /// </remarks>
         /// <value>
-        /// An <see cref="System.IO.Stream"/>.
+        ///     An <see cref="System.IO.Stream" />.
         /// </value>
         /// <exception cref="System.IO.IOException">
-        /// If the stream could not be opened.
+        ///     If the stream could not be opened.
         /// </exception>
-        Stream InputStream
-        {
-            get;
-        }
-	}
+        Stream InputStream { get; }
+    }
 }

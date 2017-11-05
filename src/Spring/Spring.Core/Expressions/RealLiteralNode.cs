@@ -25,7 +25,7 @@ using System.Runtime.Serialization;
 namespace Spring.Expressions
 {
     /// <summary>
-    /// Represents parsed real literal node.
+    ///     Represents parsed real literal node.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
@@ -34,22 +34,22 @@ namespace Spring.Expressions
         private object nodeValue;
 
         /// <summary>
-        /// Create a new instance
+        ///     Create a new instance
         /// </summary>
-        public RealLiteralNode():base()
+        public RealLiteralNode()
         {
         }
 
         /// <summary>
-        /// Create a new instance from SerializationInfo
+        ///     Create a new instance from SerializationInfo
         /// </summary>
         protected RealLiteralNode(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-        
+
         /// <summary>
-        /// Returns a value for the real literal node.
+        ///     Returns a value for the real literal node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
@@ -62,26 +62,26 @@ namespace Spring.Expressions
                 {
                     if (nodeValue == null)
                     {
-                        string n = this.getText();
+                        string n = getText();
                         char lastChar = n.ToLower()[n.Length - 1];
-                        if (Char.IsDigit(lastChar))
+                        if (char.IsDigit(lastChar))
                         {
-                            nodeValue = Double.Parse(n, NumberFormatInfo.InvariantInfo);
+                            nodeValue = double.Parse(n, NumberFormatInfo.InvariantInfo);
                         }
                         else
                         {
                             n = n.Substring(0, n.Length - 1);
                             if (lastChar == 'm')
                             {
-                                nodeValue = Decimal.Parse(n, NumberFormatInfo.InvariantInfo);
+                                nodeValue = decimal.Parse(n, NumberFormatInfo.InvariantInfo);
                             }
                             else if (lastChar == 'f')
                             {
-                                nodeValue = Single.Parse(n, NumberFormatInfo.InvariantInfo);
+                                nodeValue = float.Parse(n, NumberFormatInfo.InvariantInfo);
                             }
                             else
                             {
-                                nodeValue = Double.Parse(n, NumberFormatInfo.InvariantInfo);
+                                nodeValue = double.Parse(n, NumberFormatInfo.InvariantInfo);
                             }
                         }
                     }

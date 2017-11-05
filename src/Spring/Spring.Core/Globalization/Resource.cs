@@ -19,48 +19,38 @@
 #endregion
 
 using System;
-
 using Spring.Expressions;
 
 namespace Spring.Globalization
 {
-	/// <summary>
-	/// Holds mapping between control property and it's value 
-	/// as read from the resource file.
-	/// </summary>
+    /// <summary>
+    ///     Holds mapping between control property and it's value
+    ///     as read from the resource file.
+    /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class Resource
     {
-        private IExpression target;
-        private object resourceValue;
-
         /// <summary>
-        /// Creates instance of resource mapper.
+        ///     Creates instance of resource mapper.
         /// </summary>
         /// <param name="target">Target property.</param>
         /// <param name="resourceValue">Resource value.</param>
         public Resource(IExpression target, object resourceValue)
         {
-            this.target = target;
-            this.resourceValue = resourceValue;
+            Target = target;
+            Value = resourceValue;
         }
 
         /// <summary>
-        /// Gets parsed target property expression. See <see cref="Spring.Expressions.IExpression"/>
-        /// for more information on object navigation expressions.
+        ///     Gets parsed target property expression. See <see cref="Spring.Expressions.IExpression" />
+        ///     for more information on object navigation expressions.
         /// </summary>
-        public IExpression Target
-        {
-            get { return target; }
-        }
+        public IExpression Target { get; }
 
         /// <summary>
-        /// Value of the resource that target property should be set to.
+        ///     Value of the resource that target property should be set to.
         /// </summary>
-        public object Value
-        {
-            get { return resourceValue; }
-        }
+        public object Value { get; }
     }
 }

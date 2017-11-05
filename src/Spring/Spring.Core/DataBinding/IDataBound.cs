@@ -21,14 +21,14 @@
 namespace Spring.DataBinding
 {
     /// <summary>
-    /// Interface that should be implemented by data bound objects, such as 
-    /// web pages, user controls, windows forms, etc.
+    ///     Interface that should be implemented by data bound objects, such as
+    ///     web pages, user controls, windows forms, etc.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     public interface IDataBound
     {
         /// <summary>
-        /// Gets the binding manager.
+        ///     Gets the binding manager.
         /// </summary>
         /// <value>The binding manager.</value>
         IBindingContainer BindingManager { get; }

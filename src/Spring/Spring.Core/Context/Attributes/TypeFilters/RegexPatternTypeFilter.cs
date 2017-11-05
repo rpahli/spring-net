@@ -24,15 +24,15 @@ using System.Text.RegularExpressions;
 namespace Spring.Context.Attributes.TypeFilters
 {
     /// <summary>
-    /// A simple filter for matching a fully-qualified class name with a regex
+    ///     A simple filter for matching a fully-qualified class name with a regex
     /// </summary>
     public class RegexPatternTypeFilter : ITypeFilter
     {
-        private string _pattern;
+        private readonly string _pattern;
 
 
         /// <summary>
-        /// Creates a type filter with provided pattern
+        ///     Creates a type filter with provided pattern
         /// </summary>
         /// <param name="pattern">Regex pattern</param>
         public RegexPatternTypeFilter(string pattern)
@@ -41,7 +41,7 @@ namespace Spring.Context.Attributes.TypeFilters
         }
 
         /// <summary>
-        /// Determine a match based on the given type object.
+        ///     Determine a match based on the given type object.
         /// </summary>
         /// <param name="type">Type to compare against</param>
         /// <returns>true if there is a match; false is there is no match</returns>
@@ -49,12 +49,12 @@ namespace Spring.Context.Attributes.TypeFilters
         {
             return Regex.IsMatch(type.FullName, _pattern);
         }
-        
+
         /// <summary>
-        /// Returns a string that represents the current object.
+        ///     Returns a string that represents the current object.
         /// </summary>
         /// <returns>
-        /// A string that represents the current object.
+        ///     A string that represents the current object.
         /// </returns>
         /// <filterpriority>2</filterpriority>
         public override string ToString()

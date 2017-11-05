@@ -22,27 +22,26 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Util;
 
 namespace Spring.Context.Attributes
 {
     /// <summary>
-    /// Represents a collection of Types.
+    ///     Represents a collection of Types.
     /// </summary>
     [Serializable]
     public class AssemblyTypeSource : IEnumerable<Type>
     {
         /// <summary>
-        /// Logger Instance.
+        ///     Logger Instance.
         /// </summary>
-        protected static readonly ILog Logger = LogManager.GetLogger<AssemblyTypeSource>();
+        protected static readonly ILogger Logger = LogManager.GetLogger<AssemblyTypeSource>();
 
-        private readonly _Assembly _assembly;
+        private readonly Assembly _assembly;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AssemblyTypeSource"/> class.
+        ///     Initializes a new instance of the <see cref="AssemblyTypeSource" /> class.
         /// </summary>
         /// <param name="assembly">The assembly.</param>
         public AssemblyTypeSource(Assembly assembly)
@@ -54,12 +53,12 @@ namespace Spring.Context.Attributes
         #region IEnumerable<Type> Members
 
         /// <summary>
-        /// Gets the enumerator.
+        ///     Gets the enumerator.
         /// </summary>
         /// <returns></returns>
         public IEnumerator<Type> GetEnumerator()
         {
-            Type[] types = new Type[]{};
+            Type[] types = { };
             try
             {
                 types = _assembly.GetTypes();
@@ -67,12 +66,12 @@ namespace Spring.Context.Attributes
             catch (ReflectionTypeLoadException ex)
             {
                 //log and swallow everything that might go wrong here...
-                Logger.Debug(m => m("Failed to get types " +  ex.LoaderExceptions), ex);
+                Logger.Debug($"Failed to get types {ex.LoaderExceptions}", ex);
             }
             catch (Exception ex)
             {
                 //log and swallow everything that might go wrong here...
-                Logger.Debug(m => m("Failed to get types "), ex);
+                Logger.Debug("Failed to get types. ", ex);
             }
 
 

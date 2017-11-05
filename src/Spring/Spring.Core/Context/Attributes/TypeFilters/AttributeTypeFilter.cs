@@ -22,16 +22,14 @@ using System;
 
 namespace Spring.Context.Attributes.TypeFilters
 {
-
     /// <summary>
-    /// A simple filter which matches classes with a given attribute,
-    /// checking inherited annotations as well.
+    ///     A simple filter which matches classes with a given attribute,
+    ///     checking inherited annotations as well.
     /// </summary>
     public class AttributeTypeFilter : AbstractLoadTypeFilter
     {
-
         /// <summary>
-        /// Creates a Type Filter with required type attribute
+        ///     Creates a Type Filter with required type attribute
         /// </summary>
         /// <param name="expression"></param>
         public AttributeTypeFilter(string expression)
@@ -40,29 +38,30 @@ namespace Spring.Context.Attributes.TypeFilters
         }
 
         /// <summary>
-        /// Determine a match based on the given type object.
+        ///     Determine a match based on the given type object.
         /// </summary>
         /// <param name="type">Type to compare against</param>
         /// <returns>true if there is a match; false is there is no match</returns>
         public override bool Match(Type type)
         {
             if (RequiredType == null)
+            {
                 return false;
+            }
 
-            return (Attribute.GetCustomAttribute(type, RequiredType) != null);
+            return Attribute.GetCustomAttribute(type, RequiredType) != null;
         }
 
         /// <summary>
-        /// Returns a string that represents the current object.
+        ///     Returns a string that represents the current object.
         /// </summary>
         /// <returns>
-        /// A string that represents the current object.
+        ///     A string that represents the current object.
         /// </returns>
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
             return string.Format("Required Type: {0}", RequiredType != null ? RequiredType.FullName : "");
         }
-
     }
 }

@@ -23,17 +23,17 @@ using System;
 namespace Spring.Objects.Factory.Attributes
 {
     /// <summary>
-    /// Marks a property as being 'required': that is, the setter property 
-    /// must be configured to be dependency-injected with a value.
+    ///     Marks a property as being 'required': that is, the setter property
+    ///     must be configured to be dependency-injected with a value.
     /// </summary>
-    /// <remarks>Consult the SDK documentation for <see cref="RequiredAttributeObjectPostProcessor"/>, 
-    /// which, by default, checks for the presence of this annotation.
+    /// <remarks>
+    ///     Consult the SDK documentation for <see cref="RequiredAttributeObjectPostProcessor" />,
+    ///     which, by default, checks for the presence of this annotation.
     /// </remarks>
     /// <author>Rob Harrop</author>
     /// <author>Mark Pollack</author>
-    [AttributeUsage(AttributeTargets.Property, Inherited = true)]    
+    [AttributeUsage(AttributeTargets.Property)]
     public class RequiredAttribute : Attribute
     {
-        
     }
 }

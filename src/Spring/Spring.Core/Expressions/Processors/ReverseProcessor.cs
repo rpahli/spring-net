@@ -27,22 +27,22 @@ using System.Collections;
 namespace Spring.Expressions.Processors
 {
     /// <summary>
-    /// Reverts order of elements in the list
+    ///     Reverts order of elements in the list
     /// </summary>
     /// <author>Erich Eichinger</author>
     public class ReverseProcessor : ICollectionProcessor
     {
         /// <summary>
-        /// Processes a list of source items and returns a result.
+        ///     Processes a list of source items and returns a result.
         /// </summary>
         /// <param name="source">
-        /// The source list to process.
+        ///     The source list to process.
         /// </param>
         /// <param name="args">
-        /// An optional processor arguments array.
+        ///     An optional processor arguments array.
         /// </param>
         /// <returns>
-        /// The processing result.
+        ///     The processing result.
         /// </returns>
         public object Process(ICollection source, object[] args)
         {
@@ -54,7 +54,7 @@ namespace Spring.Expressions.Processors
             ArrayList list = new ArrayList(source);
             list.Reverse();
 
-            return list;            
+            return list;
         }
     }
 }

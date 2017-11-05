@@ -25,21 +25,21 @@ using Spring.Util;
 namespace Spring.Expressions
 {
     /// <summary>
-    /// Represents unary plus operator.
+    ///     Represents unary plus operator.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class OpUnaryPlus : UnaryOperator
     {
         /// <summary>
-        /// Create a new instance
+        ///     Create a new instance
         /// </summary>
-        public OpUnaryPlus():base()
+        public OpUnaryPlus()
         {
         }
 
         /// <summary>
-        /// Create a new instance from SerializationInfo
+        ///     Create a new instance from SerializationInfo
         /// </summary>
         protected OpUnaryPlus(SerializationInfo info, StreamingContext context)
             : base(info, context)
@@ -47,7 +47,7 @@ namespace Spring.Expressions
         }
 
         /// <summary>
-        /// Returns a value for the unary plus operator node.
+        ///     Returns a value for the unary plus operator node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>

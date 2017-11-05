@@ -25,36 +25,36 @@ using System.Text.RegularExpressions;
 namespace Spring.Expressions
 {
     /// <summary>
-    /// Represents logical MATCHES operator.
+    ///     Represents logical MATCHES operator.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class OpMatches : BinaryOperator
     {
         private Regex regex;
-        
+
         /// <summary>
-        /// Create a new instance
+        ///     Create a new instance
         /// </summary>
-        public OpMatches():base()
+        public OpMatches()
         {
         }
 
         /// <summary>
-        /// Create a new instance from SerializationInfo
+        ///     Create a new instance from SerializationInfo
         /// </summary>
         protected OpMatches(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-        
+
         /// <summary>
-        /// Returns a value for the logical MATCHES operator node.
+        ///     Returns a value for the logical MATCHES operator node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
         /// <returns>
-        /// true if the left operand matches the right operand, false otherwise.
+        ///     true if the left operand matches the right operand, false otherwise.
         /// </returns>
         protected override object Get(object context, EvaluationContext evalContext)
         {
@@ -64,13 +64,13 @@ namespace Spring.Expressions
                 {
                     if (regex == null)
                     {
-                        string pattern = GetRightValue( context, evalContext ) as string;
+                        string pattern = GetRightValue(context, evalContext) as string;
                         regex = new Regex(pattern, RegexOptions.Compiled);
                     }
                 }
             }
 
-            string text = GetLeftValue( context, evalContext ) as string;
+            string text = GetLeftValue(context, evalContext) as string;
             return regex.IsMatch(text);
         }
     }

@@ -20,22 +20,20 @@
 
 #region Imports
 
-
-
 #endregion
 
 namespace Spring.Objects.Factory.Config
 {
     /// <summary>
-    /// Extension of the <see cref="Spring.Objects.Factory.IFactoryObject"/> interface 
-    /// that injects dependencies into the object managed by the factory.
+    ///     Extension of the <see cref="Spring.Objects.Factory.IFactoryObject" /> interface
+    ///     that injects dependencies into the object managed by the factory.
     /// </summary>
     /// <author>Bruno Baia</author>
     public interface IConfigurableFactoryObject : IFactoryObject
     {
         /// <summary>
-        /// Gets the template object definition that should be used 
-        /// to configure the instance of the object managed by this factory.
+        ///     Gets the template object definition that should be used
+        ///     to configure the instance of the object managed by this factory.
         /// </summary>
         IObjectDefinition ProductTemplate { get; }
     }

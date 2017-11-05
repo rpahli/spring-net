@@ -20,8 +20,8 @@
 
 #region Imports
 
-using System.Xml;
 using System.IO;
+using System.Xml;
 using System.Xml.Schema;
 
 #endregion
@@ -29,38 +29,40 @@ using System.Xml.Schema;
 namespace Spring.Util
 {
     /// <summary>
-    /// XML utility methods.
+    ///     XML utility methods.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     public class XmlUtils
     {
         /// <summary>
-        /// Gets an appropriate <see cref="System.Xml.XmlReader"/> implementation
-        /// for the supplied <see cref="System.IO.Stream"/>.
+        ///     Gets an appropriate <see cref="System.Xml.XmlReader" /> implementation
+        ///     for the supplied <see cref="System.IO.Stream" />.
         /// </summary>
-        /// <param name="stream">The XML <see cref="System.IO.Stream"/> that is going to be read.</param>
+        /// <param name="stream">The XML <see cref="System.IO.Stream" /> that is going to be read.</param>
         /// <param name="schemas">XML schemas that should be used for validation.</param>
         /// <param name="eventHandler">Validation event handler.</param>
         /// <returns>
-        /// A validating <see cref="System.Xml.XmlReader"/> implementation.
+        ///     A validating <see cref="System.Xml.XmlReader" /> implementation.
         /// </returns>
-        public static XmlReader CreateValidatingReader(Stream stream, XmlSchemaSet schemas, ValidationEventHandler eventHandler)
+        public static XmlReader CreateValidatingReader(Stream stream, XmlSchemaSet schemas,
+            ValidationEventHandler eventHandler)
         {
             return CreateValidatingReader(stream, new XmlUrlResolver(), schemas, eventHandler);
         }
 
         /// <summary>
-        /// Gets an appropriate <see cref="System.Xml.XmlReader"/> implementation
-        /// for the supplied <see cref="System.IO.Stream"/>.
+        ///     Gets an appropriate <see cref="System.Xml.XmlReader" /> implementation
+        ///     for the supplied <see cref="System.IO.Stream" />.
         /// </summary>
-        /// <param name="stream">The XML <see cref="System.IO.Stream"/> that is going to be read.</param>
-        /// <param name="xmlResolver"><see cref="XmlResolver"/> to be used for resolving external references</param>
+        /// <param name="stream">The XML <see cref="System.IO.Stream" /> that is going to be read.</param>
+        /// <param name="xmlResolver"><see cref="XmlResolver" /> to be used for resolving external references</param>
         /// <param name="schemas">XML schemas that should be used for validation.</param>
         /// <param name="eventHandler">Validation event handler.</param>
         /// <returns>
-        /// A validating <see cref="System.Xml.XmlReader"/> implementation.
+        ///     A validating <see cref="System.Xml.XmlReader" /> implementation.
         /// </returns>
-        public static XmlReader CreateValidatingReader(Stream stream, XmlResolver xmlResolver, XmlSchemaSet schemas, ValidationEventHandler eventHandler)
+        public static XmlReader CreateValidatingReader(Stream stream, XmlResolver xmlResolver, XmlSchemaSet schemas,
+            ValidationEventHandler eventHandler)
         {
             lock (typeof(XmlUtils))
             {
@@ -83,12 +85,12 @@ namespace Spring.Util
         }
 
         /// <summary>
-        /// Gets an appropriate <see cref="System.Xml.XmlReader"/> implementation 
-        /// for the supplied <see cref="System.IO.Stream"/>.
+        ///     Gets an appropriate <see cref="System.Xml.XmlReader" /> implementation
+        ///     for the supplied <see cref="System.IO.Stream" />.
         /// </summary>
-        /// <param name="stream">The XML <see cref="System.IO.Stream"/> that is going to be read.</param>
+        /// <param name="stream">The XML <see cref="System.IO.Stream" /> that is going to be read.</param>
         /// <returns>
-        /// A non-validating <see cref="System.Xml.XmlReader"/> implementation.
+        ///     A non-validating <see cref="System.Xml.XmlReader" /> implementation.
         /// </returns>
         public static XmlReader CreateReader(Stream stream)
         {

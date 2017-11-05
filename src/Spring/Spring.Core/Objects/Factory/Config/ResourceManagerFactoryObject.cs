@@ -24,7 +24,6 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Resources;
-
 using Spring.Util;
 
 #endregion
@@ -32,42 +31,42 @@ using Spring.Util;
 namespace Spring.Objects.Factory.Config
 {
     /// <summary>
-    /// A convenience class to create a
-    /// <see cref="System.Resources.ResourceManager"/> given the resource base
-    /// name and assembly name.
+    ///     A convenience class to create a
+    ///     <see cref="System.Resources.ResourceManager" /> given the resource base
+    ///     name and assembly name.
     /// </summary>
     /// <remarks>
-    /// <p>
-    /// This is currently the preferred way of injecting resources into view
-    /// tier components (such as Windows Forms GUIs and ASP.NET ASPX pages).
-    /// A GUI component (typically a Windows Form) is injected with
-    /// an <see cref="System.Resources.ResourceManager"/> instance, and can
-    /// then proceed to use the various <c>GetXxx()</c> methods on the
-    /// <see cref="System.Resources.ResourceManager"/> to retrieve images,
-    /// strings, custom resources, etc.
-    /// </p>
+    ///     <p>
+    ///         This is currently the preferred way of injecting resources into view
+    ///         tier components (such as Windows Forms GUIs and ASP.NET ASPX pages).
+    ///         A GUI component (typically a Windows Form) is injected with
+    ///         an <see cref="System.Resources.ResourceManager" /> instance, and can
+    ///         then proceed to use the various <c>GetXxx()</c> methods on the
+    ///         <see cref="System.Resources.ResourceManager" /> to retrieve images,
+    ///         strings, custom resources, etc.
+    ///     </p>
     /// </remarks>
     /// <author>Mark Pollack</author>
-    /// <seealso cref="Spring.Objects.Factory.Config.AbstractFactoryObject.GetObject"/>
-    /// <seealso cref="Spring.Objects.Factory.Config.AbstractFactoryObject.CreateInstance"/>
-    /// <seealso cref="System.Resources.ResourceManager"/>
+    /// <seealso cref="Spring.Objects.Factory.Config.AbstractFactoryObject.GetObject" />
+    /// <seealso cref="Spring.Objects.Factory.Config.AbstractFactoryObject.CreateInstance" />
+    /// <seealso cref="System.Resources.ResourceManager" />
     [Serializable]
     public class ResourceManagerFactoryObject : AbstractFactoryObject
     {
-        private string _baseName;
         private string _assemblyName;
+        private string _baseName;
 
         /// <summary>
-        /// The root name of the resources.
+        ///     The root name of the resources.
         /// </summary>
         /// <remarks>
-        /// <p>
-        /// For example, the root name for the resource file named
-        /// "MyResource.en-US.resources" is "MyResource".
-        /// </p>
-        /// <note>
-        /// The namespace is also prefixed before the resource file name.
-        /// </note>
+        ///     <p>
+        ///         For example, the root name for the resource file named
+        ///         "MyResource.en-US.resources" is "MyResource".
+        ///     </p>
+        ///     <note>
+        ///         The namespace is also prefixed before the resource file name.
+        ///     </note>
         /// </remarks>
         public string BaseName
         {
@@ -76,7 +75,7 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        /// The string representation of the assembly that contains the resource.
+        ///     The string representation of the assembly that contains the resource.
         /// </summary>
         public string AssemblyName
         {
@@ -85,7 +84,7 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        /// The <see cref="System.Resources.ResourceManager"/> <see cref="System.Type"/>.
+        ///     The <see cref="System.Resources.ResourceManager" /> <see cref="System.Type" />.
         /// </summary>
         public override Type ObjectType
         {
@@ -93,14 +92,14 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        /// Creates a <see cref="System.Resources.ResourceManager"/>.
+        ///     Creates a <see cref="System.Resources.ResourceManager" />.
         /// </summary>
         /// <exception cref="System.Exception">
-        /// If an exception occured during object creation.
+        ///     If an exception occured during object creation.
         /// </exception>
         /// <returns>The object returned by this factory.</returns>
-        /// <seealso cref="Spring.Objects.Factory.Config.AbstractFactoryObject.GetObject"/>
-        /// <seealso cref="Spring.Objects.Factory.Config.AbstractFactoryObject.CreateInstance"/>
+        /// <seealso cref="Spring.Objects.Factory.Config.AbstractFactoryObject.GetObject" />
+        /// <seealso cref="Spring.Objects.Factory.Config.AbstractFactoryObject.CreateInstance" />
         protected override object CreateInstance()
         {
             Assembly assembly;
@@ -122,18 +121,18 @@ namespace Spring.Objects.Factory.Config
         }
 
         /// <summary>
-        /// Invoked by an <see cref="Spring.Objects.Factory.IObjectFactory"/>
-        /// after it has set all object properties supplied
-        /// (and satisfied the
-        /// <see cref="Spring.Objects.Factory.IObjectFactoryAware"/>
-        /// and <see cref="Spring.Context.IApplicationContextAware"/>
-        /// interfaces).
+        ///     Invoked by an <see cref="Spring.Objects.Factory.IObjectFactory" />
+        ///     after it has set all object properties supplied
+        ///     (and satisfied the
+        ///     <see cref="Spring.Objects.Factory.IObjectFactoryAware" />
+        ///     and <see cref="Spring.Context.IApplicationContextAware" />
+        ///     interfaces).
         /// </summary>
         /// <exception cref="System.Exception">
-        /// In the event of misconfiguration (such as failure to set an essential
-        /// property) or if initialization fails.
+        ///     In the event of misconfiguration (such as failure to set an essential
+        ///     property) or if initialization fails.
         /// </exception>
-        /// <seealso cref="Spring.Objects.Factory.IInitializingObject.AfterPropertiesSet"/>
+        /// <seealso cref="Spring.Objects.Factory.IInitializingObject.AfterPropertiesSet" />
         public override void AfterPropertiesSet()
         {
             if (StringUtils.IsNullOrEmpty(BaseName))

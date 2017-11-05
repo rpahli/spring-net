@@ -22,9 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Xml;
-
-using Common.Logging;
-
+using Spring.Logging;
 using Spring.Objects.Factory.Config;
 using Spring.Objects.Factory.Support;
 using Spring.Util;
@@ -32,51 +30,39 @@ using Spring.Util;
 namespace Spring.Objects.Factory.Xml
 {
     /// <summary>
-    /// Stateful class used to parse XML object definitions.
+    ///     Stateful class used to parse XML object definitions.
     /// </summary>
-    /// <remarks>Not all parsing code has been refactored into this class. See 
-    /// BeanDefinitionParserDelegate in Java for how this class should evolve.</remarks>
+    /// <remarks>
+    ///     Not all parsing code has been refactored into this class. See
+    ///     BeanDefinitionParserDelegate in Java for how this class should evolve.
+    /// </remarks>
     /// <author>Rob Harrop</author>
     /// <author>Juergen Hoeller</author>
     /// <author>Rod Johnson</author>
     /// <author>Mark Pollack (.NET)</author>
     public class ObjectDefinitionParserHelper
     {
-        #region Fields
-
         /// <summary>
-        /// The shared <see cref="Common.Logging.ILog"/> instance for this class (and derived classes).
-        /// </summary>
-        protected readonly ILog log;
-
-        private DocumentDefaultsDefinition defaults;
-
-        private readonly XmlReaderContext readerContext;
-
-        private readonly ObjectsNamespaceParser objectsNamespaceParser;
-
-        private readonly HashSet<string> usedNames = new HashSet<string>();
-
-        #endregion
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ObjectDefinitionParserHelper"/> class.
+        ///     Initializes a new instance of the <see cref="ObjectDefinitionParserHelper" /> class.
         /// </summary>
         /// <param name="readerContext">The reader context.</param>
         public ObjectDefinitionParserHelper(XmlReaderContext readerContext)
-            :this(readerContext, null)
-        {}
+            : this(readerContext, null)
+        {
+        }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ObjectDefinitionParserHelper"/> class.
+        ///     Initializes a new instance of the <see cref="ObjectDefinitionParserHelper" /> class.
         /// </summary>
         /// <param name="readerContext">The reader context.</param>
         /// <param name="root">The root element of the definition document to parse</param>
         public ObjectDefinitionParserHelper(XmlReaderContext readerContext, XmlElement root)
         {
-            log = LogManager.GetLogger(this.GetType());
-            this.readerContext = readerContext;
-            this.objectsNamespaceParser = (ObjectsNamespaceParser) readerContext.NamespaceParserResolver.Resolve(ObjectsNamespaceParser.Namespace);
+            log = LogManager.GetLogger(GetType());
+            ReaderContext = readerContext;
+            objectsNamespaceParser =
+                (ObjectsNamespaceParser) readerContext.NamespaceParserResolver.Resolve(ObjectsNamespaceParser
+                    .Namespace);
             if (root != null)
             {
                 InitDefaults(root);
@@ -84,32 +70,27 @@ namespace Spring.Objects.Factory.Xml
         }
 
         /// <summary>
-        /// Gets the defaults definition object, or <code>null</code> if the 
-        /// default have not yet been initialized.
+        ///     Gets the defaults definition object, or <code>null</code> if the
+        ///     default have not yet been initialized.
         /// </summary>
         /// <value>The defaults.</value>
-        public DocumentDefaultsDefinition Defaults
-        {
-            get { return defaults; }
-        }
+        public DocumentDefaultsDefinition Defaults { get; private set; }
 
 
         /// <summary>
-        /// Gets the reader context.
+        ///     Gets the reader context.
         /// </summary>
         /// <value>The reader context.</value>
-        public XmlReaderContext ReaderContext
-        {
-            get { return readerContext; }
-        }
+        public XmlReaderContext ReaderContext { get; }
 
         /// <summary>
-        /// Initialize the default lazy-init, dependency check, and autowire settings.
+        ///     Initialize the default lazy-init, dependency check, and autowire settings.
         /// </summary>
         /// <param name="root">The root element</param>
         public void InitDefaults(XmlElement root)
         {
             DocumentDefaultsDefinition ddd = new DocumentDefaultsDefinition();
+
             #region Instrumentation
 
             if (log.IsDebugEnabled)
@@ -175,7 +156,8 @@ namespace Spring.Objects.Factory.Xml
 
             #endregion
 
-            ddd.AutowireCandidates = GetAttributeValue(root, ObjectDefinitionConstants.DefaultAutowireCandidatesAttribute);
+            ddd.AutowireCandidates =
+                GetAttributeValue(root, ObjectDefinitionConstants.DefaultAutowireCandidatesAttribute);
 
             #region Instrumentation
 
@@ -203,7 +185,8 @@ namespace Spring.Objects.Factory.Xml
 
             #endregion
 
-            ddd.AutowireCandidates = GetAttributeValue(root, ObjectDefinitionConstants.DefaultAutowireCandidatesAttribute);
+            ddd.AutowireCandidates =
+                GetAttributeValue(root, ObjectDefinitionConstants.DefaultAutowireCandidatesAttribute);
 
             #region Instrumentation
 
@@ -246,57 +229,57 @@ namespace Spring.Objects.Factory.Xml
             #endregion
 
 
-            defaults = ddd;
+            Defaults = ddd;
         }
 
 
         /// <summary>
-        /// Determines whether the Spring object namespace is equal to the the specified namespace URI.
+        ///     Determines whether the Spring object namespace is equal to the the specified namespace URI.
         /// </summary>
         /// <param name="namespaceUri">The namespace URI.</param>
         /// <returns>
-        /// 	<c>true</c> if is the default Spring namespace; otherwise, <c>false</c>.
+        ///     <c>true</c> if is the default Spring namespace; otherwise, <c>false</c>.
         /// </returns>
         public bool IsDefaultNamespace(string namespaceUri)
         {
             return
-                (!StringUtils.HasLength(namespaceUri) || ObjectsNamespaceParser.Namespace.Equals(namespaceUri));
+                !StringUtils.HasLength(namespaceUri) || ObjectsNamespaceParser.Namespace.Equals(namespaceUri);
         }
 
 
         /// <summary>
-        /// Decorates the object definition if required.
+        ///     Decorates the object definition if required.
         /// </summary>
         /// <param name="element">The element.</param>
         /// <param name="holder">The holder.</param>
         /// <returns></returns>
-        public ObjectDefinitionHolder DecorateObjectDefinitionIfRequired(XmlElement element, ObjectDefinitionHolder holder)
+        public ObjectDefinitionHolder DecorateObjectDefinitionIfRequired(XmlElement element,
+            ObjectDefinitionHolder holder)
         {
-
             //TODO decoration processing.
             return holder;
         }
 
         /// <summary>
-        /// Parse a standard object definition into a
-        /// <see cref="Spring.Objects.Factory.Config.ObjectDefinitionHolder"/>,
-        /// including object name and aliases.
+        ///     Parse a standard object definition into a
+        ///     <see cref="Spring.Objects.Factory.Config.ObjectDefinitionHolder" />,
+        ///     including object name and aliases.
         /// </summary>
         /// <param name="element">The element containing the object definition.</param>
         /// <returns>
-        /// The parsed object definition wrapped within an
-        /// <see cref="Spring.Objects.Factory.Config.ObjectDefinitionHolder"/>
-        /// instance.
+        ///     The parsed object definition wrapped within an
+        ///     <see cref="Spring.Objects.Factory.Config.ObjectDefinitionHolder" />
+        ///     instance.
         /// </returns>
         /// <remarks>
-        /// <para>
-        /// Object elements specify their canonical name via the "id" attribute
-        /// and their aliases as a delimited "name" attribute.
-        /// </para>
-        /// <para>
-        /// If no "id" is specified, uses the first name in the "name" attribute
-        /// as the canonical name, registering all others as aliases.
-        /// </para>
+        ///     <para>
+        ///         Object elements specify their canonical name via the "id" attribute
+        ///         and their aliases as a delimited "name" attribute.
+        ///     </para>
+        ///     <para>
+        ///         If no "id" is specified, uses the first name in the "name" attribute
+        ///         as the canonical name, registering all others as aliases.
+        ///     </para>
         /// </remarks>
         public ObjectDefinitionHolder ParseObjectDefinitionElement(XmlElement element)
         {
@@ -304,28 +287,29 @@ namespace Spring.Objects.Factory.Xml
         }
 
         /// <summary>
-        /// Parse a standard object definition into a
-        /// <see cref="Spring.Objects.Factory.Config.ObjectDefinitionHolder"/>,
-        /// including object name and aliases.
+        ///     Parse a standard object definition into a
+        ///     <see cref="Spring.Objects.Factory.Config.ObjectDefinitionHolder" />,
+        ///     including object name and aliases.
         /// </summary>
         /// <param name="element">The element containing the object definition.</param>
-        /// <param name="containingDefinition">The containing object definition if <paramref name="element"/> is a nested element.</param>
+        /// <param name="containingDefinition">The containing object definition if <paramref name="element" /> is a nested element.</param>
         /// <returns>
-        /// The parsed object definition wrapped within an
-        /// <see cref="Spring.Objects.Factory.Config.ObjectDefinitionHolder"/>
-        /// instance.
+        ///     The parsed object definition wrapped within an
+        ///     <see cref="Spring.Objects.Factory.Config.ObjectDefinitionHolder" />
+        ///     instance.
         /// </returns>
         /// <remarks>
-        /// <para>
-        /// Object elements specify their canonical name via the "id" attribute
-        /// and their aliases as a delimited "name" attribute.
-        /// </para>
-        /// <para>
-        /// If no "id" is specified, uses the first name in the "name" attribute
-        /// as the canonical name, registering all others as aliases.
-        /// </para>
+        ///     <para>
+        ///         Object elements specify their canonical name via the "id" attribute
+        ///         and their aliases as a delimited "name" attribute.
+        ///     </para>
+        ///     <para>
+        ///         If no "id" is specified, uses the first name in the "name" attribute
+        ///         as the canonical name, registering all others as aliases.
+        ///     </para>
         /// </remarks>
-        public ObjectDefinitionHolder ParseObjectDefinitionElement(XmlElement element, IObjectDefinition containingDefinition)
+        public ObjectDefinitionHolder ParseObjectDefinitionElement(XmlElement element,
+            IObjectDefinition containingDefinition)
         {
             string id = GetAttributeValue(element, ObjectDefinitionConstants.IdAttribute);
             string nameAttr = GetAttributeValue(element, ObjectDefinitionConstants.NameAttribute);
@@ -341,11 +325,12 @@ namespace Spring.Objects.Factory.Xml
             {
                 if (aliases.Count > 0)
                 {
-                    objectName = (string) aliases[0];
+                    objectName = aliases[0];
                     aliases.RemoveAt(0);
                     if (log.IsDebugEnabled)
                     {
-                        log.Debug(string.Format("No XML 'id' specified using '{0}' as object name and '{1}' as aliases", objectName, string.Join(",", aliases.ToArray())));
+                        log.Debug(string.Format("No XML 'id' specified using '{0}' as object name and '{1}' as aliases",
+                            objectName, string.Join(",", aliases.ToArray())));
                     }
                 }
             }
@@ -358,7 +343,8 @@ namespace Spring.Objects.Factory.Xml
             }
 
             ParserContext parserContext = new ParserContext(this, containingDefinition);
-            IConfigurableObjectDefinition definition = objectsNamespaceParser.ParseObjectDefinitionElement(element, objectName, parserContext);
+            IConfigurableObjectDefinition definition =
+                objectsNamespaceParser.ParseObjectDefinitionElement(element, objectName, parserContext);
             if (definition != null)
             {
                 if (StringUtils.IsNullOrEmpty(objectName))
@@ -366,17 +352,17 @@ namespace Spring.Objects.Factory.Xml
                     if (containingDefinition != null)
                     {
                         objectName =
-                            ObjectDefinitionReaderUtils.GenerateObjectName(definition, readerContext.Registry, true);
+                            ObjectDefinitionReaderUtils.GenerateObjectName(definition, ReaderContext.Registry, true);
                     }
                     else
                     {
-                        objectName = readerContext.GenerateObjectName(definition);
+                        objectName = ReaderContext.GenerateObjectName(definition);
                         // Register an alias for the plain object type name, if possible.
                         string objectTypeName = definition.ObjectTypeName;
-                        if (objectTypeName != null 
-                            && objectName.StartsWith(objectTypeName) 
-                            && objectName.Length>objectTypeName.Length 
-                            && !readerContext.Registry.IsObjectNameInUse(objectTypeName))
+                        if (objectTypeName != null
+                            && objectName.StartsWith(objectTypeName)
+                            && objectName.Length > objectTypeName.Length
+                            && !ReaderContext.Registry.IsObjectNameInUse(objectTypeName))
                         {
                             aliases.Add(objectTypeName);
                         }
@@ -387,8 +373,9 @@ namespace Spring.Objects.Factory.Xml
                     if (log.IsDebugEnabled)
                     {
                         log.Debug(string.Format(
-                                      "Neither XML '{0}' nor '{1}' specified - using generated object name [{2}]",
-                                      ObjectDefinitionConstants.IdAttribute, ObjectDefinitionConstants.NameAttribute, objectName));
+                            "Neither XML '{0}' nor '{1}' specified - using generated object name [{2}]",
+                            ObjectDefinitionConstants.IdAttribute, ObjectDefinitionConstants.NameAttribute,
+                            objectName));
                     }
 
                     #endregion
@@ -400,33 +387,37 @@ namespace Spring.Objects.Factory.Xml
         }
 
         /// <summary>
-        /// Create an <see cref="ObjectDefinitionHolder"/> instance from the given <paramref name="definition"/> and <paramref name="objectName"/>.
+        ///     Create an <see cref="ObjectDefinitionHolder" /> instance from the given <paramref name="definition" /> and
+        ///     <paramref name="objectName" />.
         /// </summary>
         /// <remarks>
-        /// This method may be used as a last resort to post-process an object definition before it gets added to the registry.
+        ///     This method may be used as a last resort to post-process an object definition before it gets added to the registry.
         /// </remarks>
-        protected virtual ObjectDefinitionHolder CreateObjectDefinitionHolder(XmlElement element, IConfigurableObjectDefinition definition, string objectName, IList<string> aliases)
+        protected virtual ObjectDefinitionHolder CreateObjectDefinitionHolder(XmlElement element,
+            IConfigurableObjectDefinition definition, string objectName, IList<string> aliases)
         {
             return new ObjectDefinitionHolder(definition, objectName, aliases);
         }
 
         /// <summary>
-        /// Allows deriving classes to post process the name and aliases for the current element. By default
-        /// does nothing and returns the unmodified <paramref name="objectName"/>.
+        ///     Allows deriving classes to post process the name and aliases for the current element. By default
+        ///     does nothing and returns the unmodified <paramref name="objectName" />.
         /// </summary>
         /// <remarks>
-        /// The <paramref name="aliases"/> list passed in may be modified by an implementation of this method to reflect special needs.
+        ///     The <paramref name="aliases" /> list passed in may be modified by an implementation of this method to reflect
+        ///     special needs.
         /// </remarks>
         /// <param name="objectName">the object name obtained by the default algorithm from 'id' and 'name' attributes so far.</param>
         /// <param name="aliases">the object aliases obtained by the default algorithm from 'name' attribute so far.</param>
         /// <param name="element">the currently processed element.</param>
         /// <param name="containingDefinition">the containing object definition, may be <c>null</c></param>
         /// <returns>the new object name to be used.</returns>
-        protected virtual string PostProcessObjectNameAndAliases(string objectName, List<string> aliases, XmlElement element, IObjectDefinition containingDefinition)
+        protected virtual string PostProcessObjectNameAndAliases(string objectName, List<string> aliases,
+            XmlElement element, IObjectDefinition containingDefinition)
         {
             if (!StringUtils.HasText(objectName) && aliases.Count == 0)
             {
-                string result = this.objectsNamespaceParser.CalculateId(element, aliases);
+                string result = objectsNamespaceParser.CalculateId(element, aliases);
                 if (result != null)
                 {
                     return result;
@@ -436,34 +427,32 @@ namespace Spring.Objects.Factory.Xml
         }
 
         /// <summary>
-        /// Validate that the specified object name and aliases have not been used already.
+        ///     Validate that the specified object name and aliases have not been used already.
         /// </summary>
         protected virtual void CheckNameUniqueness(string objectName, List<string> aliases, XmlElement element)
         {
             string foundName = null;
 
-            if (StringUtils.HasText(objectName) && this.usedNames.Contains(objectName))
+            if (StringUtils.HasText(objectName) && usedNames.Contains(objectName))
             {
                 foundName = objectName;
             }
             if (foundName == null)
             {
-                foundName = (string) CollectionUtils.FindFirstMatch(this.usedNames, aliases);
+                foundName = (string) CollectionUtils.FindFirstMatch(usedNames, aliases);
             }
-            if(foundName != null)
+            if (foundName != null)
             {
                 Error("Object name '" + foundName + "' is already used in this file", element);
             }
 
-            this.usedNames.Add(objectName);
+            usedNames.Add(objectName);
             foreach (string alias in aliases)
-            {
-                this.usedNames.Add(alias);
-            }
+                usedNames.Add(alias);
         }
 
         /// <summary>
-        /// Parses an element in a custom namespace.
+        ///     Parses an element in a custom namespace.
         /// </summary>
         /// <param name="ele"></param>
         /// <returns>the parsed object definition or null if not supported by the corresponding parser.</returns>
@@ -473,14 +462,14 @@ namespace Spring.Objects.Factory.Xml
         }
 
         /// <summary>
-        /// Parses an element in a custom namespace.
+        ///     Parses an element in a custom namespace.
         /// </summary>
         /// <param name="ele"></param>
         /// <param name="containingDefinition">if a nested element, the containing object definition</param>
         /// <returns>the parsed object definition or null if not supported by the corresponding parser.</returns>
         public IObjectDefinition ParseCustomElement(XmlElement ele, IObjectDefinition containingDefinition)
         {
-            String namespaceUri = ele.NamespaceURI;
+            string namespaceUri = ele.NamespaceURI;
             INamespaceParser handler = NamespaceParserRegistry.GetParser(namespaceUri);
             if (handler == null)
             {
@@ -491,16 +480,16 @@ namespace Spring.Objects.Factory.Xml
         }
 
         /// <summary>
-        /// Given a string containing delimited object names, returns
-        /// a string array split on the object name delimeter.
+        ///     Given a string containing delimited object names, returns
+        ///     a string array split on the object name delimeter.
         /// </summary>
         /// <param name="value">
-        /// The string containing delimited object names.
+        ///     The string containing delimited object names.
         /// </param>
         /// <returns>
-        /// A string array split on the object name delimeter.
+        ///     A string array split on the object name delimeter.
         /// </returns>
-        /// <seealso cref="ObjectDefinitionConstants.ObjectNameDelimiters"/>
+        /// <seealso cref="ObjectDefinitionConstants.ObjectNameDelimiters" />
         private string[] GetObjectNames(string value)
         {
             return StringUtils.Split(
@@ -508,11 +497,11 @@ namespace Spring.Objects.Factory.Xml
         }
 
         /// <summary>
-        /// Determines whether the string represents a 'true' boolean value.
+        ///     Determines whether the string represents a 'true' boolean value.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>
-        /// 	<c>true</c> if is 'true' string value; otherwise, <c>false</c>.
+        ///     <c>true</c> if is 'true' string value; otherwise, <c>false</c>.
         /// </returns>
         public bool IsTrueStringValue(string value)
         {
@@ -520,31 +509,31 @@ namespace Spring.Objects.Factory.Xml
         }
 
         /// <summary>
-        /// Convenience method to create a builder for a root object definition.
+        ///     Convenience method to create a builder for a root object definition.
         /// </summary>
         /// <param name="objectTypeName">Name of the object type.</param>
         /// <returns>A builder for a root object definition.</returns>
         public ObjectDefinitionBuilder CreateRootObjectDefinitionBuilder(string objectTypeName)
         {
-            return ObjectDefinitionBuilder.RootObjectDefinition(this.readerContext.ObjectDefinitionFactory, objectTypeName);
+            return ObjectDefinitionBuilder.RootObjectDefinition(ReaderContext.ObjectDefinitionFactory, objectTypeName);
         }
 
         /// <summary>
-        /// Convenience method to create a builder for a root object definition.
+        ///     Convenience method to create a builder for a root object definition.
         /// </summary>
         /// <param name="objectType">Type of the object.</param>
         /// <returns>a builder for a root object definition</returns>
         public ObjectDefinitionBuilder CreateRootObjectDefinitionBuilder(Type objectType)
         {
-            return ObjectDefinitionBuilder.RootObjectDefinition(this.readerContext.ObjectDefinitionFactory, objectType);
+            return ObjectDefinitionBuilder.RootObjectDefinition(ReaderContext.ObjectDefinitionFactory, objectType);
         }
 
         /// <summary>
-        /// Returns the value of the element's attribute or <c>null</c>, if the attribute is not specified.
+        ///     Returns the value of the element's attribute or <c>null</c>, if the attribute is not specified.
         /// </summary>
         /// <remarks>
-        /// This is a helper for bypassing the behavior of <see cref="XmlElement.GetAttribute(string)"/> 
-        /// to return <see cref="string.Empty"/> if the attribute does not exist.
+        ///     This is a helper for bypassing the behavior of <see cref="XmlElement.GetAttribute(string)" />
+        ///     to return <see cref="string.Empty" /> if the attribute does not exist.
         /// </remarks>
         public string GetAttributeValue(XmlElement element, string attributeName)
         {
@@ -556,12 +545,12 @@ namespace Spring.Objects.Factory.Xml
         }
 
         /// <summary>
-        /// Returns the value of the element's attribute or <paramref name="defaultValue"/>, 
-        /// if the attribute is not specified.
+        ///     Returns the value of the element's attribute or <paramref name="defaultValue" />,
+        ///     if the attribute is not specified.
         /// </summary>
         /// <remarks>
-        /// This is a helper for bypassing the behavior of <see cref="XmlElement.GetAttribute(string)"/> 
-        /// to return <see cref="string.Empty"/> if the attribute does not exist.
+        ///     This is a helper for bypassing the behavior of <see cref="XmlElement.GetAttribute(string)" />
+        ///     to return <see cref="string.Empty" /> if the attribute does not exist.
         /// </remarks>
         public string GetAttributeValue(XmlElement element, string attributeName, string defaultValue)
         {
@@ -573,11 +562,24 @@ namespace Spring.Objects.Factory.Xml
         }
 
         /// <summary>
-        /// Report a parser error.
+        ///     Report a parser error.
         /// </summary>
         protected virtual void Error(string message, XmlElement element)
         {
-            this.ReaderContext.ReportFatalException(element, message);
+            ReaderContext.ReportFatalException(element, message);
         }
+
+        #region Fields
+
+        /// <summary>
+        ///     The shared <see cref="ILogger" /> instance for this class (and derived classes).
+        /// </summary>
+        protected readonly ILogger log;
+
+        private readonly ObjectsNamespaceParser objectsNamespaceParser;
+
+        private readonly HashSet<string> usedNames = new HashSet<string>();
+
+        #endregion
     }
 }

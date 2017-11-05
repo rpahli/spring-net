@@ -24,41 +24,41 @@ using System.Runtime.Serialization;
 namespace Spring.Expressions
 {
     /// <summary>
-    /// Represents parsed variable node.
+    ///     Represents parsed variable node.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class VariableNode : BaseNode
     {
         /// <summary>
-        /// Create a new instance
+        ///     Create a new instance
         /// </summary>
-        public VariableNode():base()
+        public VariableNode()
         {
         }
 
         /// <summary>
-        /// Create a new instance from SerializationInfo
+        ///     Create a new instance from SerializationInfo
         /// </summary>
         protected VariableNode(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-        
+
         /// <summary>
-        /// Returns value of the variable represented by this node.
+        ///     Returns value of the variable represented by this node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
         /// <returns>Node's value.</returns>
         protected override object Get(object context, EvaluationContext evalContext)
         {
-            string varName = this.getText();
+            string varName = getText();
             if (varName == "this")
             {
                 return evalContext.ThisContext;
             }
-            else if (varName == "root")
+            if (varName == "root")
             {
                 return evalContext.RootContext;
             }
@@ -66,14 +66,14 @@ namespace Spring.Expressions
         }
 
         /// <summary>
-        /// Sets value of the variable represented by this node.
+        ///     Sets value of the variable represented by this node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
         /// <param name="newValue">New value for this node.</param>
         protected override void Set(object context, EvaluationContext evalContext, object newValue)
         {
-            string varName = this.getText();
+            string varName = getText();
             if (varName == "this" || varName == "root")
             {
                 throw new ArgumentException("You cannot assign a value to intrinsic variable '" + varName + "'.");

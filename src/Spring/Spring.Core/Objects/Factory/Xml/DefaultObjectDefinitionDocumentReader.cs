@@ -24,8 +24,8 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Xml;
-using Common.Logging;
 using Spring.Core.IO;
+using Spring.Logging;
 using Spring.Objects.Factory.Config;
 using Spring.Objects.Factory.Support;
 
@@ -34,13 +34,13 @@ using Spring.Objects.Factory.Support;
 namespace Spring.Objects.Factory.Xml
 {
     /// <summary>
-    /// XML resource reader. 
+    ///     XML resource reader.
     /// </summary>
     /// <remarks>
-    /// <p>
-    /// Navigates through an XML resource and invokes parsers registered
-    /// with the <see cref="NamespaceParserRegistry"/>.
-    /// </p>
+    ///     <p>
+    ///         Navigates through an XML resource and invokes parsers registered
+    ///         with the <see cref="NamespaceParserRegistry" />.
+    ///     </p>
     /// </remarks>
     /// <author>Rod Johnson</author>
     /// <author>Juergen Hoeller</author>
@@ -50,64 +50,56 @@ namespace Spring.Objects.Factory.Xml
         #region Constants
 
         /// <summary>
-        /// The shared <see cref="Common.Logging.ILog"/> instance for this class (and derived classes). 
+        ///     The shared <see cref="ILogger" /> instance for this class (and derived classes).
         /// </summary>
-        protected static readonly ILog log =
+        protected static readonly ILogger log =
             LogManager.GetLogger(typeof(DefaultObjectDefinitionDocumentReader));
 
         #endregion
 
         #region Fields
 
-        private XmlReaderContext readerContext;
-
         #endregion
 
         #region Constructor (s) / Destructor
-
-        /// <summary>
-        /// Creates a new instance of the DefaultObjectDefinitionDocumentReader class.
-        /// </summary>
-        public DefaultObjectDefinitionDocumentReader()
-        {
-        }
 
         #endregion
 
         #region Properties
 
         /// <summary>
-        /// Gets the reader context.
+        ///     Gets the reader context.
         /// </summary>
         /// <value>The reader context.</value>
-        public XmlReaderContext ReaderContext
-        {
-            get { return readerContext; }
-        }
+        public XmlReaderContext ReaderContext { get; private set; }
 
         #endregion
 
         #region Methods
 
         /// <summary>
-        /// Read object definitions from the given DOM element, and register
-        /// them with the given object registry.
+        ///     Read object definitions from the given DOM element, and register
+        ///     them with the given object registry.
         /// </summary>
-        /// <param name="doc">The DOM element containing object definitions, usually the
-        /// root (document) element.</param>
-        /// <param name="readerContext">The current context of the reader.  Includes
-        /// the resource being parsed</param>
+        /// <param name="doc">
+        ///     The DOM element containing object definitions, usually the
+        ///     root (document) element.
+        /// </param>
+        /// <param name="readerContext">
+        ///     The current context of the reader.  Includes
+        ///     the resource being parsed
+        /// </param>
         /// <returns>
-        /// The number of object definitions that were loaded.
+        ///     The number of object definitions that were loaded.
         /// </returns>
         /// <exception cref="Spring.Objects.ObjectsException">
-        /// In case of parsing errors.
+        ///     In case of parsing errors.
         /// </exception>
         public void RegisterObjectDefinitions(XmlDocument doc, XmlReaderContext readerContext)
         {
             //int objectDefinitionCounter = 0;
 
-            this.readerContext = readerContext;
+            ReaderContext = readerContext;
 
             #region Instrumentation
 
@@ -144,13 +136,13 @@ namespace Spring.Objects.Factory.Xml
         }
 
         /// <summary>
-        /// Parses object definitions starting at the given <see cref="XmlElement"/> 
-        /// using the passed <see cref="ObjectDefinitionParserHelper"/>.
+        ///     Parses object definitions starting at the given <see cref="XmlElement" />
+        ///     using the passed <see cref="ObjectDefinitionParserHelper" />.
         /// </summary>
         /// <param name="root">The root element to start parsing from.</param>
-        /// <param name="helper">The <see cref="ObjectDefinitionParserHelper"/> instance to use.</param>
+        /// <param name="helper">The <see cref="ObjectDefinitionParserHelper" /> instance to use.</param>
         /// <exception cref="ObjectDefinitionStoreException">
-        /// in case an error happens during parsing and registering object definitions
+        ///     in case an error happens during parsing and registering object definitions
         /// </exception>
         protected virtual void ParseObjectDefinitions(XmlElement root, ObjectDefinitionParserHelper helper)
         {
@@ -162,7 +154,7 @@ namespace Spring.Objects.Factory.Xml
 
                     try
                     {
-                        XmlElement element = (XmlElement)node;
+                        XmlElement element = (XmlElement) node;
                         if (helper.IsDefaultNamespace(element.NamespaceURI))
                         {
                             ParseDefaultElement(element, helper);
@@ -196,7 +188,7 @@ namespace Spring.Objects.Factory.Xml
             }
             else if (element.LocalName == ObjectDefinitionConstants.AliasElement)
             {
-                 ParseAlias(element, helper.ReaderContext.Registry);
+                ParseAlias(element, helper.ReaderContext.Registry);
             }
             else if (element.LocalName == ObjectDefinitionConstants.ObjectElement)
             {
@@ -205,15 +197,15 @@ namespace Spring.Objects.Factory.Xml
         }
 
         /// <summary>
-        /// Process an alias element.
+        ///     Process an alias element.
         /// </summary>
         protected virtual void ProcessAlias(XmlElement element)
         {
-            this.ParseAlias(element, this.ReaderContext.Registry);    
+            ParseAlias(element, ReaderContext.Registry);
         }
 
         /// <summary>
-        /// Process the object element
+        ///     Process the object element
         /// </summary>
         protected virtual void ProcessObjectDefinition(XmlElement element, ObjectDefinitionParserHelper helper)
         {
@@ -231,7 +223,8 @@ namespace Spring.Objects.Factory.Xml
 
                 if (log.IsDebugEnabled)
                 {
-                    log.Debug(string.Format(CultureInfo.InvariantCulture, "Registering object definition with id '{0}'.", bdHolder.ObjectName));
+                    log.Debug(string.Format(CultureInfo.InvariantCulture,
+                        "Registering object definition with id '{0}'.", bdHolder.ObjectName));
                 }
 
                 #endregion
@@ -252,12 +245,12 @@ namespace Spring.Objects.Factory.Xml
         }
 
         /// <summary>
-        /// Loads external XML object definitions from the resource described by the supplied
-        /// <paramref name="resource"/>.
+        ///     Loads external XML object definitions from the resource described by the supplied
+        ///     <paramref name="resource" />.
         /// </summary>
         /// <param name="resource">The XML element describing the resource.</param>
         /// <exception cref="Spring.Objects.Factory.ObjectDefinitionStoreException">
-        /// If the resource could not be imported.
+        ///     If the resource could not be imported.
         /// </exception>
         protected virtual void ImportObjectDefinitionResource(XmlElement resource)
         {
@@ -269,8 +262,8 @@ namespace Spring.Objects.Factory.Xml
                 if (log.IsDebugEnabled)
                 {
                     log.Debug(string.Format(
-                                  CultureInfo.InvariantCulture,
-                                  "Attempting to import object definitions from '{0}'.", location));
+                        CultureInfo.InvariantCulture,
+                        "Attempting to import object definitions from '{0}'.", location));
                 }
 
                 #endregion
@@ -281,14 +274,14 @@ namespace Spring.Objects.Factory.Xml
             catch (IOException ex)
             {
                 ReaderContext.ReportException(resource, null, string.Format(
-                                                                  CultureInfo.InvariantCulture,
-                                                                  "Invalid relative resource location '{0}' to import object definitions from.",
-                                                                  location), ex);
+                    CultureInfo.InvariantCulture,
+                    "Invalid relative resource location '{0}' to import object definitions from.",
+                    location), ex);
             }
         }
 
         /// <summary>
-        /// Parses the given alias element, registering the alias with the registry.
+        ///     Parses the given alias element, registering the alias with the registry.
         /// </summary>
         /// <param name="aliasElement">The alias element.</param>
         /// <param name="registry">The registry.</param>
@@ -300,27 +293,28 @@ namespace Spring.Objects.Factory.Xml
         }
 
         /// <summary>
-        /// Parse an object definition and register it with the object factory..
+        ///     Parse an object definition and register it with the object factory..
         /// </summary>
         /// <param name="element">The element containing the object definition.</param>
         /// <param name="helper">The helper.</param>
-        /// <seealso cref="Spring.Objects.Factory.Support.ObjectDefinitionReaderUtils.RegisterObjectDefinition"/>
+        /// <seealso cref="Spring.Objects.Factory.Support.ObjectDefinitionReaderUtils.RegisterObjectDefinition" />
         protected virtual void RegisterObjectDefinition(XmlElement element, ObjectDefinitionParserHelper helper)
         {
             ProcessObjectDefinition(element, helper);
         }
 
         /// <summary>
-        /// <para>
-        /// Allow the XML to be extensible by processing any custom element types last,
-        /// after we finished processing the objct definitions. This method is a natural
-        /// extension point for any other custom post-processing of the XML.
-        /// </para><para>
-        /// The default implementation is empty. Subclasses can override this method to
-        /// convert custom elements into standard Spring object definitions, for example.
-        /// Implementors have access to the parser's object definition reader and the
-        /// underlying XML resource, through the corresponding properties.
-        /// </para>
+        ///     <para>
+        ///         Allow the XML to be extensible by processing any custom element types last,
+        ///         after we finished processing the objct definitions. This method is a natural
+        ///         extension point for any other custom post-processing of the XML.
+        ///     </para>
+        ///     <para>
+        ///         The default implementation is empty. Subclasses can override this method to
+        ///         convert custom elements into standard Spring object definitions, for example.
+        ///         Implementors have access to the parser's object definition reader and the
+        ///         underlying XML resource, through the corresponding properties.
+        ///     </para>
         /// </summary>
         /// <param name="root">The root.</param>
         protected virtual void PostProcessXml(XmlElement root)
@@ -328,16 +322,18 @@ namespace Spring.Objects.Factory.Xml
         }
 
         /// <summary>
-        /// Allow the XML to be extensible by processing any custom element types first,
-        /// before we start to process the object definitions.
+        ///     Allow the XML to be extensible by processing any custom element types first,
+        ///     before we start to process the object definitions.
         /// </summary>
-        /// <remarks>This method is a natural
-        /// extension point for any other custom pre-processing of the XML.
-        /// <p>The default implementation is empty. Subclasses can override this method to
-        /// convert custom elements into standard Spring object definitions, for example.
-        /// Implementors have access to the parser's object definition reader and the
-        /// underlying XML resource, through the corresponding properties.
-        /// </p>
+        /// <remarks>
+        ///     This method is a natural
+        ///     extension point for any other custom pre-processing of the XML.
+        ///     <p>
+        ///         The default implementation is empty. Subclasses can override this method to
+        ///         convert custom elements into standard Spring object definitions, for example.
+        ///         Implementors have access to the parser's object definition reader and the
+        ///         underlying XML resource, through the corresponding properties.
+        ///     </p>
         /// </remarks>
         /// <param name="root">The root element of the XML document.</param>
         protected virtual void PreProcessXml(XmlElement root)
@@ -345,11 +341,15 @@ namespace Spring.Objects.Factory.Xml
         }
 
         /// <summary>
-        /// Creates an <see cref="ObjectDefinitionParserHelper"/> instance for the given <paramref name="readerContext"/> and <paramref name="root"/> element.
+        ///     Creates an <see cref="ObjectDefinitionParserHelper" /> instance for the given <paramref name="readerContext" /> and
+        ///     <paramref name="root" /> element.
         /// </summary>
-        /// <param name="readerContext">the <see cref="XmlReaderContext"/> to create the <see cref="ObjectDefinitionParserHelper"/> </param>
-        /// <param name="root">the root <see cref="XmlElement"/> to start reading from</param>
-        /// <returns>a new <see cref="ObjectDefinitionParserHelper"/> instance</returns>
+        /// <param name="readerContext">
+        ///     the <see cref="XmlReaderContext" /> to create the
+        ///     <see cref="ObjectDefinitionParserHelper" />
+        /// </param>
+        /// <param name="root">the root <see cref="XmlElement" /> to start reading from</param>
+        /// <returns>a new <see cref="ObjectDefinitionParserHelper" /> instance</returns>
         protected virtual ObjectDefinitionParserHelper CreateHelper(XmlReaderContext readerContext, XmlElement root)
         {
             ObjectDefinitionParserHelper helper = new ObjectDefinitionParserHelper(readerContext, root);

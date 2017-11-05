@@ -26,20 +26,20 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
+using Spring.Collections.Generic;
 using Spring.Core.TypeResolution;
 using Spring.Objects.Factory.Config;
 using Spring.Util;
-using Spring.Collections.Generic;
 
 #endregion
 
 namespace Spring.Objects.Factory.Support
 {
     /// <summary>
-    /// Common base class for object definitions, factoring out common
-    /// functionality from
-    /// <see cref="Spring.Objects.Factory.Support.RootObjectDefinition"/> and
-    /// <see cref="Spring.Objects.Factory.Support.ChildObjectDefinition"/>.
+    ///     Common base class for object definitions, factoring out common
+    ///     functionality from
+    ///     <see cref="Spring.Objects.Factory.Support.RootObjectDefinition" /> and
+    ///     <see cref="Spring.Objects.Factory.Support.ChildObjectDefinition" />.
     /// </summary>
     /// <author>Rod Johnson</author>
     /// <author>Juergen Hoeller</author>
@@ -53,60 +53,60 @@ namespace Spring.Objects.Factory.Support
         #region Constructor (s) / Destructor
 
         /// <summary>
-        /// Creates a new instance of the
-        /// <see cref="Spring.Objects.Factory.Support.AbstractObjectDefinition"/>
-        /// class.
+        ///     Creates a new instance of the
+        ///     <see cref="Spring.Objects.Factory.Support.AbstractObjectDefinition" />
+        ///     class.
         /// </summary>
         /// <remarks>
-        /// <p>
-        /// This is an <see langword="abstract"/> class, and as such exposes no
-        /// public constructors.
-        /// </p>
+        ///     <p>
+        ///         This is an <see langword="abstract" /> class, and as such exposes no
+        ///         public constructors.
+        ///     </p>
         /// </remarks>
         protected AbstractObjectDefinition() : this(null, null)
         {
         }
 
         /// <summary>
-        /// Creates a new instance of the
-        /// <see cref="Spring.Objects.Factory.Support.AbstractObjectDefinition"/>
-        /// class.
+        ///     Creates a new instance of the
+        ///     <see cref="Spring.Objects.Factory.Support.AbstractObjectDefinition" />
+        ///     class.
         /// </summary>
         /// <remarks>
-        /// <p>
-        /// This is an <see langword="abstract"/> class, and as such exposes no
-        /// public constructors.
-        /// </p>
+        ///     <p>
+        ///         This is an <see langword="abstract" /> class, and as such exposes no
+        ///         public constructors.
+        ///     </p>
         /// </remarks>
         protected AbstractObjectDefinition(ConstructorArgumentValues arguments, MutablePropertyValues properties)
         {
             constructorArgumentValues =
-                (arguments != null) ? arguments : new ConstructorArgumentValues();
+                arguments != null ? arguments : new ConstructorArgumentValues();
             propertyValues =
-                (properties != null) ? properties : new MutablePropertyValues();
+                properties != null ? properties : new MutablePropertyValues();
             eventHandlerValues = new EventValues();
             DependsOn = StringUtils.EmptyStrings;
         }
 
         /// <summary>
-        /// Creates a new instance of the
-        /// <see cref="Spring.Objects.Factory.Support.AbstractObjectDefinition"/>
-        /// class.
+        ///     Creates a new instance of the
+        ///     <see cref="Spring.Objects.Factory.Support.AbstractObjectDefinition" />
+        ///     class.
         /// </summary>
         /// <param name="other">
-        /// The object definition used to initialise the member fields of this
-        /// instance.
+        ///     The object definition used to initialise the member fields of this
+        ///     instance.
         /// </param>
         /// <remarks>
-        /// <p>
-        /// This is an <see langword="abstract"/> class, and as such exposes no
-        /// public constructors.
-        /// </p>
+        ///     <p>
+        ///         This is an <see langword="abstract" /> class, and as such exposes no
+        ///         public constructors.
+        ///     </p>
         /// </remarks>
         protected AbstractObjectDefinition(IObjectDefinition other)
         {
             AssertUtils.ArgumentNotNull(other, "other");
-            this.OverrideFrom(other);
+            OverrideFrom(other);
 
             AbstractObjectDefinition aod = other as AbstractObjectDefinition;
             if (aod != null)
@@ -150,26 +150,26 @@ namespace Spring.Objects.Factory.Support
         #region Properties
 
         /// <summary>
-        /// The name of the parent definition of this object definition, if any.
+        ///     The name of the parent definition of this object definition, if any.
         /// </summary>
         public abstract string ParentName { get; set; }
 
         /// <summary>
-        /// The property values that are to be applied to the object
-        /// upon creation.
+        ///     The property values that are to be applied to the object
+        ///     upon creation.
         /// </summary>
         /// <remarks>
-        /// <p>
-        /// Setting the value of this property to <see langword="null"/>
-        /// will merely result in a new (and empty)
-        /// <see cref="Spring.Objects.MutablePropertyValues"/>
-        /// collection being assigned to the property value.
-        /// </p>
+        ///     <p>
+        ///         Setting the value of this property to <see langword="null" />
+        ///         will merely result in a new (and empty)
+        ///         <see cref="Spring.Objects.MutablePropertyValues" />
+        ///         collection being assigned to the property value.
+        ///     </p>
         /// </remarks>
         /// <value>
-        /// The property values (if any) for this object; may be an
-        /// empty collection but is guaranteed not to be
-        /// <see langword="null"/>.
+        ///     The property values (if any) for this object; may be an
+        ///     empty collection but is guaranteed not to be
+        ///     <see langword="null" />.
         /// </value>
         public MutablePropertyValues PropertyValues
         {
@@ -178,12 +178,12 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// Does this definition have any
-        /// <see cref="Spring.Objects.Factory.Support.MethodOverrides"/>?
+        ///     Does this definition have any
+        ///     <see cref="Spring.Objects.Factory.Support.MethodOverrides" />?
         /// </summary>
         /// <value>
-        /// <see langword="true"/> if this definition has at least one
-        /// <see cref="Spring.Objects.Factory.Support.MethodOverride"/>.
+        ///     <see langword="true" /> if this definition has at least one
+        ///     <see cref="Spring.Objects.Factory.Support.MethodOverride" />.
         /// </value>
         public bool HasMethodOverrides
         {
@@ -191,20 +191,20 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// The constructor argument values for this object.
+        ///     The constructor argument values for this object.
         /// </summary>
         /// <remarks>
-        /// <p>
-        /// Setting the value of this property to <see langword="null"/>
-        /// will merely result in a new (and empty)
-        /// <see cref="Spring.Objects.Factory.Config.ConstructorArgumentValues"/>
-        /// collection being assigned.
-        /// </p>
+        ///     <p>
+        ///         Setting the value of this property to <see langword="null" />
+        ///         will merely result in a new (and empty)
+        ///         <see cref="Spring.Objects.Factory.Config.ConstructorArgumentValues" />
+        ///         collection being assigned.
+        ///     </p>
         /// </remarks>
         /// <value>
-        /// The constructor argument values (if any) for this object; may be an
-        /// empty collection but is guaranteed not to be
-        /// <see langword="null"/>.
+        ///     The constructor argument values (if any) for this object; may be an
+        ///     empty collection but is guaranteed not to be
+        ///     <see langword="null" />.
         /// </value>
         public ConstructorArgumentValues ConstructorArgumentValues
         {
@@ -213,20 +213,20 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// The event handler values for this object.
+        ///     The event handler values for this object.
         /// </summary>
         /// <remarks>
-        /// <p>
-        /// Setting the value of this property to <see langword="null"/>
-        /// will merely result in a new (and empty)
-        /// <see cref="Spring.Objects.Factory.Config.EventValues"/>
-        /// collection being assigned.
-        /// </p>
+        ///     <p>
+        ///         Setting the value of this property to <see langword="null" />
+        ///         will merely result in a new (and empty)
+        ///         <see cref="Spring.Objects.Factory.Config.EventValues" />
+        ///         collection being assigned.
+        ///     </p>
         /// </remarks>
         /// <value>
-        /// The event handler values (if any) for this object; may be an
-        /// empty collection but is guaranteed not to be
-        /// <see langword="null"/>.
+        ///     The event handler values (if any) for this object; may be an
+        ///     empty collection but is guaranteed not to be
+        ///     <see langword="null" />.
         /// </value>
         public EventValues EventHandlerValues
         {
@@ -235,20 +235,20 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// The method overrides (if any) for this object.
+        ///     The method overrides (if any) for this object.
         /// </summary>
         /// <remarks>
-        /// <p>
-        /// Setting the value of this property to <see langword="null"/>
-        /// will merely result in a new (and empty)
-        /// <see cref="Spring.Objects.Factory.Support.MethodOverrides"/>
-        /// collection being assigned to the property value.
-        /// </p>
+        ///     <p>
+        ///         Setting the value of this property to <see langword="null" />
+        ///         will merely result in a new (and empty)
+        ///         <see cref="Spring.Objects.Factory.Support.MethodOverrides" />
+        ///         collection being assigned to the property value.
+        ///     </p>
         /// </remarks>
         /// <value>
-        /// The method overrides (if any) for this object; may be an
-        /// empty collection but is guaranteed not to be
-        /// <see langword="null"/>.
+        ///     The method overrides (if any) for this object; may be an
+        ///     empty collection but is guaranteed not to be
+        ///     <see langword="null" />.
         /// </value>
         public MethodOverrides MethodOverrides
         {
@@ -257,9 +257,9 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// The name of the target scope for the object.
-        /// Defaults to "singleton", ootb alternative is "prototype". Extended object factories
-        /// might support further scopes.
+        ///     The name of the target scope for the object.
+        ///     Defaults to "singleton", ootb alternative is "prototype". Extended object factories
+        ///     might support further scopes.
         /// </summary>
         public virtual string Scope
         {
@@ -267,14 +267,14 @@ namespace Spring.Objects.Factory.Support
             set
             {
                 AssertUtils.ArgumentNotNull(value, "Scope");
-                this.scope = value;
-                this.isPrototype = 0 == string.Compare(SCOPE_PROTOTYPE, value, true);
-                this.isSingleton = !isPrototype; // 0 == string.Compare(SCOPE_SINGLETON, value, true);
+                scope = value;
+                isPrototype = 0 == string.Compare(SCOPE_PROTOTYPE, value, true);
+                isSingleton = !isPrototype; // 0 == string.Compare(SCOPE_SINGLETON, value, true);
             }
         }
 
         /// <summary>
-        /// Get or set the role hint for this object definition
+        ///     Get or set the role hint for this object definition
         /// </summary>
         public virtual ObjectRole Role
         {
@@ -283,39 +283,39 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// Is this definition a <b>singleton</b>, with
-        /// a single, shared instance returned on all calls to an enclosing
-        /// container (typically an
-        /// <see cref="Spring.Objects.Factory.IObjectFactory"/> or
-        /// <see cref="Spring.Context.IApplicationContext"/>).
+        ///     Is this definition a <b>singleton</b>, with
+        ///     a single, shared instance returned on all calls to an enclosing
+        ///     container (typically an
+        ///     <see cref="Spring.Objects.Factory.IObjectFactory" /> or
+        ///     <see cref="Spring.Context.IApplicationContext" />).
         /// </summary>
         /// <remarks>
-        /// <p>
-        /// If <see langword="false"/>, an object factory will apply the
-        /// <b>prototype</b> design pattern, with each caller requesting an
-        /// instance getting an independent instance. How this is defined
-        /// will depend on the object factory implementation. <b>singletons</b>
-        /// are the commoner type.
-        /// </p>
+        ///     <p>
+        ///         If <see langword="false" />, an object factory will apply the
+        ///         <b>prototype</b> design pattern, with each caller requesting an
+        ///         instance getting an independent instance. How this is defined
+        ///         will depend on the object factory implementation. <b>singletons</b>
+        ///         are the commoner type.
+        ///     </p>
         /// </remarks>
-        /// <seealso cref="Spring.Objects.Factory.IObjectFactory"/>
+        /// <seealso cref="Spring.Objects.Factory.IObjectFactory" />
         public virtual bool IsSingleton
         {
             get { return isSingleton; }
             set
             {
-                scope = (value ? SCOPE_SINGLETON : SCOPE_PROTOTYPE);
+                scope = value ? SCOPE_SINGLETON : SCOPE_PROTOTYPE;
                 isSingleton = value;
                 isPrototype = !value;
             }
         }
 
         /// <summary>
-        /// Gets a value indicating whether this instance is prototype, with an independent instance
-        /// returned for each call.
+        ///     Gets a value indicating whether this instance is prototype, with an independent instance
+        ///     returned for each call.
         /// </summary>
         /// <value>
-        /// 	<c>true</c> if this instance is prototype; otherwise, <c>false</c>.
+        ///     <c>true</c> if this instance is prototype; otherwise, <c>false</c>.
         /// </value>
         public virtual bool IsPrototype
         {
@@ -323,16 +323,17 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// Is this object lazily initialized?</summary>
+        ///     Is this object lazily initialized?
+        /// </summary>
         /// <remarks>
-        /// <p>
-        /// Only applicable to a singleton object.
-        /// </p>
-        /// <p>
-        /// If <see langword="false"/>, it will get instantiated on startup
-        /// by object factories that perform eager initialization of
-        /// singletons.
-        /// </p>
+        ///     <p>
+        ///         Only applicable to a singleton object.
+        ///     </p>
+        ///     <p>
+        ///         If <see langword="false" />, it will get instantiated on startup
+        ///         by object factories that perform eager initialization of
+        ///         singletons.
+        ///     </p>
         /// </remarks>
         public bool IsLazyInit
         {
@@ -341,31 +342,29 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// Is this object definition a "template", i.e. not meant to be instantiated
-        /// itself but rather just serving as an object definition for configuration 
-        /// templates used by <see cref="Spring.Objects.Factory.IObjectFactory.ConfigureObject(object, string)"/>.
+        ///     Is this object definition a "template", i.e. not meant to be instantiated
+        ///     itself but rather just serving as an object definition for configuration
+        ///     templates used by <see cref="Spring.Objects.Factory.IObjectFactory.ConfigureObject(object, string)" />.
         /// </summary>
         /// <value>
-        /// <see langword="true"/> if this object definition is a "template".
+        ///     <see langword="true" /> if this object definition is a "template".
         /// </value>
         public bool IsTemplate
         {
             get
             {
-                return (
-                           isAbstract ||
-                           (objectType == null && StringUtils.IsNullOrEmpty(factoryObjectName))
-                       );
+                return isAbstract ||
+                       objectType == null && StringUtils.IsNullOrEmpty(factoryObjectName);
             }
         }
 
         /// <summary>
-        /// Is this object definition "abstract", i.e. not meant to be
-        /// instantiated itself but rather just serving as a parent for concrete
-        /// child object definitions.
+        ///     Is this object definition "abstract", i.e. not meant to be
+        ///     instantiated itself but rather just serving as a parent for concrete
+        ///     child object definitions.
         /// </summary>
         /// <value>
-        /// <see langword="true"/> if this object definition is "abstract".
+        ///     <see langword="true" /> if this object definition is "abstract".
         /// </value>
         public bool IsAbstract
         {
@@ -374,16 +373,16 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// The <see cref="System.Type"/> of the object definition (if any).
+        ///     The <see cref="System.Type" /> of the object definition (if any).
         /// </summary>
         /// <value>
-        /// A resolved object <see cref="System.Type"/>.
+        ///     A resolved object <see cref="System.Type" />.
         /// </value>
         /// <exception cref="ApplicationException">
-        /// If the <see cref="System.Type"/> of the object definition is not a
-        /// resolved <see cref="System.Type"/> or <see langword="null"/>.
+        ///     If the <see cref="System.Type" /> of the object definition is not a
+        ///     resolved <see cref="System.Type" /> or <see langword="null" />.
         /// </exception>
-        /// <seealso cref="AbstractObjectDefinition.HasObjectType"/>
+        /// <seealso cref="AbstractObjectDefinition.HasObjectType" />
         public Type ObjectType
         {
             get
@@ -399,8 +398,8 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// Is the <see cref="System.Type"/> of the object definition a resolved
-        /// <see cref="System.Type"/>?
+        ///     Is the <see cref="System.Type" /> of the object definition a resolved
+        ///     <see cref="System.Type" />?
         /// </summary>
         public bool HasObjectType
         {
@@ -408,8 +407,8 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// Returns the <see cref="System.Type.FullName"/> of the
-        /// <see cref="System.Type"/> of the object definition (if any).
+        ///     Returns the <see cref="System.Type.FullName" /> of the
+        ///     <see cref="System.Type" /> of the object definition (if any).
         /// </summary>
         public string ObjectTypeName
         {
@@ -419,18 +418,15 @@ namespace Spring.Objects.Factory.Support
                 {
                     return ((Type) objectType).FullName;
                 }
-                else
-                {
-                    return objectType as string;
-                }
+                return objectType as string;
             }
             set { objectType = StringUtils.GetTextOrNull(value); }
         }
 
 
         /// <summary>
-        /// A description of the resource that this object definition
-        /// came from (for the purpose of showing context in case of errors).
+        ///     A description of the resource that this object definition
+        ///     came from (for the purpose of showing context in case of errors).
         /// </summary>
         public string ResourceDescription
         {
@@ -439,15 +435,15 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// The autowire mode as specified in the object definition.
+        ///     The autowire mode as specified in the object definition.
         /// </summary>
         /// <remarks>
-        /// <p>
-        /// This determines whether any automagical detection and setting of
-        /// object references will happen. The default is
-        /// <see cref="Spring.Objects.Factory.Config.AutoWiringMode.No"/>,
-        /// which means that no autowiring will be performed.
-        /// </p>
+        ///     <p>
+        ///         This determines whether any automagical detection and setting of
+        ///         object references will happen. The default is
+        ///         <see cref="Spring.Objects.Factory.Config.AutoWiringMode.No" />,
+        ///         which means that no autowiring will be performed.
+        ///     </p>
         /// </remarks>
         public AutoWiringMode AutowireMode
         {
@@ -456,17 +452,17 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// Gets the resolved autowire mode.
+        ///     Gets the resolved autowire mode.
         /// </summary>
         /// <remarks>
-        /// <p>
-        /// This resolves
-        /// <see cref="Spring.Objects.Factory.Config.AutoWiringMode.AutoDetect"/>
-        /// to one of 
-        /// <see cref="Spring.Objects.Factory.Config.AutoWiringMode.Constructor"/>
-        /// or
-        /// <see cref="Spring.Objects.Factory.Config.AutoWiringMode.ByType"/>.
-        /// </p>
+        ///     <p>
+        ///         This resolves
+        ///         <see cref="Spring.Objects.Factory.Config.AutoWiringMode.AutoDetect" />
+        ///         to one of
+        ///         <see cref="Spring.Objects.Factory.Config.AutoWiringMode.Constructor" />
+        ///         or
+        ///         <see cref="Spring.Objects.Factory.Config.AutoWiringMode.ByType" />.
+        ///     </p>
         /// </remarks>
         public AutoWiringMode ResolvedAutowireMode
         {
@@ -480,29 +476,24 @@ namespace Spring.Objects.Factory.Support
                     ConstructorInfo[] constructors =
                         ObjectType.GetConstructors();
                     foreach (ConstructorInfo ctor in constructors)
-                    {
                         if (ctor.GetParameters().Length == 0)
                         {
                             return AutoWiringMode.ByType;
                         }
-                    }
                     return AutoWiringMode.Constructor;
                 }
-                else
-                {
-                    return AutowireMode;
-                }
+                return AutowireMode;
             }
         }
 
         /// <summary>
-        /// The dependency checking mode.
+        ///     The dependency checking mode.
         /// </summary>
         /// <remarks>
-        /// <p>
-        /// The default is
-        /// <see cref="Spring.Objects.Factory.Support.DependencyCheckingMode.None"/>.
-        /// </p>
+        ///     <p>
+        ///         The default is
+        ///         <see cref="Spring.Objects.Factory.Support.DependencyCheckingMode.None" />.
+        ///     </p>
         /// </remarks>
         public DependencyCheckingMode DependencyCheck
         {
@@ -511,19 +502,19 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// The object names that this object depends on.
+        ///     The object names that this object depends on.
         /// </summary>
         /// <remarks>
-        /// <p>
-        /// The object factory will guarantee that these objects get initialized
-        /// before this object definition.
-        /// </p>
-        /// <note>
-        /// Dependencies are normally expressed through object properties
-        /// or constructor arguments. This property should just be necessary for
-        /// other kinds of dependencies such as statics (*ugh*) or database
-        /// preparation on startup.
-        /// </note>
+        ///     <p>
+        ///         The object factory will guarantee that these objects get initialized
+        ///         before this object definition.
+        ///     </p>
+        ///     <note>
+        ///         Dependencies are normally expressed through object properties
+        ///         or constructor arguments. This property should just be necessary for
+        ///         other kinds of dependencies such as statics (*ugh*) or database
+        ///         preparation on startup.
+        ///     </note>
         /// </remarks>
         public IList<string> DependsOn
         {
@@ -532,34 +523,34 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this instance a candidate for getting autowired into some other
-        /// object.
+        ///     Gets or sets a value indicating whether this instance a candidate for getting autowired into some other
+        ///     object.
         /// </summary>
         /// <value>
-        /// 	<c>true</c> if this instance is autowire candidate; otherwise, <c>false</c>.
+        ///     <c>true</c> if this instance is autowire candidate; otherwise, <c>false</c>.
         /// </value>
         public bool IsAutowireCandidate
         {
             get { return autowireCandidate; }
-            set { autowireCandidate = value;}
+            set { autowireCandidate = value; }
         }
 
 
         /// <summary>
-        /// Set whether this bean is a primary autowire candidate.
-        /// If this value is true for exactly one bean among multiple
-        /// matching candidates, it will serve as a tie-breaker.
+        ///     Set whether this bean is a primary autowire candidate.
+        ///     If this value is true for exactly one bean among multiple
+        ///     matching candidates, it will serve as a tie-breaker.
         /// </summary>
-        public bool IsPrimary 
-        { 
+        public bool IsPrimary
+        {
             get { return primary; }
             set { primary = value; }
         }
 
         /// <summary>
-        /// Register a qualifier to be used for autowire candidate resolution,
-        /// keyed by the qualifier's type name.
-        /// <see cref="AutowireCandidateQualifier"/>
+        ///     Register a qualifier to be used for autowire candidate resolution,
+        ///     keyed by the qualifier's type name.
+        ///     <see cref="AutowireCandidateQualifier" />
         /// </summary>
         public void AddQualifier(AutowireCandidateQualifier qualifier)
         {
@@ -567,7 +558,7 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// Return whether this bean has the specified qualifier.
+        ///     Return whether this bean has the specified qualifier.
         /// </summary>
         public bool HasQualifier(string typeName)
         {
@@ -575,7 +566,7 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// Return the qualifier mapped to the provided type name.
+        ///     Return the qualifier mapped to the provided type name.
         /// </summary>
         public AutowireCandidateQualifier GetQualifier(string typeName)
         {
@@ -583,36 +574,36 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// Return all registered qualifiers.
+        ///     Return all registered qualifiers.
         /// </summary>
-        /// <returns>the Set of <see cref="AutowireCandidateQualifier"/> objects.</returns>
+        /// <returns>the Set of <see cref="AutowireCandidateQualifier" /> objects.</returns>
         public Set<AutowireCandidateQualifier> GetQualifiers()
         {
             return new OrderedSet<AutowireCandidateQualifier>(qualifiers.Values);
         }
 
         /// <summary>
-        /// Copy the qualifiers from the supplied AbstractBeanDefinition to this bean definition.
+        ///     Copy the qualifiers from the supplied AbstractBeanDefinition to this bean definition.
         /// </summary>
         /// <param name="source">the AbstractBeanDefinition to copy from</param>
         public void CopyQualifiersFrom(AbstractObjectDefinition source)
         {
             Trace.Assert(source != null, "Source must not be null");
-            foreach (var qualifier in source.qualifiers)
-            {
+            foreach (KeyValuePair<string, AutowireCandidateQualifier> qualifier in source.qualifiers)
                 if (!qualifiers.Contains(qualifier))
+                {
                     qualifiers.Add(qualifier);
-            }
+                }
         }
 
         /// <summary>
-        /// The name of the initializer method.
+        ///     The name of the initializer method.
         /// </summary>
         /// <remarks>
-        /// <p>
-        /// The default value is the <see cref="String.Empty"/> constant,
-        /// in which case there is no initializer method.
-        /// </p>
+        ///     <p>
+        ///         The default value is the <see cref="String.Empty" /> constant,
+        ///         in which case there is no initializer method.
+        ///     </p>
         /// </remarks>
         public string InitMethodName
         {
@@ -621,13 +612,13 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// Return the name of the destroy method.
+        ///     Return the name of the destroy method.
         /// </summary>
         /// <remarks>
-        /// <p>
-        /// The default value is the <see cref="String.Empty"/> constant,
-        /// in which case there is no destroy method.
-        /// </p>
+        ///     <p>
+        ///         The default value is the <see cref="String.Empty" /> constant,
+        ///         in which case there is no destroy method.
+        ///     </p>
         /// </remarks>
         public string DestroyMethodName
         {
@@ -636,15 +627,15 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// The name of the factory method to use (if any).
+        ///     The name of the factory method to use (if any).
         /// </summary>
         /// <remarks>
-        /// <p>
-        /// This method will be invoked with constructor arguments, or with no
-        /// arguments if none are specified. The <see langword="static"/>
-        /// method will be invoked on the specified
-        /// <see cref="Spring.Objects.Factory.Config.IObjectDefinition.ObjectType"/>.
-        /// </p>
+        ///     <p>
+        ///         This method will be invoked with constructor arguments, or with no
+        ///         arguments if none are specified. The <see langword="static" />
+        ///         method will be invoked on the specified
+        ///         <see cref="Spring.Objects.Factory.Config.IObjectDefinition.ObjectType" />.
+        ///     </p>
         /// </remarks>
         public string FactoryMethodName
         {
@@ -653,7 +644,7 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// The name of the factory object to use (if any).
+        ///     The name of the factory object to use (if any).
         /// </summary>
         public string FactoryObjectName
         {
@@ -662,13 +653,13 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// Does this object definition have any constructor argument values?
+        ///     Does this object definition have any constructor argument values?
         /// </summary>
         /// <value>
-        /// <see langword="true"/> if his object definition has at least one
-        /// element in it's
-        /// <see cref="Spring.Objects.Factory.Support.AbstractObjectDefinition.ConstructorArgumentValues"/>
-        /// property.
+        ///     <see langword="true" /> if his object definition has at least one
+        ///     element in it's
+        ///     <see cref="Spring.Objects.Factory.Support.AbstractObjectDefinition.ConstructorArgumentValues" />
+        ///     property.
         /// </value>
         public virtual bool HasConstructorArgumentValues
         {
@@ -684,14 +675,14 @@ namespace Spring.Objects.Factory.Support
         #region Methods
 
         /// <summary>
-        /// Resolves the type of the object, resolving it from a specified
-        /// object type name if necessary. 
+        ///     Resolves the type of the object, resolving it from a specified
+        ///     object type name if necessary.
         /// </summary>
         /// <returns>
-        /// A resolved <see cref="System.Type"/> instance.
+        ///     A resolved <see cref="System.Type" /> instance.
         /// </returns>
         /// <exception cref="System.TypeLoadException">
-        /// If the type cannot be resolved.
+        ///     If the type cannot be resolved.
         /// </exception>
         public Type ResolveObjectType()
         {
@@ -701,15 +692,15 @@ namespace Spring.Objects.Factory.Support
                 return null;
             }
             Type resolvedType = TypeResolutionUtils.ResolveType(typeName);
-            this.ObjectType = resolvedType;
+            ObjectType = resolvedType;
             return resolvedType;
         }
 
         /// <summary>
-        /// Validate this object definition.
+        ///     Validate this object definition.
         /// </summary>
         /// <exception cref="Spring.Objects.Factory.Support.ObjectDefinitionValidationException">
-        /// In the case of a validation failure.
+        ///     In the case of a validation failure.
         /// </exception>
         public virtual void Validate()
         {
@@ -731,23 +722,21 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// Validates all <see cref="MethodOverrides"/> 
+        ///     Validates all <see cref="MethodOverrides" />
         /// </summary>
         public virtual void PrepareMethodOverrides()
         {
             // ascertain that the various lookup methods exist...
             foreach (MethodOverride mo in MethodOverrides.Overrides)
-            {
                 PrepareMethodOverride(mo);
-            }
         }
 
         /// <summary>
-        /// Validate the supplied <paramref name="methodOverride"/>.
+        ///     Validate the supplied <paramref name="methodOverride" />.
         /// </summary>
         /// <param name="methodOverride">
-        /// The <see cref="Spring.Objects.Factory.Support.MethodOverride"/>
-        /// to be validated.
+        ///     The <see cref="Spring.Objects.Factory.Support.MethodOverride" />
+        ///     to be validated.
         /// </param>
         protected void PrepareMethodOverride(MethodOverride methodOverride)
         {
@@ -765,11 +754,11 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// Override settings in this object definition from the supplied
-        /// <paramref name="other"/> object definition.
+        ///     Override settings in this object definition from the supplied
+        ///     <paramref name="other" /> object definition.
         /// </summary>
         /// <param name="other">
-        /// The object definition used to override the member fields of this instance.
+        ///     The object definition used to override the member fields of this instance.
         /// </param>
         public virtual void OverrideFrom(IObjectDefinition other)
         {
@@ -814,7 +803,7 @@ namespace Spring.Objects.Factory.Support
             ResourceDescription = other.ResourceDescription;
             IsPrimary = other.IsPrimary;
             IsAutowireCandidate = other.IsAutowireCandidate;
-            
+
             AbstractObjectDefinition aod = other as AbstractObjectDefinition;
             if (aod != null)
             {
@@ -830,12 +819,12 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents the current
-        /// <see cref="System.Object"/>. 
+        ///     Returns a <see cref="System.String" /> that represents the current
+        ///     <see cref="System.Object" />.
         /// </summary>
         /// <returns>
-        /// A <see cref="System.String"/> that represents the current
-        /// <see cref="System.Object"/>. 
+        ///     A <see cref="System.String" /> that represents the current
+        ///     <see cref="System.Object" />.
         /// </returns>
         public override string ToString()
         {
@@ -868,11 +857,11 @@ namespace Spring.Objects.Factory.Support
         private MutablePropertyValues propertyValues = new MutablePropertyValues();
         private EventValues eventHandlerValues = new EventValues();
         private MethodOverrides methodOverrides = new MethodOverrides();
-        private string resourceDescription = null;
+        private string resourceDescription;
         private bool isSingleton = true;
-        private bool isPrototype = false;
-        private bool isLazyInit = false;
-        private bool isAbstract = false;
+        private bool isPrototype;
+        private bool isLazyInit;
+        private bool isAbstract;
         private string scope = SCOPE_SINGLETON;
         private ObjectRole role = ObjectRole.ROLE_APPLICATION;
         private object objectType;
@@ -886,10 +875,10 @@ namespace Spring.Objects.Factory.Support
         private readonly IDictionary<string, AutowireCandidateQualifier> qualifiers =
             new Dictionary<string, AutowireCandidateQualifier>();
 
-        private string initMethodName = null;
-        private string destroyMethodName = null;
-        private string factoryMethodName = null;
-        private string factoryObjectName = null;
+        private string initMethodName;
+        private string destroyMethodName;
+        private string factoryMethodName;
+        private string factoryObjectName;
 
         #endregion
     }

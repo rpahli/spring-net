@@ -27,26 +27,21 @@ namespace Spring.Objects.Factory.Parsing
 {
     public class Problem
     {
-        private string _message;
-
-        private Location _location;
-
         private Exception _rootCause;
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Problem"/> class.
+        ///     Initializes a new instance of the <see cref="Problem" /> class.
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="location">The location.</param>
         public Problem(string message, Location location)
             : this(message, location, null)
         {
-
         }
 
         /// <summary>
-        /// Initializes a new instance of the Problem class.
+        ///     Initializes a new instance of the Problem class.
         /// </summary>
         /// <param name="message"></param>
         /// <param name="location"></param>
@@ -56,43 +51,28 @@ namespace Spring.Objects.Factory.Parsing
             AssertUtils.ArgumentNotNull(message, "message");
             AssertUtils.ArgumentNotNull(location, "resource");
 
-            _message = message;
-            _location = location;
+            Message = message;
+            Location = location;
             _rootCause = rootCause;
         }
 
-        public string Message
-        {
-            get
-            {
-                return _message;
-            }
-        }
+        public string Message { get; }
 
-        public Location Location
-        {
-            get
-            {
-                return _location;
-            }
-        }
+        public Location Location { get; }
 
         public string ResourceDescription
         {
-            get { return _location.Resource != null ? _location.Resource.Description : string.Empty; }
+            get { return Location.Resource != null ? Location.Resource.Description : string.Empty; }
         }
 
         public override string ToString()
         {
-
             StringBuilder sb = new StringBuilder();
             sb.Append("Configuration problem: ");
             sb.Append(Message);
             sb.Append("\nOffending resource: ").Append(ResourceDescription);
 
             return sb.ToString();
-
         }
-
     }
 }

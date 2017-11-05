@@ -23,41 +23,32 @@ using System.Reflection;
 namespace Spring.Util
 {
     /// <summary>
-    /// Collects information on the constructor to use to create the instance and the argument instances to pass into the
-    /// constructor.
+    ///     Collects information on the constructor to use to create the instance and the argument instances to pass into the
+    ///     constructor.
     /// </summary>
     public class ConstructorInstantiationInfo
     {
-        private ConstructorInfo constructorInfo;
-        private object[] argInstances;
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConstructorInstantiationInfo"/> class.
+        ///     Initializes a new instance of the <see cref="ConstructorInstantiationInfo" /> class.
         /// </summary>
         /// <param name="constructorInfo">The constructor info.</param>
         /// <param name="argInstances">The arg instances.</param>
         public ConstructorInstantiationInfo(ConstructorInfo constructorInfo, object[] argInstances)
         {
-            this.constructorInfo = constructorInfo;
-            this.argInstances = argInstances;
+            ConstructorInfo = constructorInfo;
+            ArgInstances = argInstances;
         }
 
         /// <summary>
-        /// Gets the constructor info.
+        ///     Gets the constructor info.
         /// </summary>
         /// <value>The constructor info.</value>
-        public ConstructorInfo ConstructorInfo
-        {
-            get { return constructorInfo; }
-        }
+        public ConstructorInfo ConstructorInfo { get; }
 
         /// <summary>
-        /// Gets the arg instances.
+        ///     Gets the arg instances.
         /// </summary>
         /// <value>The arg instances.</value>
-        public object[] ArgInstances
-        {
-            get { return argInstances; }
-        }
+        public object[] ArgInstances { get; }
     }
 }

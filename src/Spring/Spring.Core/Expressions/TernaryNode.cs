@@ -25,34 +25,34 @@ using Spring.Expressions.Parser.antlr.collections;
 namespace Spring.Expressions
 {
     /// <summary>
-    /// Represents ternary expression node.
+    ///     Represents ternary expression node.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class TernaryNode : BaseNode
     {
-        private bool initialized = false;
         private BaseNode condition;
-        private BaseNode trueExp;
         private BaseNode falseExp;
+        private bool initialized;
+        private BaseNode trueExp;
 
         /// <summary>
-        /// Create a new instance
+        ///     Create a new instance
         /// </summary>
-        public TernaryNode():base()
+        public TernaryNode()
         {
         }
 
         /// <summary>
-        /// Create a new instance from SerializationInfo
+        ///     Create a new instance from SerializationInfo
         /// </summary>
         protected TernaryNode(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-        
+
         /// <summary>
-        /// Returns a value for the string literal node.
+        ///     Returns a value for the string literal node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
@@ -65,7 +65,7 @@ namespace Spring.Expressions
                 {
                     if (!initialized)
                     {
-                        AST node = this.getFirstChild();
+                        AST node = getFirstChild();
                         condition = (BaseNode) node;
                         node = node.getNextSibling();
                         trueExp = (BaseNode) node;
@@ -81,10 +81,7 @@ namespace Spring.Expressions
             {
                 return GetValue(trueExp, context, evalContext);
             }
-            else
-            {
-                return GetValue(falseExp, context, evalContext);
-            }
+            return GetValue(falseExp, context, evalContext);
         }
     }
 }

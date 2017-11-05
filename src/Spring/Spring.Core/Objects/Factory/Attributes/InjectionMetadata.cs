@@ -21,19 +21,18 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Common.Logging;
-
+using Spring.Logging;
 using Spring.Objects.Factory.Support;
 
 namespace Spring.Objects.Factory.Attributes
 {
     /// <summary>
-    /// Internal class for managing injection metadata.
-    /// Not intended for direct use in applications.
+    ///     Internal class for managing injection metadata.
+    ///     Not intended for direct use in applications.
     /// </summary>
     public class InjectionMetadata
     {
-        private static readonly ILog Logger = LogManager.GetLogger<InjectionMetadata>();
+        private static readonly ILogger Logger = LogManager.GetLogger<InjectionMetadata>();
 
         private readonly IList<InjectedElement> _injectedElements;
 
@@ -47,9 +46,10 @@ namespace Spring.Objects.Factory.Attributes
             _injectedElements = new List<InjectedElement>();
             if (elements.Count > 0)
             {
-                foreach (var element in elements)
+                foreach (InjectedElement element in elements)
                 {
-                    Logger.Debug(m => m("Found injected element on class [" + targetType.Name + "]: " + element));
+                    Logger.Debug($"Found injected element on class [{targetType.Name}]: {element}");
+
                     _injectedElements.Add(element);
                 }
             }
@@ -63,36 +63,39 @@ namespace Spring.Objects.Factory.Attributes
         }
 
 
-	    /// <summary>
-	    /// Inject values for members into object instance
-	    /// </summary>
-	    /// <param name="instance"></param>
-	    /// <param name="objectName"></param>
-	    /// <param name="pvs"></param>
-	    public void Inject(Object instance, string objectName, IPropertyValues pvs)
-	    {
-	        if (_injectedElements.Count == 0)
+        /// <summary>
+        ///     Inject values for members into object instance
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="objectName"></param>
+        /// <param name="pvs"></param>
+        public void Inject(object instance, string objectName, IPropertyValues pvs)
+        {
+            if (_injectedElements.Count == 0)
+            {
                 return;
+            }
 
-	        foreach(var element in _injectedElements)
-	        {
-	            Logger.Debug(m => m("Processing injected method of bean '{0}': {1}", objectName, element));
-	            element.Inject(instance, objectName, pvs);
-	        }
-	    }
+            foreach (InjectedElement element in _injectedElements)
+            {
+                Logger.Debug($"Processing injected method of bean '{objectName}': {element}");
+
+                element.Inject(instance, objectName, pvs);
+            }
+        }
 
         /// <summary>
-        /// Represents an element that needs to be injected
+        ///     Represents an element that needs to be injected
         /// </summary>
         public abstract class InjectedElement
         {
             /// <summary>
-            /// The Property, field, method or constructor info
+            ///     The Property, field, method or constructor info
             /// </summary>
             private readonly MemberInfo _member;
 
             /// <summary>
-            /// Instantiates a new inject element
+            ///     Instantiates a new inject element
             /// </summary>
             /// <param name="member"></param>
             protected InjectedElement(MemberInfo member)
@@ -106,7 +109,7 @@ namespace Spring.Objects.Factory.Attributes
             }
 
             /// <summary>
-            /// Ececuted to inject value to associated memeber info
+            ///     Ececuted to inject value to associated memeber info
             /// </summary>
             /// <param name="target"></param>
             /// <param name="requestingObjectName"></param>

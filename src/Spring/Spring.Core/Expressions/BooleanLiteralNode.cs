@@ -24,7 +24,7 @@ using System.Runtime.Serialization;
 namespace Spring.Expressions
 {
     /// <summary>
-    /// Represents parsed boolean literal node.
+    ///     Represents parsed boolean literal node.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
@@ -33,44 +33,44 @@ namespace Spring.Expressions
         private object nodeValue;
 
         /// <summary>
-        /// Create a new instance
+        ///     Create a new instance
         /// </summary>
         public BooleanLiteralNode()
         {
         }
 
         /// <summary>
-        /// Create a new instance
+        ///     Create a new instance
         /// </summary>
         public BooleanLiteralNode(string text)
         {
-            this.Text = text;
+            Text = text;
         }
 
         /// <summary>
-        /// Create a new instance from SerializationInfo
+        ///     Create a new instance from SerializationInfo
         /// </summary>
         protected BooleanLiteralNode(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-        
+
         /// <summary>
-        /// Returns a value for the boolean literal node.
+        ///     Returns a value for the boolean literal node.
         /// </summary>
         /// <summary>
-        /// This is the entrypoint into evaluating this expression.
+        ///     This is the entrypoint into evaluating this expression.
         /// </summary>
         /// <returns>Node's value.</returns>
         protected override object Get(object context, EvaluationContext evalContext)
         {
             if (nodeValue == null)
             {
-                lock(this)
+                lock (this)
                 {
                     if (nodeValue == null)
                     {
-                        nodeValue = Boolean.Parse(this.getText());
+                        nodeValue = bool.Parse(getText());
                     }
                 }
             }

@@ -23,74 +23,74 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Common.Logging;
 using Spring.Context.Attributes.TypeFilters;
-using Spring.Util;
+using Spring.Logging;
 using Spring.Objects.Factory.Xml;
+using Spring.Util;
 
 namespace Spring.Context.Attributes
 {
     /// <summary>
-    /// Scans Assebmlies for Types that satisfy a given set of constraints.
+    ///     Scans Assebmlies for Types that satisfy a given set of constraints.
     /// </summary>
     [Serializable]
     public abstract class AssemblyTypeScanner : IAssemblyTypeScanner
     {
         /// <summary>
-        /// Logger Instance.
+        ///     Logger Instance.
         /// </summary>
-        protected static readonly ILog Logger = LogManager.GetLogger<AssemblyTypeScanner>();
+        protected static readonly ILogger Logger = LogManager.GetLogger<AssemblyTypeScanner>();
 
         /// <summary>
-        /// Names of Assemblies to exclude from being loaded for scanning.
-        /// </summary>
-        protected IList<Func<string, bool>> AssemblyLoadExclusionPredicates = new List<Func<string, bool>>();
-
-        /// <summary>
-        /// Names of Assemblies to include for scanning.
-        /// </summary>
-        protected IList<Func<string, bool>> AssemblyLoadInclusionPredicates = new List<Func<string, bool>>();
-
-        /// <summary>
-        /// Assembly Inclusion Predicates.
+        ///     Assembly Inclusion Predicates.
         /// </summary>
         protected readonly List<Func<Assembly, bool>> AssemblyInclusionPredicates = new List<Func<Assembly, bool>>();
 
         /// <summary>
-        /// Type Exclusion Predicates.
+        ///     Type Exclusion Predicates.
         /// </summary>
         protected readonly List<Func<Type, bool>> TypeExclusionPredicates = new List<Func<Type, bool>>();
 
         /// <summary>
-        /// Type Exclusion Predicates.
+        ///     Type Exclusion Predicates.
         /// </summary>
         protected readonly List<ITypeFilter> TypeExclusionTypeFilters = new List<ITypeFilter>();
 
         /// <summary>
-        /// Type Inclusion Predicates.
+        ///     Type Inclusion Predicates.
         /// </summary>
         protected readonly List<Func<Type, bool>> TypeInclusionPredicates = new List<Func<Type, bool>>();
 
         /// <summary>
-        /// Type Inclusion TypeFilters.
+        ///     Type Inclusion TypeFilters.
         /// </summary>
         protected readonly List<ITypeFilter> TypeInclusionTypeFilter = new List<ITypeFilter>();
 
         /// <summary>
-        /// Assemblies to scan.
+        ///     Assemblies to scan.
         /// </summary>
         protected readonly List<IEnumerable<Type>> TypeSources = new List<IEnumerable<Type>>();
 
         /// <summary>
-        /// Stores the object default definitons defined in the XML configuration documnet
+        ///     Stores the object default definitons defined in the XML configuration documnet
         /// </summary>
         private DocumentDefaultsDefinition _defaults;
 
         private string _scanStartFolderPath;
 
+        /// <summary>
+        ///     Names of Assemblies to exclude from being loaded for scanning.
+        /// </summary>
+        protected IList<Func<string, bool>> AssemblyLoadExclusionPredicates = new List<Func<string, bool>>();
 
         /// <summary>
-        /// Stores the object default definitons defined in the XML configuration documnet
+        ///     Names of Assemblies to include for scanning.
+        /// </summary>
+        protected IList<Func<string, bool>> AssemblyLoadInclusionPredicates = new List<Func<string, bool>>();
+
+
+        /// <summary>
+        ///     Stores the object default definitons defined in the XML configuration documnet
         /// </summary>
         public DocumentDefaultsDefinition Defaults
         {
@@ -112,154 +112,14 @@ namespace Spring.Context.Attributes
             set { _scanStartFolderPath = value; }
         }
 
-        #region IAssemblyTypeScanner Members
-
-        /// <summary>
-        /// Assemblies the type of the having.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public IAssemblyTypeScanner AssemblyHavingType<T>()
-        {
-            TypeSources.Add(new AssemblyTypeSource((typeof(T).Assembly)));
-            return this;
-        }
-
-        /// <summary>
-        /// Excludes the type.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public IAssemblyTypeScanner ExcludeType<T>()
-        {
-            TypeExclusionPredicates.Add(t => t.FullName == typeof(T).FullName);
-            return this;
-        }
-
-        /// <summary>
-        /// Includes the type.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public IAssemblyTypeScanner IncludeType<T>()
-        {
-            TypeInclusionPredicates.Add(t => t.FullName == typeof(T).FullName);
-            return this;
-        }
-
-        /// <summary>
-        /// Includes the types.
-        /// </summary>
-        /// <param name="typeSource">The type source.</param>
-        /// <returns></returns>
-        public IAssemblyTypeScanner IncludeTypes(IEnumerable<Type> typeSource)
-        {
-            AssertUtils.ArgumentNotNull(typeSource, "typeSource");
-            TypeSources.Add(typeSource);
-            TypeInclusionPredicates.Add(
-                t => typeSource.Any(t1 => t1.FullName == t.FullName));
-            return this;
-        }
-
-        /// <summary>
-        /// Performs the Scan, respecting all filter settings.
-        /// </summary>
-        /// <returns></returns>
-        public virtual IEnumerable<Type> Scan()
-        {
-            SetDefaultFilters();
-
-            IList<Type> types = new List<Type>();
-
-            foreach (Assembly assembly in GetAllMatchingAssemblies(ScanStartFolderPath))
-            {
-                TypeSources.Add(new AssemblyTypeSource(assembly));
-            }
-
-            foreach (var typeSource in TypeSources)
-            {
-                foreach (Type type in typeSource)
-                {
-                    if (IsCompoundPredicateSatisfiedBy(type))
-                    {
-                        Logger.Debug(m => m("Satisfied Type: {0}", type.FullName));
-                        types.Add(type);
-                    }
-                }
-            }
-
-            return types;
-        }
-
-        /// <summary>
-        /// Adds the assembly filter.
-        /// </summary>
-        /// <param name="assemblyPredicate">The assembly predicate.</param>
-        /// <returns></returns>
-        public IAssemblyTypeScanner WithAssemblyFilter(Func<Assembly, bool> assemblyPredicate)
-        {
-            AssemblyInclusionPredicates.Add(assemblyPredicate);
-            return this;
-        }
-
-        /// <summary>
-        /// Adds the exclude filter.
-        /// </summary>
-        /// <param name="predicate">The predicate.</param>
-        /// <returns></returns>
-        public IAssemblyTypeScanner WithExcludeFilter(Func<Type, bool> predicate)
-        {
-            TypeExclusionPredicates.Add(predicate);
-            return this;
-        }
-
-        /// <summary>
-        /// Adds the exclude filter.
-        /// </summary>
-        /// <param name="filter">The type filter.</param>
-        /// <returns></returns>
-        public IAssemblyTypeScanner WithExcludeFilter(ITypeFilter filter)
-        {
-            if (filter != null)
-                TypeExclusionTypeFilters.Add(filter);
-
-            return this;
-        }
-
-        /// <summary>
-        /// Adds the include filter.
-        /// </summary>
-        /// <param name="predicate">The predicate.</param>
-        /// <returns></returns>
-        public IAssemblyTypeScanner WithIncludeFilter(Func<Type, bool> predicate)
-        {
-            TypeInclusionPredicates.Add(predicate);
-            return this;
-        }
-
-        /// <summary>
-        /// Adds the include filter.
-        /// </summary>
-        /// <param name="filter">The filter type.</param>
-        /// <returns></returns>
-        public IAssemblyTypeScanner WithIncludeFilter(ITypeFilter filter)
-        {
-            if (filter != null)
-                TypeInclusionTypeFilter.Add(filter);
-
-            return this;
-        }
-
-        #endregion
-
         private List<string> GetAllAssembliesInPath(string folderPath)
         {
-
-            var assemblies = new List<string>();
+            List<string> assemblies = new List<string>();
             assemblies.AddRange(DiscoverAssemblies(folderPath, "*.dll"));
             assemblies.AddRange(DiscoverAssemblies(folderPath, "*.exe"));
 
-            Logger.Debug(m => m("Assemblies to be scanned: {0}", StringUtils.ArrayToCommaDelimitedString(assemblies.ToArray())));
+            Logger.DebugFormat("Assemblies to be scanned: {0}",
+                StringUtils.ArrayToCommaDelimitedString(assemblies.ToArray()));
 
             return assemblies;
         }
@@ -279,7 +139,7 @@ namespace Spring.Context.Attributes
                     if (null != loadedAssembly)
                     {
                         string fullname = loadedAssembly.FullName;
-                        Logger.Debug(m => m("Add Assembly: {0}", fullname));
+                        Logger.Debug($"Add Assembly: {fullname}");
 
                         assemblies.Add(loadedAssembly);
                     }
@@ -300,7 +160,7 @@ namespace Spring.Context.Attributes
             catch (Exception ex)
             {
                 //log and swallow everything that might go wrong here...
-                Logger.Debug(m => m("Failed to load assembly {0} to inspect for [Configuration] types!", filename), ex);
+                Logger.Debug($"Failed to load assembly {filename} to inspect for [Configuration] types!", ex);
             }
 
             return assembly;
@@ -309,55 +169,57 @@ namespace Spring.Context.Attributes
         private string GetCurrentBinDirectoryPath()
         {
             return string.IsNullOrEmpty(AppDomain.CurrentDomain.DynamicDirectory)
-                       ? AppDomain.CurrentDomain.BaseDirectory
-                       : AppDomain.CurrentDomain.DynamicDirectory;
+                ? AppDomain.CurrentDomain.BaseDirectory
+                : AppDomain.CurrentDomain.DynamicDirectory;
         }
 
         /// <summary>
-        /// Applies the assembly filters to the assembly candidates.
+        ///     Applies the assembly filters to the assembly candidates.
         /// </summary>
         /// <param name="assemblyCandidates">The assembly candidates.</param>
         /// <returns></returns>
         protected virtual IEnumerable<Assembly> ApplyAssemblyFiltersTo(IEnumerable<Assembly> assemblyCandidates)
         {
-            var filteredAssemblies = assemblyCandidates.Where(IsIncludedAssembly).
-                                                        AsEnumerable();
+            IEnumerable<Assembly> filteredAssemblies = assemblyCandidates.Where(IsIncludedAssembly).AsEnumerable();
 
-            Logger.Debug(m => m("Filtered Assemblies: {0}", StringUtils.ArrayToCommaDelimitedString(filteredAssemblies.ToArray())));
+            Logger.DebugFormat("Filtered Assemblies: {0}",
+                StringUtils.ArrayToCommaDelimitedString(filteredAssemblies.ToArray()));
 
             return filteredAssemblies;
         }
 
         /// <summary>
-        /// Determines whether the compound predicate is satisfied by the specified type.
+        ///     Determines whether the compound predicate is satisfied by the specified type.
         /// </summary>
         /// <param name="type">The type.</param>
         /// <returns>
-        /// 	<c>true</c> if the compound predicate is satisfied by the specified type; otherwise, <c>false</c>.
+        ///     <c>true</c> if the compound predicate is satisfied by the specified type; otherwise, <c>false</c>.
         /// </returns>
         protected abstract bool IsCompoundPredicateSatisfiedBy(Type type);
 
         /// <summary>
-        /// Determines whether [is excluded type] [the specified type].
+        ///     Determines whether [is excluded type] [the specified type].
         /// </summary>
         /// <param name="type">The type.</param>
         /// <returns>
-        /// 	<c>true</c> if [is excluded type] [the specified type]; otherwise, <c>false</c>.
+        ///     <c>true</c> if [is excluded type] [the specified type]; otherwise, <c>false</c>.
         /// </returns>
         protected virtual bool IsExcludedType(Type type)
         {
             if (TypeExclusionPredicates.Count > 0 && TypeExclusionPredicates.Any(exclude => exclude(type)))
+            {
                 return true;
+            }
 
-            return Enumerable.Any(TypeExclusionTypeFilters, filter => filter.Match(type));
+            return TypeExclusionTypeFilters.Any(filter => filter.Match(type));
         }
 
         /// <summary>
-        /// Determines whether [is included assembly] [the specified assembly].
+        ///     Determines whether [is included assembly] [the specified assembly].
         /// </summary>
         /// <param name="assembly">The assembly.</param>
         /// <returns>
-        /// 	<c>true</c> if [is included assembly] [the specified assembly]; otherwise, <c>false</c>.
+        ///     <c>true</c> if [is included assembly] [the specified assembly]; otherwise, <c>false</c>.
         /// </returns>
         protected virtual bool IsIncludedAssembly(Assembly assembly)
         {
@@ -366,44 +228,52 @@ namespace Spring.Context.Attributes
             if (result)
             {
                 string fullname = assembly.FullName;
-                Logger.Debug(m => m("Include Assembly:  {0}", fullname));
+                Logger.Debug($"Include Assembly:  {fullname}");
             }
 
             return result;
         }
 
         /// <summary>
-        /// Determines whether [is included type] [the specified type].
+        ///     Determines whether [is included type] [the specified type].
         /// </summary>
         /// <param name="type">The type.</param>
         /// <returns>
-        /// 	<c>true</c> if [is included type] [the specified type]; otherwise, <c>false</c>.
+        ///     <c>true</c> if [is included type] [the specified type]; otherwise, <c>false</c>.
         /// </returns>
         protected virtual bool IsIncludedType(Type type)
         {
             if (TypeInclusionPredicates.Count > 0 && TypeInclusionPredicates.Any(include => include(type)))
+            {
                 return true;
+            }
 
-            return Enumerable.Any(TypeInclusionTypeFilter, filter => filter.Match(type));
+            return TypeInclusionTypeFilter.Any(filter => filter.Match(type));
         }
 
         /// <summary>
-        /// Sets the default filters.
+        ///     Sets the default filters.
         /// </summary>
         protected virtual void SetDefaultFilters()
         {
             if (TypeInclusionPredicates.Count == 0 && TypeInclusionTypeFilter.Count == 0)
+            {
                 TypeInclusionPredicates.Add(obj => true);
+            }
 
             if (TypeExclusionPredicates.Count == 0 && TypeExclusionTypeFilters.Count == 0)
+            {
                 TypeExclusionPredicates.Add(obj => false);
+            }
 
             if (AssemblyInclusionPredicates.Count == 0)
+            {
                 AssemblyInclusionPredicates.Add(obj => true);
+            }
         }
 
         /// <summary>
-        /// Loads the assemblies found.
+        ///     Loads the assemblies found.
         /// </summary>
         /// <param name="folderPath">The folder path.</param>
         /// <param name="extension">The extension.</param>
@@ -424,10 +294,153 @@ namespace Spring.Context.Attributes
                 {
                     assemblies.Add(file);
                 }
-
             }
 
             return assemblies;
         }
+
+        #region IAssemblyTypeScanner Members
+
+        /// <summary>
+        ///     Assemblies the type of the having.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public IAssemblyTypeScanner AssemblyHavingType<T>()
+        {
+            TypeSources.Add(new AssemblyTypeSource(typeof(T).Assembly));
+            return this;
+        }
+
+        /// <summary>
+        ///     Excludes the type.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public IAssemblyTypeScanner ExcludeType<T>()
+        {
+            TypeExclusionPredicates.Add(t => t.FullName == typeof(T).FullName);
+            return this;
+        }
+
+        /// <summary>
+        ///     Includes the type.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public IAssemblyTypeScanner IncludeType<T>()
+        {
+            TypeInclusionPredicates.Add(t => t.FullName == typeof(T).FullName);
+            return this;
+        }
+
+        /// <summary>
+        ///     Includes the types.
+        /// </summary>
+        /// <param name="typeSource">The type source.</param>
+        /// <returns></returns>
+        public IAssemblyTypeScanner IncludeTypes(IEnumerable<Type> typeSource)
+        {
+            AssertUtils.ArgumentNotNull(typeSource, "typeSource");
+            TypeSources.Add(typeSource);
+            TypeInclusionPredicates.Add(
+                t => typeSource.Any(t1 => t1.FullName == t.FullName));
+            return this;
+        }
+
+        /// <summary>
+        ///     Performs the Scan, respecting all filter settings.
+        /// </summary>
+        /// <returns></returns>
+        public virtual IEnumerable<Type> Scan()
+        {
+            SetDefaultFilters();
+
+            IList<Type> types = new List<Type>();
+
+            foreach (Assembly assembly in GetAllMatchingAssemblies(ScanStartFolderPath))
+            {
+                TypeSources.Add(new AssemblyTypeSource(assembly));
+            }
+
+            foreach (IEnumerable<Type> typeSource in TypeSources)
+            {
+                foreach (Type type in typeSource)
+                {
+                    if (IsCompoundPredicateSatisfiedBy(type))
+                    {
+                        Logger.Debug($"Satisfied Type: {type?.FullName}");
+                        types.Add(type);
+                    }
+                }
+            }
+
+            return types;
+        }
+
+        /// <summary>
+        ///     Adds the assembly filter.
+        /// </summary>
+        /// <param name="assemblyPredicate">The assembly predicate.</param>
+        /// <returns></returns>
+        public IAssemblyTypeScanner WithAssemblyFilter(Func<Assembly, bool> assemblyPredicate)
+        {
+            AssemblyInclusionPredicates.Add(assemblyPredicate);
+            return this;
+        }
+
+        /// <summary>
+        ///     Adds the exclude filter.
+        /// </summary>
+        /// <param name="predicate">The predicate.</param>
+        /// <returns></returns>
+        public IAssemblyTypeScanner WithExcludeFilter(Func<Type, bool> predicate)
+        {
+            TypeExclusionPredicates.Add(predicate);
+            return this;
+        }
+
+        /// <summary>
+        ///     Adds the exclude filter.
+        /// </summary>
+        /// <param name="filter">The type filter.</param>
+        /// <returns></returns>
+        public IAssemblyTypeScanner WithExcludeFilter(ITypeFilter filter)
+        {
+            if (filter != null)
+            {
+                TypeExclusionTypeFilters.Add(filter);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        ///     Adds the include filter.
+        /// </summary>
+        /// <param name="predicate">The predicate.</param>
+        /// <returns></returns>
+        public IAssemblyTypeScanner WithIncludeFilter(Func<Type, bool> predicate)
+        {
+            TypeInclusionPredicates.Add(predicate);
+            return this;
+        }
+
+        /// <summary>
+        ///     Adds the include filter.
+        /// </summary>
+        /// <param name="filter">The filter type.</param>
+        /// <returns></returns>
+        public IAssemblyTypeScanner WithIncludeFilter(ITypeFilter filter)
+        {
+            if (filter != null)
+            {
+                TypeInclusionTypeFilter.Add(filter);
+            }
+
+            return this;
+        }
+
+        #endregion
     }
 }

@@ -1,4 +1,5 @@
 #region License
+
 /*
 * Copyright © 2002-2011 the original author or authors.
 * 
@@ -14,6 +15,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+
 #endregion
 
 using System;
@@ -22,58 +24,58 @@ using System.Runtime.Serialization;
 namespace Spring.Pool
 {
     /// <summary>
-    /// Base class for all pooling exceptions.
+    ///     Base class for all pooling exceptions.
     /// </summary>
     /// <author>Federico Spinazzi</author>
     [Serializable]
     public class PoolException : Exception
     {
         /// <summary>
-        /// Creates a new instance of the
-        /// <see cref="Spring.Pool.PoolException"/> class.
+        ///     Creates a new instance of the
+        ///     <see cref="Spring.Pool.PoolException" /> class.
         /// </summary>
-        public PoolException ()
+        public PoolException()
         {
         }
 
         /// <summary>
-        /// Creates a new instance of the
-        /// <see cref="Spring.Pool.PoolException"/> class.
+        ///     Creates a new instance of the
+        ///     <see cref="Spring.Pool.PoolException" /> class.
         /// </summary>
         /// <param name="message">
-        /// A message about the exception.
+        ///     A message about the exception.
         /// </param>
-        public PoolException (string message) : base (message)
+        public PoolException(string message) : base(message)
         {
         }
 
         /// <summary>
-        /// Creates a new instance of the
-        /// <see cref="Spring.Pool.PoolException"/> class.
+        ///     Creates a new instance of the
+        ///     <see cref="Spring.Pool.PoolException" /> class.
         /// </summary>
         /// <param name="message">
-        /// A message about the exception.
+        ///     A message about the exception.
         /// </param>
         /// <param name="innerException">
-        /// The root exception that is being wrapped.
+        ///     The root exception that is being wrapped.
         /// </param>
-        public PoolException (string message, Exception innerException) : base (message, innerException)
+        public PoolException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
         /// <summary>
-        /// Creates a new instance of the
-        /// <see cref="Spring.Pool.PoolException"/> class.
+        ///     Creates a new instance of the
+        ///     <see cref="Spring.Pool.PoolException" /> class.
         /// </summary>
         /// <param name="info">
-        /// The <see cref="System.Runtime.Serialization.SerializationInfo"/>
-        /// that holds the serialized object data about the exception being thrown.
+        ///     The <see cref="System.Runtime.Serialization.SerializationInfo" />
+        ///     that holds the serialized object data about the exception being thrown.
         /// </param>
         /// <param name="context">
-        /// The <see cref="System.Runtime.Serialization.StreamingContext"/>
-        /// that contains contextual information about the source or destination.
+        ///     The <see cref="System.Runtime.Serialization.StreamingContext" />
+        ///     that contains contextual information about the source or destination.
         /// </param>
-        protected PoolException (SerializationInfo info, StreamingContext context) : base (info, context)
+        protected PoolException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

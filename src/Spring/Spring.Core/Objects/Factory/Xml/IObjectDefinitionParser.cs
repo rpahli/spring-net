@@ -17,41 +17,43 @@
  */
 
 #endregion
+
 using System.Xml;
 using Spring.Objects.Factory.Config;
 
 namespace Spring.Objects.Factory.Xml
 {
     /// <summary>
-    /// Interface used to handle custom, top-level tags.
+    ///     Interface used to handle custom, top-level tags.
     /// </summary>
-    /// <remarks>Implementations are free to turn the metadata in the custom tag into as
-    /// many <see cref="Spring.Objects.Factory.Config.IObjectDefinition"/> as required.
+    /// <remarks>
+    ///     Implementations are free to turn the metadata in the custom tag into as
+    ///     many <see cref="Spring.Objects.Factory.Config.IObjectDefinition" /> as required.
     /// </remarks>
     /// <author>Rob Harrop</author>
     /// <author>Mark Pollack (.NET)</author>
     public interface IObjectDefinitionParser
     {
         /// <summary>
-        /// Parse the specified XmlElement and register the resulting
-        /// ObjectDefinitions with the <see cref="ParserContext.Registry"/> IObjectDefinitionRegistry
-        /// embedded in the supplied <see cref="ParserContext"/>
+        ///     Parse the specified XmlElement and register the resulting
+        ///     ObjectDefinitions with the <see cref="ParserContext.Registry" /> IObjectDefinitionRegistry
+        ///     embedded in the supplied <see cref="ParserContext" />
         /// </summary>
         /// <remarks>
-        /// <p>
-        /// This method is never invoked if the parser is namespace aware
-        /// and was called to process the root node.
-        /// </p>
+        ///     <p>
+        ///         This method is never invoked if the parser is namespace aware
+        ///         and was called to process the root node.
+        ///     </p>
         /// </remarks>
         /// <param name="element">
-        /// The element to be parsed.
+        ///     The element to be parsed.
         /// </param>
         /// <param name="parserContext">
-        /// The object encapsulating the current state of the parsing process. 
-        /// Provides access to a IObjectDefinitionRegistry
+        ///     The object encapsulating the current state of the parsing process.
+        ///     Provides access to a IObjectDefinitionRegistry
         /// </param>
         /// <returns>
-        /// The primary object definition.
+        ///     The primary object definition.
         /// </returns>
         IObjectDefinition ParseElement(XmlElement element, ParserContext parserContext);
     }

@@ -23,42 +23,42 @@ using System.Runtime.Serialization;
 namespace Spring.Expressions
 {
     /// <summary>
-    /// Base class for unary operators.
+    ///     Base class for unary operators.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     //[Serializable]
     public abstract class UnaryOperator : BaseNode
     {
         /// <summary>
-        /// Create a new instance
+        ///     Create a new instance
         /// </summary>
-        public UnaryOperator():base()
+        public UnaryOperator()
         {
         }
 
         /// <summary>
-        /// Create a new instance
+        ///     Create a new instance
         /// </summary>
         public UnaryOperator(BaseNode operand)
         {
-            this.addChild(operand);
+            addChild(operand);
         }
 
         /// <summary>
-        /// Create a new instance from SerializationInfo
+        ///     Create a new instance from SerializationInfo
         /// </summary>
         protected UnaryOperator(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-        
+
         /// <summary>
-        /// Gets the operand.
+        ///     Gets the operand.
         /// </summary>
         /// <value>The operand.</value>
         public BaseNode Operand
         {
-            get { return (BaseNode) this.getFirstChild(); }
+            get { return (BaseNode) getFirstChild(); }
         }
     }
 }

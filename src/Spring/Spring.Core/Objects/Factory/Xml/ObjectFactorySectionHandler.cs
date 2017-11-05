@@ -22,7 +22,6 @@
 
 using System.Configuration;
 using System.Xml;
-
 using Spring.Core.IO;
 
 #endregion
@@ -30,57 +29,49 @@ using Spring.Core.IO;
 namespace Spring.Objects.Factory.Xml
 {
     /// <summary>
-    /// Creates an <see cref="Spring.Objects.Factory.IObjectFactory"/> instance
-    /// populated with the object definitions supplied in the configuration
-    /// section. 
+    ///     Creates an <see cref="Spring.Objects.Factory.IObjectFactory" /> instance
+    ///     populated with the object definitions supplied in the configuration
+    ///     section.
     /// </summary>
     /// <remarks>
-    /// <p>
-    /// Applications will typically want to use an
-    /// <see cref="Spring.Context.IApplicationContext"/>, and instantiate it
-    /// via the use of the <see cref="Spring.Context.Support.ContextHandler"/>
-    /// class (which is similar in functionality to this class). This class is
-    /// provided for those times when only an
-    /// <see cref="Spring.Objects.Factory.IObjectFactory"/> is required.
-    /// </p>
-    /// <para>Creates an instance of the class XmlObjectFactory</para>
+    ///     <p>
+    ///         Applications will typically want to use an
+    ///         <see cref="Spring.Context.IApplicationContext" />, and instantiate it
+    ///         via the use of the <see cref="Spring.Context.Support.ContextHandler" />
+    ///         class (which is similar in functionality to this class). This class is
+    ///         provided for those times when only an
+    ///         <see cref="Spring.Objects.Factory.IObjectFactory" /> is required.
+    ///     </p>
+    ///     <para>Creates an instance of the class XmlObjectFactory</para>
     /// </remarks>
     /// <example>
-    /// <p>
-    /// 
-    /// </p>
+    ///     <p>
+    ///     </p>
     /// </example>
     /// <author>Mark Pollack (.NET)</author>
     public class ObjectFactorySectionHandler : IConfigurationSectionHandler
     {
         /// <summary>
-        /// Creates a new instance of the <see cref="ObjectFactorySectionHandler"/>
-        /// class.
-        /// </summary>
-        public ObjectFactorySectionHandler()
-        {}
-
-        /// <summary>
-        /// Creates a <see cref="Spring.Objects.Factory.IObjectFactory"/>
-        /// instance populated with the object definitions supplied in the
-        /// configuration section.
+        ///     Creates a <see cref="Spring.Objects.Factory.IObjectFactory" />
+        ///     instance populated with the object definitions supplied in the
+        ///     configuration section.
         /// </summary>
         /// <param name="parent">
-        /// The configuration settings in a corresponding parent configuration
-        /// section.
+        ///     The configuration settings in a corresponding parent configuration
+        ///     section.
         /// </param>
         /// <param name="configContext">
-        /// The configuration context when called from the ASP.NET
-        /// configuration system. Otherwise, this parameter is reserved and
-        /// is <see langword="null"/>.
+        ///     The configuration context when called from the ASP.NET
+        ///     configuration system. Otherwise, this parameter is reserved and
+        ///     is <see langword="null" />.
         /// </param>
         /// <param name="section">
-        /// The <see cref="System.Xml.XmlNode"/> for the section.
+        ///     The <see cref="System.Xml.XmlNode" /> for the section.
         /// </param>
         /// <returns>
-        /// A <see cref="Spring.Objects.Factory.IObjectFactory"/> instance
-        /// populated with the object definitions supplied in the configuration
-        /// section.
+        ///     A <see cref="Spring.Objects.Factory.IObjectFactory" /> instance
+        ///     populated with the object definitions supplied in the configuration
+        ///     section.
         /// </returns>
         public object Create(
             object parent, object configContext, XmlNode section)

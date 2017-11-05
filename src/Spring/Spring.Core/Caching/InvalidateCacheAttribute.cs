@@ -24,20 +24,20 @@ using Spring.Expressions;
 namespace Spring.Caching
 {
     /// <summary>
-    /// This attribute should be used to mark method that should 
-    /// invalidate one or more cache items when invoked.
+    ///     This attribute should be used to mark method that should
+    ///     invalidate one or more cache items when invoked.
     /// </summary>
     /// <remarks>
-    /// <p>
-    /// This attribute allows application developers to specify that some
-    /// cache items should be evicted from cache when the method is invoked, 
-    /// but it will not do any eviction by itself.
-    /// </p>
-    /// <p>
-    /// In order to actually evict cache items, an application developer
-    /// must apply a <c>Spring.Aspects.Cache.InvalidateCacheAdvice</c> to
-    /// all of the members that have this attribute defined.
-    /// </p>
+    ///     <p>
+    ///         This attribute allows application developers to specify that some
+    ///         cache items should be evicted from cache when the method is invoked,
+    ///         but it will not do any eviction by itself.
+    ///     </p>
+    ///     <p>
+    ///         In order to actually evict cache items, an application developer
+    ///         must apply a <c>Spring.Aspects.Cache.InvalidateCacheAdvice</c> to
+    ///         all of the members that have this attribute defined.
+    ///     </p>
     /// </remarks>
     /// <author>Aleksandar Seovic</author>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
@@ -45,23 +45,21 @@ namespace Spring.Caching
     public sealed class InvalidateCacheAttribute : Attribute
     {
         private string cacheName;
-        private string keys;
-        private IExpression keysExpression;
         private string condition;
-        private IExpression conditionExpression;
+        private string keys;
 
         /// <summary>
-        /// Creates an attribute instance.
+        ///     Creates an attribute instance.
         /// </summary>
         public InvalidateCacheAttribute()
         {
         }
 
         /// <summary>
-        /// Creates an attribute instance.
+        ///     Creates an attribute instance.
         /// </summary>
         /// <param name="cacheName">
-        /// The name of the cache to use.
+        ///     The name of the cache to use.
         /// </param>
         public InvalidateCacheAttribute(string cacheName)
         {
@@ -69,10 +67,10 @@ namespace Spring.Caching
         }
 
         /// <summary>
-        /// Gets or sets the name of the cache to use.
+        ///     Gets or sets the name of the cache to use.
         /// </summary>
         /// <value>
-        /// The name of the cache to use.
+        ///     The name of the cache to use.
         /// </value>
         public string CacheName
         {
@@ -81,12 +79,12 @@ namespace Spring.Caching
         }
 
         /// <summary>
-        /// Gets or sets a SpEL expression that should be evaluated in order 
-        /// to determine the keys for the items that should be evicted.
+        ///     Gets or sets a SpEL expression that should be evaluated in order
+        ///     to determine the keys for the items that should be evicted.
         /// </summary>
         /// <value>
-        /// An expression string that should be evaluated in order 
-        /// to determine the keys for the items that should be evicted.
+        ///     An expression string that should be evaluated in order
+        ///     to determine the keys for the items that should be evicted.
         /// </value>
         public string Keys
         {
@@ -94,30 +92,27 @@ namespace Spring.Caching
             set
             {
                 keys = value;
-                keysExpression = Expression.Parse(value);
+                KeysExpression = Expression.Parse(value);
             }
         }
 
         /// <summary>
-        /// Gets an expression instance that should be evaluated in order 
-        /// to determine the keys for the items that should be evicted.
+        ///     Gets an expression instance that should be evaluated in order
+        ///     to determine the keys for the items that should be evicted.
         /// </summary>
         /// <value>
-        /// An expression instance that should be evaluated in order 
-        /// to determine the keys for the items that should be evicted.
+        ///     An expression instance that should be evaluated in order
+        ///     to determine the keys for the items that should be evicted.
         /// </value>
-        public IExpression KeysExpression
-        {
-            get { return keysExpression; }
-        }
+        public IExpression KeysExpression { get; private set; }
 
         /// <summary>
-        /// Gets or sets a SpEL expression that should be evaluated in order 
-        /// to determine whether items should be evicted.
+        ///     Gets or sets a SpEL expression that should be evaluated in order
+        ///     to determine whether items should be evicted.
         /// </summary>
         /// <value>
-        /// An expression string that should be evaluated in order to determine 
-        /// whether items should be evicted.
+        ///     An expression string that should be evaluated in order to determine
+        ///     whether items should be evicted.
         /// </value>
         public string Condition
         {
@@ -125,21 +120,18 @@ namespace Spring.Caching
             set
             {
                 condition = value;
-                conditionExpression = Expression.Parse(value);
+                ConditionExpression = Expression.Parse(value);
             }
         }
 
         /// <summary>
-        /// Gets an expression instance that should be evaluated in order 
-        /// to determine whether items should be evicted.
+        ///     Gets an expression instance that should be evaluated in order
+        ///     to determine whether items should be evicted.
         /// </summary>
         /// <value>
-        /// An expression instance that should be evaluated in order to determine 
-        /// whether items should be evicted.
+        ///     An expression instance that should be evaluated in order to determine
+        ///     whether items should be evicted.
         /// </value>
-        public IExpression ConditionExpression
-        {
-            get { return conditionExpression; }
-        }
+        public IExpression ConditionExpression { get; private set; }
     }
 }

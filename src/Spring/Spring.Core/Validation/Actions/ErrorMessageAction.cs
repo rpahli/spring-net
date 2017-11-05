@@ -27,18 +27,18 @@ using Spring.Util;
 namespace Spring.Validation.Actions
 {
     /// <summary>
-    /// Implementation of <see cref="IValidationAction"/> that adds error message
-    /// to the validation errors container.
+    ///     Implementation of <see cref="IValidationAction" /> that adds error message
+    ///     to the validation errors container.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     public class ErrorMessageAction : BaseValidationAction
     {
-        private string messageId;
+        private readonly string messageId;
         private IExpression[] messageParams;
-        private string[] providers;
+        private readonly string[] providers;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ErrorMessageAction"/> class.
+        ///     Initializes a new instance of the <see cref="ErrorMessageAction" /> class.
         /// </summary>
         /// <param name="messageId">Error message resource identifier.</param>
         /// <param name="providers">Names of the error providers this message should be added to.</param>
@@ -55,7 +55,7 @@ namespace Spring.Validation.Actions
         }
 
         /// <summary>
-        /// Sets the expressions that should be resolved to error message parameters.
+        ///     Sets the expressions that should be resolved to error message parameters.
         /// </summary>
         /// <value>The expressions that should be resolved to error message parameters.</value>
         public IExpression[] Parameters
@@ -64,22 +64,21 @@ namespace Spring.Validation.Actions
         }
 
         /// <summary>
-        /// Called when associated validator is invalid.
+        ///     Called when associated validator is invalid.
         /// </summary>
         /// <param name="validationContext">Validation context.</param>
         /// <param name="contextParams">Additional context parameters.</param>
         /// <param name="errors">Validation errors container.</param>
-        protected override void OnInvalid(object validationContext, IDictionary<string, object> contextParams, IValidationErrors errors)
+        protected override void OnInvalid(object validationContext, IDictionary<string, object> contextParams,
+            IValidationErrors errors)
         {
             ErrorMessage error = CreateErrorMessage(validationContext, contextParams);
-            foreach (string provider in this.providers)
-            {
+            foreach (string provider in providers)
                 errors.AddError(provider.Trim(), error);
-            }
         }
 
         /// <summary>
-        /// Resolves the error message.
+        ///     Resolves the error message.
         /// </summary>
         /// <param name="validationContext">Validation context to resolve message parameters against.</param>
         /// <param name="contextParams">Additional context parameters.</param>
@@ -91,30 +90,24 @@ namespace Spring.Validation.Actions
                 object[] parameters = ResolveMessageParameters(messageParams, validationContext, contextParams);
                 return new ErrorMessage(messageId, parameters);
             }
-            else
-            {
-                return new ErrorMessage(messageId, null);
-            }
+            return new ErrorMessage(messageId, null);
         }
 
         /// <summary>
-        /// Resolves the message parameters.
+        ///     Resolves the message parameters.
         /// </summary>
         /// <param name="messageParams">List of parameters to resolve.</param>
         /// <param name="validationContext">Validation context to resolve parameters against.</param>
         /// <param name="contextParams">Additional context parameters.</param>
         /// <returns>Resolved message parameters.</returns>
-        private object[] ResolveMessageParameters(IList messageParams, object validationContext, IDictionary<string, object> contextParams)
+        private object[] ResolveMessageParameters(IList messageParams, object validationContext,
+            IDictionary<string, object> contextParams)
         {
             object[] parameters = new object[messageParams.Count];
             for (int i = 0; i < messageParams.Count; i++)
-            {
                 parameters[i] = ((IExpression) messageParams[i]).GetValue(validationContext, contextParams);
-            }
 
             return parameters;
         }
-
-
     }
 }

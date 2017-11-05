@@ -26,34 +26,34 @@ using Spring.Util;
 namespace Spring.Expressions
 {
     /// <summary>
-    /// Represents logical BETWEEN operator.
+    ///     Represents logical BETWEEN operator.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class OpBetween : BinaryOperator
     {
         /// <summary>
-        /// Create a new instance
+        ///     Create a new instance
         /// </summary>
         public OpBetween()
         {
         }
 
         /// <summary>
-        /// Create a new instance from SerializationInfo
+        ///     Create a new instance from SerializationInfo
         /// </summary>
         protected OpBetween(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-        
+
         /// <summary>
-        /// Returns a value for the logical IN operator node.
+        ///     Returns a value for the logical IN operator node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
         /// <returns>
-        /// true if the left operand is contained within the right operand, false otherwise.
+        ///     true if the left operand is contained within the right operand, false otherwise.
         /// </returns>
         protected override object Get(object context, EvaluationContext evalContext)
         {
@@ -68,7 +68,7 @@ namespace Spring.Expressions
             object low = range[0];
             object high = range[1];
 
-            return (CompareUtils.Compare(value, low) >= 0 && CompareUtils.Compare(value, high) <= 0);
+            return CompareUtils.Compare(value, low) >= 0 && CompareUtils.Compare(value, high) <= 0;
         }
     }
 }

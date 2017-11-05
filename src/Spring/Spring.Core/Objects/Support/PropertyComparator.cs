@@ -23,8 +23,8 @@
 using System;
 using System.Collections;
 using System.Globalization;
-using Common.Logging;
 using Spring.Core;
+using Spring.Logging;
 using Spring.Util;
 
 #endregion
@@ -32,64 +32,61 @@ using Spring.Util;
 namespace Spring.Objects.Support
 {
     /// <summary>
-    /// Performs a comparison of two objects, using the specified object property via
-    /// an <see cref="Spring.Objects.IObjectWrapper"/>.
+    ///     Performs a comparison of two objects, using the specified object property via
+    ///     an <see cref="Spring.Objects.IObjectWrapper" />.
     /// </summary>
     /// <author>Juergen Hoeller</author>
     /// <author>Jean-Pierre Pawlak</author>
     /// <author>Simon White (.NET)</author>
     public class PropertyComparator : IComparer
     {
-        private static readonly ILog logger
-            = LogManager.GetLogger(typeof (PropertyComparator));
+        private static readonly ILogger logger = LogManager.GetLogger(typeof(PropertyComparator));
 
-        private ISortDefinition sortDefinition;
         private readonly IDictionary cachedObjectWrappers = new Hashtable();
 
         /// <summary>
-        /// Creates a new instance of the
-        /// <see cref="Spring.Objects.Support.PropertyComparator"/> class.
+        ///     Creates a new instance of the
+        ///     <see cref="Spring.Objects.Support.PropertyComparator" /> class.
         /// </summary>
         /// <param name="definition">
-        /// The <see cref="Spring.Objects.Support.ISortDefinition"/> to use for any
-        /// sorting.
+        ///     The <see cref="Spring.Objects.Support.ISortDefinition" /> to use for any
+        ///     sorting.
         /// </param>
         /// <exception cref="System.ArgumentNullException">
-        /// If the supplied <paramref name="definition"/> is <cref lang="null"/>.
+        ///     If the supplied <paramref name="definition" /> is <cref lang="null" />.
         /// </exception>
         public PropertyComparator(ISortDefinition definition)
         {
             AssertUtils.ArgumentNotNull(definition, "definition");
-            this.sortDefinition = definition;
+            SortDefinition = definition;
         }
 
         /// <summary>
-        ///	Gets the <see cref="Spring.Objects.Support.ISortDefinition"/> to
-        ///	use for any sorting.
+        ///     Gets the <see cref="Spring.Objects.Support.ISortDefinition" /> to
+        ///     use for any sorting.
         /// </summary>
         /// <value>
-        /// The <see cref="Spring.Objects.Support.ISortDefinition"/> to	use for
-        /// any sorting.
+        ///     The <see cref="Spring.Objects.Support.ISortDefinition" /> to	use for
+        ///     any sorting.
         /// </value>
-        public ISortDefinition SortDefinition
-        {
-            get { return this.sortDefinition; }
-        }
+        public ISortDefinition SortDefinition { get; }
 
         /// <summary>
-        /// Compares two objects and returns a value indicating whether one is less
-        /// than, equal to or greater than the other.
+        ///     Compares two objects and returns a value indicating whether one is less
+        ///     than, equal to or greater than the other.
         /// </summary>
         /// <param name="o1">The first object to compare.</param>
         /// <param name="o2">The second object to compare.</param>
-        /// <returns><see cref="System.Collections.IComparer.Compare"/></returns>
+        /// <returns>
+        ///     <see cref="System.Collections.IComparer.Compare" />
+        /// </returns>
         public virtual int Compare(object o1, object o2)
         {
             object v1 = GetPropertyValue(o1);
             object v2 = GetPropertyValue(o2);
-            if (this.sortDefinition.IgnoreCase
-                && (v1 is string)
-                && (v2 is string))
+            if (SortDefinition.IgnoreCase
+                && v1 is string
+                && v2 is string)
             {
                 v1 = ((string) v1).ToLower(CultureInfo.CurrentCulture);
                 v2 = ((string) v2).ToLower(CultureInfo.CurrentCulture);
@@ -127,19 +124,19 @@ namespace Spring.Objects.Support
                 if (logger.IsWarnEnabled)
                 {
                     logger.Warn("Could not sort objects [" + o1 + "] and [" + o2 + "]",
-                                ex);
+                        ex);
                 }
 
                 #endregion
 
                 return 0;
             }
-            return (this.sortDefinition.Ascending ? result : -result);
+            return SortDefinition.Ascending ? result : -result;
         }
 
         /// <summary>
-        /// Get the <see cref="Spring.Objects.Support.ISortDefinition"/>'s property
-        /// value for the given object.
+        ///     Get the <see cref="Spring.Objects.Support.ISortDefinition" />'s property
+        ///     value for the given object.
         /// </summary>
         /// <param name="obj">The object to get the property value for.</param>
         /// <returns>The property value.</returns>
@@ -148,15 +145,15 @@ namespace Spring.Objects.Support
             object propertyValue = null;
             if (obj != null)
             {
-                IObjectWrapper ow = (IObjectWrapper) this.cachedObjectWrappers[obj];
+                IObjectWrapper ow = (IObjectWrapper) cachedObjectWrappers[obj];
                 if (ow == null)
                 {
                     ow = new ObjectWrapper(obj);
-                    this.cachedObjectWrappers.Add(obj, ow);
+                    cachedObjectWrappers.Add(obj, ow);
                 }
                 try
                 {
-                    propertyValue = ow.GetPropertyValue(this.sortDefinition.Property);
+                    propertyValue = ow.GetPropertyValue(SortDefinition.Property);
                 }
                 catch (InvalidPropertyException)
                 {
@@ -176,18 +173,18 @@ namespace Spring.Objects.Support
         }
 
         /// <summary>
-        /// Sort the given <see cref="System.Collections.IList"/> according to the
-        /// given sort definition.
+        ///     Sort the given <see cref="System.Collections.IList" /> according to the
+        ///     given sort definition.
         /// </summary>
         /// <param name="source">
-        /// The <see cref="System.Collections.IList"/> to be sorted.
+        ///     The <see cref="System.Collections.IList" /> to be sorted.
         /// </param>
         /// <param name="sortDefinition">The parameters to sort by.</param>
         /// <exception cref="Spring.Objects.ObjectsException">
-        /// In the case of a missing property name.
+        ///     In the case of a missing property name.
         /// </exception>
         /// <exception cref="System.ArgumentNullException">
-        /// If the supplied <paramref name="sortDefinition"/> is <cref lang="null"/>.
+        ///     If the supplied <paramref name="sortDefinition" /> is <cref lang="null" />.
         /// </exception>
         public static void Sort(IList source, ISortDefinition sortDefinition)
         {
@@ -195,7 +192,7 @@ namespace Spring.Objects.Support
             ICollection coll = CollectionUtils.StableSort(source, new PropertyComparator(sortDefinition));
             int index = 0;
             IEnumerator it = coll.GetEnumerator();
-            while(it.MoveNext())
+            while (it.MoveNext())
             {
                 source[index] = it.Current;
                 index++;

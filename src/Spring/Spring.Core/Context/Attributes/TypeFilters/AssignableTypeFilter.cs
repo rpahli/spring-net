@@ -23,15 +23,13 @@ using System.Linq;
 
 namespace Spring.Context.Attributes.TypeFilters
 {
-
     /// <summary>
-    /// A simple filter which matches classes that are assignable to a given type.
+    ///     A simple filter which matches classes that are assignable to a given type.
     /// </summary>
     public class AssignableTypeFilter : AbstractLoadTypeFilter
     {
-
         /// <summary>
-        /// Create a Type Filter with required type
+        ///     Create a Type Filter with required type
         /// </summary>
         /// <param name="expression">type name including assembly name</param>
         public AssignableTypeFilter(string expression)
@@ -40,23 +38,25 @@ namespace Spring.Context.Attributes.TypeFilters
         }
 
         /// <summary>
-        /// Determine a match based on the given type object.
+        ///     Determine a match based on the given type object.
         /// </summary>
         /// <param name="type">Type to compare against</param>
         /// <returns>true if there is a match; false is there is no match</returns>
         public override bool Match(Type type)
         {
             if (RequiredType == null)
+            {
                 return false;
+            }
 
-            return (type.GetInterfaces().Any(i => i.Equals(RequiredType)) || RequiredType.Equals(type.BaseType));
+            return type.GetInterfaces().Any(i => i.Equals(RequiredType)) || RequiredType.Equals(type.BaseType);
         }
 
         /// <summary>
-        /// Returns a string that represents the current object.
+        ///     Returns a string that represents the current object.
         /// </summary>
         /// <returns>
-        /// A string that represents the current object.
+        ///     A string that represents the current object.
         /// </returns>
         /// <filterpriority>2</filterpriority>
         public override string ToString()

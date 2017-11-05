@@ -25,10 +25,10 @@ using System.Runtime.Serialization;
 
 #endregion
 
-namespace Spring.Objects.Factory.Support 
+namespace Spring.Objects.Factory.Support
 {
     /// <summary>
-    /// Thrown when the validation of an object definition failed.
+    ///     Thrown when the validation of an object definition failed.
     /// </summary>
     /// <author>Juergen Hoeller</author>
     /// <author>Rick Evans (.NET)</author>
@@ -36,58 +36,60 @@ namespace Spring.Objects.Factory.Support
     public class ObjectDefinitionValidationException : FatalObjectException
     {
         #region Constructor (s) / Destructor
+
         /// <summary>
-        /// Creates a new instance of the
-        /// <see cref="Spring.Objects.Factory.Support.ObjectDefinitionValidationException"/>
-        /// class.
+        ///     Creates a new instance of the
+        ///     <see cref="Spring.Objects.Factory.Support.ObjectDefinitionValidationException" />
+        ///     class.
         /// </summary>
-        public ObjectDefinitionValidationException ()
+        public ObjectDefinitionValidationException()
         {
         }
 
         /// <summary>
-        /// Creates a new instance of the
-        /// <see cref="Spring.Objects.Factory.Support.ObjectDefinitionValidationException"/>
-        /// class.
+        ///     Creates a new instance of the
+        ///     <see cref="Spring.Objects.Factory.Support.ObjectDefinitionValidationException" />
+        ///     class.
         /// </summary>
         /// <param name="message">The detail message.</param>
-        public ObjectDefinitionValidationException (string message)
-            : base (message)
+        public ObjectDefinitionValidationException(string message)
+            : base(message)
         {
         }
 
         /// <summary>
-        /// Creates a new instance of the
-        /// <see cref="Spring.Objects.Factory.Support.ObjectDefinitionValidationException"/>
-        /// class.
+        ///     Creates a new instance of the
+        ///     <see cref="Spring.Objects.Factory.Support.ObjectDefinitionValidationException" />
+        ///     class.
         /// </summary>
         /// <param name="message">
-        /// The detail message.
+        ///     The detail message.
         /// </param>
         /// <param name="rootCause">
-        /// The root exception that is being wrapped.
+        ///     The root exception that is being wrapped.
         /// </param>
-        public ObjectDefinitionValidationException (string message, Exception rootCause)
-            : base (message, rootCause)
+        public ObjectDefinitionValidationException(string message, Exception rootCause)
+            : base(message, rootCause)
         {
         }
 
         /// <summary>
-        /// Creates a new instance of the ObjectDefinitionValidationException class.
+        ///     Creates a new instance of the ObjectDefinitionValidationException class.
         /// </summary>
         /// <param name="info">
-        /// The <see cref="System.Runtime.Serialization.SerializationInfo"/>
-        /// that holds the serialized object data about the exception being thrown.
+        ///     The <see cref="System.Runtime.Serialization.SerializationInfo" />
+        ///     that holds the serialized object data about the exception being thrown.
         /// </param>
         /// <param name="context">
-        /// The <see cref="System.Runtime.Serialization.StreamingContext"/>
-        /// that contains contextual information about the source or destination.
+        ///     The <see cref="System.Runtime.Serialization.StreamingContext" />
+        ///     that contains contextual information about the source or destination.
         /// </param>
-        protected ObjectDefinitionValidationException (
+        protected ObjectDefinitionValidationException(
             SerializationInfo info, StreamingContext context)
-            : base (info, context)
+            : base(info, context)
         {
         }
+
         #endregion
     }
 }

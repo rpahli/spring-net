@@ -20,40 +20,35 @@
 
 #region Imports
 
-
-
 #endregion
 
 namespace Spring.Core
 {
-	/// <summary>
-	/// Interface that can be implemented by exceptions etc that are error coded.
-	/// </summary>
-	/// <remarks>
-	/// <p>
-	/// The error code is a <see cref="System.String"/>, rather than a number, so it can
-	/// be given user-readable values, such as "object.failureDescription".
-	/// </p>
-	/// </remarks>
+    /// <summary>
+    ///     Interface that can be implemented by exceptions etc that are error coded.
+    /// </summary>
+    /// <remarks>
+    ///     <p>
+    ///         The error code is a <see cref="System.String" />, rather than a number, so it can
+    ///         be given user-readable values, such as "object.failureDescription".
+    ///     </p>
+    /// </remarks>
     /// <author>Rod Johnson</author>
     /// <author>Aleksandar Seovic (.Net)</author>
-	public interface IErrorCoded
-	{
-		/// <summary>
-		/// Return the error code associated with this failure.
-		/// </summary>
-		/// <remarks>
-		/// <p>
-		/// The GUI can render this anyway it pleases, allowing for I18n etc.
-		/// </p>
-		/// </remarks>
-		/// <returns>
-		/// The <see cref="System.String"/> error code associated with this failure,
-		/// or the empty string instance if not error-coded.
-		/// </returns>
-		string ErrorCode
-		{
-			get;
-		}
-	}
+    public interface IErrorCoded
+    {
+        /// <summary>
+        ///     Return the error code associated with this failure.
+        /// </summary>
+        /// <remarks>
+        ///     <p>
+        ///         The GUI can render this anyway it pleases, allowing for I18n etc.
+        ///     </p>
+        /// </remarks>
+        /// <returns>
+        ///     The <see cref="System.String" /> error code associated with this failure,
+        ///     or the empty string instance if not error-coded.
+        /// </returns>
+        string ErrorCode { get; }
+    }
 }

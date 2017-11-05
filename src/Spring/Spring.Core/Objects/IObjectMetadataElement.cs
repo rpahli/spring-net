@@ -18,20 +18,18 @@
 
 #endregion
 
-using System;
-
 namespace Spring.Objects
 {
     /// <summary>
-    /// Interface to be implemented by bean metadata elements
-    /// that carry a configuration source object.
+    ///     Interface to be implemented by bean metadata elements
+    ///     that carry a configuration source object.
     /// </summary>
     public interface IObjectMetadataElement
     {
         /// <summary>
-        /// Return the configuration source <code>Object</code> for this metadata element
-        /// (may be <code>null</code>).
+        ///     Return the configuration source <code>Object</code> for this metadata element
+        ///     (may be <code>null</code>).
         /// </summary>
-        Object Source { get; }
+        object Source { get; }
     }
 }

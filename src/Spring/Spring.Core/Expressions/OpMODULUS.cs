@@ -25,50 +25,47 @@ using Spring.Util;
 namespace Spring.Expressions
 {
     /// <summary>
-    /// Represents arithmetic modulus operator.
+    ///     Represents arithmetic modulus operator.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class OpMODULUS : BinaryOperator
     {
         /// <summary>
-        /// Create a new instance
+        ///     Create a new instance
         /// </summary>
-        public OpMODULUS():base()
+        public OpMODULUS()
         {
         }
 
         /// <summary>
-        /// Create a new instance from SerializationInfo
+        ///     Create a new instance from SerializationInfo
         /// </summary>
         protected OpMODULUS(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-        
+
         /// <summary>
-        /// Returns a value for the arithmetic modulus operator node.
+        ///     Returns a value for the arithmetic modulus operator node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
         /// <returns>Node's value.</returns>
         protected override object Get(object context, EvaluationContext evalContext)
         {
-            object leftVal = GetLeftValue(context, evalContext );
-            object rightVal = GetRightValue(context, evalContext );
+            object leftVal = GetLeftValue(context, evalContext);
+            object rightVal = GetRightValue(context, evalContext);
 
             if (NumberUtils.IsNumber(leftVal) && NumberUtils.IsNumber(rightVal))
             {
                 return NumberUtils.Modulus(leftVal, rightVal);
             }
-            else
-            {
-                throw new ArgumentException("Cannot calculate modulus for instances of '"
-                                            + leftVal.GetType().FullName
-                                            + "' and '"
-                                            + rightVal.GetType().FullName
-                                            + "'.");
-            }
+            throw new ArgumentException("Cannot calculate modulus for instances of '"
+                                        + leftVal.GetType().FullName
+                                        + "' and '"
+                                        + rightVal.GetType().FullName
+                                        + "'.");
         }
     }
 }

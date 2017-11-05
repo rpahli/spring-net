@@ -1,7 +1,8 @@
+using System;
 using System.Reflection;
 
 #if !TIBCO_EMS
-[assembly: System.CLSCompliant(true)]
+[assembly: CLSCompliant(true)]
 #endif
 
 //
@@ -39,18 +40,6 @@ using System.Reflection;
 #elif NET_3_5
 [assembly: AssemblyVersion("2.0.0.35001")]
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //

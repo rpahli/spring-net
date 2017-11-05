@@ -29,24 +29,24 @@ using System.Reflection.Emit;
 namespace Spring.Reflection.Dynamic
 {
     /// <summary>
-    /// Base class for dynamic members.
+    ///     Base class for dynamic members.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     public class BaseDynamicMember
     {
         /// <summary>
-        /// Method attributes constant.
+        ///     Method attributes constant.
         /// </summary>
         protected const MethodAttributes METHOD_ATTRIBUTES =
             MethodAttributes.Public | MethodAttributes.HideBySig
             | MethodAttributes.NewSlot | MethodAttributes.Virtual
             | MethodAttributes.Final;
 
-        private static ConstructorInfo invalidOperationException = 
-            typeof(InvalidOperationException).GetConstructor(new Type[] { typeof(string) });
+        private static readonly ConstructorInfo invalidOperationException =
+            typeof(InvalidOperationException).GetConstructor(new[] {typeof(string)});
 
         /// <summary>
-        /// Sets up target instance for invocation.
+        ///     Sets up target instance for invocation.
         /// </summary>
         /// <param name="il">IL generator to use.</param>
         /// <param name="targetType">Type of target instance.</param>
@@ -56,9 +56,9 @@ namespace Spring.Reflection.Dynamic
             if (targetType.IsValueType)
             {
                 LocalBuilder target = il.DeclareLocal(targetType);
-            	il.Emit(OpCodes.Unbox, targetType);
-            	il.Emit(OpCodes.Ldobj, targetType);
-            	il.Emit(OpCodes.Stloc, target);
+                il.Emit(OpCodes.Unbox, targetType);
+                il.Emit(OpCodes.Ldobj, targetType);
+                il.Emit(OpCodes.Stloc, target);
                 il.Emit(OpCodes.Ldloca, target);
             }
             else
@@ -68,7 +68,7 @@ namespace Spring.Reflection.Dynamic
         }
 
         /// <summary>
-        /// Sets up invocation argument.
+        ///     Sets up invocation argument.
         /// </summary>
         /// <param name="il">IL generator to use.</param>
         /// <param name="argumentType">Argument type.</param>
@@ -78,8 +78,8 @@ namespace Spring.Reflection.Dynamic
             il.Emit(OpCodes.Ldarg, argumentPosition);
             if (argumentType.IsValueType)
             {
-				il.Emit(OpCodes.Unbox, argumentType);
-				il.Emit(OpCodes.Ldobj, argumentType);
+                il.Emit(OpCodes.Unbox, argumentType);
+                il.Emit(OpCodes.Ldobj, argumentType);
             }
             else
             {
@@ -88,7 +88,7 @@ namespace Spring.Reflection.Dynamic
         }
 
         /// <summary>
-        /// Generates method invocation code.
+        ///     Generates method invocation code.
         /// </summary>
         /// <param name="il">IL generator to use.</param>
         /// <param name="isStatic">Flag specifying whether method is static.</param>
@@ -107,7 +107,7 @@ namespace Spring.Reflection.Dynamic
         }
 
         /// <summary>
-        /// Generates code to process return value if necessary.
+        ///     Generates code to process return value if necessary.
         /// </summary>
         /// <param name="il">IL generator to use.</param>
         /// <param name="returnValueType">Type of the return value.</param>
@@ -124,7 +124,7 @@ namespace Spring.Reflection.Dynamic
         }
 
         /// <summary>
-        /// Generates code that throws <see cref="InvalidOperationException"/>.
+        ///     Generates code that throws <see cref="InvalidOperationException" />.
         /// </summary>
         /// <param name="il">IL generator to use.</param>
         /// <param name="message">Error message to use.</param>
@@ -134,6 +134,7 @@ namespace Spring.Reflection.Dynamic
             il.Emit(OpCodes.Newobj, invalidOperationException);
             il.Emit(OpCodes.Throw);
         }
+
 //#endif
     }
 }

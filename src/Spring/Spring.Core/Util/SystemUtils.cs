@@ -29,34 +29,62 @@ using System.Threading;
 namespace Spring.Util
 {
     /// <summary>
-    /// Utility class containing miscellaneous system-level functionality.
+    ///     Utility class containing miscellaneous system-level functionality.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     public sealed class SystemUtils
     {
-        private static bool assemblyResolverRegistered = false;
+        private static bool assemblyResolverRegistered;
         private static readonly object assemblyResolverLock;
-
-        private static readonly bool isMono;
-        private static readonly bool isClr4;
 
         static SystemUtils()
         {
-            isMono = Type.GetType("Mono.Runtime") == null ? false : true;
-            isClr4 = Environment.Version.Major == 4 ? true : false;
+            MonoRuntime = Type.GetType("Mono.Runtime") == null ? false : true;
+            Clr4Runtime = Environment.Version.Major == 4 ? true : false;
             assemblyResolverLock = new object();
         }
 
+
         /// <summary>
-        /// Registers assembly resolver that iterates over the
-        /// assemblies loaded into the current <see cref="AppDomain"/>
-        /// in order to find an assembly that cannot be resolved.
+        ///     Returns true if running on Mono
+        /// </summary>
+        /// <remarks>Tests for the presence of the type Mono.Runtime</remarks>
+        public static bool MonoRuntime { get; }
+
+        /// <summary>
+        ///     Returns true if running on CLR 4.0 under InProc SxS mode
+        /// </summary>
+        public static bool Clr4Runtime { get; }
+
+        /// <summary>
+        ///     Gets the thread id for the current thread. Use thread name is available,
+        ///     otherwise use CurrentThread.GetHashCode() for .NET 1.0/1.1 and
+        ///     CurrentThread.ManagedThreadId otherwise.
+        /// </summary>
+        /// <value>The thread id.</value>
+        public static string ThreadId
+        {
+            get
+            {
+                string name = Thread.CurrentThread.Name;
+                if (StringUtils.HasText(name))
+                {
+                    return name;
+                }
+                return Thread.CurrentThread.ManagedThreadId.ToString();
+            }
+        }
+
+        /// <summary>
+        ///     Registers assembly resolver that iterates over the
+        ///     assemblies loaded into the current <see cref="AppDomain" />
+        ///     in order to find an assembly that cannot be resolved.
         /// </summary>
         /// <remarks>
-        /// This method has to be called if you need to serialize dynamically
-        /// generated types in transient assemblies, such as Spring AOP proxies,
-        /// because standard .NET serialization engine always tries to load
-        /// assembly from the disk.
+        ///     This method has to be called if you need to serialize dynamically
+        ///     generated types in transient assemblies, such as Spring AOP proxies,
+        ///     because standard .NET serialization engine always tries to load
+        ///     assembly from the disk.
         /// </remarks>
         public static void RegisterLoadedAssemblyResolver()
         {
@@ -74,53 +102,11 @@ namespace Spring.Util
         {
             Assembly[] loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies();
             foreach (Assembly assembly in loadedAssemblies)
-            {
                 if (assembly.FullName == args.Name)
                 {
                     return assembly;
                 }
-            }
             return null;
-        }
-
-
-        /// <summary>
-        /// Returns true if running on Mono
-        /// </summary>
-        /// <remarks>Tests for the presence of the type Mono.Runtime</remarks>
-        public static bool MonoRuntime
-        {
-            get { return isMono; }
-        }
-
-        /// <summary>
-        /// Returns true if running on CLR 4.0 under InProc SxS mode
-        /// </summary>
-        public static bool Clr4Runtime
-        {
-            get { return isClr4; }
-        }
-
-        /// <summary>
-        /// Gets the thread id for the current thread. Use thread name is available,
-        /// otherwise use CurrentThread.GetHashCode() for .NET 1.0/1.1 and 
-        /// CurrentThread.ManagedThreadId otherwise.
-        /// </summary>
-        /// <value>The thread id.</value>
-        public static string ThreadId
-        {
-            get
-            {
-                string name = Thread.CurrentThread.Name;
-                if (StringUtils.HasText(name))
-                {
-                    return name;
-                }
-                else
-                {
-                    return Thread.CurrentThread.ManagedThreadId.ToString();
-                }
-            }
         }
     }
 }

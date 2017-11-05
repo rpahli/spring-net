@@ -18,32 +18,23 @@
 
 #endregion
 
-using System;
-
 namespace Spring.Globalization.Formatters
 {
     /// <summary>
-    /// Implementation of <see cref="IFormatter"/> that simply calls <see cref="object.ToString()"/>.
+    ///     Implementation of <see cref="IFormatter" /> that simply calls <see cref="object.ToString()" />.
     /// </summary>
     /// <remarks>
-    /// This formatter is a no-operation implementation.
+    ///     This formatter is a no-operation implementation.
     /// </remarks>
     /// <author>Erich Eichinger</author>
     public class NullFormatter : IFormatter
     {
         #region Constructors
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NullFormatter"/> class.
-        /// </summary>
-        public NullFormatter()
-        {
-        }
-
         #endregion
 
         /// <summary>
-        /// Converts the passed value to a string by calling <see cref="Object.ToString()"/>.
+        ///     Converts the passed value to a string by calling <see cref="object.ToString()" />.
         /// </summary>
         /// <param name="value">The value to convert.</param>
         /// <returns>to string converted value.</returns>
@@ -53,7 +44,7 @@ namespace Spring.Globalization.Formatters
         }
 
         /// <summary>
-        /// Returns the passed string "as is".
+        ///     Returns the passed string "as is".
         /// </summary>
         /// <param name="value">The value to return.</param>
         /// <returns>The value passed into this method.</returns>

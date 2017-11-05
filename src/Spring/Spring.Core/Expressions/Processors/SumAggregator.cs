@@ -25,28 +25,27 @@ using Spring.Util;
 namespace Spring.Expressions.Processors
 {
     /// <summary>
-    /// Implementation of the sum aggregator.
+    ///     Implementation of the sum aggregator.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     public class SumAggregator : ICollectionProcessor
     {
         /// <summary>
-        /// Returns the sum of the numeric values in the source collection.
+        ///     Returns the sum of the numeric values in the source collection.
         /// </summary>
         /// <param name="source">
-        /// The source collection to process.
+        ///     The source collection to process.
         /// </param>
         /// <param name="args">
-        /// Ignored.
+        ///     Ignored.
         /// </param>
         /// <returns>
-        /// The sum of the numeric values in the source collection.
+        ///     The sum of the numeric values in the source collection.
         /// </returns>
         public object Process(ICollection source, object[] args)
         {
             object total = 0d;
             foreach (object item in source)
-            {
                 if (item != null)
                 {
                     if (NumberUtils.IsNumber(item))
@@ -58,8 +57,7 @@ namespace Spring.Expressions.Processors
                         throw new ArgumentException("Sum can only be calculated for a collection of numeric values.");
                     }
                 }
-            }
-            
+
             return total;
         }
     }

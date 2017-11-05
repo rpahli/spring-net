@@ -25,35 +25,36 @@ using System.Runtime.Serialization;
 namespace Spring.Expressions
 {
     /// <summary>
-    /// Represents parsed map entry node.
+    ///     Represents parsed map entry node.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class MapEntryNode : BaseNode
     {
         /// <summary>
-        /// Creates a new instance of <see cref="MapEntryNode"/>.
+        ///     Creates a new instance of <see cref="MapEntryNode" />.
         /// </summary>
         public MapEntryNode()
-        {}
+        {
+        }
 
         /// <summary>
-        /// Create a new instance from SerializationInfo
+        ///     Create a new instance from SerializationInfo
         /// </summary>
         protected MapEntryNode(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-        
+
         /// <summary>
-        /// Creates new instance of the map entry defined by this node.
+        ///     Creates new instance of the map entry defined by this node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
         /// <returns>Node's value.</returns>
         protected override object Get(object context, EvaluationContext evalContext)
         {
-            BaseNode firstChild = (BaseNode)this.getFirstChild();
+            BaseNode firstChild = (BaseNode) getFirstChild();
             object key = GetValue(firstChild, context, evalContext);
             object value = GetValue((BaseNode) firstChild.getNextSibling(), context, evalContext);
 

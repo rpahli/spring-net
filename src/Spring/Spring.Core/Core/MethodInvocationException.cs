@@ -28,8 +28,8 @@ using System.Runtime.Serialization;
 namespace Spring.Core
 {
     /// <summary>
-    /// Thrown when a method (typically a property getter or setter invoked via reflection)
-    /// throws an exception, analogous to a <see cref="System.Reflection.TargetInvocationException"/>.
+    ///     Thrown when a method (typically a property getter or setter invoked via reflection)
+    ///     throws an exception, analogous to a <see cref="System.Reflection.TargetInvocationException" />.
     /// </summary>
     /// <author>Rod Johnson</author>
     /// <author>Mark Pollack (.NET)</author>
@@ -37,81 +37,80 @@ namespace Spring.Core
     public class MethodInvocationException : PropertyAccessException
     {
         /// <summary>
-        /// The error code string for this exception.
+        ///     The error code string for this exception.
         /// </summary>
-        override public string ErrorCode
+        public override string ErrorCode
         {
-            get
-            {
-                return "methodInvocation";
-            }			
+            get { return "methodInvocation"; }
         }
 
         #region Constructor (s) / Destructor
+
         /// <summary>
-        /// Creates a new instance of the MethodInvocationException class.
+        ///     Creates a new instance of the MethodInvocationException class.
         /// </summary>
-        public MethodInvocationException ()
+        public MethodInvocationException()
         {
         }
 
         /// <summary>
-        /// Creates a new instance of the MethodInvocationException class.
+        ///     Creates a new instance of the MethodInvocationException class.
         /// </summary>
         /// <param name="message">
-        /// A message about the exception.
+        ///     A message about the exception.
         /// </param>
-        public MethodInvocationException (string message)
-            : base (message)
+        public MethodInvocationException(string message)
+            : base(message)
         {
         }
 
         /// <summary>
-        /// Creates a new instance of the MethodInvocationException class.
+        ///     Creates a new instance of the MethodInvocationException class.
         /// </summary>
         /// <param name="message">
-        /// A message about the exception.
+        ///     A message about the exception.
         /// </param>
         /// <param name="rootCause">
-        /// The root exception that is being wrapped.
+        ///     The root exception that is being wrapped.
         /// </param>
-        public MethodInvocationException (string message, Exception rootCause)
-            : base (message, rootCause)
-        {
-        }
-		
-        /// <summary>
-        /// Constructor to use when an exception results from a
-        /// <see cref="System.ComponentModel.PropertyChangedEventArgs"/>.
-        /// </summary>
-        /// <param name="ex">
-        /// The <see cref="System.Exception"/> raised by the invoked property.
-        /// </param>
-        /// <param name="argument">
-        /// The <see cref="System.ComponentModel.PropertyChangedEventArgs"/> that
-        /// resulted in an exception.
-        /// </param>
-        public MethodInvocationException (Exception ex, PropertyChangeEventArgs argument) : 
-            base ("Property '" + argument.PropertyName + "' threw exception.", argument, ex)
+        public MethodInvocationException(string message, Exception rootCause)
+            : base(message, rootCause)
         {
         }
 
         /// <summary>
-        /// Creates a new instance of the MethodInvocationException class.
+        ///     Constructor to use when an exception results from a
+        ///     <see cref="System.ComponentModel.PropertyChangedEventArgs" />.
         /// </summary>
-        /// <param name="info">
-        /// The <see cref="System.Runtime.Serialization.SerializationInfo"/>
-        /// that holds the serialized object data about the exception being thrown.
+        /// <param name="ex">
+        ///     The <see cref="System.Exception" /> raised by the invoked property.
         /// </param>
-        /// <param name="context">
-        /// The <see cref="System.Runtime.Serialization.StreamingContext"/>
-        /// that contains contextual information about the source or destination.
+        /// <param name="argument">
+        ///     The <see cref="System.ComponentModel.PropertyChangedEventArgs" /> that
+        ///     resulted in an exception.
         /// </param>
-        protected MethodInvocationException (
-            SerializationInfo info, StreamingContext context)
-            : base (info, context)
+        public MethodInvocationException(Exception ex, PropertyChangeEventArgs argument) :
+            base("Property '" + argument.PropertyName + "' threw exception.", argument, ex)
         {
         }
+
+        /// <summary>
+        ///     Creates a new instance of the MethodInvocationException class.
+        /// </summary>
+        /// <param name="info">
+        ///     The <see cref="System.Runtime.Serialization.SerializationInfo" />
+        ///     that holds the serialized object data about the exception being thrown.
+        /// </param>
+        /// <param name="context">
+        ///     The <see cref="System.Runtime.Serialization.StreamingContext" />
+        ///     that contains contextual information about the source or destination.
+        /// </param>
+        protected MethodInvocationException(
+            SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
+
         #endregion
     }
 }

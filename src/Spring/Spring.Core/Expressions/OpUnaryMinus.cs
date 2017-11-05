@@ -25,36 +25,36 @@ using Spring.Util;
 namespace Spring.Expressions
 {
     /// <summary>
-    /// Represents unary minus operator.
+    ///     Represents unary minus operator.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     [Serializable]
     public class OpUnaryMinus : UnaryOperator
     {
         /// <summary>
-        /// Create a new instance
+        ///     Create a new instance
         /// </summary>
-        public OpUnaryMinus():base()
+        public OpUnaryMinus()
         {
         }
 
         /// <summary>
-        /// Create a new instance from SerializationInfo
+        ///     Create a new instance from SerializationInfo
         /// </summary>
         protected OpUnaryMinus(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-        
+
         /// <summary>
-        /// Returns a value for the unary plus operator node.
+        ///     Returns a value for the unary plus operator node.
         /// </summary>
         /// <param name="context">Context to evaluate expressions against.</param>
         /// <param name="evalContext">Current expression evaluation context.</param>
         /// <returns>Node's value.</returns>
         protected override object Get(object context, EvaluationContext evalContext)
         {
-            object n = GetValue(Operand, context, evalContext );
+            object n = GetValue(Operand, context, evalContext);
 
             if (!NumberUtils.IsNumber(n))
             {

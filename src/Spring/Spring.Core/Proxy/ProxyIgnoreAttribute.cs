@@ -27,19 +27,12 @@ using System;
 namespace Spring.Proxy
 {
     /// <summary>
-    /// This attribute can be used to mark interfaces that should not be proxied
+    ///     This attribute can be used to mark interfaces that should not be proxied
     /// </summary>
     /// <author>Bruno Baia</author>
-    [AttributeUsage(AttributeTargets.Interface, AllowMultiple = false, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Interface)]
     [Serializable]
     public sealed class ProxyIgnoreAttribute : Attribute
     {
-        /// <summary>
-        /// Creates a new instance of the
-        /// <see cref="Spring.Proxy.ProxyIgnoreAttribute"/> class.
-        /// </summary>
-        public ProxyIgnoreAttribute()
-        {
-        }
     }
 }

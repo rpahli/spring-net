@@ -1,29 +1,31 @@
 namespace Spring.Expressions.Parser.antlr.debug
 {
     public class NewLineEventArgs : ANTLREventArgs
-	{
-		public NewLineEventArgs()
-		{
-		}
-		public NewLineEventArgs(int line)
-		{
-			Line = line;
-		}
+    {
+        private int line_;
 
-		public virtual int Line
-		{
-			get	{ return this.line_; }
-			set	{ this.line_ = value; }
-		}
+        public NewLineEventArgs()
+        {
+        }
 
-		private int line_;
-		
-		
-		/// <summary>This should NOT be called from anyone other than ParserEventSupport! 
-		/// </summary>
-		public override string ToString()
-		{
-			return "NewLineEvent [" + line_ + "]";
-		}
-	}
+        public NewLineEventArgs(int line)
+        {
+            Line = line;
+        }
+
+        public virtual int Line
+        {
+            get { return line_; }
+            set { line_ = value; }
+        }
+
+
+        /// <summary>
+        ///     This should NOT be called from anyone other than ParserEventSupport!
+        /// </summary>
+        public override string ToString()
+        {
+            return "NewLineEvent [" + line_ + "]";
+        }
+    }
 }

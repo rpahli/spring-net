@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Common.Logging;
 using Spring.Collections;
+using Spring.Logging;
 using Spring.Objects.Factory.Config;
 using Spring.Util;
 
@@ -11,34 +11,36 @@ namespace Spring.Objects.Factory.Support
 {
     public class DisposableObjectAdapter : IDisposable
     {
-        private readonly ILog logger = LogManager.GetLogger(typeof(DisposableObjectAdapter));
+        private readonly ILogger logger = LogManager.GetLogger(typeof(DisposableObjectAdapter));
 
-        private object instance;
+        private readonly MethodInfo destroyMethod;
 
-        private string objectName;
+        private readonly string destroyMethodName;
 
-        private bool invokeDisposableObject;
+        private readonly object instance;
 
-        private string destroyMethodName;
+        private readonly bool invokeDisposableObject;
 
-        private MethodInfo destroyMethod;
+        private readonly string objectName;
 
-        private List<IDestructionAwareObjectPostProcessor> objectPostProcessors;
+        private readonly List<IDestructionAwareObjectPostProcessor> objectPostProcessors;
 
         /// <summary>
-        /// Create a new DisposableBeanAdapter for the given bean.
+        ///     Create a new DisposableBeanAdapter for the given bean.
         /// </summary>
         /// <param name="instance">The bean instance (never <code>null</code>).</param>
         /// <param name="objectName">Name of the bean.</param>
         /// <param name="objectDefinition">The merged bean definition.</param>
         /// <param name="postProcessors">the List of BeanPostProcessors (potentially IDestructionAwareBeanPostProcessor), if any.</param>
-        public DisposableObjectAdapter(object instance, string objectName, RootObjectDefinition objectDefinition, ISet postProcessors)
+        public DisposableObjectAdapter(object instance, string objectName, RootObjectDefinition objectDefinition,
+            ISet postProcessors)
         {
             AssertUtils.ArgumentNotNull(instance, "Disposable object must not be null");
 
             this.instance = instance;
             this.objectName = objectName;
-            this.invokeDisposableObject = (this.instance is IDisposable); // && !beanDefinition.IsExternallyManagedDestroyMethod("destroy"));
+            invokeDisposableObject =
+                this.instance is IDisposable; // && !beanDefinition.IsExternallyManagedDestroyMethod("destroy"));
 
             if (null == objectDefinition)
             {
@@ -49,11 +51,13 @@ namespace Spring.Objects.Factory.Support
 
             string definedDestroyMethodName = objectDefinition.DestroyMethodName;
 
-            if (definedDestroyMethodName != null && !(this.invokeDisposableObject && "Destroy".Equals(definedDestroyMethodName))) // && !beanDefinition.isExternallyManagedDestroyMethod(destroyMethodName)) 
+            if (definedDestroyMethodName != null &&
+                !(invokeDisposableObject && "Destroy".Equals(definedDestroyMethodName))
+            ) // && !beanDefinition.isExternallyManagedDestroyMethod(destroyMethodName)) 
             {
-                this.destroyMethodName = definedDestroyMethodName;
-                this.destroyMethod = DetermineDestroyMethod();
-                if (this.destroyMethod == null)
+                destroyMethodName = definedDestroyMethodName;
+                destroyMethod = DetermineDestroyMethod();
+                if (destroyMethod == null)
                 {
                     //TODO: add support for Enforcing Destroy Method
                     //if (beanDefinition.IsEnforceDestroyMethod()) {
@@ -63,20 +67,85 @@ namespace Spring.Objects.Factory.Support
                 }
                 else
                 {
-                    Type[] paramTypes = ReflectionUtils.GetParameterTypes(this.destroyMethod);
+                    Type[] paramTypes = ReflectionUtils.GetParameterTypes(destroyMethod);
                     if (paramTypes.Length > 1)
                     {
-                        throw new ObjectDefinitionValidationException("Method '" + definedDestroyMethodName + "' of object '" +
-                                                                    objectName + "' has more than one parameter - not supported as Destroy Method");
+                        throw new ObjectDefinitionValidationException("Method '" + definedDestroyMethodName +
+                                                                      "' of object '" +
+                                                                      objectName +
+                                                                      "' has more than one parameter - not supported as Destroy Method");
                     }
-                    else if (paramTypes.Length == 1 && !(paramTypes[0] == typeof(bool)))
+                    if (paramTypes.Length == 1 && !(paramTypes[0] == typeof(bool)))
                     {
-                        throw new ObjectDefinitionValidationException("Method '" + definedDestroyMethodName + "' of object '" +
-                                                                    objectName + "' has a non-boolean parameter - not supported as Destroy Method");
+                        throw new ObjectDefinitionValidationException("Method '" + definedDestroyMethodName +
+                                                                      "' of object '" +
+                                                                      objectName +
+                                                                      "' has a non-boolean parameter - not supported as Destroy Method");
                     }
                 }
             }
-            this.objectPostProcessors = FilterPostProcessors(postProcessors);
+            objectPostProcessors = FilterPostProcessors(postProcessors);
+        }
+
+
+        /// <summary>
+        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            if (objectPostProcessors != null && objectPostProcessors.Count != 0)
+            {
+                foreach (IDestructionAwareObjectPostProcessor processor in objectPostProcessors)
+                    try
+                    {
+                        processor.PostProcessBeforeDestruction(instance, objectName);
+                    }
+
+                    catch (Exception ex)
+                    {
+                        logger.ErrorFormat(
+                            string.Format("Error during execution of {0}.PostProcessBeforeDestruction for object {1}",
+                                processor.GetType().Name, objectName), ex);
+                    }
+            }
+
+            if (invokeDisposableObject)
+            {
+                if (logger.IsDebugEnabled)
+                {
+                    logger.Debug("Invoking Dispose() on object with name '" + objectName + "'");
+                }
+                try
+                {
+                    ((IDisposable) instance).Dispose();
+                }
+
+                catch (Exception ex)
+                {
+                    string msg = "Invocation of Dispose method failed on object with name '" + objectName + "'";
+                    if (logger.IsDebugEnabled)
+                    {
+                        logger.Warn(msg, ex);
+                    }
+                    else
+                    {
+                        logger.Warn(msg + ": " + ex);
+                    }
+                }
+            }
+
+            if (destroyMethod != null)
+            {
+                InvokeCustomDestroyMethod(destroyMethod);
+            }
+            else if (destroyMethodName != null)
+            {
+                MethodInfo methodToCall = DetermineDestroyMethod();
+                if (methodToCall != null)
+                {
+                    InvokeCustomDestroyMethod(methodToCall);
+                }
+            }
         }
 
         private void InferDestroyMethodIfNecessary(RootObjectDefinition beanDefinition)
@@ -100,7 +169,7 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// Search for all <see cref="IDestructionAwareObjectPostProcessor"/>s in the List.
+        ///     Search for all <see cref="IDestructionAwareObjectPostProcessor" />s in the List.
         /// </summary>
         /// <param name="postProcessors">The List to search.</param>
         /// <returns>the filtered List of IDestructionAwareObjectPostProcessors.</returns>
@@ -116,71 +185,6 @@ namespace Spring.Objects.Factory.Support
         }
 
 
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            if (this.objectPostProcessors != null && this.objectPostProcessors.Count != 0)
-            {
-                foreach (IDestructionAwareObjectPostProcessor processor in this.objectPostProcessors)
-                {
-                    try
-                    {
-                        processor.PostProcessBeforeDestruction(this.instance, this.objectName);
-                    }
-
-                    catch (Exception ex)
-                    {
-                        logger.ErrorFormat(
-                            string.Format("Error during execution of {0}.PostProcessBeforeDestruction for object {1}",
-                                          processor.GetType().Name, this.objectName), ex);
-                    }
-                }
-            }
-
-            if (this.invokeDisposableObject)
-            {
-                if (logger.IsDebugEnabled)
-                {
-                    logger.Debug("Invoking Dispose() on object with name '" + this.objectName + "'");
-                }
-                try
-                {
-                    ((IDisposable)instance).Dispose();
-
-                }
-
-                catch (Exception ex)
-                {
-                    string msg = "Invocation of Dispose method failed on object with name '" + this.objectName + "'";
-                    if (logger.IsDebugEnabled)
-                    {
-                        logger.Warn(msg, ex);
-                    }
-                    else
-                    {
-                        logger.Warn(msg + ": " + ex);
-                    }
-                }
-            }
-
-            if (this.destroyMethod != null)
-            {
-                InvokeCustomDestroyMethod(this.destroyMethod);
-            }
-            else if (this.destroyMethodName != null)
-            {
-                MethodInfo methodToCall = DetermineDestroyMethod();
-                if (methodToCall != null)
-                {
-                    InvokeCustomDestroyMethod(methodToCall);
-                }
-            }
-        }
-
-
         private MethodInfo DetermineDestroyMethod()
         {
             try
@@ -190,8 +194,9 @@ namespace Spring.Objects.Factory.Support
 
             catch (ArgumentException ex)
             {
-                throw new ObjectDefinitionValidationException("Couldn't find a unique Destroy Method on object with name '" +
-                                                            this.objectName + ": " + ex.Message);
+                throw new ObjectDefinitionValidationException(
+                    "Couldn't find a unique Destroy Method on object with name '" +
+                    objectName + ": " + ex.Message);
             }
         }
 
@@ -199,7 +204,7 @@ namespace Spring.Objects.Factory.Support
         {
             try
             {
-                return ReflectionUtils.GetMethod(instance.GetType(), this.destroyMethodName, null);
+                return ReflectionUtils.GetMethod(instance.GetType(), destroyMethodName, null);
             }
             catch (Exception)
             {
@@ -208,7 +213,7 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// Invokes the custom destroy method.
+        ///     Invokes the custom destroy method.
         /// </summary>
         /// <param name="customDestroyMethod">The custom destroy method.</param>
         /// Invoke the specified custom destroy method on the given bean.
@@ -225,18 +230,17 @@ namespace Spring.Objects.Factory.Support
             }
             if (logger.IsDebugEnabled)
             {
-                logger.Debug("Invoking destroy method '" + this.destroyMethodName +
-                             "' on object with name '" + this.objectName + "'");
+                logger.Debug("Invoking destroy method '" + destroyMethodName +
+                             "' on object with name '" + objectName + "'");
             }
             try
             {
-
                 customDestroyMethod.Invoke(instance, args);
             }
             catch (TargetInvocationException ex)
             {
-                string msg = "Invocation of destroy method '" + this.destroyMethodName +
-                             "' failed on object with name '" + this.objectName + "'";
+                string msg = "Invocation of destroy method '" + destroyMethodName +
+                             "' failed on object with name '" + objectName + "'";
                 if (logger.IsDebugEnabled)
                 {
                     logger.Warn(msg, ex.InnerException);
@@ -248,8 +252,8 @@ namespace Spring.Objects.Factory.Support
             }
             catch (Exception ex)
             {
-                logger.Error("Couldn't invoke destroy method '" + this.destroyMethodName +
-                             "' on object with name '" + this.objectName + "'", ex);
+                logger.Error("Couldn't invoke destroy method '" + destroyMethodName +
+                             "' on object with name '" + objectName + "'", ex);
             }
         }
     }

@@ -23,23 +23,23 @@ using System.Collections;
 namespace Spring.Expressions.Processors
 {
     /// <summary>
-    /// Implementation of the count aggregator.
+    ///     Implementation of the count aggregator.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     public class CountAggregator : ICollectionProcessor
     {
         /// <summary>
-        /// Returns the number of items in the source collection.
+        ///     Returns the number of items in the source collection.
         /// </summary>
         /// <param name="source">
-        /// The source collection to process.
+        ///     The source collection to process.
         /// </param>
         /// <param name="args">
-        /// Ignored.
+        ///     Ignored.
         /// </param>
         /// <returns>
-        /// The number of items in the source collection, 
-        /// or zero if the collection is empty or <c>null</c>.
+        ///     The number of items in the source collection,
+        ///     or zero if the collection is empty or <c>null</c>.
         /// </returns>
         public object Process(ICollection source, object[] args)
         {

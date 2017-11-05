@@ -1,29 +1,25 @@
 namespace Spring.Expressions.Parser.antlr.debug
 {
     public abstract class GuessingEventArgs : ANTLREventArgs
-	{
-		public GuessingEventArgs()
-		{
-		}
-		public GuessingEventArgs(int type) : base(type)
-		{
-		}
+    {
+        public GuessingEventArgs()
+        {
+        }
 
-		public virtual int Guessing
-		{
-			get	{ return guessing_;			}
-			set	{ this.guessing_ = value;	}
-		}
+        public GuessingEventArgs(int type) : base(type)
+        {
+        }
 
-		private int guessing_;
-		
-		
-		/// <summary>This should NOT be called from anyone other than ParserEventSupport! 
-		/// </summary>
-		public virtual void  setValues(int type, int guessing)
-		{
-			setValues(type);
-			this.Guessing = guessing;
-		}
-	}
+        public virtual int Guessing { get; set; }
+
+
+        /// <summary>
+        ///     This should NOT be called from anyone other than ParserEventSupport!
+        /// </summary>
+        public virtual void setValues(int type, int guessing)
+        {
+            setValues(type);
+            Guessing = guessing;
+        }
+    }
 }

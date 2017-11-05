@@ -34,21 +34,21 @@ using Spring.Util;
 namespace Spring.Objects.Factory.Xml
 {
     /// <summary>
-    /// Object definition reader for Spring's default XML object definition format.
+    ///     Object definition reader for Spring's default XML object definition format.
     /// </summary>
     /// <remarks>
-    /// <p>
-    /// Typically applied to a
-    /// <see cref="Spring.Objects.Factory.Support.DefaultListableObjectFactory"/> instance.
-    /// </p>
-    /// <p>
-    /// This class registers each object definition with the given object factory superclass,
-    /// and relies on the latter's implementation of the
-    /// <see cref="Spring.Objects.Factory.Support.IObjectDefinitionRegistry"/> interface.
-    /// </p>
-    /// <p>
-    /// It supports singletons, prototypes, and references to either of these kinds of object.
-    /// </p>
+    ///     <p>
+    ///         Typically applied to a
+    ///         <see cref="Spring.Objects.Factory.Support.DefaultListableObjectFactory" /> instance.
+    ///     </p>
+    ///     <p>
+    ///         This class registers each object definition with the given object factory superclass,
+    ///         and relies on the latter's implementation of the
+    ///         <see cref="Spring.Objects.Factory.Support.IObjectDefinitionRegistry" /> interface.
+    ///     </p>
+    ///     <p>
+    ///         It supports singletons, prototypes, and references to either of these kinds of object.
+    ///     </p>
     /// </remarks>
     /// <author>Juergen Hoeller</author>
     /// <author>Rick Evans (.NET)</author>
@@ -57,51 +57,48 @@ namespace Spring.Objects.Factory.Xml
         #region Utility Classes
 
         /// <summary>
-        /// For retrying the parse process
+        ///     For retrying the parse process
         /// </summary>
         private class RetryParseException : Exception
         {
-            public RetryParseException()
-            { }
         }
 
         #endregion
 
         #region Fields
 
-        [NonSerialized]
-        private XmlResolver resolver;
+        [NonSerialized] private XmlResolver resolver;
 
         private Type documentReaderType;
         private INamespaceParserResolver namespaceParserResolver;
-        private IObjectDefinitionFactory objectDefinitionFactory;
 
         #endregion
 
         #region Constructor (s) / Destructor
 
         /// <summary>
-        /// Creates a new instance of the
-        /// <see cref="Spring.Objects.Factory.Xml.XmlObjectDefinitionReader"/> class.
+        ///     Creates a new instance of the
+        ///     <see cref="Spring.Objects.Factory.Xml.XmlObjectDefinitionReader" /> class.
         /// </summary>
         /// <param name="registry">
-        /// The <see cref="Spring.Objects.Factory.Support.IObjectDefinitionRegistry"/>
-        /// instance that this reader works on.
+        ///     The <see cref="Spring.Objects.Factory.Support.IObjectDefinitionRegistry" />
+        ///     instance that this reader works on.
         /// </param>
         public XmlObjectDefinitionReader(IObjectDefinitionRegistry registry)
             : this(registry, new XmlUrlResolver())
-        { }
+        {
+        }
 
         /// <summary>
-        /// Creates a new instance of the
-        /// <see cref="Spring.Objects.Factory.Xml.XmlObjectDefinitionReader"/> class.
+        ///     Creates a new instance of the
+        ///     <see cref="Spring.Objects.Factory.Xml.XmlObjectDefinitionReader" /> class.
         /// </summary>
         /// <param name="registry">
-        /// The <see cref="Spring.Objects.Factory.Support.IObjectDefinitionRegistry"/>
-        /// instance that this reader works on.
+        ///     The <see cref="Spring.Objects.Factory.Support.IObjectDefinitionRegistry" />
+        ///     instance that this reader works on.
         /// </param>
         /// <param name="resolver">
-        /// The <see cref="System.Xml.XmlResolver"/>to be used for parsing.
+        ///     The <see cref="System.Xml.XmlResolver" />to be used for parsing.
         /// </param>
         public XmlObjectDefinitionReader(IObjectDefinitionRegistry registry, XmlResolver resolver)
             : this(registry, resolver, new DefaultObjectDefinitionFactory())
@@ -110,22 +107,26 @@ namespace Spring.Objects.Factory.Xml
         }
 
         /// <summary>
-        /// Creates a new instance of the
-        /// <see cref="Spring.Objects.Factory.Xml.XmlObjectDefinitionReader"/> class.
+        ///     Creates a new instance of the
+        ///     <see cref="Spring.Objects.Factory.Xml.XmlObjectDefinitionReader" /> class.
         /// </summary>
         /// <param name="registry">
-        /// The <see cref="Spring.Objects.Factory.Support.IObjectDefinitionRegistry"/>
-        /// instance that this reader works on.
+        ///     The <see cref="Spring.Objects.Factory.Support.IObjectDefinitionRegistry" />
+        ///     instance that this reader works on.
         /// </param>
         /// <param name="resolver">
-        /// The <see cref="System.Xml.XmlResolver"/>to be used for parsing.
+        ///     The <see cref="System.Xml.XmlResolver" />to be used for parsing.
         /// </param>
-        /// <param name="objectDefinitionFactory">the <see cref="IObjectDefinitionFactory"/> to use for creating new <see cref="IObjectDefinition"/>s</param>
-        protected XmlObjectDefinitionReader(IObjectDefinitionRegistry registry, XmlResolver resolver, IObjectDefinitionFactory objectDefinitionFactory)
+        /// <param name="objectDefinitionFactory">
+        ///     the <see cref="IObjectDefinitionFactory" /> to use for creating new
+        ///     <see cref="IObjectDefinition" />s
+        /// </param>
+        protected XmlObjectDefinitionReader(IObjectDefinitionRegistry registry, XmlResolver resolver,
+            IObjectDefinitionFactory objectDefinitionFactory)
             : base(registry)
         {
             Resolver = resolver;
-            this.objectDefinitionFactory = objectDefinitionFactory;
+            ObjectDefinitionFactory = objectDefinitionFactory;
         }
 
         #endregion
@@ -133,7 +134,7 @@ namespace Spring.Objects.Factory.Xml
         #region Properties
 
         /// <summary>
-        /// The <see cref="System.Xml.XmlResolver"/>to be used for parsing.
+        ///     The <see cref="System.Xml.XmlResolver" />to be used for parsing.
         /// </summary>
         public XmlResolver Resolver
         {
@@ -143,8 +144,8 @@ namespace Spring.Objects.Factory.Xml
 
 
         /// <summary>
-        /// Sets the IObjectDefinitionDocumentReader implementation to use, responsible for
-        /// the actual reading of the XML object definition document.stype of the document reader.
+        ///     Sets the IObjectDefinitionDocumentReader implementation to use, responsible for
+        ///     the actual reading of the XML object definition document.stype of the document reader.
         /// </summary>
         /// <value>The type of the document reader.</value>
         public Type DocumentReaderType
@@ -161,55 +162,50 @@ namespace Spring.Objects.Factory.Xml
         }
 
         /// <summary>
-        /// Specify a <see cref="INamespaceParserResolver"/> to use. If none is specified a default
-        /// instance will be created by <see cref="CreateDefaultNamespaceParserResolver"/>
+        ///     Specify a <see cref="INamespaceParserResolver" /> to use. If none is specified a default
+        ///     instance will be created by <see cref="CreateDefaultNamespaceParserResolver" />
         /// </summary>
         internal INamespaceParserResolver NamespaceParserResolver
         {
             get
             {
-                if (this.namespaceParserResolver == null)
+                if (namespaceParserResolver == null)
                 {
-                    this.namespaceParserResolver = CreateDefaultNamespaceParserResolver();
+                    namespaceParserResolver = CreateDefaultNamespaceParserResolver();
                 }
-                return this.namespaceParserResolver;
+                return namespaceParserResolver;
             }
             set
             {
-                if (this.namespaceParserResolver != null)
+                if (namespaceParserResolver != null)
                 {
                     throw new InvalidOperationException("NamespaceParserResolver is already set");
                 }
-                this.namespaceParserResolver = value;
+                namespaceParserResolver = value;
             }
         }
 
         /// <summary>
-        /// Specify a <see cref="IObjectDefinitionFactory"/> for creating instances of <see cref="AbstractObjectDefinition"/>.
+        ///     Specify a <see cref="IObjectDefinitionFactory" /> for creating instances of <see cref="AbstractObjectDefinition" />
+        ///     .
         /// </summary>
-        protected IObjectDefinitionFactory ObjectDefinitionFactory
-        {
-            get
-            {
-                return this.objectDefinitionFactory;
-            }
-        }
+        protected IObjectDefinitionFactory ObjectDefinitionFactory { get; }
 
         #endregion
 
         #region Methods
 
         /// <summary>
-        /// Load object definitions from the supplied XML <paramref name="resource"/>.
+        ///     Load object definitions from the supplied XML <paramref name="resource" />.
         /// </summary>
         /// <param name="resource">
-        /// The XML resource for the object definitions that are to be loaded.
+        ///     The XML resource for the object definitions that are to be loaded.
         /// </param>
         /// <returns>
-        /// The number of object definitions that were loaded.
+        ///     The number of object definitions that were loaded.
         /// </returns>
         /// <exception cref="Spring.Objects.ObjectsException">
-        /// In the case of loading or parsing errors.
+        ///     In the case of loading or parsing errors.
         /// </exception>
         public override int LoadObjectDefinitions(IResource resource)
         {
@@ -243,6 +239,7 @@ namespace Spring.Objects.Factory.Xml
                 finally
                 {
                     #region Close stream
+
                     try
                     {
                         stream.Close();
@@ -258,6 +255,7 @@ namespace Spring.Objects.Factory.Xml
 
                         #endregion
                     }
+
                     #endregion
                 }
             }
@@ -266,11 +264,10 @@ namespace Spring.Objects.Factory.Xml
                 throw new ObjectDefinitionStoreException(
                     "IOException parsing XML document from " + resource.Description, ex);
             }
-
         }
 
         /// <summary>
-        /// Actually load object definitions from the specified XML file.
+        ///     Actually load object definitions from the specified XML file.
         /// </summary>
         /// <param name="stream">The input stream to read from.</param>
         /// <param name="resource">The resource for the XML data.</param>
@@ -298,7 +295,9 @@ namespace Spring.Objects.Factory.Xml
                     catch (RetryParseException)
                     {
                         if (reader != null)
+                        {
                             reader.Close();
+                        }
                     }
                 }
                 return RegisterObjectDefinitions(doc, resource);
@@ -306,14 +305,14 @@ namespace Spring.Objects.Factory.Xml
             catch (XmlException ex)
             {
                 throw new ObjectDefinitionStoreException(resource.Description,
-                                                            "Line " + ex.LineNumber + " in XML document from " +
-                                                            resource + " is not well formed.  " + ex.Message, ex);
+                    "Line " + ex.LineNumber + " in XML document from " +
+                    resource + " is not well formed.  " + ex.Message, ex);
             }
             catch (XmlSchemaException ex)
             {
                 throw new ObjectDefinitionStoreException(resource.Description,
-                                                            "Line " + ex.LineNumber + " in XML document from " +
-                                                            resource + " violates the schema.  " + ex.Message, ex);
+                    "Line " + ex.LineNumber + " in XML document from " +
+                    resource + " violates the schema.  " + ex.Message, ex);
             }
             catch (ObjectDefinitionStoreException)
             {
@@ -321,7 +320,9 @@ namespace Spring.Objects.Factory.Xml
             }
             catch (Exception ex)
             {
-                throw new ObjectDefinitionStoreException("Unexpected exception parsing XML document from " + resource.Description + "Inner exception message= " + ex.Message, ex);
+                throw new ObjectDefinitionStoreException(
+                    "Unexpected exception parsing XML document from " + resource.Description +
+                    "Inner exception message= " + ex.Message, ex);
             }
         }
 
@@ -334,7 +335,8 @@ namespace Spring.Objects.Factory.Xml
             }
             else
             {
-                reader = XmlUtils.CreateValidatingReader(stream, Resolver, NamespaceParserRegistry.GetSchemas(), HandleValidation);
+                reader = XmlUtils.CreateValidatingReader(stream, Resolver, NamespaceParserRegistry.GetSchemas(),
+                    HandleValidation);
             }
 
             #region Instrumentation
@@ -349,7 +351,7 @@ namespace Spring.Objects.Factory.Xml
         }
 
         /// <summary>
-        /// Validation callback for a validating XML reader.
+        ///     Validation callback for a validating XML reader.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="args">Any data pertinent to the event.</param>
@@ -358,11 +360,13 @@ namespace Spring.Objects.Factory.Xml
             if (args.Severity == XmlSeverityType.Error)
             {
                 XmlSchemaException ex = args.Exception;
-                XmlReader xmlReader = (XmlReader)sender;
-                if (!NamespaceParserRegistry.GetSchemas().Contains(xmlReader.NamespaceURI) && ex is XmlSchemaValidationException)
+                XmlReader xmlReader = (XmlReader) sender;
+                if (!NamespaceParserRegistry.GetSchemas().Contains(xmlReader.NamespaceURI) &&
+                    ex is XmlSchemaValidationException)
                 {
                     // try wellknown parsers
-                    bool registered = NamespaceParserRegistry.RegisterWellknownNamespaceParserType(xmlReader.NamespaceURI);
+                    bool registered =
+                        NamespaceParserRegistry.RegisterWellknownNamespaceParserType(xmlReader.NamespaceURI);
                     if (registered)
                     {
                         throw new RetryParseException();
@@ -370,34 +374,32 @@ namespace Spring.Objects.Factory.Xml
                 }
                 throw ex;
             }
-            else
+
+            #region Instrumentation
+
+            if (log.IsWarnEnabled)
             {
-                #region Instrumentation
-
-                if (log.IsWarnEnabled)
-                {
-                    log.Warn(
-                        "Ignored XML validation warning: " + args.Message,
-                        args.Exception);
-                }
-
-                #endregion
+                log.Warn(
+                    "Ignored XML validation warning: " + args.Message,
+                    args.Exception);
             }
+
+            #endregion
         }
 
         /// <summary>
-        /// Register the object definitions contained in the given DOM document.
+        ///     Register the object definitions contained in the given DOM document.
         /// </summary>
         /// <param name="doc">The DOM document.</param>
         /// <param name="resource">
-        /// The original resource from where the <see cref="System.Xml.XmlDocument"/>
-        /// was read.
+        ///     The original resource from where the <see cref="System.Xml.XmlDocument" />
+        ///     was read.
         /// </param>
         /// <returns>
-        /// The number of object definitions that were registered.
+        ///     The number of object definitions that were registered.
         /// </returns>
         /// <exception cref="Spring.Objects.ObjectsException">
-        /// In case of parsing errors.
+        ///     In case of parsing errors.
         /// </exception>
         public int RegisterObjectDefinitions(
             XmlDocument doc, IResource resource)
@@ -407,17 +409,19 @@ namespace Spring.Objects.Factory.Xml
             //TODO make void return and get object count from registry.
             int countBefore = Registry.ObjectDefinitionCount;
             XmlReaderContext readerContext = CreateReaderContext(resource);
-            readerContext.NamespaceParserResolver = this.NamespaceParserResolver;
+            readerContext.NamespaceParserResolver = NamespaceParserResolver;
             documentReader.RegisterObjectDefinitions(doc, readerContext);
             return Registry.ObjectDefinitionCount - countBefore;
         }
 
         /// <summary>
-        /// Creates the <see cref="IObjectDefinitionDocumentReader"/> to use for actually
-        /// reading object definitions from an XML document.
+        ///     Creates the <see cref="IObjectDefinitionDocumentReader" /> to use for actually
+        ///     reading object definitions from an XML document.
         /// </summary>
-        /// <remarks>Default implementation instantiates the specified <see cref="DocumentReaderType"/> 
-        /// or <see cref="DefaultObjectDefinitionDocumentReader"/> if no reader type is specified.</remarks>
+        /// <remarks>
+        ///     Default implementation instantiates the specified <see cref="DocumentReaderType" />
+        ///     or <see cref="DefaultObjectDefinitionDocumentReader" /> if no reader type is specified.
+        /// </remarks>
         /// <returns></returns>
         protected virtual IObjectDefinitionDocumentReader CreateObjectDefinitionDocumentReader()
         {
@@ -425,25 +429,25 @@ namespace Spring.Objects.Factory.Xml
             {
                 return new DefaultObjectDefinitionDocumentReader();
             }
-            return (IObjectDefinitionDocumentReader)ObjectUtils.InstantiateType(documentReaderType);
+            return (IObjectDefinitionDocumentReader) ObjectUtils.InstantiateType(documentReaderType);
         }
 
         /// <summary>
-        /// Creates the <see cref="XmlReaderContext"/> to be passed along 
-        /// during the object definition reading process.
+        ///     Creates the <see cref="XmlReaderContext" /> to be passed along
+        ///     during the object definition reading process.
         /// </summary>
-        /// <param name="resource">The underlying <see cref="IResource"/> that is currently processed.</param>
-        /// <returns>A new <see cref="XmlReaderContext"/></returns>
+        /// <param name="resource">The underlying <see cref="IResource" /> that is currently processed.</param>
+        /// <returns>A new <see cref="XmlReaderContext" /></returns>
         protected virtual XmlReaderContext CreateReaderContext(IResource resource)
         {
-            return new XmlReaderContext(resource, this, this.objectDefinitionFactory);
+            return new XmlReaderContext(resource, this, ObjectDefinitionFactory);
         }
 
         /// <summary>
-        /// Create a <see cref="INamespaceParserResolver"/> instance for handling custom namespaces.
+        ///     Create a <see cref="INamespaceParserResolver" /> instance for handling custom namespaces.
         /// </summary>
         /// <remarks>
-        /// TODO (EE): make protected virtual, see remarks on <see cref="INamespaceParserResolver"/>
+        ///     TODO (EE): make protected virtual, see remarks on <see cref="INamespaceParserResolver" />
         /// </remarks>
         private INamespaceParserResolver CreateDefaultNamespaceParserResolver()
         {

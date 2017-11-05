@@ -24,12 +24,13 @@ using Spring.Objects.Factory.Config;
 namespace Spring.Objects.Factory.Support
 {
     /// <summary>
-    /// Default implementation of the <see cref="IObjectNameGenerator"/> interface, deleagting to
-    /// <see cref="ObjectDefinitionReaderUtils"/>'s GenerateObjectName.
+    ///     Default implementation of the <see cref="IObjectNameGenerator" /> interface, deleagting to
+    ///     <see cref="ObjectDefinitionReaderUtils" />'s GenerateObjectName.
     /// </summary>
-    /// <remarks>Note that this implementation is only able to handle
-    /// <see cref="IConfigurableObjectDefinition"/> subclasses such as
-    /// <see cref="RootObjectDefinition"/> and <see cref="ChildObjectDefinition"/>
+    /// <remarks>
+    ///     Note that this implementation is only able to handle
+    ///     <see cref="IConfigurableObjectDefinition" /> subclasses such as
+    ///     <see cref="RootObjectDefinition" /> and <see cref="ChildObjectDefinition" />
     /// </remarks>
     /// <author>Juergen Hoeller</author>
     /// <author>Mark Pollack (.NET)</author>
@@ -38,11 +39,13 @@ namespace Spring.Objects.Factory.Support
         #region IObjectNameGenerator Members
 
         /// <summary>
-        /// Generates an object name for the given object definition.
+        ///     Generates an object name for the given object definition.
         /// </summary>
         /// <param name="definition">The object definition to generate a name for.</param>
-        /// <param name="registry">The object definitions registry that the given definition is
-        /// supposed to be registerd with</param>
+        /// <param name="registry">
+        ///     The object definitions registry that the given definition is
+        ///     supposed to be registerd with
+        /// </param>
         /// <returns>the generated object name</returns>
         public string GenerateObjectName(IObjectDefinition definition, IObjectDefinitionRegistry registry)
         {

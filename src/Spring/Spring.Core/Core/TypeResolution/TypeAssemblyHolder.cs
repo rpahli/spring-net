@@ -27,68 +27,33 @@ using Spring.Util;
 namespace Spring.Core.TypeResolution
 {
     /// <summary>
-    /// Holds data about a <see cref="System.Type"/> and it's
-    /// attendant <see cref="System.Reflection.Assembly"/>.
+    ///     Holds data about a <see cref="System.Type" /> and it's
+    ///     attendant <see cref="System.Reflection.Assembly" />.
     /// </summary>
     public class TypeAssemblyHolder
     {
         #region Constants
 
         /// <summary>
-        /// The string that separates a <see cref="System.Type"/> name
-        /// from the name of it's attendant <see cref="System.Reflection.Assembly"/>
-        /// in an assembly qualified type name.
+        ///     The string that separates a <see cref="System.Type" /> name
+        ///     from the name of it's attendant <see cref="System.Reflection.Assembly" />
+        ///     in an assembly qualified type name.
         /// </summary>
         public const string TypeAssemblySeparator = ",";
-
-        #endregion
-
-        #region Fields
-
-        private string unresolvedAssemblyName;
-        private string unresolvedTypeName;
 
         #endregion
 
         #region Constructor (s) / Destructor
 
         /// <summary>
-        /// Creates a new instance of the TypeAssemblyHolder class.
+        ///     Creates a new instance of the TypeAssemblyHolder class.
         /// </summary>
         /// <param name="unresolvedTypeName">
-        /// The unresolved name of a <see cref="System.Type"/>.
+        ///     The unresolved name of a <see cref="System.Type" />.
         /// </param>
         public TypeAssemblyHolder(string unresolvedTypeName)
         {
             SplitTypeAndAssemblyNames(unresolvedTypeName);
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// The (unresolved) type name portion of the original type name.
-        /// </summary>
-        public string TypeName
-        {
-            get { return unresolvedTypeName; }
-        }
-
-        /// <summary>
-        /// The (unresolved, possibly partial) name of the attandant assembly.
-        /// </summary>
-        public string AssemblyName
-        {
-            get { return unresolvedAssemblyName; }
-        }
-
-        /// <summary>
-        /// Is the type name being resolved assembly qualified?
-        /// </summary>
-        public bool IsAssemblyQualified
-        {
-            get { return StringUtils.HasText(AssemblyName); }
         }
 
         #endregion
@@ -102,18 +67,44 @@ namespace Spring.Core.TypeResolution
             //
             // start searching for assembly separator after the last bracket if any
             int typeAssemblyIndex = originalTypeName.LastIndexOf(']');
-            typeAssemblyIndex = originalTypeName.IndexOf(TypeAssemblySeparator, typeAssemblyIndex+1);
+            typeAssemblyIndex = originalTypeName.IndexOf(TypeAssemblySeparator, typeAssemblyIndex + 1);
             if (typeAssemblyIndex < 0)
             {
-                unresolvedTypeName = originalTypeName;
+                TypeName = originalTypeName;
             }
             else
             {
-                unresolvedTypeName = originalTypeName.Substring(
+                TypeName = originalTypeName.Substring(
                     0, typeAssemblyIndex).Trim();
-                unresolvedAssemblyName = originalTypeName.Substring(
+                AssemblyName = originalTypeName.Substring(
                     typeAssemblyIndex + 1).Trim();
             }
+        }
+
+        #endregion
+
+        #region Fields
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        ///     The (unresolved) type name portion of the original type name.
+        /// </summary>
+        public string TypeName { get; private set; }
+
+        /// <summary>
+        ///     The (unresolved, possibly partial) name of the attandant assembly.
+        /// </summary>
+        public string AssemblyName { get; private set; }
+
+        /// <summary>
+        ///     Is the type name being resolved assembly qualified?
+        /// </summary>
+        public bool IsAssemblyQualified
+        {
+            get { return StringUtils.HasText(AssemblyName); }
         }
 
         #endregion

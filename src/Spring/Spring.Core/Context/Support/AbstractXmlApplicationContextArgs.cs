@@ -24,43 +24,24 @@ namespace Spring.Context.Support
 {
     public abstract class AbstractXmlApplicationContextArgs
     {
-        private bool _caseSensitive;
-
         private string[] _configurationLocations;
 
         private IResource[] _configurationResources;
 
-        private string _name;
-
-        private IApplicationContext _parentContext;
-
-        private bool _refresh;
-
-        public virtual bool CaseSensitive
-        {
-            get
-            {
-                return _caseSensitive;
-            }
-            set
-            {
-                _caseSensitive = value;
-            }
-        }
+        public virtual bool CaseSensitive { get; set; }
 
         public virtual string[] ConfigurationLocations
         {
             get
             {
                 if (_configurationLocations == null)
+                {
                     _configurationLocations = new string[0];
+                }
 
                 return _configurationLocations;
             }
-            set
-            {
-                _configurationLocations = value;
-            }
+            set { _configurationLocations = value; }
         }
 
         public virtual IResource[] ConfigurationResources
@@ -68,51 +49,19 @@ namespace Spring.Context.Support
             get
             {
                 if (_configurationResources == null)
+                {
                     _configurationResources = new IResource[0];
+                }
 
                 return _configurationResources;
             }
-            set
-            {
-                _configurationResources = value;
-            }
+            set { _configurationResources = value; }
         }
 
-        public virtual string Name
-        {
-            get
-            {
-                return _name;
-            }
-            set
-            {
-                _name = value;
-            }
-        }
+        public virtual string Name { get; set; }
 
-        public virtual IApplicationContext ParentContext
-        {
-            get
-            {
-                return _parentContext;
-            }
-            set
-            {
-                _parentContext = value;
-            }
-        }
+        public virtual IApplicationContext ParentContext { get; set; }
 
-        public virtual bool Refresh
-        {
-            get
-            {
-                return _refresh;
-            }
-            set
-            {
-                _refresh = value;
-            }
-        }
-
+        public virtual bool Refresh { get; set; }
     }
 }

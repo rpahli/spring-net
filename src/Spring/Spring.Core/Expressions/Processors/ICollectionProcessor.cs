@@ -23,22 +23,22 @@ using System.Collections;
 namespace Spring.Expressions.Processors
 {
     /// <summary>
-    /// Defines an interface that should be implemented
-    /// by all collection processors and aggregators.
+    ///     Defines an interface that should be implemented
+    ///     by all collection processors and aggregators.
     /// </summary>
     public interface ICollectionProcessor
     {
         /// <summary>
-        /// Processes a list of source items and returns a result.
+        ///     Processes a list of source items and returns a result.
         /// </summary>
         /// <param name="source">
-        /// The source list to process.
+        ///     The source list to process.
         /// </param>
         /// <param name="args">
-        /// An optional processor arguments array.
+        ///     An optional processor arguments array.
         /// </param>
         /// <returns>
-        /// The processing result.
+        ///     The processing result.
         /// </returns>
         object Process(ICollection source, object[] args);
     }

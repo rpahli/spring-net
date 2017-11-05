@@ -18,50 +18,51 @@
 
 #endregion
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Resources;
-using Common.Logging;
 using Spring.Context;
 using Spring.Context.Support;
 using Spring.Expressions;
+using Spring.Logging;
 
 namespace Spring.Globalization.Localizers
 {
     /// <summary>
-    /// Loads a list of resources that should be applied from the .NET <see cref="ResourceSet"/>.
+    ///     Loads a list of resources that should be applied from the .NET <see cref="ResourceSet" />.
     /// </summary>
     /// <remarks>
-    /// <p>
-    /// This <see cref="ILocalizer"/> implementation will iterate over all resource managers 
-    /// within the message source and return a list of all the resources whose name starts with '$this'.
-    /// </p>
-    /// <p>
-    /// All other resources will be ignored, but you can retrieve them by calling one of 
-    /// <c>GetMessage</c> methods on the message source directly.
-    /// </p>
+    ///     <p>
+    ///         This <see cref="ILocalizer" /> implementation will iterate over all resource managers
+    ///         within the message source and return a list of all the resources whose name starts with '$this'.
+    ///     </p>
+    ///     <p>
+    ///         All other resources will be ignored, but you can retrieve them by calling one of
+    ///         <c>GetMessage</c> methods on the message source directly.
+    ///     </p>
     /// </remarks>
     /// <author>Aleksandar Seovic</author>
     public class ResourceSetLocalizer : AbstractLocalizer
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(ResourceSetLocalizer));
+        private static readonly ILogger log = LogManager.GetLogger(typeof(ResourceSetLocalizer));
 
         private static readonly IList ignoreList =
-            new string[] {"$this.DefaultModifiers", "$this.TrayAutoArrange", "$this.TrayLargeIcon"};
+            new[] {"$this.DefaultModifiers", "$this.TrayAutoArrange", "$this.TrayLargeIcon"};
 
         /// <summary>
-        /// Loads resources from the storage and creates a list of <see cref="Resource"/> instances that should be applied to the target.
+        ///     Loads resources from the storage and creates a list of <see cref="Resource" /> instances that should be applied to
+        ///     the target.
         /// </summary>
         /// <remarks>
-        /// This feature is not currently supported on version 1.0 of the .NET platform.
+        ///     This feature is not currently supported on version 1.0 of the .NET platform.
         /// </remarks>
         /// <param name="target">Target to get a list of resources for.</param>
-        /// <param name="messageSource"><see cref="IMessageSource"/> instance to retrieve resources from.</param>
+        /// <param name="messageSource"><see cref="IMessageSource" /> instance to retrieve resources from.</param>
         /// <param name="culture">Resource locale.</param>
         /// <returns>A list of resources to apply.</returns>
-        protected override IList<Resource> LoadResources(object target, IMessageSource messageSource, CultureInfo culture)
+        protected override IList<Resource> LoadResources(object target, IMessageSource messageSource,
+            CultureInfo culture)
         {
             IList<Resource> resources = new List<Resource>();
 
@@ -69,7 +70,8 @@ namespace Spring.Globalization.Localizers
             {
                 for (int i = 0; i < ((ResourceSetMessageSource) messageSource).ResourceManagers.Count; i++)
                 {
-                    ResourceManager rm = ((ResourceSetMessageSource) messageSource).ResourceManagers[i] as ResourceManager;
+                    ResourceManager rm =
+                        ((ResourceSetMessageSource) messageSource).ResourceManagers[i] as ResourceManager;
                     ResourceSet invariantResources = null;
                     try
                     {
@@ -85,16 +87,19 @@ namespace Spring.Globalization.Localizers
                     {
                         foreach (DictionaryEntry resource in invariantResources)
                         {
-                            string resourceName = (string)resource.Key;
+                            string resourceName = (string) resource.Key;
                             if (resourceName.StartsWith("$this") && !ignoreList.Contains(resourceName))
                             {
                                 // redirect resource resolution if necessary
                                 object resourceValue = rm.GetObject(resourceName, culture);
-                                if (resourceValue is String && ((String)resourceValue).StartsWith("$messageSource"))
+                                if (resourceValue is string && ((string) resourceValue).StartsWith("$messageSource"))
                                 {
-                                    resourceValue = messageSource.GetResourceObject(((String)resourceValue).Substring(15), culture);
+                                    resourceValue =
+                                        messageSource.GetResourceObject(((string) resourceValue).Substring(15),
+                                            culture);
                                 }
-                                resources.Add(new Resource(Expression.ParsePrimary(resourceName.Substring(6)), resourceValue));
+                                resources.Add(new Resource(Expression.ParsePrimary(resourceName.Substring(6)),
+                                    resourceValue));
                             }
                         }
                     }

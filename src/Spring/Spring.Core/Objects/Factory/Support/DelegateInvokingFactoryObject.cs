@@ -23,49 +23,49 @@ using System;
 namespace Spring.Objects.Factory.Support
 {
     /// <summary>
-    /// Convenience implementation of the <see cref="IFactoryObject"/> interface that
-    /// delegates to an arbitrary object + method to perform the object construction.
+    ///     Convenience implementation of the <see cref="IFactoryObject" /> interface that
+    ///     delegates to an arbitrary object + method to perform the object construction.
     /// </summary>
     /// <remarks>
-    /// <para>
-    /// Because this <see cref="IFactoryObject"/> implementation requires a delegate
-    /// passed to its ctor, its only possible to configure this object and register
-    /// it with the <see cref="IObjectFactory"/> via code rather than via XML.
-    /// </para>
+    ///     <para>
+    ///         Because this <see cref="IFactoryObject" /> implementation requires a delegate
+    ///         passed to its ctor, its only possible to configure this object and register
+    ///         it with the <see cref="IObjectFactory" /> via code rather than via XML.
+    ///     </para>
     /// </remarks>
     /// <typeparam name="T"></typeparam>
     public class DelegateInvokingFactoryObject<T> : IFactoryObject
     {
-        private readonly bool _isSingleton;
         private readonly Func<T> _builderDelegate;
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DelegateInvokingFactoryObject{T}"/> class.
+        ///     Initializes a new instance of the <see cref="DelegateInvokingFactoryObject{T}" /> class.
         /// </summary>
         /// <param name="builderDelegate">The builder delegate.</param>
         /// <param name="isSingleton">if set to <c>true</c> [is singleton].</param>
         public DelegateInvokingFactoryObject(Func<T> builderDelegate, bool isSingleton)
         {
             _builderDelegate = builderDelegate;
-            _isSingleton = isSingleton;
+            IsSingleton = isSingleton;
         }
 
 
         /// <summary>
-        /// Return an instance (possibly shared or independent) of the object
-        ///             managed by this factory.
+        ///     Return an instance (possibly shared or independent) of the object
+        ///     managed by this factory.
         /// </summary>
         /// <remarks>
-        /// <note type="caution">If this method is being called in the context of an enclosing IoC container and
-        ///             returns <see langword="null"/>, the IoC container will consider this factory
-        ///             object as not being fully initialized and throw a corresponding (and most
-        ///             probably fatal) exception.
-        ///             </note>
+        ///     <note type="caution">
+        ///         If this method is being called in the context of an enclosing IoC container and
+        ///         returns <see langword="null" />, the IoC container will consider this factory
+        ///         object as not being fully initialized and throw a corresponding (and most
+        ///         probably fatal) exception.
+        ///     </note>
         /// </remarks>
         /// <returns>
-        /// An instance (possibly shared or independent) of the object managed by
-        ///             this factory.
+        ///     An instance (possibly shared or independent) of the object managed by
+        ///     this factory.
         /// </returns>
         public object GetObject()
         {
@@ -73,9 +73,9 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// Return the <see cref="T:System.Type"/> of object that this
-        ///             <see cref="T:Spring.Objects.Factory.IFactoryObject"/> creates, or
-        ///             <see langword="null"/> if not known in advance.
+        ///     Return the <see cref="T:System.Type" /> of object that this
+        ///     <see cref="T:Spring.Objects.Factory.IFactoryObject" /> creates, or
+        ///     <see langword="null" /> if not known in advance.
         /// </summary>
         public Type ObjectType
         {
@@ -83,11 +83,8 @@ namespace Spring.Objects.Factory.Support
         }
 
         /// <summary>
-        /// Is the object managed by this factory a singleton or a prototype?
+        ///     Is the object managed by this factory a singleton or a prototype?
         /// </summary>
-        public bool IsSingleton
-        {
-            get { return _isSingleton; }
-        }
+        public bool IsSingleton { get; }
     }
 }

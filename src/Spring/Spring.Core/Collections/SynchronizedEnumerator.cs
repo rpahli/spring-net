@@ -23,14 +23,14 @@ using System.Collections;
 namespace Spring.Collections
 {
     /// <summary>
-    /// Synchronized <see cref="IEnumerator"/> that should be returned by synchronized
-    /// collections in order to ensure that the enumeration is thread safe.
+    ///     Synchronized <see cref="IEnumerator" /> that should be returned by synchronized
+    ///     collections in order to ensure that the enumeration is thread safe.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
     internal class SynchronizedEnumerator : IEnumerator
     {
-        protected object syncRoot;
         protected IEnumerator enumerator;
+        protected object syncRoot;
 
         public SynchronizedEnumerator(object syncRoot, IEnumerator enumerator)
         {

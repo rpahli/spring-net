@@ -20,31 +20,29 @@
 
 #region Imports
 
-
-
 #endregion
 
 namespace Spring.Core
 {
     /// <summary>
-    /// The criteria for an arbitrary filter.
+    ///     The criteria for an arbitrary filter.
     /// </summary>
     /// <author>Rick Evans</author>
-    public interface ICriteria 
+    public interface ICriteria
     {
         /// <summary>
-        /// Does the supplied <paramref name="datum"/> satisfy the criteria
-        /// encapsulated by this instance?
+        ///     Does the supplied <paramref name="datum" /> satisfy the criteria
+        ///     encapsulated by this instance?
         /// </summary>
         /// <param name="datum">
-        /// The datum to be checked by this criteria instance.
+        ///     The datum to be checked by this criteria instance.
         /// </param>
         /// <returns>
-        /// <see langword="true"/> if the supplied <paramref name="datum"/>
-        /// satisfies the criteria encapsulated by this instance;
-        /// <see langword="false"/> if not, or the supplied
-        /// <paramref name="datum"/> is <see langword="null"/>.
+        ///     <see langword="true" /> if the supplied <paramref name="datum" />
+        ///     satisfies the criteria encapsulated by this instance;
+        ///     <see langword="false" /> if not, or the supplied
+        ///     <paramref name="datum" /> is <see langword="null" />.
         /// </returns>
-        bool IsSatisfied (object datum);
+        bool IsSatisfied(object datum);
     }
 }
