@@ -26,7 +26,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 
-using Common.Logging;
+using Spring.Logging;
 
 using Spring.Collections;
 using Spring.Collections.Generic;
@@ -136,9 +136,9 @@ namespace Spring.Objects.Factory.Support
         private static readonly object EMPTYOBJECT = new object();
 
         /// <summary>
-        /// The <see cref="Common.Logging.ILog"/> instance for this class.
+        /// The <see cref="Spring.Logging.ILogger"/> instance for this class.
         /// </summary>
-        private readonly ILog log;
+        private readonly ILogger log;
 
         /// <summary>
         /// Cache of singleton objects created by <see cref="IFactoryObject"/>s: FactoryObject name -> product

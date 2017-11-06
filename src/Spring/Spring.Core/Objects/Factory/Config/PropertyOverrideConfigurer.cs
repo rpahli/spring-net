@@ -23,7 +23,7 @@
 using System;
 using System.Collections.Specialized;
 using System.Globalization;
-using Common.Logging;
+using Spring.Logging;
 
 #endregion
 
@@ -108,7 +108,7 @@ namespace Spring.Objects.Factory.Config
     [Serializable]
     public class PropertyOverrideConfigurer : PropertyResourceConfigurer
 	{
-		private ILog _logger = LogManager.GetLogger(typeof (PropertyOverrideConfigurer));
+		private ILogger _logger = LogManager.GetLogger(typeof (PropertyOverrideConfigurer));
 
 		/// <summary>
 		/// Apply the given properties to the supplied

@@ -414,7 +414,7 @@ namespace Spring.Reflection.Dynamic
             methodName = "_dynamic_" + member.DeclaringType.FullName + "." + methodName;
             try
             {
-                new PermissionSet(PermissionState.Unrestricted).Demand();
+//                new PermissionSet(PermissionState.Unrestricted).Demand();
                 dmGetter = CreateDynamicMethodInternal(methodName, returnType, argumentTypes, member, skipVisibility);
             }
             catch(SecurityException)

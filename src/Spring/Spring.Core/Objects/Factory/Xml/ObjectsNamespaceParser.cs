@@ -28,7 +28,7 @@ using System.Globalization;
 using System.IO;
 using System.Xml;
 
-using Common.Logging;
+using Spring.Logging;
 
 using Spring.Collections;
 using Spring.Core.IO;
@@ -73,9 +73,9 @@ namespace Spring.Objects.Factory.Xml
         public const string Namespace = "http://www.springframework.net";
 
         /// <summary>
-        /// The shared <see cref="Common.Logging.ILog"/> instance for this class (and derived classes).
+        /// The shared <see cref="Spring.Logging.ILogger"/> instance for this class (and derived classes).
         /// </summary>
-        protected static readonly ILog log =
+        protected static readonly ILogger log =
             LogManager.GetLogger(typeof(ObjectsNamespaceParser));
 
         #region IXmlObjectDefinitionParser Members

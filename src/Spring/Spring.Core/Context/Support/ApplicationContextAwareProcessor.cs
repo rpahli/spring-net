@@ -20,7 +20,7 @@
 
 #region Imports
 
-using System.Runtime.Remoting;
+//using System.Runtime.Remoting;
 using Spring.Objects.Factory.Config;
 
 #endregion
@@ -123,24 +123,25 @@ namespace Spring.Context.Support
 		/// <seealso cref="Spring.Objects.Factory.Config.IObjectPostProcessor.PostProcessBeforeInitialization"/>
 		public object PostProcessBeforeInitialization(object obj, string name)
 		{
-			if(!RemotingServices.IsTransparentProxy(obj)) 
-			{
-				if (typeof (IResourceLoaderAware).IsInstanceOfType(obj))
-				{
-					((IResourceLoaderAware) obj).ResourceLoader
-						= _applicationContext;
-				}
-				if (typeof (IMessageSourceAware).IsInstanceOfType(obj))
-				{
-					((IMessageSourceAware) obj).MessageSource
-						= _applicationContext;
-				}
-				if (typeof (IApplicationContextAware).IsInstanceOfType(obj))
-				{
-					((IApplicationContextAware) obj).ApplicationContext
-						= _applicationContext;
-				}
-			}
+//			if(!RemotingServices.IsTransparentProxy(obj)) 
+//			{
+//				if (typeof (IResourceLoaderAware).IsInstanceOfType(obj))
+//				{
+//					((IResourceLoaderAware) obj).ResourceLoader
+//						= _applicationContext;
+//				}
+//				if (typeof (IMessageSourceAware).IsInstanceOfType(obj))
+//				{
+//					((IMessageSourceAware) obj).MessageSource
+//						= _applicationContext;
+//				}
+//				if (typeof (IApplicationContextAware).IsInstanceOfType(obj))
+//				{
+//					((IApplicationContextAware) obj).ApplicationContext
+//						= _applicationContext;
+//				}
+//			}
+
 			return obj;
 		}
 	}

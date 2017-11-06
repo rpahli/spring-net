@@ -23,7 +23,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Context.Attributes.TypeFilters;
 using Spring.Util;
 using Spring.Objects.Factory.Xml;
@@ -39,7 +39,7 @@ namespace Spring.Context.Attributes
         /// <summary>
         /// Logger Instance.
         /// </summary>
-        protected static readonly ILog Logger = LogManager.GetLogger<AssemblyTypeScanner>();
+        protected static readonly ILogger Logger = LogManager.GetLogger<AssemblyTypeScanner>();
 
         /// <summary>
         /// Names of Assemblies to exclude from being loaded for scanning.
@@ -182,7 +182,8 @@ namespace Spring.Context.Attributes
                 {
                     if (IsCompoundPredicateSatisfiedBy(type))
                     {
-                        Logger.Debug(m => m("Satisfied Type: {0}", type.FullName));
+                        Logger.Debug(string.Format("Satisfied Type: {0}", type.FullName));
+
                         types.Add(type);
                     }
                 }
@@ -259,7 +260,7 @@ namespace Spring.Context.Attributes
             assemblies.AddRange(DiscoverAssemblies(folderPath, "*.dll"));
             assemblies.AddRange(DiscoverAssemblies(folderPath, "*.exe"));
 
-            Logger.Debug(m => m("Assemblies to be scanned: {0}", StringUtils.ArrayToCommaDelimitedString(assemblies.ToArray())));
+            Logger.Debug(string.Format("Assemblies to be scanned: {0}", StringUtils.ArrayToCommaDelimitedString(assemblies.ToArray())));
 
             return assemblies;
         }
@@ -279,7 +280,7 @@ namespace Spring.Context.Attributes
                     if (null != loadedAssembly)
                     {
                         string fullname = loadedAssembly.FullName;
-                        Logger.Debug(m => m("Add Assembly: {0}", fullname));
+                        Logger.Debug(string.Format("Add Assembly: {0}", fullname));
 
                         assemblies.Add(loadedAssembly);
                     }
@@ -300,7 +301,7 @@ namespace Spring.Context.Attributes
             catch (Exception ex)
             {
                 //log and swallow everything that might go wrong here...
-                Logger.Debug(m => m("Failed to load assembly {0} to inspect for [Configuration] types!", filename), ex);
+                Logger.Debug(string.Format("Failed to load assembly {0} to inspect for [Configuration] types!", filename), ex);
             }
 
             return assembly;
@@ -323,7 +324,7 @@ namespace Spring.Context.Attributes
             var filteredAssemblies = assemblyCandidates.Where(IsIncludedAssembly).
                                                         AsEnumerable();
 
-            Logger.Debug(m => m("Filtered Assemblies: {0}", StringUtils.ArrayToCommaDelimitedString(filteredAssemblies.ToArray())));
+            Logger.Debug(string.Format("Filtered Assemblies: {0}", StringUtils.ArrayToCommaDelimitedString(filteredAssemblies.ToArray())));
 
             return filteredAssemblies;
         }
@@ -366,7 +367,7 @@ namespace Spring.Context.Attributes
             if (result)
             {
                 string fullname = assembly.FullName;
-                Logger.Debug(m => m("Include Assembly:  {0}", fullname));
+                Logger.Debug(string.Format("Include Assembly:  {0}", fullname));
             }
 
             return result;

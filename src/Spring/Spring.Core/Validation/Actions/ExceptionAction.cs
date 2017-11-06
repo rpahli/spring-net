@@ -20,14 +20,14 @@
 
 using System;
 using System.Collections.Generic;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Expressions;
 
 namespace Spring.Validation.Actions
 {
     public class ExceptionAction : BaseValidationAction
     {
-        private ILog log = LogManager.GetLogger(typeof(ExceptionAction));
+        private ILogger log = LogManager.GetLogger(typeof(ExceptionAction));
         private IExpression throwsExpression;
 
         /// <summary>

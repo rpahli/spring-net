@@ -26,7 +26,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 
-using Common.Logging;
+using Spring.Logging;
 
 using Spring.Collections;
 using Spring.Core.TypeResolution;
@@ -74,9 +74,9 @@ namespace Spring.Objects.Factory.Support
         #endregion
 
         /// <summary>
-        /// The <see cref="Common.Logging.ILog"/> instance for this class.
+        /// The <see cref="Spring.Logging.ILogger"/> instance for this class.
         /// </summary>
-        private readonly ILog log;
+        private readonly ILogger log;
 
         #region Constructor (s) / Destructor
 
@@ -341,7 +341,7 @@ namespace Spring.Objects.Factory.Support
         /// <seealso cref="Spring.Objects.Factory.Config.IDestructionAwareObjectPostProcessor.PostProcessBeforeDestruction"/>
         public virtual void ApplyObjectPostProcessBeforeDestruction(object instance, string name)
         {
-            log.Debug(m => m("Invoking PostProcessBeforeDestruction after IDisposal of object '" + name + "'"));
+            log.Debug(string.Format("Invoking PostProcessBeforeDestruction after IDisposal of object '" + name + "'"));
 
             foreach (IObjectPostProcessor objectProcessor in ObjectPostProcessors)
             {
@@ -1440,7 +1440,7 @@ namespace Spring.Objects.Factory.Support
         {
             using (new DisposableObjectAdapter(target, name, GetMergedObjectDefinition(name, true), ObjectPostProcessors))
             {
-                log.Debug(m => m("Destroying dependant objects for object '{0}", name));
+                log.Debug(string.Format("Destroying dependant objects for object '{0}", name));
                 DestroyDependantObjects(name);
             }
         }

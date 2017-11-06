@@ -26,7 +26,7 @@ using System.Configuration;
 using System.Reflection;
 using System.Xml;
 
-using Common.Logging;
+using Spring.Logging;
 using Spring.Core;
 using Spring.Core.TypeResolution;
 using Spring.Reflection.Dynamic;
@@ -173,7 +173,7 @@ namespace Spring.Context.Support
 	/// <seealso cref="ContextRegistry"/>
 	public class ContextHandler : IConfigurationSectionHandler
 	{
-		private readonly ILog Log = LogManager.GetLogger(typeof(ContextHandler));
+		private readonly ILogger Log = LogManager.GetLogger(typeof(ContextHandler));
 		
 		/// <summary>
 		/// The <see cref="System.Type"/> of <see cref="Spring.Context.IApplicationContext"/>

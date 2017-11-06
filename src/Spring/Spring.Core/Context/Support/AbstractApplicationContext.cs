@@ -25,7 +25,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Context.Events;
 using Spring.Core;
 using Spring.Core.IO;
@@ -124,9 +124,9 @@ namespace Spring.Context.Support
         public static readonly string EventRegistryObjectName = "eventRegistry";
 
         /// <summary>
-        /// The <see cref="Common.Logging.ILog"/> instance for this class.
+        /// The <see cref="Spring.Logging.ILogger"/> instance for this class.
         /// </summary>
-        protected readonly ILog log;
+        protected readonly ILogger log;
 
         /// <summary>
         /// The <see cref="Spring.Context.IMessageSource"/> instance we delegate
@@ -2534,7 +2534,7 @@ namespace Spring.Context.Support
 
         private sealed class ObjectPostProcessorChecker : IObjectPostProcessor, IOrdered
         {
-            private readonly ILog log;
+            private readonly ILogger log;
             private int _objectPostProcessorTargetCount;
             private IConfigurableListableObjectFactory _objectFactory;
 

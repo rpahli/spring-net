@@ -26,7 +26,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
 
-using Common.Logging;
+using Spring.Logging;
 
 using Spring.Core;
 using Spring.Core.TypeConversion;
@@ -296,9 +296,9 @@ namespace Spring.Objects.Factory.Support
 		private IDictionary<string, List<string>> dependingObjectNamesCache;
 
         /// <summary>
-        /// The <see cref="Common.Logging.ILog"/> instance for this class.
+        /// The <see cref="Spring.Logging.ILogger"/> instance for this class.
         /// </summary>
-        private readonly ILog log = LogManager.GetLogger(typeof(DefaultListableObjectFactory));
+        private readonly ILogger log = LogManager.GetLogger(typeof(DefaultListableObjectFactory));
 
         /// <summary>
         /// The mapping of object definition objects, keyed by object name.

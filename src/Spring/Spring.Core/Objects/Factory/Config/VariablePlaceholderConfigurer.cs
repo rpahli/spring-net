@@ -22,7 +22,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Collections;
 using Spring.Core;
 using Spring.Util;
@@ -277,7 +277,7 @@ namespace Spring.Objects.Factory.Config
 
         private class TextProcessor
         {
-            private readonly ILog logger = LogManager.GetLogger(typeof(TextProcessor));
+            private readonly ILogger logger = LogManager.GetLogger(typeof(TextProcessor));
             private readonly VariablePlaceholderConfigurer owner;
             private readonly IVariableSource variableSource;
 

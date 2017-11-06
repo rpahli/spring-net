@@ -20,7 +20,7 @@
 
 using System;
 
-using Common.Logging;
+using Spring.Logging;
 
 using Spring.Objects;
 using Spring.Objects.Factory.Config;
@@ -37,7 +37,7 @@ namespace Spring.Context.Attributes
     /// </summary>
     public class ScannedGenericObjectDefinition : GenericObjectDefinition
     {
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+        private static readonly ILogger Log = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         /// Name provided by the Component Attribute
@@ -61,7 +61,7 @@ namespace Spring.Context.Attributes
             ParseScopeAttribute();
             ParseQualifierAttribute();
 
-            Log.Debug(m => m("ComponentName: {0}; {1}", _componentName, ToString()));
+            Log.Debug(string.Format("ComponentName: {0}; {1}", _componentName, ToString()));
         }
 
         private void ParseName()

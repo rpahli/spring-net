@@ -24,7 +24,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Runtime.Remoting;
+//using System.Runtime.Remoting;
 using System.Runtime.Serialization;
 
 using Spring.Collections;
@@ -355,7 +355,7 @@ namespace Spring.Expressions
                 {
                     SetPropertyOrFieldValueInternal(context, newValue);
                 }
-                else if (!RemotingServices.IsTransparentProxy(newValue) &&
+                else if (//!RemotingServices.IsTransparentProxy(newValue) &&
                          (newValue is IList || newValue is IDictionary || newValue is ISet))
                 {
                     if (!AddToCollections(context, evalContext, newValue))
@@ -433,7 +433,7 @@ namespace Spring.Expressions
             bool added = false;
 
             // try adding values if property is a list...
-            if (newValue is IList && !RemotingServices.IsTransparentProxy(newValue))
+            if (newValue is IList/* && !RemotingServices.IsTransparentProxy(newValue)*/)
             {
                 IList currentValue = (IList)Get(context, evalContext);
                 if (currentValue != null && !currentValue.IsFixedSize && !currentValue.IsReadOnly)
@@ -446,7 +446,7 @@ namespace Spring.Expressions
                 }
             }
             // try adding values if property is a dictionary...
-            else if (newValue is IDictionary && !RemotingServices.IsTransparentProxy(newValue))
+            else if (newValue is IDictionary/* && !RemotingServices.IsTransparentProxy(newValue)*/)
             {
                 IDictionary currentValue = (IDictionary)Get(context, evalContext);
                 if (currentValue != null && !currentValue.IsFixedSize && !currentValue.IsReadOnly)
@@ -459,7 +459,7 @@ namespace Spring.Expressions
                 }
             }
             // try adding values if property is a set...
-            else if (newValue is ISet && !RemotingServices.IsTransparentProxy(newValue))
+            else if (newValue is ISet /* && !RemotingServices.IsTransparentProxy(newValue)*/)
             {
                 ISet currentValue = (ISet)Get(context, evalContext);
                 if (currentValue != null)

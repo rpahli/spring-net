@@ -24,8 +24,8 @@ using System;
 using System.Collections;
 using System.Globalization;
 using System.Reflection;
-using System.Runtime.Remoting;
-using System.Runtime.Remoting.Proxies;
+//using System.Runtime.Remoting;
+//using System.Runtime.Remoting.Proxies;
 
 #endregion
 
@@ -95,25 +95,27 @@ namespace Spring.Util
                 throw new NotSupportedException(string.Format(CultureInfo.InvariantCulture, "Target '{0}' is null.", targetName));
             }
 
-            Type targetType;
-            if (RemotingServices.IsTransparentProxy(target))
-            {
-                RealProxy rp = RemotingServices.GetRealProxy(target);
-                IRemotingTypeInfo rti = rp as IRemotingTypeInfo;
-                if (rti != null)
-                {
-                    if (rti.CanCastTo(requiredType, target))
-                    {
-                        return;
-                    }
-                    throw new NotSupportedException(string.Format(CultureInfo.InvariantCulture, "Target '{0}' is a transparent proxy that does not support methods of '{1}'.", targetName, requiredType.FullName));                                    
-                }
-                targetType = rp.GetProxiedType();
-            }
-            else
-            {
-                targetType = target.GetType();                
-            }
+//            Type targetType;
+//            if (RemotingServices.IsTransparentProxy(target))
+//            {
+//                RealProxy rp = RemotingServices.GetRealProxy(target);
+//                IRemotingTypeInfo rti = rp as IRemotingTypeInfo;
+//                if (rti != null)
+//                {
+//                    if (rti.CanCastTo(requiredType, target))
+//                    {
+//                        return;
+//                    }
+//                    throw new NotSupportedException(string.Format(CultureInfo.InvariantCulture, "Target '{0}' is a transparent proxy that does not support methods of '{1}'.", targetName, requiredType.FullName));                                    
+//                }
+//                targetType = rp.GetProxiedType();
+//            }
+//            else
+//            {
+//                targetType = target.GetType();                
+//            }
+
+            Type targetType = target.GetType();
 
             if (!requiredType.IsAssignableFrom(targetType))
             {

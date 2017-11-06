@@ -23,7 +23,7 @@
 using System;
 using System.Collections;
 using System.Globalization;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Core;
 using Spring.Util;
 
@@ -40,7 +40,7 @@ namespace Spring.Objects.Support
     /// <author>Simon White (.NET)</author>
     public class PropertyComparator : IComparer
     {
-        private static readonly ILog logger
+        private static readonly ILogger logger
             = LogManager.GetLogger(typeof (PropertyComparator));
 
         private ISortDefinition sortDefinition;

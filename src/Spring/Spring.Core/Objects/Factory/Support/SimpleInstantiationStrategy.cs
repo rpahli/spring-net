@@ -24,7 +24,7 @@ using System;
 using System.Globalization;
 using System.Reflection;
 
-using Common.Logging;
+using Spring.Logging;
 
 using Spring.Core.TypeResolution;
 using Spring.Util;
@@ -50,9 +50,9 @@ namespace Spring.Objects.Factory.Support
     public class SimpleInstantiationStrategy : IInstantiationStrategy
     {
         /// <summary>
-        /// The shared <see cref="Common.Logging.ILog"/> instance for this class (and derived classes).
+        /// The shared <see cref="Spring.Logging.ILogger"/> instance for this class (and derived classes).
         /// </summary>
-        protected static readonly ILog log =
+        protected static readonly ILogger log =
             LogManager.GetLogger(typeof(SimpleInstantiationStrategy));
 
         /// <summary>

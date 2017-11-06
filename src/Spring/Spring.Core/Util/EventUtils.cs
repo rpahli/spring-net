@@ -23,7 +23,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 
-using Common.Logging;
+using Spring.Logging;
 
 namespace Spring.Util
 {
@@ -73,7 +73,7 @@ namespace Spring.Util
             }
         }
 
-        protected readonly ILog Log;
+        protected readonly ILogger Log;
 
         /// <summary>
         /// Create a new EventRaiser instance

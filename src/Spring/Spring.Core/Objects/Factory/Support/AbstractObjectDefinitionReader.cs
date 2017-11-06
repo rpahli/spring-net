@@ -21,7 +21,7 @@
 #region Imports
 
 using System;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Core.IO;
 using Spring.Util;
 
@@ -44,9 +44,9 @@ namespace Spring.Objects.Factory.Support
 		#region Constants
 
 		/// <summary>
-		/// The <see cref="Common.Logging.ILog"/> instance for this class (and derived classes).
+		/// The <see cref="Spring.Logging.ILogger"/> instance for this class (and derived classes).
 		/// </summary>
-		protected readonly ILog log;
+		protected readonly ILogger log;
 
 		#endregion
 

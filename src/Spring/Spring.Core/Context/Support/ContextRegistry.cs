@@ -23,7 +23,7 @@
 using System;
 using System.Collections.Generic;
 
-using Common.Logging;
+using Spring.Logging;
 
 using Spring.Context.Events;
 using Spring.Util;
@@ -53,9 +53,9 @@ namespace Spring.Context.Support
     public sealed class ContextRegistry
     {
         /// <summary>
-        /// The shared <see cref="Common.Logging.ILog"/> instance for this class (and derived classes).
+        /// The shared <see cref="Spring.Logging.ILogger"/> instance for this class (and derived classes).
         /// </summary>
-        private static readonly ILog log = LogManager.GetLogger(typeof(ContextRegistry));
+        private static readonly ILogger log = LogManager.GetLogger(typeof(ContextRegistry));
 
         private static readonly object syncRoot = new Object();
         private static readonly ContextRegistry instance = new ContextRegistry();

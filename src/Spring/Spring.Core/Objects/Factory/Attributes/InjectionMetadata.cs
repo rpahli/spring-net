@@ -21,7 +21,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Common.Logging;
+using Spring.Logging;
 
 using Spring.Objects.Factory.Support;
 
@@ -33,7 +33,7 @@ namespace Spring.Objects.Factory.Attributes
     /// </summary>
     public class InjectionMetadata
     {
-        private static readonly ILog Logger = LogManager.GetLogger<InjectionMetadata>();
+        private static readonly ILogger Logger = LogManager.GetLogger<InjectionMetadata>();
 
         private readonly IList<InjectedElement> _injectedElements;
 
@@ -49,7 +49,7 @@ namespace Spring.Objects.Factory.Attributes
             {
                 foreach (var element in elements)
                 {
-                    Logger.Debug(m => m("Found injected element on class [" + targetType.Name + "]: " + element));
+                    Logger.Debug(string.Format("Found injected element on class [" + targetType.Name + "]: " + element));
                     _injectedElements.Add(element);
                 }
             }
@@ -76,7 +76,7 @@ namespace Spring.Objects.Factory.Attributes
 
 	        foreach(var element in _injectedElements)
 	        {
-	            Logger.Debug(m => m("Processing injected method of bean '{0}': {1}", objectName, element));
+	            Logger.Debug(string.Format("Processing injected method of bean '{0}': {1}", objectName, element));
 	            element.Inject(instance, objectName, pvs);
 	        }
 	    }

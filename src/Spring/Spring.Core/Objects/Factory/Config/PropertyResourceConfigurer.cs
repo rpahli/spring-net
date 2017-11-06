@@ -23,7 +23,7 @@
 using System;
 using System.Collections.Specialized;
 using System.Globalization;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Core;
 using Spring.Core.IO;
 
@@ -81,7 +81,7 @@ namespace Spring.Objects.Factory.Config
 
         #region Fields
 
-        private readonly ILog _log;
+        private readonly ILogger _log;
 
         private int _order = Int32.MaxValue; // default: same as non-Ordered
         private NameValueCollection _defaultProperties;

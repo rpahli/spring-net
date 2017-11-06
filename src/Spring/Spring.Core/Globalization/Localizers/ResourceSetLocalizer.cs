@@ -23,7 +23,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Resources;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Context;
 using Spring.Context.Support;
 using Spring.Expressions;
@@ -46,7 +46,7 @@ namespace Spring.Globalization.Localizers
     /// <author>Aleksandar Seovic</author>
     public class ResourceSetLocalizer : AbstractLocalizer
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(ResourceSetLocalizer));
+        private static readonly ILogger log = LogManager.GetLogger(typeof(ResourceSetLocalizer));
 
         private static readonly IList ignoreList =
             new string[] {"$this.DefaultModifiers", "$this.TrayAutoArrange", "$this.TrayLargeIcon"};

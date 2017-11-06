@@ -23,7 +23,7 @@
 using System;
 using System.Globalization;
 using System.Reflection;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Core;
 using Spring.Util;
 
@@ -46,7 +46,7 @@ namespace Spring.Objects.Support
 
 		private const string DefaultMethodName = DefaultMethodPrefix + EventNamePlaceHolder;
 
-		private static readonly ILog log
+		private static readonly ILogger log
 			= LogManager.GetLogger(typeof (AutoWiringEventHandlerValue));
 
 		#endregion

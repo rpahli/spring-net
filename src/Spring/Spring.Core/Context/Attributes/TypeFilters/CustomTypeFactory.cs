@@ -19,7 +19,7 @@
 #endregion
 
 using System;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Core.TypeResolution;
 using Spring.Util;
 using Spring.Objects.Factory.Support;
@@ -31,7 +31,7 @@ namespace Spring.Context.Attributes.TypeFilters
     /// </summary>
     public static class CustomTypeFactory
     {
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(CustomTypeFactory).FullName);
+        private static readonly ILogger Logger = LogManager.GetLogger(typeof(CustomTypeFactory).FullName);
 
         /// <summary>
         /// Creates a new instance of given type filter type string

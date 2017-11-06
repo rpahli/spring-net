@@ -20,7 +20,7 @@
 
 using System;
 using Spring.Core.TypeResolution;
-using Common.Logging;
+using Spring.Logging;
 
 namespace Spring.Context.Attributes.TypeFilters
 {
@@ -29,7 +29,7 @@ namespace Spring.Context.Attributes.TypeFilters
     /// </summary>
     public abstract class AbstractLoadTypeFilter : ITypeFilter
     {
-        private static readonly ILog Logger = LogManager.GetLogger<AbstractLoadTypeFilter>();
+        private static readonly ILogger Logger = LogManager.GetLogger<AbstractLoadTypeFilter>();
 
 
         /// <summary>

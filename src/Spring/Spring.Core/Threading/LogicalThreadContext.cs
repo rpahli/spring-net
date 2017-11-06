@@ -21,7 +21,7 @@
 #region Imports
 
 using System;
-using System.Runtime.Remoting.Messaging;
+//using System.Runtime.Remoting.Messaging;
 using Spring.Util;
 
 #endregion
@@ -32,7 +32,7 @@ namespace Spring.Threading
     /// An abstraction to safely store "ThreadStatic" data.
     /// </summary>
     /// <remarks>
-    /// By default, <see cref="CallContext"/> is used to store thread-specific data. 
+    /// By default, <see cref="ThreadStaticStorage"/> is used to store thread-specific data. 
     /// You may switch the storage strategy by calling <see cref="SetStorage(IThreadStorage)"/>.<p/>
     /// <b>NOTE:</b> Access to the underlying storage is not synchronized for performance reasons. 
     /// You should call <see cref="SetStorage(IThreadStorage)"/> only once at application startup!
@@ -48,7 +48,8 @@ namespace Spring.Threading
         /// Setting a different <see cref="IThreadStorage"/> strategy should happen only once
         /// at application startup.
         /// </remarks>
-        private static IThreadStorage threadStorage = new CallContextStorage();
+//        private static IThreadStorage threadStorage = new CallContextStorage();
+        private static IThreadStorage threadStorage = new ThreadStaticStorage();
 
         /// <summary>
         /// Set the new <see cref="IThreadStorage"/> strategy.

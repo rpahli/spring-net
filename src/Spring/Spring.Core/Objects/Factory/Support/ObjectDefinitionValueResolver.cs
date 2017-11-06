@@ -22,8 +22,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Runtime.Remoting;
-using Common.Logging;
+//using System.Runtime.Remoting;
+using Spring.Logging;
 using Spring.Core.TypeConversion;
 using Spring.Expressions;
 using Spring.Objects.Factory.Config;
@@ -42,7 +42,7 @@ namespace Spring.Objects.Factory.Support
     /// <author>Mark Pollack (.NET)</author>
     public class ObjectDefinitionValueResolver
     {
-        private readonly ILog log;
+        private readonly ILogger log;
 
         private readonly AbstractObjectFactory objectFactory;
 
@@ -136,11 +136,12 @@ namespace Spring.Objects.Factory.Support
             // we must check the argument value to see whether it requires a runtime
             // reference to another object to be resolved.
             // if it does, we'll attempt to instantiate the object and set the reference.
-            if (RemotingServices.IsTransparentProxy(argumentValue))
-            {
-                resolvedValue = argumentValue;
-            }
-            else if (argumentValue is ICustomValueReferenceHolder)
+//            if (RemotingServices.IsTransparentProxy(argumentValue))
+//            {
+//                resolvedValue = argumentValue;
+//            }
+//            else 
+            if (argumentValue is ICustomValueReferenceHolder)
             {
                 resolvedValue = ((ICustomValueReferenceHolder) argumentValue).Resolve(objectFactory, name, definition, argumentName, argumentValue);
             }

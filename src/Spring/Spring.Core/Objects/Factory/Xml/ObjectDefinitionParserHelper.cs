@@ -23,7 +23,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Xml;
 
-using Common.Logging;
+using Spring.Logging;
 
 using Spring.Objects.Factory.Config;
 using Spring.Objects.Factory.Support;
@@ -45,9 +45,9 @@ namespace Spring.Objects.Factory.Xml
         #region Fields
 
         /// <summary>
-        /// The shared <see cref="Common.Logging.ILog"/> instance for this class (and derived classes).
+        /// The shared <see cref="Spring.Logging.ILogger"/> instance for this class (and derived classes).
         /// </summary>
-        protected readonly ILog log;
+        protected readonly ILogger log;
 
         private DocumentDefaultsDefinition defaults;
 

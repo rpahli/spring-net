@@ -20,7 +20,7 @@
 
 using System.ComponentModel;
 using System.Xml;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Context.Attributes;
 using Spring.Context.Attributes.TypeFilters;
 using Spring.Objects.Factory.Config;
@@ -34,7 +34,7 @@ namespace Spring.Context.Config
     /// </summary>
 	public class ComponentScanObjectDefinitionParser : IObjectDefinitionParser
     {
-        private static readonly ILog Logger = LogManager.GetLogger<ComponentScanObjectDefinitionParser>();
+        private static readonly ILogger Logger = LogManager.GetLogger<ComponentScanObjectDefinitionParser>();
 
         private const string ATTRIBUTE_CONFIG_ATTRIBUTE = "attribute-config";
 
@@ -115,7 +115,7 @@ namespace Spring.Context.Config
             var nameGenerator = CustomTypeFactory.GetNameGenerator(nameGeneratorString);
             if (nameGenerator != null)
             {
-                Logger.Debug(m => m("Use NameTable Generator: {0}", nameGeneratorString));
+                Logger.Debug(string.Format("Use NameTable Generator: {0}", nameGeneratorString));
                 scanner.ObjectNameGenerator = nameGenerator;
             }
         }
@@ -127,13 +127,13 @@ namespace Spring.Context.Config
                 if (node.Name.Contains(INCLUDE_FILTER_ELEMENT))
                 {
                     var filter = CreateTypeFilter(node);
-                    Logger.Debug(m => m("Inlude Filter: {0}", filter));
+                    Logger.Debug(string.Format("Inlude Filter: {0}", filter));
                     scanner.WithIncludeFilter(filter);
                 }
                 else if (node.Name.Contains(EXCLUDE_FILTER_ELEMENT))
                 {
                     var filter = CreateTypeFilter(node);
-                    Logger.Debug(m => m("Exclude Filter: {0}", filter));
+                    Logger.Debug(string.Format("Exclude Filter: {0}", filter));
                     scanner.WithExcludeFilter(filter);
                 }
             }

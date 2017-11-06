@@ -21,7 +21,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Common.Logging;
+using Spring.Logging;
 
 namespace Spring.Context.Support
 {
@@ -63,7 +63,7 @@ namespace Spring.Context.Support
         /// <summary>
         /// holds the logger instance shared with subclasses.
         /// </summary>
-        protected readonly ILog log;
+        protected readonly ILogger log;
 
         private IMessageSource parentMessageSource;
         private bool useCodeAsDefaultMessage = false;

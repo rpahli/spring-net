@@ -28,12 +28,10 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Xml;
 
-using Common.Logging;
-
+using Spring.Logging;
 using Spring.Core.IO;
 using Spring.Core.TypeResolution;
 using Spring.Util;
-using ConfigurationException=Common.Logging.ConfigurationException;
 using ConfigXmlDocument = Spring.Util.ConfigXmlDocument;
 
 #endregion
@@ -60,7 +58,7 @@ namespace Spring.Objects.Factory.Config
         private const string ConfigSectionElement = "section";
         private const string ConfigSectionNameAttribute = "name";
 
-        private static readonly ILog _log = LogManager.GetLogger(typeof(ConfigurationReader));
+        private static readonly ILogger _log = LogManager.GetLogger(typeof(ConfigurationReader));
 
         /// <summary>
         /// Initializes the type members

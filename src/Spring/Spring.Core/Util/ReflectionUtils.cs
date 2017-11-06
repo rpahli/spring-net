@@ -1609,8 +1609,8 @@ namespace Spring.Util
                 }
 
                 FieldInfo[] fields = GetFields(type);
-                SecurityCritical.ExecutePrivileged(new PermissionSet(PermissionState.Unrestricted), delegate
-                {
+//                SecurityCritical.ExecutePrivileged(new PermissionSet(PermissionState.Unrestricted), delegate
+//                {
                     DynamicMethod dm = new DynamicMethod(type.FullName + ".ShallowCopy", null, new Type[] { typeof(object), typeof(object) }, type.Module, true);
                     ILGenerator ilGen = dm.GetILGenerator();
                     ilGen.DeclareLocal(type);
@@ -1632,7 +1632,7 @@ namespace Spring.Util
                     ilGen.Emit(OpCodes.Ret);
 
                     handler = (MemberwiseCopyHandler)dm.CreateDelegate(typeof(MemberwiseCopyHandler));
-                });
+//                });
 
                 s_handlerCache[type] = handler;
             }

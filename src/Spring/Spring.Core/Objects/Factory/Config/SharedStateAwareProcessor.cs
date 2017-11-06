@@ -23,7 +23,7 @@
 using System;
 using System.Collections;
 
-using Common.Logging;
+using Spring.Logging;
 using Spring.Core;
 using Spring.Util;
 
@@ -37,7 +37,7 @@ namespace Spring.Objects.Factory.Config
     public class SharedStateAwareProcessor : IObjectPostProcessor, IOrdered
     {
         // holds the logger for this processor instance
-        private readonly ILog Log = LogManager.GetLogger( typeof( SharedStateAwareProcessor ) );
+        private readonly ILogger Log = LogManager.GetLogger( typeof( SharedStateAwareProcessor ) );
         // holds a list of ISharedStateProvider instances (if any)
         private ISharedStateFactory[] _sharedStateFactories = new ISharedStateFactory[0];
         // holds prio

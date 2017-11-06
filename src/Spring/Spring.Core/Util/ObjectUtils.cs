@@ -24,9 +24,9 @@ using System;
 using System.Collections;
 using System.Globalization;
 using System.Reflection;
-using System.Runtime.Remoting;
-using System.Runtime.Remoting.Proxies;
-using Common.Logging;
+//using System.Runtime.Remoting;
+//using System.Runtime.Remoting.Proxies;
+using Spring.Logging;
 
 using Spring.Reflection.Dynamic;
 
@@ -48,9 +48,9 @@ namespace Spring.Util
     public sealed class ObjectUtils
     {
         /// <summary>
-        /// The <see cref="Common.Logging.ILog"/> instance for this class.
+        /// The <see cref="Spring.Logging.ILogger"/> instance for this class.
         /// </summary>
-        private static readonly ILog log = LogManager.GetLogger(typeof(ObjectUtils));
+        private static readonly ILogger log = LogManager.GetLogger(typeof(ObjectUtils));
 
         #region Constants
 
@@ -283,11 +283,12 @@ namespace Spring.Util
         /// </returns>
         public static bool IsAssignableAndNotTransparentProxy(Type type, object instance)
         {
-            if (!RemotingServices.IsTransparentProxy(instance))
-            {
+//            if (!RemotingServices.IsTransparentProxy(instance))
+//            {
                 return IsAssignable(type, instance);
-            }
-            return false;
+//            }
+
+//            return false;
         }
 
         /// <summary>
@@ -314,24 +315,24 @@ namespace Spring.Util
                 return true;
             }
 
-            if (RemotingServices.IsTransparentProxy(obj))
-            {
-                RealProxy rp = RemotingServices.GetRealProxy(obj);
-                if (rp is IRemotingTypeInfo)
-                {
-                    return ((IRemotingTypeInfo) rp).CanCastTo(type, obj);
-                }
-                else if (rp != null)
-                {
-                    type = rp.GetProxiedType();
-                }
-
-                if (type == null)
-                {
-                    // cannot decide
-                    return false;
-                }
-            }
+//            if (RemotingServices.IsTransparentProxy(obj))
+//            {
+//                RealProxy rp = RemotingServices.GetRealProxy(obj);
+//                if (rp is IRemotingTypeInfo)
+//                {
+//                    return ((IRemotingTypeInfo) rp).CanCastTo(type, obj);
+//                }
+//                else if (rp != null)
+//                {
+//                    type = rp.GetProxiedType();
+//                }
+//
+//                if (type == null)
+//                {
+//                    // cannot decide
+//                    return false;
+//                }
+//            }
 
             return (type.IsInstanceOfType(obj) ||
                     (type.Equals(typeof(bool)) && obj is Boolean) ||

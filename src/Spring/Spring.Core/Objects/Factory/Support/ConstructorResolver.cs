@@ -23,7 +23,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Collections;
 using Spring.Core;
 using Spring.Core.TypeConversion;
@@ -47,7 +47,7 @@ namespace Spring.Objects.Factory.Support
     /// <author>Mark Pollack</author>
     public class ConstructorResolver
     {
-        private readonly ILog log = LogManager.GetLogger(typeof(ConstructorResolver));
+        private readonly ILogger log = LogManager.GetLogger(typeof(ConstructorResolver));
 
         private readonly AbstractObjectFactory objectFactory;
 

@@ -40,7 +40,6 @@ namespace Spring.Objects.Factory.Config
     /// <seealso cref="PropertyFileVariableSource"/>
     /// <seealso cref="EnvironmentVariableSource"/>
     /// <seealso cref="CommandLineArgsVariableSource"/>
-    /// <seealso cref="RegistryVariableSource"/>
     /// <seealso cref="SpecialFolderVariableSource"/>
 	/// <author>Aleksandar Seovic</author>
     public interface IVariableSource

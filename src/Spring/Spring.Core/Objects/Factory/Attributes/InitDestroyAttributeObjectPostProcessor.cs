@@ -23,7 +23,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-using Common.Logging;
+using Spring.Logging;
 
 using Spring.Objects.Factory.Config;
 using Spring.Core;
@@ -43,7 +43,7 @@ namespace Spring.Objects.Factory.Attributes
     /// </summary>
     public class InitDestroyAttributeObjectPostProcessor : IDestructionAwareObjectPostProcessor, IObjectFactoryAware, IOrdered
     {
-        private static readonly ILog logger = LogManager.GetLogger<InitDestroyAttributeObjectPostProcessor>();
+        private static readonly ILogger logger = LogManager.GetLogger<InitDestroyAttributeObjectPostProcessor>();
 
         private IConfigurableListableObjectFactory objectFactory;
         private readonly IDictionary<string, LifecycleLifecycleMetadata> lifecycleMetadataCache;
@@ -201,7 +201,7 @@ namespace Spring.Objects.Factory.Attributes
                         Attribute.GetCustomAttribute(methodInfo, initAttributeType) as PostConstructAttribute;
                     if (initAttribute != null && methodInfo.DeclaringType == instanceType)
                     {
-                        logger.Debug(m => m("Found init method on class [{0}]: {1}", instanceType.Name, methodInfo.Name));
+                        logger.Debug(string.Format("Found init method on class [{0}]: {1}", instanceType.Name, methodInfo.Name));
                         curInitMethods.Add(new LifecycleElement(methodInfo, initAttribute.Order));
                     }
 
@@ -210,7 +210,7 @@ namespace Spring.Objects.Factory.Attributes
                     if (destroyAttribute != null && methodInfo.DeclaringType == instanceType)
                     {
                         logger.Debug(
-                            m => m("Found destroy method on class [{0}]: {1}", instanceType.Name, methodInfo.Name));
+                            string.Format("Found destroy method on class [{0}]: {1}", instanceType.Name, methodInfo.Name));
                         curDestroyMethods.Add(new LifecycleElement(methodInfo, destroyAttribute.Order));
                     }
                 }
@@ -308,7 +308,7 @@ namespace Spring.Objects.Factory.Attributes
 
             public void Invoke(object instance, string objectName)
             {
-                logger.Debug(m => m("Invoking init method on object '" + objectName + "': " + method.Name));
+                logger.Debug(string.Format("Invoking init method on object '" + objectName + "': " + method.Name));
                 method.Invoke(instance, new object[] {});
             }
         }

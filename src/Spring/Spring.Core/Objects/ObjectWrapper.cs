@@ -24,7 +24,7 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Text;
 
-using Common.Logging;
+using Spring.Logging;
 using Spring.Core;
 using Spring.Expressions;
 using Spring.Expressions.Parser.antlr;
@@ -56,7 +56,7 @@ namespace Spring.Objects
     [Serializable]
     public class ObjectWrapper : IObjectWrapper
     {
-        private ILog Log = LogManager.GetLogger(typeof(ObjectWrapper));
+        private ILogger Log = LogManager.GetLogger(typeof(ObjectWrapper));
 
         #region Fields
 
@@ -64,10 +64,10 @@ namespace Spring.Objects
         private object wrappedObject;
 
         /// <summary>
-        /// The ILog instance for this class. We'll create a lot of these objects,
+        /// The ILogger instance for this class. We'll create a lot of these objects,
         /// so we don't want a new instance every time.
         /// </summary>
-        private static readonly ILog log = LogManager.GetLogger(typeof(ObjectWrapper));
+        private static readonly ILogger log = LogManager.GetLogger(typeof(ObjectWrapper));
 
         #endregion
 

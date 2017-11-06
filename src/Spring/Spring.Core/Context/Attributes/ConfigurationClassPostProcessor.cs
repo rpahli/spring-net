@@ -21,7 +21,7 @@
 using System;
 using System.Collections.Generic;
 
-using Common.Logging;
+using Spring.Logging;
 
 using Spring.Core;
 using Spring.Objects.Factory;
@@ -39,7 +39,7 @@ namespace Spring.Context.Attributes
     {
         #region Logging
 
-        private static readonly ILog Logger = LogManager.GetLogger<ConfigurationClassPostProcessor>();
+        private static readonly ILogger Logger = LogManager.GetLogger<ConfigurationClassPostProcessor>();
 
         #endregion
 
@@ -139,7 +139,7 @@ namespace Spring.Context.Attributes
                         Type configClass = objDef.ObjectType;
                         Type enhancedClass = enhancer.Enhance(configClass);
 
-                        Logger.Debug(m => m("Replacing object definition '{0}' existing class '{1}' with enhanced class", name, configClass.FullName));
+                        Logger.Debug(string.Format("Replacing object definition '{0}' existing class '{1}' with enhanced class", name, configClass.FullName));
 
                         ((IConfigurableObjectDefinition)objDef).ObjectType = enhancedClass;
                     }

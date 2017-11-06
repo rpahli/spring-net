@@ -18,15 +18,15 @@
 
 #endregion
 
-using Common.Logging;
+using Spring.Logging;
 
 namespace Spring.Objects.Factory.Parsing
 {
     public class FailFastProblemReporter : IProblemReporter
     {
-        private ILog _logger = LogManager.GetLogger(typeof(FailFastProblemReporter));
+        private ILogger _logger = LogManager.GetLogger(typeof(FailFastProblemReporter));
 
-        public ILog Logger
+        public ILogger Logger
         {
             get { return _logger; }
         }

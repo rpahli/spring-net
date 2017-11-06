@@ -25,7 +25,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
 
-using Common.Logging;
+using Spring.Logging;
 
 using Spring.Collections;
 using Spring.Util;
@@ -154,7 +154,7 @@ namespace Spring.Objects.Factory.Config
 		public static readonly string DefaultPlaceholderSuffix = "}";
 
 
-		private readonly ILog logger;
+		private readonly ILogger logger;
 
 
 		private bool ignoreUnresolvablePlaceholders = false;

@@ -28,7 +28,7 @@ using Spring.Collections;
 using Spring.Core;
 using Spring.Objects.Factory.Config;
 
-using Common.Logging;
+using Spring.Logging;
 
 using Spring.Objects.Factory.Support;
 
@@ -68,7 +68,7 @@ namespace Spring.Objects.Factory.Attributes
     /// </summary>
     public class AutowiredAttributeObjectPostProcessor : InstantiationAwareObjectPostProcessorAdapter, IObjectFactoryAware, IOrdered
     {
-        private static readonly ILog logger = LogManager.GetLogger<AutowiredAttributeObjectPostProcessor>();
+        private static readonly ILogger logger = LogManager.GetLogger<AutowiredAttributeObjectPostProcessor>();
 
         private int order = int.MaxValue - 2;
 
@@ -353,13 +353,13 @@ namespace Spring.Objects.Factory.Attributes
                             if (method.IsStatic)
                             {
                                 logger.Warn(
-                                    m => m("Autowired annotation is not supported on static methods: " + method.Name));
+                                    string.Format("Autowired annotation is not supported on static methods: " + method.Name));
                                 continue;
                             }
                             if (method.IsGenericMethod)
                             {
                                 logger.Warn(
-                                    m => m("Autowired annotation is not supported on generic methods: " + method.Name));
+                                    string.Format("Autowired annotation is not supported on generic methods: " + method.Name));
                                 continue;
                             }
                             currElements.Add(new AutowiredMethodElement(method, required));
@@ -397,8 +397,7 @@ namespace Spring.Objects.Factory.Attributes
                 {
                     dependsOn.Add(autowiredObjectName);
                     logger.Debug(
-                        m =>
-                            m("Autowiring by type from object name '{0}' to object named '{1}'", objectName,
+                        string.Format("Autowiring by type from object name '{0}' to object named '{1}'", objectName,
                                 autowiredObjectName));
                 }
             }

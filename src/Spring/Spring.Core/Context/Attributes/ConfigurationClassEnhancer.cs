@@ -26,7 +26,7 @@ using System.Reflection.Emit;
 using Spring.Objects.Factory.Config;
 using Spring.Util;
 using Spring.Proxy;
-using Common.Logging;
+using Spring.Logging;
 
 namespace Spring.Context.Attributes
 {
@@ -87,7 +87,7 @@ namespace Spring.Context.Attributes
         {
             #region Logging
 
-            private static readonly ILog Logger = LogManager.GetLogger<ConfigurationClassInterceptor>();
+            private static readonly ILogger Logger = LogManager.GetLogger<ConfigurationClassInterceptor>();
             
             #endregion
 
@@ -117,12 +117,12 @@ namespace Spring.Context.Attributes
 
                 if (this._configurableListableObjectFactory.IsCurrentlyInCreation(objectName))
                 {
-                    Logger.Debug(m => m("Object '{0}' currently in creation, created one", objectName));
+                    Logger.Debug(string.Format("Object '{0}' currently in creation, created one", objectName));
 
                     return false;
                 }
 
-                Logger.Debug(m => m("Object '{0}' not in creation, asked the application context for one", objectName)); 
+                Logger.Debug(string.Format("Object '{0}' not in creation, asked the application context for one", objectName)); 
 
                 instance = this._configurableListableObjectFactory.GetObject(objectName);
                 return true;
@@ -173,7 +173,7 @@ namespace Spring.Context.Attributes
                     new ConfigurationClassProxyMethodBuilder(typeBuilder, this, false, targetMethods),
                     BaseType, this.DeclaredMembersOnly);
 
-                Type proxyType = typeBuilder.CreateType();
+                Type proxyType = typeBuilder.CreateTypeInfo();
 
                 // set target method references
                 foreach (DictionaryEntry entry in targetMethods)

@@ -23,7 +23,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Util;
 
 namespace Spring.Context.Attributes
@@ -37,9 +37,9 @@ namespace Spring.Context.Attributes
         /// <summary>
         /// Logger Instance.
         /// </summary>
-        protected static readonly ILog Logger = LogManager.GetLogger<AssemblyTypeSource>();
+        protected static readonly ILogger Logger = LogManager.GetLogger<AssemblyTypeSource>();
 
-        private readonly _Assembly _assembly;
+        private readonly Assembly _assembly;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AssemblyTypeSource"/> class.
@@ -67,12 +67,12 @@ namespace Spring.Context.Attributes
             catch (ReflectionTypeLoadException ex)
             {
                 //log and swallow everything that might go wrong here...
-                Logger.Debug(m => m("Failed to get types " +  ex.LoaderExceptions), ex);
+                Logger.Debug("Failed to get types " + ex.LoaderExceptions, ex);
             }
             catch (Exception ex)
             {
                 //log and swallow everything that might go wrong here...
-                Logger.Debug(m => m("Failed to get types "), ex);
+                Logger.Debug("Failed to get types ", ex);
             }
 
 

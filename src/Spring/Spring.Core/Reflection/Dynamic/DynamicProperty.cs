@@ -23,7 +23,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-using Common.Logging;
+using Spring.Logging;
 
 using Spring.Util;
 
@@ -99,7 +99,7 @@ namespace Spring.Reflection.Dynamic
     /// </remarks>
     public class SafeProperty : IDynamicProperty
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(SafeProperty));
+        private static readonly ILogger Log = LogManager.GetLogger(typeof(SafeProperty));
 
         private readonly PropertyInfo propertyInfo;
 

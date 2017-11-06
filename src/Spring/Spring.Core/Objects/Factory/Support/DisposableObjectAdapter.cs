@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Collections;
 using Spring.Objects.Factory.Config;
 using Spring.Util;
@@ -11,7 +11,7 @@ namespace Spring.Objects.Factory.Support
 {
     public class DisposableObjectAdapter : IDisposable
     {
-        private readonly ILog logger = LogManager.GetLogger(typeof(DisposableObjectAdapter));
+        private readonly ILogger logger = LogManager.GetLogger(typeof(DisposableObjectAdapter));
 
         private object instance;
 

@@ -24,7 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Util;
 
 #endregion
@@ -66,7 +66,7 @@ namespace Spring.Core.IO
 	/// <seealso cref="System.ComponentModel.TypeConverter"/>
 	public class ResourceConverter : TypeConverter
 	{
-		private ILog _log = LogManager.GetLogger(typeof (ResourceConverter));
+		private ILogger _log = LogManager.GetLogger(typeof (ResourceConverter));
 		private IResourceLoader _resourceLoader;
 		
 		#region Constructor (s) / Destructor
