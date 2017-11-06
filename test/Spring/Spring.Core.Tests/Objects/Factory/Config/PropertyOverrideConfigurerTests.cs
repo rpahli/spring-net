@@ -21,8 +21,8 @@
 #region Imports
 
 using System.Collections.Specialized;
-using Common.Logging;
-using Common.Logging.Simple;
+using Spring.Logging;
+
 using NUnit.Framework;
 using Rhino.Mocks;
 using Spring.Context.Support;
@@ -55,8 +55,10 @@ namespace Spring.Objects.Factory.Config
 		[OneTimeSetUp]
 		public void FixtureSetUp()
 		{
+            // TODO: Revisit LogManager.Adapter for possible Spring.Logging implementation.
+
 			// enable (null appender) logging, just to ensure that the logging code is correct
-            LogManager.Adapter = new NoOpLoggerFactoryAdapter(); 
+//            LogManager.Adapter = new NoOpLoggerFactoryAdapter(); 
 		}
 
         [Test]

@@ -28,96 +28,96 @@ using NUnit.Framework;
 
 namespace Spring.Core.TypeConversion
 {
-    /// <summary>
-    /// Unit tests for the RGBColorConverter class.
-    /// </summary>
-    /// <author>Rick Evans</author>
-    [TestFixture]
-    public sealed class RGBColorConverterTests
-    {
-        [Test]
-        public void ConvertFromRGB()
-        {
-            Color expected = Color.BlanchedAlmond;
-            RGBColorConverter converter = new RGBColorConverter();
-            Color actual =
-                (Color) converter.ConvertFrom(String.Format("{0}, {1}, {2}", expected.R, expected.G, expected.B));
-            Assert.AreEqual(expected.A, actual.A);
-            Assert.AreEqual(expected.R, actual.R);
-            Assert.AreEqual(expected.G, actual.G);
-            Assert.AreEqual(expected.B, actual.B);
-        }
-
-        [Test]
-        public void ConvertFromCommaSeparatedListWithNotEnoughValues()
-        {
-            RGBColorConverter converter = new RGBColorConverter();
-            Assert.Throws<FormatException>(() => converter.ConvertFrom("255, 235"));
-        }
-
-        [Test]
-        public void ConvertFromCommaSeparatedListWithOutOfRangeValue()
-        {
-            RGBColorConverter converter = new RGBColorConverter();
-            Assert.Throws<FormatException>(() => converter.ConvertFrom("255, 235, 4567"));
-        }
-
-        [Test]
-        public void ConvertFromNullReference()
-        {
-            RGBColorConverter vrt = new RGBColorConverter();
-            Assert.Throws<NotSupportedException>(() => vrt.ConvertFrom(null));
-        }
-
-        [Test]
-        public void ConvertFromEmptyString()
-        {
-            RGBColorConverter vrt = new RGBColorConverter();
-            Assert.Throws<NotSupportedException>(() => vrt.ConvertFrom(string.Empty));
-        }
-
-        [Test]
-        public void ConvertFromGarbageBails()
-        {
-            RGBColorConverter vrt = new RGBColorConverter();
-            Assert.Throws<FormatException>(() => vrt.ConvertFrom("*&&%%^£"));
-        }
-
-        [Test]
-        public void ConvertFromNonSupportedOptionBails()
-        {
-            RGBColorConverter vrt = new RGBColorConverter();
-            Assert.Throws<NotSupportedException>(() => vrt.ConvertFrom(12));
-        }
-
-        [Test]
-        public void ConvertFromName()
-        {
-            Color expected = Color.BlanchedAlmond;
-            RGBColorConverter vrt = new RGBColorConverter();
-            Color actual = (Color) vrt.ConvertFrom(expected.Name);
-            Assert.AreEqual(expected, actual);
-        }
-
-        [Test]
-        public void ConvertFromARGB()
-        {
-            Color expected = Color.BlanchedAlmond;
-            RGBColorConverter converter = new RGBColorConverter();
-            Color actual =
-                (Color) converter.ConvertFrom(String.Format("{0}, {1}, {2}, {3}", expected.A, expected.R, expected.G, expected.B));
-            Assert.AreEqual(expected.A, actual.A);
-            Assert.AreEqual(expected.R, actual.R);
-            Assert.AreEqual(expected.G, actual.G);
-            Assert.AreEqual(expected.B, actual.B);
-        }
-
-        [Test]
-        public void CanConvertFrom()
-        {
-            RGBColorConverter vrt = new RGBColorConverter();
-            Assert.IsTrue(vrt.CanConvertFrom(typeof (string)), "Conversion from a string instance must be supported.");
-            Assert.IsFalse(vrt.CanConvertFrom(typeof (int)));
-        }
-    }
+//    /// <summary>
+//    /// Unit tests for the RGBColorConverter class.
+//    /// </summary>
+//    /// <author>Rick Evans</author>
+//    [TestFixture]
+//    public sealed class RGBColorConverterTests
+//    {
+//        [Test]
+//        public void ConvertFromRGB()
+//        {
+//            Color expected = Color.BlanchedAlmond;
+//            RGBColorConverter converter = new RGBColorConverter();
+//            Color actual =
+//                (Color) converter.ConvertFrom(String.Format("{0}, {1}, {2}", expected.R, expected.G, expected.B));
+//            Assert.AreEqual(expected.A, actual.A);
+//            Assert.AreEqual(expected.R, actual.R);
+//            Assert.AreEqual(expected.G, actual.G);
+//            Assert.AreEqual(expected.B, actual.B);
+//        }
+//
+//        [Test]
+//        public void ConvertFromCommaSeparatedListWithNotEnoughValues()
+//        {
+//            RGBColorConverter converter = new RGBColorConverter();
+//            Assert.Throws<FormatException>(() => converter.ConvertFrom("255, 235"));
+//        }
+//
+//        [Test]
+//        public void ConvertFromCommaSeparatedListWithOutOfRangeValue()
+//        {
+//            RGBColorConverter converter = new RGBColorConverter();
+//            Assert.Throws<FormatException>(() => converter.ConvertFrom("255, 235, 4567"));
+//        }
+//
+//        [Test]
+//        public void ConvertFromNullReference()
+//        {
+//            RGBColorConverter vrt = new RGBColorConverter();
+//            Assert.Throws<NotSupportedException>(() => vrt.ConvertFrom(null));
+//        }
+//
+//        [Test]
+//        public void ConvertFromEmptyString()
+//        {
+//            RGBColorConverter vrt = new RGBColorConverter();
+//            Assert.Throws<NotSupportedException>(() => vrt.ConvertFrom(string.Empty));
+//        }
+//
+//        [Test]
+//        public void ConvertFromGarbageBails()
+//        {
+//            RGBColorConverter vrt = new RGBColorConverter();
+//            Assert.Throws<FormatException>(() => vrt.ConvertFrom("*&&%%^£"));
+//        }
+//
+//        [Test]
+//        public void ConvertFromNonSupportedOptionBails()
+//        {
+//            RGBColorConverter vrt = new RGBColorConverter();
+//            Assert.Throws<NotSupportedException>(() => vrt.ConvertFrom(12));
+//        }
+//
+//        [Test]
+//        public void ConvertFromName()
+//        {
+//            Color expected = Color.BlanchedAlmond;
+//            RGBColorConverter vrt = new RGBColorConverter();
+//            Color actual = (Color) vrt.ConvertFrom(expected.Name);
+//            Assert.AreEqual(expected, actual);
+//        }
+//
+//        [Test]
+//        public void ConvertFromARGB()
+//        {
+//            Color expected = Color.BlanchedAlmond;
+//            RGBColorConverter converter = new RGBColorConverter();
+//            Color actual =
+//                (Color) converter.ConvertFrom(String.Format("{0}, {1}, {2}, {3}", expected.A, expected.R, expected.G, expected.B));
+//            Assert.AreEqual(expected.A, actual.A);
+//            Assert.AreEqual(expected.R, actual.R);
+//            Assert.AreEqual(expected.G, actual.G);
+//            Assert.AreEqual(expected.B, actual.B);
+//        }
+//
+//        [Test]
+//        public void CanConvertFrom()
+//        {
+//            RGBColorConverter vrt = new RGBColorConverter();
+//            Assert.IsTrue(vrt.CanConvertFrom(typeof (string)), "Conversion from a string instance must be supported.");
+//            Assert.IsFalse(vrt.CanConvertFrom(typeof (int)));
+//        }
+//    }
 }

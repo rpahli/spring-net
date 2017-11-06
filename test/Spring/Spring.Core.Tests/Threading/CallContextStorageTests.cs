@@ -26,16 +26,16 @@ using NUnit.Framework;
 
 namespace Spring.Threading
 {
-    /// <summary>
-    /// Apply common thread-storage tests for <see cref="CallContextStorage"/>
-    /// </summary>
-    /// <author>Erich Eichinger</author>
-    [TestFixture]
-    public class CallContextStorageTests : CommonThreadStorageTests
-    {
-        protected override IThreadStorage CreateStorage()
-        {
-            return new CallContextStorage();
-        }
-    }
+//    /// <summary>
+//    /// Apply common thread-storage tests for <see cref="CallContextStorage"/>
+//    /// </summary>
+//    /// <author>Erich Eichinger</author>
+//    [TestFixture]
+//    public class CallContextStorageTests : CommonThreadStorageTests
+//    {
+//        protected override IThreadStorage CreateStorage()
+//        {
+//            return new CallContextStorage();
+//        }
+//    }
 }

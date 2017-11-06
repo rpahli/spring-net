@@ -28,51 +28,51 @@ using NUnit.Framework;
 
 namespace Spring.Objects.Factory.Config
 {
-	/// <summary>
-	/// Unit tests for the RegistryVariableSource class.
-    /// </summary>
-    /// <author>Aleksandar Seovic</author>
-    [TestFixture]
-    public sealed class RegistryVariableSourceTests
-    {
-	    private RegistryKey key;
-
-        [SetUp]
-        public void SetUp()
-        {
-            key = Registry.CurrentUser.CreateSubKey("RegistryVariableSourceTests");
-            key.SetValue("name", "Aleks Seovic");
-            key.SetValue("computer_name", "%COMPUTERNAME% is the name of my computer", RegistryValueKind.ExpandString);
-            key.SetValue("age", 32, RegistryValueKind.DWord);
-			key.SetValue("family", new string[] {"Marija", "Ana", "Nadja"});
-            key.SetValue("bday", new byte[] {24, 8, 74});
-			key.Flush();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Registry.CurrentUser.DeleteSubKey("RegistryVariableSourceTests");
-        }
-
-        [Test]
-        public void TestVariablesResolution()
-        {
-            RegistryVariableSource rvs = new RegistryVariableSource();
-            rvs.Key = key;
-
-            // existing vars
-            Assert.AreEqual("Aleks Seovic", rvs.ResolveVariable("name"));
-            Assert.AreEqual(Environment.GetEnvironmentVariable("COMPUTERNAME") + " is the name of my computer",
-                            rvs.ResolveVariable("computer_name"));
-            Assert.AreEqual("32", rvs.ResolveVariable("age"));
-			// multi_sz
-			Assert.AreEqual( "Marija,Ana,Nadja", rvs.ResolveVariable("family"));
-			// binary
-            Assert.AreEqual( null, rvs.ResolveVariable("bday"));
-
-            // non-existant variable
-            Assert.IsNull(rvs.ResolveVariable("xyz"));
-        }
-    }
+//	/// <summary>
+//	/// Unit tests for the RegistryVariableSource class.
+//    /// </summary>
+//    /// <author>Aleksandar Seovic</author>
+//    [TestFixture]
+//    public sealed class RegistryVariableSourceTests
+//    {
+//	    private RegistryKey key;
+//
+//        [SetUp]
+//        public void SetUp()
+//        {
+//            key = Registry.CurrentUser.CreateSubKey("RegistryVariableSourceTests");
+//            key.SetValue("name", "Aleks Seovic");
+//            key.SetValue("computer_name", "%COMPUTERNAME% is the name of my computer", RegistryValueKind.ExpandString);
+//            key.SetValue("age", 32, RegistryValueKind.DWord);
+//			key.SetValue("family", new string[] {"Marija", "Ana", "Nadja"});
+//            key.SetValue("bday", new byte[] {24, 8, 74});
+//			key.Flush();
+//        }
+//
+//        [TearDown]
+//        public void TearDown()
+//        {
+//            Registry.CurrentUser.DeleteSubKey("RegistryVariableSourceTests");
+//        }
+//
+//        [Test]
+//        public void TestVariablesResolution()
+//        {
+//            RegistryVariableSource rvs = new RegistryVariableSource();
+//            rvs.Key = key;
+//
+//            // existing vars
+//            Assert.AreEqual("Aleks Seovic", rvs.ResolveVariable("name"));
+//            Assert.AreEqual(Environment.GetEnvironmentVariable("COMPUTERNAME") + " is the name of my computer",
+//                            rvs.ResolveVariable("computer_name"));
+//            Assert.AreEqual("32", rvs.ResolveVariable("age"));
+//			// multi_sz
+//			Assert.AreEqual( "Marija,Ana,Nadja", rvs.ResolveVariable("family"));
+//			// binary
+//            Assert.AreEqual( null, rvs.ResolveVariable("bday"));
+//
+//            // non-existant variable
+//            Assert.IsNull(rvs.ResolveVariable("xyz"));
+//        }
+//    }
 }

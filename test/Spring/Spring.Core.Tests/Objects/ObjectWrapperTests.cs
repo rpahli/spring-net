@@ -30,8 +30,8 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-using Common.Logging;
-using Common.Logging.Simple;
+using Spring.Logging;
+
 using NUnit.Framework;
 using Spring.Collections;
 using Spring.Core;
@@ -58,11 +58,13 @@ namespace Spring.Objects
 		[OneTimeSetUp]
 		public void FixtureSetUp()
 		{
-			// enable logging (to nowhere), just to exercisee the logging code...
-            LogManager.Adapter = new NoOpLoggerFactoryAdapter();
-		}
+		    // TODO: Revisit LogManager.Adapter
 
-		#region Classes Used During Tests
+            // enable logging (to nowhere), just to exercisee the logging code...
+            //            LogManager.Adapter = new NoOpLoggerFactoryAdapter();
+        }
+
+        #region Classes Used During Tests
         public class Person
         {
             private IList favoriteNames = new ArrayList();

@@ -21,7 +21,7 @@
 #region Imports
 
 using System;
-using Common.Logging;
+using Spring.Logging;
 using NUnit.Framework;
 
 #endregion
@@ -81,8 +81,8 @@ namespace Spring.Objects.Factory.Config
 		{
 			LogFactoryObject fac = new LogFactoryObject();
 			fac.LogName = "Foo";
-			ILog log = fac.GetObject() as ILog;
-			Assert.IsNotNull(log, "Mmm... pulled a null ILog instance from a properly configured LogFactoryObject instance.");
+			ILogger log = fac.GetObject() as ILogger;
+			Assert.IsNotNull(log, "Mmm... pulled a null ILogger instance from a properly configured LogFactoryObject instance.");
 		}
 
 		[Test]
@@ -90,8 +90,8 @@ namespace Spring.Objects.Factory.Config
 		{
 			LogFactoryObject fac = new LogFactoryObject();
 			fac.LogName = "Foo";
-			ILog log = fac.GetObject() as ILog;
-			ILog anotherLogInstance = fac.GetObject() as ILog;
+			ILogger log = fac.GetObject() as ILogger;
+			ILogger anotherLogInstance = fac.GetObject() as ILogger;
 			Assert.IsTrue(log == anotherLogInstance,
 			              "Okay, the LogFactoryObject ain't returning shared instances (it should).");
 		}
@@ -122,8 +122,8 @@ namespace Spring.Objects.Factory.Config
 		public void ObjectTypePropertyYieldsTheCorrectType()
 		{
 			LogFactoryObject fac = new LogFactoryObject("Bing!");
-			Assert.AreEqual(typeof (ILog), fac.ObjectType,
-			                "Mmm... the LogFactoryObject class ain't giving back ILog types (it must).");
+			Assert.AreEqual(typeof (ILogger), fac.ObjectType,
+			                "Mmm... the LogFactoryObject class ain't giving back ILogger types (it must).");
 		}
 	}
 }

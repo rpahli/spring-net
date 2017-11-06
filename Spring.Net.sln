@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Spring.include = Spring.include
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Core.Tests.2010", "test\Spring\Spring.Core.Tests\Spring.Core.Tests.2010.csproj", "{44B16BAA-6DF8-447C-9D7F-3AD3D854D904}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Core.Tests", "test\Spring\Spring.Core.Tests\Spring.Core.Tests.csproj", "{44B16BAA-6DF8-447C-9D7F-3AD3D854D904}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring.Aop", "src\Spring\Spring.Aop\Spring.Aop.csproj", "{3A3A4E65-45A6-4B20-B460-0BEDC302C02C}"
 EndProject
