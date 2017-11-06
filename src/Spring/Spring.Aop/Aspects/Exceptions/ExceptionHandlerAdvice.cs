@@ -25,7 +25,7 @@ using System.Reflection;
 
 using AopAlliance.Intercept;
 
-using Common.Logging;
+using Spring.Logging;
 
 using Spring.Util;
 
@@ -78,7 +78,7 @@ namespace Spring.Aspects.Exceptions
         /// <summary>
         /// Log instance available to subclasses
         /// </summary>
-        protected static ILog log  = LogManager.GetLogger(typeof(ExceptionHandlerAdvice));
+        protected static ILogger log  = LogManager.GetLogger(typeof(ExceptionHandlerAdvice));
 
         private IList exceptionHandlers = new ArrayList();
 

@@ -27,7 +27,7 @@ using System.Collections.Generic;
 using AopAlliance.Aop;
 using AopAlliance.Intercept;
 
-using Common.Logging;
+using Spring.Logging;
 
 using Spring.Aop.Framework.Adapter;
 using Spring.Aop.Support;
@@ -101,9 +101,9 @@ namespace Spring.Aop.Framework
         #region Fields
 
         /// <summary>
-        /// The <see cref="Common.Logging.ILog"/> instance for this class.
+        /// The <see cref="Spring.Logging.ILogger"/> instance for this class.
         /// </summary>
-        private readonly ILog logger;
+        private readonly ILogger logger;
 
         /// <summary>
         /// Is the object managed by this factory a singleton or a prototype?

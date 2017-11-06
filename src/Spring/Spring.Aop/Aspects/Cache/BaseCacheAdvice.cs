@@ -24,7 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-using Common.Logging;
+using Spring.Logging;
 
 using Spring.Caching;
 using Spring.Context;
@@ -44,7 +44,7 @@ namespace Spring.Aspects.Cache
         /// <summary>
         /// Shared logger instance
         /// </summary>
-        protected readonly ILog logger;
+        protected readonly ILogger logger;
 
         private IApplicationContext applicationContext;
 

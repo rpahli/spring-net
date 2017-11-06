@@ -25,7 +25,7 @@ using System.Threading;
 
 using AopAlliance.Intercept;
 
-using Common.Logging;
+using Spring.Logging;
 
 using Spring.Core.TypeConversion;
 using Spring.Expressions;
@@ -49,7 +49,7 @@ namespace Spring.Aspects
         ///</summary>
         public delegate void SleepHandler(TimeSpan duration);
  
-        private static readonly ILog log;
+        private static readonly ILogger log;
         private static readonly TimeSpanConverter timeSpanConverter;
 
         static RetryAdvice()
@@ -115,7 +115,8 @@ namespace Spring.Aspects
         /// <summary>
         /// Creates a new RetryAdvice instance, using <see cref="Thread.Sleep(TimeSpan)"/> for delaying retries
         /// </summary>
-        public RetryAdvice()            :this(new SleepHandler(Thread.Sleep))
+        public RetryAdvice()
+            :this(new SleepHandler(Thread.Sleep))
         {
         }
 

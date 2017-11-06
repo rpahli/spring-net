@@ -21,7 +21,7 @@
 using System;
 using System.Collections.Generic;
 
-using Common.Logging;
+using Spring.Logging;
 
 using Spring.Expressions;
 
@@ -36,7 +36,7 @@ namespace Spring.Aspects.Exceptions
         #region Fields
         private string logName = "LogExceptionHandler";
 
-        private LogLevel logLevel = LogLevel.Trace;
+        private LoggingLevel loggingLevel = LoggingLevel.Trace;
 
         private bool logMessageOnly = false;
 
@@ -81,10 +81,10 @@ namespace Spring.Aspects.Exceptions
         /// Gets or sets the log level.
         /// </summary>
         /// <value>The log level.</value>
-        public LogLevel LogLevel
+        public LoggingLevel LoggingLevel
         {
-            get { return logLevel; }
-            set { logLevel = value; }
+            get { return loggingLevel; }
+            set { loggingLevel = value; }
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Spring.Aspects.Exceptions
 
         /// <summary>
         /// Gets the action translation expression text.  Overridden to add approprate settings to
-        /// the SpEL expression that does the logging so that it depends on the values of LogLevel and
+        /// the SpEL expression that does the logging so that it depends on the values of LoggingLevel and
         /// LogMessageOnly.  Those properties must be set to the desired values before calling this method.
         /// 
         /// </summary>
@@ -114,7 +114,7 @@ namespace Spring.Aspects.Exceptions
                 if (first)
                 {
                     first = false;
-                    string textPart1 = "#log." + LogLevel.ToString() + "(" + value;
+                    string textPart1 = "#log." + LoggingLevel.ToString() + "(" + value;
                     if (logMessageOnly)
                     {
                         actionExpressionText = textPart1 + ")";
@@ -137,7 +137,7 @@ namespace Spring.Aspects.Exceptions
         public override object HandleException(IDictionary<string, object> callContextDictionary)
         {
             //TODO log name is targettype.
-            ILog adviceLogger = LogManager.GetLogger(logName);
+            ILogger adviceLogger = LogManager.GetLogger(logName);
             callContextDictionary.Add("log", adviceLogger);
             try
             {

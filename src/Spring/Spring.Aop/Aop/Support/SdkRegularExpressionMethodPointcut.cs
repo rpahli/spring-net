@@ -23,7 +23,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Util;
 
 #endregion
@@ -48,7 +48,7 @@ namespace Spring.Aop.Support
 	[Serializable]
 	public class SdkRegularExpressionMethodPointcut : AbstractRegularExpressionMethodPointcut
 	{
-		private ILog _logger = LogManager.GetLogger(typeof(SdkRegularExpressionMethodPointcut));
+		private ILogger _logger = LogManager.GetLogger(typeof(SdkRegularExpressionMethodPointcut));
 		private Regex[] _compiledPatterns = new Regex[0];
         private RegexOptions _defaultOptions = RegexOptions.None;
 	    

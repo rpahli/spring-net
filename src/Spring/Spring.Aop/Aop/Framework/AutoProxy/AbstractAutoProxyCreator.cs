@@ -23,11 +23,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Remoting;
+//using System.Runtime.Remoting;
 
 using AopAlliance.Aop;
 
-using Common.Logging;
+using Spring.Logging;
 
 using Spring.Aop.Framework.Adapter;
 using Spring.Aop.Target;
@@ -78,7 +78,7 @@ namespace Spring.Aop.Framework.AutoProxy
         /// <summary>
         /// The logger for this class hierarchy.
         /// </summary>
-        protected readonly ILog logger;
+        protected readonly ILogger logger;
 
         /// <summary>
         /// Convenience constant for subclasses: Return value for "do not proxy".
@@ -246,9 +246,9 @@ namespace Spring.Aop.Framework.AutoProxy
                 return obj;
             }
 
-            Type objectType = RemotingServices.IsTransparentProxy(obj)
-                ? ObjectFactory.GetType(objectName)
-                : obj.GetType();
+            Type objectType = //RemotingServices.IsTransparentProxy(obj)
+                //? ObjectFactory.GetType(objectName) : 
+                obj.GetType();
 
             object cacheKey = GetCacheKey(objectType, objectName);
             if (nonAdvisedObjects.Contains(cacheKey))

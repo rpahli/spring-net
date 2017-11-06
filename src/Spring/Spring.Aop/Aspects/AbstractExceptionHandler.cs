@@ -21,7 +21,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Expressions;
 
 namespace Spring.Aspects
@@ -37,7 +37,7 @@ namespace Spring.Aspects
         /// <summary>
         /// The logging instance
         /// </summary>
-        protected readonly ILog log;
+        protected readonly ILogger log;
 
         private IList sourceExceptionNames = new ArrayList();
         private IList sourceExceptionTypes = new ArrayList();

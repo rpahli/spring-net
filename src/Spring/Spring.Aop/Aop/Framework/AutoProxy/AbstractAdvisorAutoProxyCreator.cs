@@ -23,7 +23,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Common.Logging;
+using Spring.Logging;
 
 using Spring.Core;
 using Spring.Objects.Factory;
@@ -58,7 +58,7 @@ namespace Spring.Aop.Framework.AutoProxy
     /// <author>Erich Eichinger</author>
     public abstract class AbstractAdvisorAutoProxyCreator : AbstractAutoProxyCreator
     {
-        private readonly ILog Log;
+        private readonly ILogger Log;
         private IAdvisorRetrievalHelper _advisorRetrievalHelper;
 
         /// <summary>

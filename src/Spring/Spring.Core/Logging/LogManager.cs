@@ -9,7 +9,7 @@ namespace Spring.Logging
             throw new NotImplementedException();
         }
 
-        internal static ILogger GetLogger(Type type)
+        public static ILogger GetLogger(Type type)
         {
             throw new NotImplementedException();
         }

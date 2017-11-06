@@ -25,7 +25,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Collections;
 
-using Common.Logging;
+using Spring.Logging;
 using Spring.Proxy;
 
 #endregion
@@ -52,9 +52,9 @@ namespace Spring.Aop.Framework.DynamicProxy
     public class CachedAopProxyFactory : DefaultAopProxyFactory
     {
         /// <summary>
-        /// The shared <see cref="Common.Logging.ILog"/> instance for this class.
+        /// The shared <see cref="Spring.Logging.ILogger"/> instance for this class.
         /// </summary>
-        private static readonly ILog logger = LogManager.GetLogger(typeof(CachedAopProxyFactory));
+        private static readonly ILogger logger = LogManager.GetLogger(typeof(CachedAopProxyFactory));
 
         private static readonly Hashtable typeCache = new Hashtable();
 

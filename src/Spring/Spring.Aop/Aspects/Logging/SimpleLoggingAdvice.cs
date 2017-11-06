@@ -22,7 +22,7 @@ using System;
 using System.Reflection;
 using System.Text;
 using AopAlliance.Intercept;
-using Common.Logging;
+using Spring.Logging;
 
 namespace Spring.Aspects.Logging
 {
@@ -66,7 +66,7 @@ namespace Spring.Aspects.Logging
         /// <summary>
         /// The log level to use for logging the entry, exit, exception messages.
         /// </summary>
-        private LogLevel logLevel = LogLevel.Trace;
+        private LoggingLevel loggingLevel = LoggingLevel.Trace;
 
 
         #endregion
@@ -95,7 +95,7 @@ namespace Spring.Aspects.Logging
         /// Initializes a new instance of the <see cref="SimpleLoggingAdvice"/> class.
         /// </summary>
         /// <param name="defaultLogger">the default logger to use</param>
-        public SimpleLoggingAdvice(ILog defaultLogger)
+        public SimpleLoggingAdvice(ILogger defaultLogger)
             : base(defaultLogger)
         {}
 
@@ -157,10 +157,10 @@ namespace Spring.Aspects.Logging
         /// Gets or sets the entry log level.
         /// </summary>
         /// <value>The entry log level.</value>
-        public LogLevel LogLevel
+        public LoggingLevel LoggingLevel
         {
-            get { return logLevel; }
-            set { logLevel = value; }
+            get { return loggingLevel; }
+            set { loggingLevel = value; }
         }
 
         #endregion
@@ -180,7 +180,7 @@ namespace Spring.Aspects.Logging
         /// Subclasses are resonsible for ensuring that the IMethodInvocation actually executes
         /// by calling IMethodInvocation.Proceed().
         /// <para>
-        /// By default, the passed-in ILog instance will have log level
+        /// By default, the passed-in ILogger instance will have log level
         /// "trace" enabled. Subclasses do not have to check for this again, unless
         /// they overwrite the IsInterceptorEnabled method to modify
         /// the default behavior.
@@ -190,7 +190,7 @@ namespace Spring.Aspects.Logging
         /// If any of the interceptors in the chain or the target object itself
         /// throws an exception.
         /// </exception>
-        protected override object InvokeUnderLog(IMethodInvocation invocation, ILog log)
+        protected override object InvokeUnderLog(IMethodInvocation invocation, ILogger log)
         {
             object returnValue = null;
             bool exitThroughException = false;
@@ -204,13 +204,13 @@ namespace Spring.Aspects.Logging
             }
             try
             {
-                WriteToLog(LogLevel, log, GetEntryMessage(invocation, uniqueIdentifier), null);
+                WriteToLog(LoggingLevel, log, GetEntryMessage(invocation, uniqueIdentifier), null);
                 returnValue = invocation.Proceed();
                 return returnValue;
             } catch (Exception e)
             {
                 TimeSpan executionTimeSpan = DateTime.Now - startTime;
-                WriteToLog(LogLevel, log, GetExceptionMessage(invocation, e, executionTimeSpan, uniqueIdentifier), e);
+                WriteToLog(LoggingLevel, log, GetExceptionMessage(invocation, e, executionTimeSpan, uniqueIdentifier), e);
                 exitThroughException = true;
                 throw;
             }
@@ -219,7 +219,7 @@ namespace Spring.Aspects.Logging
                 if (!exitThroughException)
                 {
                     TimeSpan executionTimeSpan = DateTime.Now - startTime;
-                    WriteToLog(LogLevel, log, GetExitMessage(invocation, returnValue, executionTimeSpan, uniqueIdentifier), null);
+                    WriteToLog(LoggingLevel, log, GetExitMessage(invocation, returnValue, executionTimeSpan, uniqueIdentifier), null);
                 }
             }
         }
@@ -235,48 +235,48 @@ namespace Spring.Aspects.Logging
         /// Default is true when the trace level is enabled.  Subclasses may override this
         /// to change the level at which logging occurs, or return true to ignore level
         /// checks.</remarks>
-        protected override bool IsLogEnabled(ILog log)
+        protected override bool IsLogEnabled(ILogger log)
         {
-            switch (LogLevel)
+            switch (LoggingLevel)
             {
-                case LogLevel.All:
-                case LogLevel.Trace:
+                case LoggingLevel.All:
+                case LoggingLevel.Trace:
                     if (log.IsTraceEnabled)
                     {
                         return true;
                     }
                     break;
-                case LogLevel.Debug:
+                case LoggingLevel.Debug:
                     if (log.IsDebugEnabled)
                     {
                         return true;
                     }
                     break;
-                case LogLevel.Error:
+                case LoggingLevel.Error:
                     if (log.IsErrorEnabled)
                     {
                         return true;
                     }
                     break;
-                case LogLevel.Fatal:
+                case LoggingLevel.Fatal:
                     if (log.IsFatalEnabled)
                     {
                         return true;
                     }
                     break;
-                case LogLevel.Info:
+                case LoggingLevel.Info:
                     if (log.IsInfoEnabled)
                     {
                         return true;
                     }
                     break;
-                case LogLevel.Warn:
+                case LoggingLevel.Warn:
                     if (log.IsWarnEnabled)
                     {
                         return true;
                     }
                     break;
-                case LogLevel.Off:
+                case LoggingLevel.Off:
                 default:
                     break;
             }
@@ -415,48 +415,48 @@ namespace Spring.Aspects.Logging
             }
         }
 
-        private void WriteToLog(LogLevel logLevel, ILog log, string text, Exception e)
+        private void WriteToLog(LoggingLevel LoggingLevel, ILogger log, string text, Exception e)
         {
-            switch (logLevel)
+            switch (LoggingLevel)
             {
-                case LogLevel.All:
-                case LogLevel.Trace:
+                case LoggingLevel.All:
+                case LoggingLevel.Trace:
                     if (log.IsTraceEnabled)
                     {
                         if (e == null) log.Trace(text); else log.Trace(text, e);
                     }
                     break;
-                case LogLevel.Debug:
+                case LoggingLevel.Debug:
                     if (log.IsDebugEnabled)
                     {
                         if (e == null) log.Debug(text); else log.Debug(text, e);
                     }
                     break;
-                case LogLevel.Error:
+                case LoggingLevel.Error:
                     if (log.IsErrorEnabled)
                     {
                         if (e == null) log.Error(text); else log.Error(text, e);
                     }
                     break;
-                case LogLevel.Fatal:
+                case LoggingLevel.Fatal:
                     if (log.IsFatalEnabled)
                     {
                         if (e == null) log.Fatal(text); else log.Fatal(text, e);
                     }
                     break;
-                case LogLevel.Info:
+                case LoggingLevel.Info:
                     if (log.IsInfoEnabled)
                     {
                         if (e == null) log.Info(text); else log.Info(text, e);
                     }
                     break;
-                case LogLevel.Warn:
+                case LoggingLevel.Warn:
                     if (log.IsWarnEnabled)
                     {
                         if (e == null) log.Warn(text); else log.Warn(text, e);
                     }
                     break;
-                case LogLevel.Off:
+                case LoggingLevel.Off:
                 default:
                     break;
             }

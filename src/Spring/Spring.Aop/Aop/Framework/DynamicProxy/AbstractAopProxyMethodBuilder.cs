@@ -376,22 +376,22 @@ namespace Spring.Aop.Framework.DynamicProxy
                 returnValue = il.DeclareLocal(method.ReturnType);
             }
 
-#if DEBUG
-            interceptors.SetLocalSymInfo("interceptors");
-            targetType.SetLocalSymInfo("targetType");
-            arguments.SetLocalSymInfo("arguments");
-
-            if (method.IsGenericMethodDefinition)
-            {
-                genericTargetMethod.SetLocalSymInfo("genericTargetMethod");
-                genericOnProxyTargetMethod.SetLocalSymInfo("genericOnProxyTargetMethod");
-            }
-
-            if (methodReturnsValue)
-            {
-                returnValue.SetLocalSymInfo("returnValue");
-            }
-#endif
+//#if DEBUG
+//            interceptors.SetLocalSymInfo("interceptors");
+//            targetType.SetLocalSymInfo("targetType");
+//            arguments.SetLocalSymInfo("arguments");
+//
+//            if (method.IsGenericMethodDefinition)
+//            {
+//                genericTargetMethod.SetLocalSymInfo("genericTargetMethod");
+//                genericOnProxyTargetMethod.SetLocalSymInfo("genericOnProxyTargetMethod");
+//            }
+//
+//            if (methodReturnsValue)
+//            {
+//                returnValue.SetLocalSymInfo("returnValue");
+//            }
+//#endif
         }
 
         /// <summary>
