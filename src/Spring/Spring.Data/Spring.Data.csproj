@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <RootNamespace>Spring</RootNamespace>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="..\CommonAssemblyInfo.cs">
+            <Link>CommonAssemblyInfo.cs</Link>
+            <SubType>Code</SubType>
+        </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Spring.Core\Spring.Core.csproj" />
+        <ProjectReference Include="..\Spring.Aop\Spring.Aop.csproj" />
+    </ItemGroup>
+
+</Project>
