@@ -21,7 +21,7 @@
 #region Imports
 
 using System.Collections;
-using Common.Logging;
+using Spring.Logging;
 
 #endregion
 
@@ -49,7 +49,7 @@ namespace Spring.Data.Common
         /// <summary>
         /// The shared log instance for this class (and derived classes). 
         /// </summary>
-        protected static readonly ILog log =
+        protected static readonly ILogger log =
             LogManager.GetLogger(typeof (DbParametersBuilder));
 
         #endregion

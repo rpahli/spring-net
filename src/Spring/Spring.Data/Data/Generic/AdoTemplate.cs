@@ -23,7 +23,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Dao;
 using Spring.Dao.Support.Generic;
 using Spring.Data.Common;
@@ -43,7 +43,7 @@ namespace Spring.Data.Generic
 
         #region Logging Definition
 
-        private static readonly ILog LOG = LogManager.GetLogger(typeof(AdoTemplate));
+        private static readonly ILogger LOG = LogManager.GetLogger(typeof(AdoTemplate));
 
         #endregion
 

@@ -21,7 +21,7 @@
 using System;
 using System.Collections;
 using System.Data;
-using Common.Logging;
+using Spring.Logging;
 
 namespace Spring.Transaction.Support
 {
@@ -130,7 +130,7 @@ namespace Spring.Transaction.Support
         #region Logging Definition
 
         [NonSerialized()]
-        protected readonly ILog log;
+        protected readonly ILogger log;
 
         #endregion
 

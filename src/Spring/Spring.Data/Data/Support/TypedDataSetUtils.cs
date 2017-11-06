@@ -20,7 +20,7 @@
 
 using System.Data;
 using System.Reflection;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Data.Common;
 
 namespace Spring.Data.Support
@@ -63,7 +63,7 @@ namespace Spring.Data.Support
     /// </remarks>
     public abstract class TypedDataSetUtils
     {
-        private static readonly ILog LOG = LogManager.GetLogger(typeof (TypedDataSetUtils));
+        private static readonly ILogger LOG = LogManager.GetLogger(typeof (TypedDataSetUtils));
 
 
         /// <summary>

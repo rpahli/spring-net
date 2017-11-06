@@ -21,7 +21,7 @@
 using System;
 using System.Collections;
 using System.Data;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Collections;
 using Spring.Dao;
 using Spring.Objects.Factory;
@@ -51,7 +51,7 @@ namespace Spring.Data.Common
 
         #region Logging Definition
 
-        private static readonly ILog LOG = LogManager.GetLogger(typeof(MultiDelegatingDbProvider));
+        private static readonly ILogger LOG = LogManager.GetLogger(typeof(MultiDelegatingDbProvider));
 
         #endregion
 

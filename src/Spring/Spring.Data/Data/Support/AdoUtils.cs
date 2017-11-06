@@ -1,6 +1,6 @@
 using System;
 using System.Data;
-using Common.Logging;
+using Spring.Logging;
 
 namespace Spring.Data.Support
 {
@@ -11,7 +11,7 @@ namespace Spring.Data.Support
     {
         #region Logging
 
-        private static readonly ILog LOG = LogManager.GetLogger(typeof (AdoUtils));
+        private static readonly ILogger LOG = LogManager.GetLogger(typeof (AdoUtils));
 
         #endregion
 

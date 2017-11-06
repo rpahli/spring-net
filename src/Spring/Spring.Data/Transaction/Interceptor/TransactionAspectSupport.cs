@@ -21,7 +21,7 @@
 using System;
 using System.Collections.Specialized;
 using System.Reflection;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Objects.Factory;
 using Spring.Threading;
 using Spring.Util;
@@ -161,7 +161,7 @@ namespace Spring.Transaction.Interceptor
 	    #region Logging Definition
 
         [NonSerialized]
-	    protected ILog log = LogManager.GetLogger(typeof (TransactionAspectSupport));
+	    protected ILogger log = LogManager.GetLogger(typeof (TransactionAspectSupport));
 
 	    #endregion
 

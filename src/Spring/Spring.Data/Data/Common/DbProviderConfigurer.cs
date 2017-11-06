@@ -19,7 +19,7 @@
 #endregion
 
 using System;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Core;
 using Spring.Core.IO;
 using Spring.Objects.Factory.Config;
@@ -34,7 +34,7 @@ namespace Spring.Data.Common
     {
         #region Fields
 
-        private static readonly ILog log = LogManager.GetLogger(typeof(DbProviderConfigurer));
+        private static readonly ILogger log = LogManager.GetLogger(typeof(DbProviderConfigurer));
 
         private int order = Int32.MinValue;
 

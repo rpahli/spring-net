@@ -24,7 +24,7 @@ using System;
 using System.Collections;
 using System.Reflection;
 
-using Common.Logging;
+using Spring.Logging;
 using Spring.Util;
 using Spring.Core.TypeResolution;
 using Spring.Core;
@@ -47,7 +47,7 @@ namespace Spring.Transaction.Interceptor
 
 	    #region Logging Definition
 
-	    private static readonly ILog LOG = LogManager.GetLogger(typeof (MethodMapTransactionAttributeSource));
+	    private static readonly ILogger LOG = LogManager.GetLogger(typeof (MethodMapTransactionAttributeSource));
 
 	    #endregion
 

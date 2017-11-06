@@ -21,7 +21,7 @@
 #region Imports
 
 using System;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Objects.Factory;
 
 #endregion
@@ -45,9 +45,9 @@ namespace Spring.Dao.Support
 		#region Constants
 
 		/// <summary>
-		/// The shared <see cref="Common.Logging.ILog"/> instance for this class (and derived classes). 
+		/// The shared <see cref="Spring.Logging.ILogger"/> instance for this class (and derived classes). 
 		/// </summary>
-		protected static readonly ILog log =
+		protected static readonly ILogger log =
 			LogManager.GetLogger(typeof (DaoSupport));
 
 		#endregion

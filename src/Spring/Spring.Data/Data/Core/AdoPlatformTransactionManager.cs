@@ -22,7 +22,7 @@
 
 using System;
 using System.Data;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Data.Common;
 using Spring.Data.Support;
 using Spring.Objects.Factory;
@@ -44,7 +44,7 @@ namespace Spring.Data.Core
 
         #region Logging Definition
 
-        private static readonly ILog LOG = LogManager.GetLogger(typeof (AdoPlatformTransactionManager));
+        private static readonly ILogger LOG = LogManager.GetLogger(typeof (AdoPlatformTransactionManager));
 
         #endregion      
 

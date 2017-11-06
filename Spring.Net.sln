@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Core.Tests.2010", "test\Spring\Spring.Core.Tests\Spring.Core.Tests.2010.csproj", "{44B16BAA-6DF8-447C-9D7F-3AD3D854D904}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Aop", "src\Spring\Spring.Aop\Spring.Aop.csproj", "{3A3A4E65-45A6-4B20-B460-0BEDC302C02C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring.Aop", "src\Spring\Spring.Aop\Spring.Aop.csproj", "{3A3A4E65-45A6-4B20-B460-0BEDC302C02C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Aop.Tests.2010", "test\Spring\Spring.Aop.Tests\Spring.Aop.Tests.2010.csproj", "{2111596A-0327-4C9D-8919-294FBD988A23}"
 EndProject
@@ -27,7 +27,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Web.2010", "src\Spri
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Web.Tests.2010", "test\Spring\Spring.Web.Tests\Spring.Web.Tests.2010.csproj", "{C67E47AA-1ACD-41B4-A465-4D336A2319CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Data.2010", "src\Spring\Spring.Data\Spring.Data.2010.csproj", "{AE00E5AB-C39A-436F-86D2-33BFE33E2E40}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Data", "src\Spring\Spring.Data\Spring.Data.csproj", "{AE00E5AB-C39A-436F-86D2-33BFE33E2E40}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Data.Tests.2010", "test\Spring\Spring.Data.Tests\Spring.Data.Tests.2010.csproj", "{ACD39D47-1811-40FA-9E7E-5DEA5B9CE6C0}"
 EndProject
@@ -111,6 +111,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E09D66E4-24B5-4C14-8E61-DEE63971E7ED}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring.Core", "src\Spring\Spring.Core\Spring.Core.csproj", "{8A750D18-1406-4664-B649-F1C6D36A861A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Weaver", "src\Spring.Weaver\Spring.Weaver.csproj", "{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -592,6 +594,18 @@ Global
 		{8A750D18-1406-4664-B649-F1C6D36A861A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8A750D18-1406-4664-B649-F1C6D36A861A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{8A750D18-1406-4664-B649-F1C6D36A861A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9}.Debug|.NET.Build.0 = Debug|Any CPU
+		{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9}.Release|.NET.ActiveCfg = Release|Any CPU
+		{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9}.Release|.NET.Build.0 = Release|Any CPU
+		{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -642,10 +656,11 @@ Global
 		{8D6ED392-8A1F-41C0-A765-22CF384EDEA1} = {E09D66E4-24B5-4C14-8E61-DEE63971E7ED}
 		{DE276F7C-4564-49EC-AABC-B964EC3D1626} = {E09D66E4-24B5-4C14-8E61-DEE63971E7ED}
 		{8A750D18-1406-4664-B649-F1C6D36A861A} = {15BB0F1B-0FFB-450F-8FB1-8B202B1FBFFE}
+		{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9} = {15BB0F1B-0FFB-450F-8FB1-8B202B1FBFFE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		NAntAddinLastFileName = Spring.build
 		SolutionGuid = {A040A9AE-E451-40BB-8296-7F53484BA80D}
+		NAntAddinLastFileName = Spring.build
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Spring.Net.2010.vsmdi

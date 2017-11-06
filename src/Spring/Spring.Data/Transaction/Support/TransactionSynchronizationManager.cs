@@ -68,7 +68,7 @@ namespace Spring.Transaction.Support
 	{
 	    #region Logging
 
-	    private static readonly Common.Logging.ILog LOG = Common.Logging.LogManager.GetLogger(typeof (TransactionSynchronizationManager));
+	    private static readonly Spring.Logging.ILogger LOG = Spring.Logging.LogManager.GetLogger(typeof (TransactionSynchronizationManager));
 
 	    #endregion
 

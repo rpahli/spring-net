@@ -22,7 +22,7 @@ using System;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Reflection;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Util;
 
 namespace Spring.Transaction.Interceptor
@@ -40,7 +40,7 @@ namespace Spring.Transaction.Interceptor
         /// Logger available to subclasses, static for optimal serialization
         /// </summary>
         [NonSerialized()]
-        protected static readonly ILog log = LogManager.GetLogger(typeof(NameMatchTransactionAttributeSource));
+        protected static readonly ILogger log = LogManager.GetLogger(typeof(NameMatchTransactionAttributeSource));
 
         /// <summary>
         /// Keys are method names; values are ITransactionAttributes

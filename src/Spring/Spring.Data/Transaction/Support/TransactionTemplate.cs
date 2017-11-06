@@ -19,7 +19,7 @@
 #endregion
 
 using System;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Objects.Factory;
 
 namespace Spring.Transaction.Support
@@ -61,7 +61,7 @@ namespace Spring.Transaction.Support
 
         #region Logging Definition
 
-        protected readonly ILog log = LogManager.GetLogger(typeof(TransactionTemplate));
+        protected readonly ILogger log = LogManager.GetLogger(typeof(TransactionTemplate));
 
         #endregion
         /// <summary>

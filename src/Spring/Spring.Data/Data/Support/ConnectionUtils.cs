@@ -20,7 +20,7 @@
 
 using System;
 using System.Data;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Data.Common;
 using Spring.Transaction.Support;
 using Spring.Util;
@@ -34,7 +34,7 @@ namespace Spring.Data.Support
     {
         #region Logging
 
-        private static readonly ILog LOG = LogManager.GetLogger(typeof(ConnectionUtils));
+        private static readonly ILogger LOG = LogManager.GetLogger(typeof(ConnectionUtils));
 
         #endregion
 

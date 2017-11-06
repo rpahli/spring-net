@@ -21,7 +21,7 @@
 #region Imports
 
 using System;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Dao;
 using Spring.Data.Common;
 
@@ -55,7 +55,7 @@ namespace Spring.Data.Support
 		/// <summary>
 		/// The shared log instance for this class (and derived classes). 
 		/// </summary>
-		protected static readonly ILog log =
+		protected static readonly ILogger log =
 			LogManager.GetLogger(typeof (ErrorCodeExceptionTranslator));
 
 		#endregion

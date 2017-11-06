@@ -26,7 +26,7 @@ using System.Data;
 using System.Data.Common;
 using System.Globalization;
 using System.Reflection;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Dao.Support;
 using Spring.Data.Common;
 using Spring.Data.Support;
@@ -46,7 +46,7 @@ namespace Spring.Data.Core
     {
         #region Logging Definition
 
-        private static readonly ILog LOG = LogManager.GetLogger(typeof(AdoTemplate));
+        private static readonly ILogger LOG = LogManager.GetLogger(typeof(AdoTemplate));
 
         #endregion
 
