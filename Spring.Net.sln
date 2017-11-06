@@ -112,8 +112,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E09D66E4
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring.Core", "src\Spring\Spring.Core\Spring.Core.csproj", "{8A750D18-1406-4664-B649-F1C6D36A861A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Weaver", "src\Spring.Weaver\Spring.Weaver.csproj", "{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -594,18 +592,6 @@ Global
 		{8A750D18-1406-4664-B649-F1C6D36A861A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8A750D18-1406-4664-B649-F1C6D36A861A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{8A750D18-1406-4664-B649-F1C6D36A861A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9}.Debug|.NET.Build.0 = Debug|Any CPU
-		{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9}.Release|.NET.ActiveCfg = Release|Any CPU
-		{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9}.Release|.NET.Build.0 = Release|Any CPU
-		{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -656,7 +642,6 @@ Global
 		{8D6ED392-8A1F-41C0-A765-22CF384EDEA1} = {E09D66E4-24B5-4C14-8E61-DEE63971E7ED}
 		{DE276F7C-4564-49EC-AABC-B964EC3D1626} = {E09D66E4-24B5-4C14-8E61-DEE63971E7ED}
 		{8A750D18-1406-4664-B649-F1C6D36A861A} = {15BB0F1B-0FFB-450F-8FB1-8B202B1FBFFE}
-		{DFF1F69E-B8B0-46EE-8ADF-B53B4C42EFB9} = {15BB0F1B-0FFB-450F-8FB1-8B202B1FBFFE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A040A9AE-E451-40BB-8296-7F53484BA80D}
