@@ -22,7 +22,7 @@
 
 using System.Collections.Specialized;
 using Spring.Logging;
-
+//using Spring.Logging.Simple;
 using NUnit.Framework;
 using Rhino.Mocks;
 using Spring.Context.Support;
@@ -55,8 +55,6 @@ namespace Spring.Objects.Factory.Config
 		[OneTimeSetUp]
 		public void FixtureSetUp()
 		{
-            // TODO: Revisit LogManager.Adapter for possible Spring.Logging implementation.
-
 			// enable (null appender) logging, just to ensure that the logging code is correct
 //            LogManager.Adapter = new NoOpLoggerFactoryAdapter(); 
 		}

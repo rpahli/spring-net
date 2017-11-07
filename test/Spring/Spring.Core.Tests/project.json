@@ -1,0 +1,12 @@
+﻿{
+  "dependencies": {
+    "NUnit": "3.8.1"
+  },
+  "frameworks": {
+    ".NETFramework,Version=v4.7.1": {}
+  },
+  "runtimes": {
+    "win-anycpu": {},
+    "win": {}
+  }
+}

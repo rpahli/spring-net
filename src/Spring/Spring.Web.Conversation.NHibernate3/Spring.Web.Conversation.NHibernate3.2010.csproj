@@ -73,7 +73,7 @@
       <Project>{d546efb7-9f6c-4c11-b2f8-b85fad135399}</Project>
       <Name>Spring.Data.NHibernate3.2010</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Spring.Data\Spring.Data.2010.csproj">
+    <ProjectReference Include="..\Spring.Data\Spring.Data.csproj">
       <Project>{AE00E5AB-C39A-436F-86D2-33BFE33E2E40}</Project>
       <Name>Spring.Data.2010</Name>
     </ProjectReference>
@@ -90,4 +90,3 @@
   </Target>
   -->
 </Project>
-

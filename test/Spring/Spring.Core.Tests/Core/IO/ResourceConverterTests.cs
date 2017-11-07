@@ -22,7 +22,7 @@
 
 using System;
 using Spring.Logging;
-
+//using Spring.Logging.Simple;
 using NUnit.Framework;
 
 #endregion
@@ -42,10 +42,8 @@ namespace Spring.Core.IO
 		[OneTimeSetUp]
 		public void FixtureSetUp()
 		{
-			// TODO: Revisit this LogMangaer.Adapter usage to determine what is being done and if it will be needed in a Spring.Logging implementation.
-
-            // enable (null appender) logging, just to ensure that the logging code is correct
-            //LogManager.Adapter = new NoOpLoggerFactoryAdapter(); 
+			// enable (null appender) logging, just to ensure that the logging code is correct
+//            LogManager.Adapter = new NoOpLoggerFactoryAdapter(); 
 		}
 
 		[Test]

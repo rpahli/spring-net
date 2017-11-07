@@ -30,7 +30,7 @@ using System.Text;
 using System.Threading;
 using System.Web.Services;
 using Spring.Logging;
-
+//using Spring.Logging.Simple;
 using NUnit.Framework;
 
 using Rhino.Mocks;
@@ -67,11 +67,9 @@ namespace Spring.Objects.Factory.Xml
         [OneTimeSetUp]
         public void FixtureSetUp()
         {
-            // TODO: Revisit LogManager.Adapter
-
             // enable (null appender) logging, to ensure that the logging code is exercised...
             //XmlConfigurator.Configure();
-            //            LogManager.Adapter = new NoOpLoggerFactoryAdapter();
+//            LogManager.Adapter = new NoOpLoggerFactoryAdapter();
         }
 
         [SetUp]

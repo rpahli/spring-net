@@ -52,7 +52,7 @@
     <Compile Include="Service2.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Spring\Spring.Aop\Spring.Aop.2010.csproj">
+    <ProjectReference Include="..\..\..\src\Spring\Spring.Aop\Spring.Aop.csproj">
       <Project>{3a3a4e65-45a6-4b20-b460-0bedc302c02c}</Project>
       <Name>Spring.Aop.2010</Name>
     </ProjectReference>
@@ -64,7 +64,7 @@
       <Project>{d9c45177-0d80-4133-ab46-58f142db92aa}</Project>
       <Name>Spring.Data.NHibernate4.2010</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\src\Spring\Spring.Data\Spring.Data.2010.csproj">
+    <ProjectReference Include="..\..\..\src\Spring\Spring.Data\Spring.Data.csproj">
       <Project>{ae00e5ab-c39a-436f-86d2-33bfe33e2e40}</Project>
       <Name>Spring.Data.2010</Name>
     </ProjectReference>

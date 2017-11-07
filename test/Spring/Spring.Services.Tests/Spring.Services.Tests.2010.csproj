@@ -168,7 +168,7 @@
     <EmbeddedResource Include="Data\Spring\Remoting\remotingConfigurer.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Spring\Spring.Aop\Spring.Aop.2010.csproj">
+    <ProjectReference Include="..\..\..\src\Spring\Spring.Aop\Spring.Aop.csproj">
       <Project>{3A3A4E65-45A6-4B20-B460-0BEDC302C02C}</Project>
       <Name>Spring.Aop.2010</Name>
     </ProjectReference>
@@ -228,4 +228,3 @@ xcopy "$(ProjectDir)Data" ..\..\..\..\build\VS.Net.2010\Spring.Services.Tests\$(
 xcopy  "$(ProjectDir)$(TargetFileName).config" ..\..\..\..\build\VS.Net.2010\Spring.Services.Tests\$(ConfigurationName)\ /y /s /q</PostBuildEvent>
   </PropertyGroup>
 </Project>
-

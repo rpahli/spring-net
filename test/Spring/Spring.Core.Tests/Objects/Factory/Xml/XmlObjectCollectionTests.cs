@@ -26,7 +26,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Spring.Logging;
-
+//using Spring.Logging.Simple;
 using NUnit.Framework;
 using Spring.Collections;
 using Spring.Core.IO;
@@ -52,8 +52,6 @@ namespace Spring.Objects.Factory.Xml
         [OneTimeSetUp]
         public void FixtureSetUp()
         {
-            // TODO: Revisit LogManager.Adapter
-
             // enable (null appender) logging, to ensure that the logging code is exercised...
 //            LogManager.Adapter = new NoOpLoggerFactoryAdapter(); 
             //XmlConfigurator.Configure();
