@@ -1689,6 +1689,7 @@ namespace Spring.Expressions
         {
             IApplicationContext ctx =
                 new XmlApplicationContext(false, "assembly://Spring.Core.Tests/Spring.Context.Support/objects.xml");
+
             ctx.Name = @"my.Context/bla\";
             ContextRegistry.RegisterContext(ctx);
 
