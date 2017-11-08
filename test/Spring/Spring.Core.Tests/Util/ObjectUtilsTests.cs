@@ -90,8 +90,9 @@ namespace Spring.Util
                 setup.ApplicationBase = Environment.CurrentDirectory;
                 domain = AppDomain.CreateDomain("Spring", new Evidence(AppDomain.CurrentDomain.Evidence), setup);
                 object foo = domain.CreateInstanceAndUnwrap(GetType().Assembly.FullName, typeof(Foo).FullName);
+
                 // the instance is definitely assignable to the supplied interface type...
-                bool isAssignable = ObjectUtils.IsAssignableAndNotTransparentProxy(typeof (IFoo), foo);
+                bool isAssignable = ObjectUtils.IsAssignableAndNotTransparentProxy(typeof(IFoo), foo);
                 Assert.IsFalse(isAssignable, "Proxied instance was not recognized as such.");
             }
             finally
@@ -109,7 +110,7 @@ namespace Spring.Util
         [Test]
         public void InstantiateType()
         {
-            object foo = ObjectUtils.InstantiateType(typeof (TestObject));
+            object foo = ObjectUtils.InstantiateType(typeof(TestObject));
             Assert.IsNotNull(foo, "Failed to instantiate an instance of a valid Type.");
             Assert.IsTrue(foo is TestObject, "The instantiated instance was not an instance of the type that was passed in.");
         }
@@ -122,10 +123,10 @@ namespace Spring.Util
                 ObjectUtils.InstantiateType(typeof(ThrowingWithinConstructor));
                 Assert.Fail();
             }
-            catch(FatalReflectionException ex)
+            catch (FatalReflectionException ex)
             {
                 // no nasty "TargetInvocationException" is in between!
-                Assert.AreEqual( typeof(ThrowingWithinConstructorException), ex.InnerException.GetType() );
+                Assert.AreEqual(typeof(ThrowingWithinConstructorException), ex.InnerException.GetType());
             }
         }
 
@@ -138,19 +139,19 @@ namespace Spring.Util
         [Test]
         public void InstantiateGenericTypeWithArguments()
         {
-//            ObjectUtils.InstantiateType(typeof(Dictionary<string, int>), new object[] { new object() } );
+            //            ObjectUtils.InstantiateType(typeof(Dictionary<string, int>), new object[] { new object() } );
         }
 
         [Test]
         public void InstantiateTypeWithAbstractType()
         {
-            Assert.Throws<FatalReflectionException>(() => ObjectUtils.InstantiateType(typeof (AbstractType)));
+            Assert.Throws<FatalReflectionException>(() => ObjectUtils.InstantiateType(typeof(AbstractType)));
         }
 
         [Test]
         public void InstantiateTypeWithInterfaceType()
         {
-            Assert.Throws<FatalReflectionException>(() => ObjectUtils.InstantiateType(typeof (IList)));
+            Assert.Throws<FatalReflectionException>(() => ObjectUtils.InstantiateType(typeof(IList)));
         }
 
         [Test]
@@ -162,13 +163,13 @@ namespace Spring.Util
         [Test]
         public void InstantiateTypeWithPrivateCtor()
         {
-            ConstructorInfo ctor = typeof (OnlyPrivateCtor).GetConstructor(
-                BindingFlags.Instance | BindingFlags.NonPublic, null, new Type[] {typeof (string)},
+            ConstructorInfo ctor = typeof(OnlyPrivateCtor).GetConstructor(
+                BindingFlags.Instance | BindingFlags.NonPublic, null, new Type[] { typeof(string) },
                 null);
-            object foo = ObjectUtils.InstantiateType(ctor, new object[] {"Chungking Express"});
+            object foo = ObjectUtils.InstantiateType(ctor, new object[] { "Chungking Express" });
             Assert.IsNotNull(foo, "Failed to instantiate an instance of a valid Type.");
             Assert.IsTrue(foo is OnlyPrivateCtor, "The instantiated instance was not an instance of the type that was passed in.");
-            Assert.AreEqual("Chungking Express", ((OnlyPrivateCtor) foo).Name);
+            Assert.AreEqual("Chungking Express", ((OnlyPrivateCtor)foo).Name);
         }
 
         [Test]
@@ -180,7 +181,7 @@ namespace Spring.Util
         [Test]
         public void InstantiateTypeWithCtorWithNoArgs()
         {
-            Type type = typeof (TestObject);
+            Type type = typeof(TestObject);
             ConstructorInfo ctor = type.GetConstructor(Type.EmptyTypes);
             object foo = ObjectUtils.InstantiateType(ctor, ObjectUtils.EmptyObjects);
             Assert.IsNotNull(foo, "Failed to instantiate an instance of a valid Type.");
@@ -190,9 +191,9 @@ namespace Spring.Util
         [Test]
         public void InstantiateTypeWithCtorArgs()
         {
-            Type type = typeof (TestObject);
-            ConstructorInfo ctor = type.GetConstructor(new Type[] {typeof (string), typeof (int)});
-            object foo = ObjectUtils.InstantiateType(ctor, new object[] {"Yakov Petrovich Golyadkin", 39});
+            Type type = typeof(TestObject);
+            ConstructorInfo ctor = type.GetConstructor(new Type[] { typeof(string), typeof(int) });
+            object foo = ObjectUtils.InstantiateType(ctor, new object[] { "Yakov Petrovich Golyadkin", 39 });
             Assert.IsNotNull(foo, "Failed to instantiate an instance of a valid Type.");
             Assert.IsTrue(foo is TestObject, "The instantiated instance was not an instance of the Type that was passed in.");
             TestObject obj = foo as TestObject;
@@ -203,8 +204,8 @@ namespace Spring.Util
         [Test]
         public void InstantiateTypeWithBadCtorArgs()
         {
-            Type type = typeof (TestObject);
-            ConstructorInfo ctor = type.GetConstructor(new Type[] {typeof(string), typeof(int)});
+            Type type = typeof(TestObject);
+            ConstructorInfo ctor = type.GetConstructor(new Type[] { typeof(string), typeof(int) });
             try
             {
                 ObjectUtils.InstantiateType(ctor, new object[] { 39, "Yakov Petrovich Golyadkin" });
@@ -219,28 +220,28 @@ namespace Spring.Util
         [Test]
         public void IsSimpleProperty()
         {
-            Assert.IsTrue(ObjectUtils.IsSimpleProperty(typeof (string)));
-            Assert.IsTrue(ObjectUtils.IsSimpleProperty(typeof (long)));
-            Assert.IsTrue(ObjectUtils.IsSimpleProperty(typeof (bool)));
-            Assert.IsTrue(ObjectUtils.IsSimpleProperty(typeof (int)));
-            Assert.IsTrue(ObjectUtils.IsSimpleProperty(typeof (float)));
-            Assert.IsTrue(ObjectUtils.IsSimpleProperty(typeof (ushort)));
-            Assert.IsTrue(ObjectUtils.IsSimpleProperty(typeof (double)));
-            Assert.IsTrue(ObjectUtils.IsSimpleProperty(typeof (ulong)));
-            Assert.IsTrue(ObjectUtils.IsSimpleProperty(typeof (char)));
-            Assert.IsTrue(ObjectUtils.IsSimpleProperty(typeof (uint)));
-            Assert.IsTrue(ObjectUtils.IsSimpleProperty(typeof (string[])));
-            Assert.IsTrue(ObjectUtils.IsSimpleProperty(typeof (Type)));
+            Assert.IsTrue(ObjectUtils.IsSimpleProperty(typeof(string)));
+            Assert.IsTrue(ObjectUtils.IsSimpleProperty(typeof(long)));
+            Assert.IsTrue(ObjectUtils.IsSimpleProperty(typeof(bool)));
+            Assert.IsTrue(ObjectUtils.IsSimpleProperty(typeof(int)));
+            Assert.IsTrue(ObjectUtils.IsSimpleProperty(typeof(float)));
+            Assert.IsTrue(ObjectUtils.IsSimpleProperty(typeof(ushort)));
+            Assert.IsTrue(ObjectUtils.IsSimpleProperty(typeof(double)));
+            Assert.IsTrue(ObjectUtils.IsSimpleProperty(typeof(ulong)));
+            Assert.IsTrue(ObjectUtils.IsSimpleProperty(typeof(char)));
+            Assert.IsTrue(ObjectUtils.IsSimpleProperty(typeof(uint)));
+            Assert.IsTrue(ObjectUtils.IsSimpleProperty(typeof(string[])));
+            Assert.IsTrue(ObjectUtils.IsSimpleProperty(typeof(Type)));
 
-            Assert.IsFalse(ObjectUtils.IsSimpleProperty(typeof (TestObject)));
-            Assert.IsFalse(ObjectUtils.IsSimpleProperty(typeof (IList[])));
+            Assert.IsFalse(ObjectUtils.IsSimpleProperty(typeof(TestObject)));
+            Assert.IsFalse(ObjectUtils.IsSimpleProperty(typeof(IList[])));
         }
 
         [Test]
         public void EnumerateFirstElement()
         {
             string expected = "Hiya";
-            IList list = new string[] {expected, "Aw!", "Man!"};
+            IList list = new string[] { expected, "Aw!", "Man!" };
             IEnumerator enumerator = list.GetEnumerator();
             object actual = ObjectUtils.EnumerateFirstElement(enumerator);
             Assert.AreEqual(expected, actual);
@@ -250,7 +251,7 @@ namespace Spring.Util
         public void EnumerateElementAtIndex()
         {
             string expected = "Mmm...";
-            IList list = new string[] {"Aw!", "Man!", expected};
+            IList list = new string[] { "Aw!", "Man!", expected };
             IEnumerator enumerator = list.GetEnumerator();
             object actual = ObjectUtils.EnumerateElementAtIndex(enumerator, 2);
             Assert.AreEqual(expected, actual);
@@ -260,7 +261,7 @@ namespace Spring.Util
         public void EnumerateElementAtIndexViaIEnumerable()
         {
             string expected = "Mmm...";
-            IList list = new string[] {"Aw!", "Man!", expected};
+            IList list = new string[] { "Aw!", "Man!", expected };
             object actual = ObjectUtils.EnumerateElementAtIndex(list, 2);
             Assert.AreEqual(expected, actual);
         }
@@ -269,7 +270,7 @@ namespace Spring.Util
         public void EnumerateElementAtOutOfRangeIndex()
         {
             string expected = "Mmm...";
-            IList list = new string[] {"Aw!", "Man!", expected};
+            IList list = new string[] { "Aw!", "Man!", expected };
             IEnumerator enumerator = list.GetEnumerator();
             Assert.Throws<ArgumentOutOfRangeException>(() => ObjectUtils.EnumerateElementAtIndex(enumerator, 12));
         }
@@ -278,7 +279,7 @@ namespace Spring.Util
         public void EnumerateElementAtOutOfRangeIndexViaIEnumerable()
         {
             string expected = "Mmm...";
-            IList list = new string[] {"Aw!", "Man!", expected};
+            IList list = new string[] { "Aw!", "Man!", expected };
             Assert.Throws<ArgumentOutOfRangeException>(() => ObjectUtils.EnumerateElementAtIndex(list, 12));
         }
 
@@ -286,7 +287,7 @@ namespace Spring.Util
         public void EnumerateElementAtNegativeIndex()
         {
             string expected = "Mmm...";
-            IList list = new string[] {"Aw!", "Man!", expected};
+            IList list = new string[] { "Aw!", "Man!", expected };
             IEnumerator enumerator = list.GetEnumerator();
             Assert.Throws<ArgumentOutOfRangeException>(() => ObjectUtils.EnumerateElementAtIndex(enumerator, -10));
         }
@@ -295,7 +296,7 @@ namespace Spring.Util
         public void EnumerateElementAtNegativeIndexViaIEnumerable()
         {
             string expected = "Mmm...";
-            IList list = new string[] {"Aw!", "Man!", expected};
+            IList list = new string[] { "Aw!", "Man!", expected };
             Assert.Throws<ArgumentOutOfRangeException>(() => ObjectUtils.EnumerateElementAtIndex(list, -10));
         }
 
@@ -356,16 +357,16 @@ namespace Spring.Util
         private class ThrowingWithinConstructorException : TestException
         {
             public ThrowingWithinConstructorException()
-            {}
+            { }
 
             public ThrowingWithinConstructorException(string message) : base(message)
-            {}
+            { }
 
             public ThrowingWithinConstructorException(string message, Exception inner) : base(message, inner)
-            {}
+            { }
 
             protected ThrowingWithinConstructorException(SerializationInfo info, StreamingContext context) : base(info, context)
-            {}
+            { }
         }
 
         public class ThrowingWithinConstructor

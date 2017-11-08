@@ -660,8 +660,8 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>echo "Copying .xml files for tests"
- 
-xcopy "$(ProjectDir)Data" ..\..\..\..\build\VS.Net.2010\Spring.Core.Tests\$(ConfigurationName)\ /y /s /q /d
+
+xcopy "$(ProjectDir)Data" . /y /s /q /d
 
 REM xcopy "$(ProjectDir)$(TargetFileName).config" ..\..\..\..\build\VS.Net.2010\Spring.Core.Tests\$(ConfigurationName)\ /y /s /q</PostBuildEvent>
   </PropertyGroup>

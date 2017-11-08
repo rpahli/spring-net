@@ -22,28 +22,27 @@ using NUnit.Framework;
 namespace Spring.Util
 {
     [TestFixture]
-	public class PathMatcherTest
-	{
+    public class PathMatcherTest
+    {
         string dir = "PathMatcher";
 
         [Test]
-        public void TestFilesInDataPathMatcher ()
+        public void TestFilesInDataPathMatcher()
         {
             DirectoryInfo info = new DirectoryInfo(dir);
             foreach (FileInfo file in info.GetFiles("*.test"))
             {
-                ProcessFile (file);
+                ProcessFile(file);
             }
-            
         }
 
-       [Test, Explicit]
-       public void ThisIsATestForDebuggingPurposes ()
-       {
-           ProcessFile(new FileInfo(dir + "/Examples.test"));
-       }
+        [Test, Explicit]
+        public void ThisIsATestForDebuggingPurposes()
+        {
+            ProcessFile(new FileInfo(dir + "/Examples.test"));
+        }
 
-        private static void ProcessFile (FileInfo file)
+        private static void ProcessFile(FileInfo file)
         {
             bool trueness = true;
             using (StreamReader r = file.OpenText())
@@ -98,12 +97,12 @@ namespace Spring.Util
             }
         }
 
-        private static void AssertMatches (FileInfo file, int nline, bool trueness, string path, string pattern)
+        private static void AssertMatches(FileInfo file, int nline, bool trueness, string path, string pattern)
         {
-                Assert.AreEqual(trueness, 
-                    PathMatcher.Match(pattern, path), 
-                    String.Format("\ntest file '{0}', line {1}:\npath '{2}' does {3} match '{4}' (translated to {5})", 
-                    file.Name, nline, path, trueness ? "not" : "", pattern, PathMatcher.BuildRegex(pattern))) ;
+            Assert.AreEqual(trueness,
+                PathMatcher.Match(pattern, path),
+                String.Format("\ntest file '{0}', line {1}:\npath '{2}' does {3} match '{4}' (translated to {5})",
+                file.Name, nline, path, trueness ? "not" : "", pattern, PathMatcher.BuildRegex(pattern)));
         }
-	}
+    }
 }

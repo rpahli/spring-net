@@ -169,7 +169,7 @@ namespace Spring.Util
         public void UnderstandsType()
         {
             MethodInfo getDescriptionMethod = typeof(ITestObject).GetMethod("GetDescription", new Type[0]);
-            MethodInfo understandsMethod = typeof(AssertUtils).GetMethod("Understands", BindingFlags.Public|BindingFlags.Static, null, new Type[] {typeof (object), typeof(string), typeof (MethodBase)}, null);
+            MethodInfo understandsMethod = typeof(AssertUtils).GetMethod("Understands", BindingFlags.Public | BindingFlags.Static, null, new Type[] { typeof(object), typeof(string), typeof(MethodBase) }, null);
 
             // null target, any type
             AssertNotUnderstandsType(null, "target", typeof(object), typeof(NotSupportedException), "Target 'target' is null.");
@@ -181,19 +181,24 @@ namespace Spring.Util
         public void UnderstandsMethod()
         {
             MethodInfo getDescriptionMethod = typeof(ITestObject).GetMethod("GetDescription", new Type[0]);
-            MethodInfo understandsMethod = typeof(AssertUtils).GetMethod("Understands", BindingFlags.Public|BindingFlags.Static, null, new Type[] {typeof (object), typeof(string), typeof (MethodBase)}, null);
+            MethodInfo understandsMethod = typeof(AssertUtils).GetMethod("Understands", BindingFlags.Public | BindingFlags.Static, null, new Type[] { typeof(object), typeof(string), typeof(MethodBase) }, null);
 
             // null target, static method
             AssertUtils.Understands(null, "target", understandsMethod);
+
             // null target, instance method
             AssertNotUnderstandsMethod(null, "target", getDescriptionMethod, typeof(NotSupportedException), "Target 'target' is null and target method 'Spring.Objects.ITestObject.GetDescription' is not static.");
+
             // compatible target, instance method
             AssertUtils.Understands(new TestObject(), "target", getDescriptionMethod);
+
             // incompatible target, instance method
-                AssertNotUnderstandsMethod(new object(), "target", getDescriptionMethod, typeof(NotSupportedException), "Target 'target' of type 'System.Object' does not support methods of 'Spring.Objects.ITestObject'.");
+            AssertNotUnderstandsMethod(new object(), "target", getDescriptionMethod, typeof(NotSupportedException), "Target 'target' of type 'System.Object' does not support methods of 'Spring.Objects.ITestObject'.");
+
             // compatible transparent proxy, instance method
             object compatibleProxy = new TestProxy(new TestObject()).GetTransparentProxy();
             AssertUtils.Understands(compatibleProxy, "compatibleProxy", getDescriptionMethod);
+
             // incompatible transparent proxy, instance method
             object incompatibleProxy = new TestProxy(new object()).GetTransparentProxy();
             AssertNotUnderstandsMethod(incompatibleProxy, "incompatibleProxy", getDescriptionMethod, typeof(NotSupportedException), "Target 'incompatibleProxy' is a transparent proxy that does not support methods of 'Spring.Objects.ITestObject'.");
@@ -206,7 +211,7 @@ namespace Spring.Util
                 AssertUtils.Understands(target, targetName, requiredType);
                 Assert.Fail();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 if (ex.GetType() != exceptionType)
                 {
@@ -227,7 +232,7 @@ namespace Spring.Util
                 AssertUtils.Understands(target, targetName, method);
                 Assert.Fail();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 if (ex.GetType() != exceptionType)
                 {
@@ -245,7 +250,7 @@ namespace Spring.Util
         {
             private readonly object targetInstance;
 
-            public TestProxy(object targetInstance) 
+            public TestProxy(object targetInstance)
                 : base(typeof(MarshalByRefObject))
             {
                 this.targetInstance = targetInstance;
