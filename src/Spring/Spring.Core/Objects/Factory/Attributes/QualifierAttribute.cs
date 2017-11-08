@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security;
 
 namespace Spring.Objects.Factory.Attributes
 {
@@ -39,7 +40,7 @@ namespace Spring.Objects.Factory.Attributes
         /// Checks weather the attribute is the same
         /// </summary>
         /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <returns></returns>       
         public override bool Equals(object obj)
         {
             if (obj == null || GetType() != obj.GetType())

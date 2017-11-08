@@ -197,7 +197,7 @@ namespace Spring.Context.Support
 #if !MONO
         //Spring's CultureTestScope seems incompatible on .NET 1.1 with NUnit's new in 2.5.2 changes for setting UI Culture.
         [Test]
-        [SetUICulture("de-DE")]
+//        [SetUICulture("de-DE")]
         public void MessageAccessFallbackTurnedOff()
         {
             DoTestMessageAccess(false, false);
@@ -205,7 +205,7 @@ namespace Spring.Context.Support
 
 
         [Test]
-        [SetUICulture("de-DE")]
+//        [SetUICulture("de-DE")]
         public void MessageAccessFallbackTurnedOn()
         {
             DoTestMessageAccess(false, true);
@@ -213,7 +213,7 @@ namespace Spring.Context.Support
 
 
         [Test]
-        [SetUICulture("de-DE")]
+//        [SetUICulture("de-DE")]
         public void MessageAccessWithParentAndFallbackTurnedOff()
         {
             DoTestMessageAccess(true, false);
@@ -235,7 +235,7 @@ namespace Spring.Context.Support
         /// Happy day scenario where the requested message key is found and substitutions are made.
         /// </summary>
         [Test]
-        [SetUICulture("de-DE")]
+//        [SetUICulture("de-DE")]
         public void ResourceSetMessageSourceGetMessage()
         {
             messageSource.ResourceManagers = resourceManagerList;

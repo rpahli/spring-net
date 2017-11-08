@@ -1,9 +1,10 @@
 ﻿{
   "dependencies": {
-    "NUnit": "3.8.1"
+    "NUnit": "3.8.1",
+    "NUnit3TestAdapter": "3.9.0"
   },
   "frameworks": {
-    ".NETFramework,Version=v4.7.1": {}
+    "net471": {}
   },
   "runtimes": {
     "win-anycpu": {},

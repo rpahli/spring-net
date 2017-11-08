@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections;
+using System.Security;
 
 namespace Spring.Caching
 {
