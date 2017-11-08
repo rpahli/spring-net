@@ -27,6 +27,7 @@
     <DefineConstants>TRACE;DEBUG;NET_4_0;NET_3_0;NET_3_5;DEBUG_DYNAMIC</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -657,4 +658,11 @@
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>echo "Copying .xml files for tests"
+ 
+xcopy "$(ProjectDir)Data" ..\..\..\..\build\VS.Net.2010\Spring.Core.Tests\$(ConfigurationName)\ /y /s /q /d
+
+REM xcopy "$(ProjectDir)$(TargetFileName).config" ..\..\..\..\build\VS.Net.2010\Spring.Core.Tests\$(ConfigurationName)\ /y /s /q</PostBuildEvent>
+  </PropertyGroup>
 </Project>

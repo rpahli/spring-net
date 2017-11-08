@@ -73,7 +73,7 @@
       <Project>{2E10A8D3-B8FF-4699-90B8-E621659C58DD}</Project>
       <Name>Spring.Testing.Microsoft.2010</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Spring.Core.Tests\Spring.Core.Tests.2010.csproj">
+    <ProjectReference Include="..\Spring.Core.Tests\Spring.Core.Tests.csproj">
       <Project>{44B16BAA-6DF8-447C-9D7F-3AD3D854D904}</Project>
       <Name>Spring.Core.Tests.2010</Name>
     </ProjectReference>

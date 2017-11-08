@@ -184,7 +184,7 @@
       <Project>{2111596A-0327-4C9D-8919-294FBD988A23}</Project>
       <Name>Spring.Aop.Tests.2010</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Spring.Core.Tests\Spring.Core.Tests.2010.csproj">
+    <ProjectReference Include="..\Spring.Core.Tests\Spring.Core.Tests.csproj">
       <Project>{44B16BAA-6DF8-447C-9D7F-3AD3D854D904}</Project>
       <Name>Spring.Core.Tests.2010</Name>
     </ProjectReference>

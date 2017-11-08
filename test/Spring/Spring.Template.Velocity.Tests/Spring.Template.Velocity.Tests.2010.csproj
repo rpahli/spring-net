@@ -61,7 +61,7 @@
       <Project>{BF3AB954-8375-407C-9E98-4C51D8072784}</Project>
       <Name>Spring.Template.Velocity.2010</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Spring.Core.Tests\Spring.Core.Tests.2010.csproj">
+    <ProjectReference Include="..\Spring.Core.Tests\Spring.Core.Tests.csproj">
       <Project>{44B16BAA-6DF8-447C-9D7F-3AD3D854D904}</Project>
       <Name>Spring.Core.Tests.2010</Name>
     </ProjectReference>
@@ -96,4 +96,3 @@
   </Target>
   -->
 </Project>
-
