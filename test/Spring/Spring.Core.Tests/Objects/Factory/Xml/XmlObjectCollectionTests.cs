@@ -53,7 +53,7 @@ namespace Spring.Objects.Factory.Xml
         public void FixtureSetUp()
         {
             // enable (null appender) logging, to ensure that the logging code is exercised...
-//            LogManager.Adapter = new NoOpLoggerFactoryAdapter(); 
+//            LoggingManager.Adapter = new NoOpLoggerFactoryAdapter(); 
             //XmlConfigurator.Configure();
         }
 

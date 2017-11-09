@@ -47,7 +47,7 @@ namespace Spring.Transaction.Interceptor
 
 	    #region Logging Definition
 
-	    private static readonly ILogger LOG = LogManager.GetLogger(typeof (MethodMapTransactionAttributeSource));
+	    private static readonly ILogger LOG = LoggingManager.GetLogger(typeof (MethodMapTransactionAttributeSource));
 
 	    #endregion
 

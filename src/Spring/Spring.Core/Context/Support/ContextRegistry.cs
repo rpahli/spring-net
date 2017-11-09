@@ -55,7 +55,7 @@ namespace Spring.Context.Support
         /// <summary>
         /// The shared <see cref="Spring.Logging.ILogger"/> instance for this class (and derived classes).
         /// </summary>
-        private static readonly ILogger log = LogManager.GetLogger(typeof(ContextRegistry));
+        private static readonly ILogger log = LoggingManager.GetLogger(typeof(ContextRegistry));
 
         private static readonly object syncRoot = new Object();
         private static readonly ContextRegistry instance = new ContextRegistry();

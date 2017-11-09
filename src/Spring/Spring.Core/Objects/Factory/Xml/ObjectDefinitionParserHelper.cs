@@ -74,7 +74,7 @@ namespace Spring.Objects.Factory.Xml
         /// <param name="root">The root element of the definition document to parse</param>
         public ObjectDefinitionParserHelper(XmlReaderContext readerContext, XmlElement root)
         {
-            log = LogManager.GetLogger(this.GetType());
+            log = LoggingManager.GetLogger(this.GetType());
             this.readerContext = readerContext;
             this.objectsNamespaceParser = (ObjectsNamespaceParser) readerContext.NamespaceParserResolver.Resolve(ObjectsNamespaceParser.Namespace);
             if (root != null)

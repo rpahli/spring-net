@@ -201,7 +201,7 @@ namespace Spring.Objects.Factory.Support
         /// </param>
         protected AbstractObjectFactory(bool caseSensitive)
         {
-            this.log = LogManager.GetLogger(this.GetType());
+            this.log = LoggingManager.GetLogger(this.GetType());
             this.caseSensitive = caseSensitive;
 
             IEqualityComparer comparer = (caseSensitive) ? StringComparer.Ordinal : StringComparer.OrdinalIgnoreCase;

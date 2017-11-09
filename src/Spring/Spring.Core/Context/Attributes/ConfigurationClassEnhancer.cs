@@ -87,7 +87,7 @@ namespace Spring.Context.Attributes
         {
             #region Logging
 
-            private static readonly ILogger Logger = LogManager.GetLogger<ConfigurationClassInterceptor>();
+            private static readonly ILogger Logger = LoggingManager.GetLogger<ConfigurationClassInterceptor>();
             
             #endregion
 

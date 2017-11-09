@@ -68,7 +68,7 @@ namespace Spring.Objects.Factory.Attributes
     /// </summary>
     public class AutowiredAttributeObjectPostProcessor : InstantiationAwareObjectPostProcessorAdapter, IObjectFactoryAware, IOrdered
     {
-        private static readonly ILogger logger = LogManager.GetLogger<AutowiredAttributeObjectPostProcessor>();
+        private static readonly ILogger logger = LoggingManager.GetLogger<AutowiredAttributeObjectPostProcessor>();
 
         private int order = int.MaxValue - 2;
 

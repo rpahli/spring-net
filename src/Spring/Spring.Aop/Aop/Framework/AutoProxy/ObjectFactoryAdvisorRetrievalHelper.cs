@@ -53,7 +53,7 @@ namespace Spring.Aop.Framework.AutoProxy
         public ObjectFactoryAdvisorRetrievalHelper(IConfigurableListableObjectFactory objectFactory )
         {
             AssertUtils.ArgumentNotNull(objectFactory, "objectFactory");
-            _log = LogManager.GetLogger(this.GetType());
+            _log = LoggingManager.GetLogger(this.GetType());
             _objectFactory = objectFactory;
         }
 

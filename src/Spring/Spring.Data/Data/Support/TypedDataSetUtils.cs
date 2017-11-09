@@ -63,7 +63,7 @@ namespace Spring.Data.Support
     /// </remarks>
     public abstract class TypedDataSetUtils
     {
-        private static readonly ILogger LOG = LogManager.GetLogger(typeof (TypedDataSetUtils));
+        private static readonly ILogger LOG = LoggingManager.GetLogger(typeof (TypedDataSetUtils));
 
 
         /// <summary>

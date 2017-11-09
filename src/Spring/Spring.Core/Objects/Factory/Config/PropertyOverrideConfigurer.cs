@@ -108,7 +108,7 @@ namespace Spring.Objects.Factory.Config
     [Serializable]
     public class PropertyOverrideConfigurer : PropertyResourceConfigurer
 	{
-		private ILogger _logger = LogManager.GetLogger(typeof (PropertyOverrideConfigurer));
+		private ILogger _logger = LoggingManager.GetLogger(typeof (PropertyOverrideConfigurer));
 
 		/// <summary>
 		/// Apply the given properties to the supplied

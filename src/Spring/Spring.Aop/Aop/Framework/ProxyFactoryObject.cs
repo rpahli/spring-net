@@ -301,7 +301,7 @@ namespace Spring.Aop.Framework
         /// </summary>
         public ProxyFactoryObject()
         {
-            this.logger = LogManager.GetLogger(this.GetType());
+            this.logger = LoggingManager.GetLogger(this.GetType());
             this.advisorAdapterRegistry = GlobalAdvisorAdapterRegistry.Instance;
             this.singleton = true;
         }

@@ -2,10 +2,15 @@
 
 namespace Spring.Logging
 {
-    public class LogManager
+    public class LoggingManager
     {
         protected class ConsoleLogger : ILogger
         {
+            public string Name
+            {
+                get { return "Console"; }
+            }
+
             public void Trace(object message)
             {
                 Console.WriteLine(message);

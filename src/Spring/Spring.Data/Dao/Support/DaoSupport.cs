@@ -48,7 +48,7 @@ namespace Spring.Dao.Support
 		/// The shared <see cref="Spring.Logging.ILogger"/> instance for this class (and derived classes). 
 		/// </summary>
 		protected static readonly ILogger log =
-			LogManager.GetLogger(typeof (DaoSupport));
+			LoggingManager.GetLogger(typeof (DaoSupport));
 
 		#endregion
 

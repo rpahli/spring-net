@@ -70,7 +70,7 @@ namespace Spring.Data.Common
         /// The shared log instance for this class (and derived classes). 
         /// </summary>
         protected static readonly ILogger log =
-            LogManager.GetLogger(typeof (ErrorCodes));
+            LoggingManager.GetLogger(typeof (ErrorCodes));
 
         #endregion
 

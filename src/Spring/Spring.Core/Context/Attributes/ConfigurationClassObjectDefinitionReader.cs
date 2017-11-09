@@ -41,7 +41,7 @@ namespace Spring.Context.Attributes
     /// </summary>
     public class ConfigurationClassObjectDefinitionReader
     {
-        private static readonly ILogger Logger = LogManager.GetLogger<ConfigurationClassObjectDefinitionReader>();
+        private static readonly ILogger Logger = LoggingManager.GetLogger<ConfigurationClassObjectDefinitionReader>();
 
         private IProblemReporter _problemReporter;
 

@@ -218,7 +218,7 @@ namespace Spring.Context.Support
         protected AbstractApplicationContext(string name, bool caseSensitive,
                                              IApplicationContext parentApplicationContext)
         {
-            log = LogManager.GetLogger(this.GetType());
+            log = LoggingManager.GetLogger(this.GetType());
 
             _name = (StringUtils.IsNullOrEmpty(name)) ? DefaultRootContextName : name;
             _isCaseSensitive = caseSensitive;
@@ -2541,7 +2541,7 @@ namespace Spring.Context.Support
 
             public ObjectPostProcessorChecker()
             {
-                log = LogManager.GetLogger(this.GetType());
+                log = LoggingManager.GetLogger(this.GetType());
             }
 
             public void Reset(IConfigurableListableObjectFactory objectFactory, int objectPostProcessorTargetCount)

@@ -33,7 +33,7 @@ namespace Spring.Objects.Factory.Attributes
     /// </summary>
     public class InjectionMetadata
     {
-        private static readonly ILogger Logger = LogManager.GetLogger<InjectionMetadata>();
+        private static readonly ILogger Logger = LoggingManager.GetLogger<InjectionMetadata>();
 
         private readonly IList<InjectedElement> _injectedElements;
 

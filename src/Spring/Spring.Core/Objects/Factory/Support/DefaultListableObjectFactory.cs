@@ -298,7 +298,7 @@ namespace Spring.Objects.Factory.Support
         /// <summary>
         /// The <see cref="Spring.Logging.ILogger"/> instance for this class.
         /// </summary>
-        private readonly ILogger log = LogManager.GetLogger(typeof(DefaultListableObjectFactory));
+        private readonly ILogger log = LoggingManager.GetLogger(typeof(DefaultListableObjectFactory));
 
         /// <summary>
         /// The mapping of object definition objects, keyed by object name.

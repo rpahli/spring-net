@@ -39,7 +39,7 @@ namespace Spring.Context.Attributes
     {
         #region Logging
 
-        private static readonly ILogger Logger = LogManager.GetLogger<ConfigurationClassPostProcessor>();
+        private static readonly ILogger Logger = LoggingManager.GetLogger<ConfigurationClassPostProcessor>();
 
         #endregion
 

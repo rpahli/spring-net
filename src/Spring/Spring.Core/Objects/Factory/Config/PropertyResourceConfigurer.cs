@@ -107,7 +107,7 @@ namespace Spring.Objects.Factory.Config
         /// </remarks>
         protected PropertyResourceConfigurer()
         {
-            _log = LogManager.GetLogger(this.GetType());
+            _log = LoggingManager.GetLogger(this.GetType());
         }
 
         #endregion

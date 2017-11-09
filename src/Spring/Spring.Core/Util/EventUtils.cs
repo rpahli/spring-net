@@ -80,7 +80,7 @@ namespace Spring.Util
         /// </summary>
         public EventRaiser()
         {
-            Log = LogManager.GetLogger(this.GetType());
+            Log = LoggingManager.GetLogger(this.GetType());
         }
 
         /// <summary>

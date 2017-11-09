@@ -107,7 +107,7 @@ namespace Spring.Aop.Framework.Adapter
     [Serializable]
     public sealed class ThrowsAdviceInterceptor : IMethodInterceptor
     {
-        private static readonly ILogger log = LogManager.GetLogger(typeof(ThrowsAdviceInterceptor));
+        private static readonly ILogger log = LoggingManager.GetLogger(typeof(ThrowsAdviceInterceptor));
 
         private const string SpecialThrowingMethodName = "AfterThrowing";
 

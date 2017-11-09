@@ -93,7 +93,7 @@ namespace Spring.Objects.Factory.Support
 			IObjectDefinitionRegistry registry,
 			AppDomain domain)
 		{
-		    log = LogManager.GetLogger(this.GetType());
+		    log = LoggingManager.GetLogger(this.GetType());
 
 		    AssertUtils.ArgumentNotNull(registry, "registry", "IObjectDefinitionRegistry must not be null");
 			_registry = registry;

@@ -533,6 +533,7 @@ namespace Spring.Objects.Factory
         }
 
         [Test]
+        //[Ignore("Seems to deadlock and hang Visual Studio 2017")]
         public void GetObjectIsThreadSafe()
         {
             ObjectFactory = CreateObjectFactory(true);

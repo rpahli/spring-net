@@ -99,7 +99,7 @@ namespace Spring.Reflection.Dynamic
     /// </remarks>
     public class SafeProperty : IDynamicProperty
     {
-        private static readonly ILogger Log = LogManager.GetLogger(typeof(SafeProperty));
+        private static readonly ILogger Log = LoggingManager.GetLogger(typeof(SafeProperty));
 
         private readonly PropertyInfo propertyInfo;
 

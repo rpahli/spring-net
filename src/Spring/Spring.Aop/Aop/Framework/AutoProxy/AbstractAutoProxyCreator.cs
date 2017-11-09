@@ -228,7 +228,7 @@ namespace Spring.Aop.Framework.AutoProxy
         /// </summary>
         protected AbstractAutoProxyCreator()
         {
-            logger = LogManager.GetLogger(this.GetType());
+            logger = LoggingManager.GetLogger(this.GetType());
         }
 
         #endregion

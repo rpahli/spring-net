@@ -69,7 +69,7 @@ namespace Spring.Objects.Factory.Xml
         {
             // enable (null appender) logging, to ensure that the logging code is exercised...
             //XmlConfigurator.Configure();
-//            LogManager.Adapter = new NoOpLoggerFactoryAdapter();
+//            LoggingManager.Adapter = new NoOpLoggerFactoryAdapter();
         }
 
         [SetUp]

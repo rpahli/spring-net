@@ -110,7 +110,7 @@ namespace Spring.Objects.Factory.Support
         protected AbstractAutowireCapableObjectFactory(bool caseSensitive, IObjectFactory parentFactory)
             : base(caseSensitive, parentFactory)
         {
-            log = LogManager.GetLogger(this.GetType());
+            log = LoggingManager.GetLogger(this.GetType());
 
             this.IgnoreDependencyInterface(typeof(IObjectFactoryAware));
             this.IgnoreDependencyInterface(typeof(IObjectNameAware));

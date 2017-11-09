@@ -34,7 +34,7 @@ namespace Spring.Data.Common
     {
         #region Fields
 
-        private static readonly ILogger log = LogManager.GetLogger(typeof(DbProviderConfigurer));
+        private static readonly ILogger log = LoggingManager.GetLogger(typeof(DbProviderConfigurer));
 
         private int order = Int32.MinValue;
 

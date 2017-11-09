@@ -27,7 +27,7 @@ namespace Spring.Validation.Actions
 {
     public class ExceptionAction : BaseValidationAction
     {
-        private ILogger log = LogManager.GetLogger(typeof(ExceptionAction));
+        private ILogger log = LoggingManager.GetLogger(typeof(ExceptionAction));
         private IExpression throwsExpression;
 
         /// <summary>

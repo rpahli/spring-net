@@ -53,7 +53,7 @@ namespace Spring.Objects.Factory.Support
         /// The shared <see cref="Spring.Logging.ILogger"/> instance for this class (and derived classes).
         /// </summary>
         protected static readonly ILogger log =
-            LogManager.GetLogger(typeof(SimpleInstantiationStrategy));
+            LoggingManager.GetLogger(typeof(SimpleInstantiationStrategy));
 
         /// <summary>
         /// Instantiate an instance of the object described by the supplied

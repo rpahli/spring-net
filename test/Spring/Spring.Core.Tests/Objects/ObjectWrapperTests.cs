@@ -59,7 +59,7 @@ namespace Spring.Objects
 		public void FixtureSetUp()
 		{
 			// enable logging (to nowhere), just to exercisee the logging code...
-//            LogManager.Adapter = new NoOpLoggerFactoryAdapter();
+//            LoggingManager.Adapter = new NoOpLoggerFactoryAdapter();
 		}
 
 		#region Classes Used During Tests

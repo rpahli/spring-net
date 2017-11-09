@@ -34,7 +34,7 @@ namespace Spring.Data.Support
     {
         #region Logging
 
-        private static readonly ILogger LOG = LogManager.GetLogger(typeof(ConnectionUtils));
+        private static readonly ILogger LOG = LoggingManager.GetLogger(typeof(ConnectionUtils));
 
         #endregion
 

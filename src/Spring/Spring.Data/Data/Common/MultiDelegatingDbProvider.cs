@@ -51,7 +51,7 @@ namespace Spring.Data.Common
 
         #region Logging Definition
 
-        private static readonly ILogger LOG = LogManager.GetLogger(typeof(MultiDelegatingDbProvider));
+        private static readonly ILogger LOG = LoggingManager.GetLogger(typeof(MultiDelegatingDbProvider));
 
         #endregion
 

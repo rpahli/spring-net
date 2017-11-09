@@ -50,7 +50,7 @@ namespace Spring.Data.Common
         /// The shared log instance for this class (and derived classes). 
         /// </summary>
         protected static readonly ILogger log =
-            LogManager.GetLogger(typeof (DbParametersBuilder));
+            LoggingManager.GetLogger(typeof (DbParametersBuilder));
 
         #endregion
 

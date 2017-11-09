@@ -15,7 +15,7 @@ namespace Spring.DataBinding
     {
         #region Fields
 
-        private readonly ILogger log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly ILogger log = LoggingManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private IFormatter formatter;
 
         #endregion

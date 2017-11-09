@@ -52,7 +52,7 @@ namespace Spring.Objects.Factory.Support
         /// <param name="objectFactory">The object factory.</param>
         public ObjectDefinitionValueResolver(AbstractObjectFactory objectFactory)
         {
-            this.log = LogManager.GetLogger(this.GetType());
+            this.log = LoggingManager.GetLogger(this.GetType());
 
             this.objectFactory = objectFactory;
         }

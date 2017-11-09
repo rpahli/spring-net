@@ -37,7 +37,7 @@ namespace Spring.Context.Attributes
     /// </summary>
     public class ScannedGenericObjectDefinition : GenericObjectDefinition
     {
-        private static readonly ILogger Log = LogManager.GetCurrentClassLogger();
+        private static readonly ILogger Log = LoggingManager.GetCurrentClassLogger();
 
         /// <summary>
         /// Name provided by the Component Attribute

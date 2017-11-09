@@ -8,10 +8,18 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="Aop\Config\spring-aop-1.1.xsd" />
+    </ItemGroup>
+
+    <ItemGroup>
         <Compile Include="..\CommonAssemblyInfo.cs">
             <Link>CommonAssemblyInfo.cs</Link>
             <SubType>Code</SubType>
         </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Aop\Config\spring-aop-1.1.xsd" />
     </ItemGroup>
     
     <ItemGroup>

@@ -50,7 +50,7 @@ namespace Spring.Util
         /// <summary>
         /// The <see cref="Spring.Logging.ILogger"/> instance for this class.
         /// </summary>
-        private static readonly ILogger log = LogManager.GetLogger(typeof(ObjectUtils));
+        private static readonly ILogger log = LoggingManager.GetLogger(typeof(ObjectUtils));
 
         #region Constants
 

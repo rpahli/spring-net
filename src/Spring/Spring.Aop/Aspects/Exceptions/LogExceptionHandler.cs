@@ -137,7 +137,7 @@ namespace Spring.Aspects.Exceptions
         public override object HandleException(IDictionary<string, object> callContextDictionary)
         {
             //TODO log name is targettype.
-            ILogger adviceLogger = LogManager.GetLogger(logName);
+            ILogger adviceLogger = LoggingManager.GetLogger(logName);
             callContextDictionary.Add("log", adviceLogger);
             try
             {

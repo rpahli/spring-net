@@ -277,7 +277,7 @@ namespace Spring.Objects.Factory.Config
 
         private class TextProcessor
         {
-            private readonly ILogger logger = LogManager.GetLogger(typeof(TextProcessor));
+            private readonly ILogger logger = LoggingManager.GetLogger(typeof(TextProcessor));
             private readonly VariablePlaceholderConfigurer owner;
             private readonly IVariableSource variableSource;
 

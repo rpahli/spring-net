@@ -11,7 +11,7 @@ namespace Spring.Objects.Factory.Support
 {
     public class DisposableObjectAdapter : IDisposable
     {
-        private readonly ILogger logger = LogManager.GetLogger(typeof(DisposableObjectAdapter));
+        private readonly ILogger logger = LoggingManager.GetLogger(typeof(DisposableObjectAdapter));
 
         private object instance;
 

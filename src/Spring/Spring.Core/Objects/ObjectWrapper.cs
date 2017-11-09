@@ -56,7 +56,7 @@ namespace Spring.Objects
     [Serializable]
     public class ObjectWrapper : IObjectWrapper
     {
-        private ILogger Log = LogManager.GetLogger(typeof(ObjectWrapper));
+        private ILogger Log = LoggingManager.GetLogger(typeof(ObjectWrapper));
 
         #region Fields
 
@@ -67,7 +67,7 @@ namespace Spring.Objects
         /// The ILogger instance for this class. We'll create a lot of these objects,
         /// so we don't want a new instance every time.
         /// </summary>
-        private static readonly ILogger log = LogManager.GetLogger(typeof(ObjectWrapper));
+        private static readonly ILogger log = LoggingManager.GetLogger(typeof(ObjectWrapper));
 
         #endregion
 

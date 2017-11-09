@@ -515,10 +515,9 @@
     <EmbeddedResource Include="Objects\Factory\Xml\NamespaceParserRegistryTests_TestSchema_2.xsd">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <None Include="packages.config" />
     <None Include="project.json" />
     <None Include="Spring.Core.Tests.build" />
-    <Content Include="Spring.Core.Tests.dll.config" />
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Spring\Spring.Aop\Spring.Aop.csproj">
@@ -660,6 +659,6 @@
 
 xcopy "$(ProjectDir)Data" . /y /s /q /d
 
-REM xcopy "$(ProjectDir)$(TargetFileName).config" ..\..\..\..\build\VS.Net.2010\Spring.Core.Tests\$(ConfigurationName)\ /y /s /q</PostBuildEvent>
+REM xcopy "$(ProjectDir)$(TargetFileName).dll.config" . /y /s /q</PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -54,7 +54,7 @@ namespace Spring.Data.Support
         /// The shared log instance for this class (and derived classes). 
         /// </summary>
         protected static readonly ILogger log =
-            LogManager.GetLogger(typeof (AdoTransactionObjectSupport));
+            LoggingManager.GetLogger(typeof (AdoTransactionObjectSupport));
 
         #endregion
 

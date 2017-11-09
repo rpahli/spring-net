@@ -54,7 +54,7 @@ namespace Spring.Aspects
 
         static RetryAdvice()
         {
-            log = LogManager.GetLogger(typeof(RetryAdvice));
+            log = LoggingManager.GetLogger(typeof(RetryAdvice));
             timeSpanConverter = new TimeSpanConverter();            
         }
 

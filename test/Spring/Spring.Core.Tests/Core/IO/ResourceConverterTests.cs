@@ -43,7 +43,7 @@ namespace Spring.Core.IO
 		public void FixtureSetUp()
 		{
 			// enable (null appender) logging, just to ensure that the logging code is correct
-//            LogManager.Adapter = new NoOpLoggerFactoryAdapter(); 
+//            LoggingManager.Adapter = new NoOpLoggerFactoryAdapter(); 
 		}
 
 		[Test]

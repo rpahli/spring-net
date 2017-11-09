@@ -47,7 +47,7 @@ namespace Spring.Objects.Support
 		private const string DefaultMethodName = DefaultMethodPrefix + EventNamePlaceHolder;
 
 		private static readonly ILogger log
-			= LogManager.GetLogger(typeof (AutoWiringEventHandlerValue));
+			= LoggingManager.GetLogger(typeof (AutoWiringEventHandlerValue));
 
 		#endregion
 

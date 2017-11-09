@@ -168,7 +168,7 @@ namespace Spring.Objects.Factory.Config
         /// </summary>
 	    public PropertyPlaceholderConfigurer()
 	    {
-            logger = LogManager.GetLogger(this.GetType());
+            logger = LoggingManager.GetLogger(this.GetType());
 	    }
 
 	    #region Properties 

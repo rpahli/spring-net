@@ -42,7 +42,7 @@ namespace Spring.Objects.Factory.Config
 	/// </p>
 	/// </remarks>
 	/// <author>Rick Evans</author>
-	/// <seealso cref="Spring.Logging.LogManager.GetLogger(string)"/>
+	/// <seealso cref="LoggingManager.GetLogger(string)"/>
     [Serializable]
     public class LogFactoryObject : IFactoryObject, IInitializingObject
 	{
@@ -113,7 +113,7 @@ namespace Spring.Objects.Factory.Config
 			if (this.log == null)
 			{
 				ValidateProperties();
-				this.log = LogManager.GetLogger(LogName);
+				this.log = LoggingManager.GetLogger(LogName);
 			}
 			return this.log;
 		}

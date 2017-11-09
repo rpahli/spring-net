@@ -61,7 +61,7 @@ namespace Spring.Transaction.Support
 
         #region Logging Definition
 
-        protected readonly ILogger log = LogManager.GetLogger(typeof(TransactionTemplate));
+        protected readonly ILogger log = LoggingManager.GetLogger(typeof(TransactionTemplate));
 
         #endregion
         /// <summary>

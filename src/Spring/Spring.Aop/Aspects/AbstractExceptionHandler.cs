@@ -54,7 +54,7 @@ namespace Spring.Aspects
         /// </summary>
         public AbstractExceptionHandler()
         {
-            log = LogManager.GetLogger(GetType());
+            log = LoggingManager.GetLogger(GetType());
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Spring.Aspects
         /// <param name="exceptionNames">The exception names.</param>
         public AbstractExceptionHandler(string[] exceptionNames)
         {
-            log = LogManager.GetLogger(GetType());
+            log = LoggingManager.GetLogger(GetType());
             foreach (string exceptionName in exceptionNames)
             {
                 SourceExceptionNames.Add(exceptionName);

@@ -136,7 +136,7 @@ namespace Spring.Transaction.Support
 
         protected AbstractPlatformTransactionManager()
         {
-            log = LogManager.GetLogger(this.GetType());
+            log = LoggingManager.GetLogger(this.GetType());
         }
 
         #endregion

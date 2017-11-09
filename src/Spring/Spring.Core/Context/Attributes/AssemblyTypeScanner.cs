@@ -39,7 +39,7 @@ namespace Spring.Context.Attributes
         /// <summary>
         /// Logger Instance.
         /// </summary>
-        protected static readonly ILogger Logger = LogManager.GetLogger<AssemblyTypeScanner>();
+        protected static readonly ILogger Logger = LoggingManager.GetLogger<AssemblyTypeScanner>();
 
         /// <summary>
         /// Names of Assemblies to exclude from being loaded for scanning.

@@ -66,7 +66,7 @@ namespace Spring.Aop.Framework.AutoProxy
         /// </summary>
         protected AbstractAdvisorAutoProxyCreator()
         {
-            Log = LogManager.GetLogger(this.GetType());
+            Log = LoggingManager.GetLogger(this.GetType());
         }
 
         /// <summary>

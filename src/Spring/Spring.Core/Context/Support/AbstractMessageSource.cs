@@ -77,7 +77,7 @@ namespace Spring.Context.Support
 		/// </summary>
         protected AbstractMessageSource()
         {
-            log = LogManager.GetLogger(GetType());
+            log = LoggingManager.GetLogger(GetType());
         }
 
         #endregion

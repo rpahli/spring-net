@@ -53,7 +53,7 @@ namespace Spring.Aspects.Cache
         /// </summary>
         protected BaseCacheAdvice()
         {
-            logger = LogManager.GetLogger(this.GetType());
+            logger = LoggingManager.GetLogger(this.GetType());
         }
 
         /// <summary>

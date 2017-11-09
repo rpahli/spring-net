@@ -46,7 +46,7 @@ namespace Spring.Aspects.Logging
         protected ILogger defaultLogger;
 
         /// <summary>
-        /// The name of the logger instance to use for obtaining from <see cref="LogManager.GetLogger(string)"/>.
+        /// The name of the logger instance to use for obtaining from <see cref="LoggingManager.GetLogger(string)"/>.
         /// </summary>
         private string defaultLoggerName;
 
@@ -258,7 +258,7 @@ namespace Spring.Aspects.Logging
                 {
                     logCategoryType = AopUtils.GetTargetType(target);
                 }
-                return LogManager.GetLogger(logCategoryType);
+                return LoggingManager.GetLogger(logCategoryType);
             }
         }
 
@@ -270,7 +270,7 @@ namespace Spring.Aspects.Logging
         /// <param name="name">if <c>null</c>, the default logger is removed.</param>
         protected void SetDefaultLogger(string name)
         {
-            defaultLogger = (name == null ? null : LogManager.GetLogger(name));
+            defaultLogger = (name == null ? null : LoggingManager.GetLogger(name));
             defaultLoggerName = name;
         }
 
