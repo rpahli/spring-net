@@ -126,7 +126,7 @@ namespace Spring.Context
 		}
 
 		public void RegisterObject()
-		{
+		{            
 			RootObjectDefinition mcaoDef = new RootObjectDefinition(typeof (MockContextAwareObject), new MutablePropertyValues(), false);
 			factory.RegisterObjectDefinition("mcao-proto", mcaoDef);
 		}

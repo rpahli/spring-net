@@ -125,21 +125,21 @@ namespace Spring.Context.Support
 		{
 //			if(!RemotingServices.IsTransparentProxy(obj)) 
 //			{
-//				if (typeof (IResourceLoaderAware).IsInstanceOfType(obj))
-//				{
-//					((IResourceLoaderAware) obj).ResourceLoader
-//						= _applicationContext;
-//				}
-//				if (typeof (IMessageSourceAware).IsInstanceOfType(obj))
-//				{
-//					((IMessageSourceAware) obj).MessageSource
-//						= _applicationContext;
-//				}
-//				if (typeof (IApplicationContextAware).IsInstanceOfType(obj))
-//				{
-//					((IApplicationContextAware) obj).ApplicationContext
-//						= _applicationContext;
-//				}
+				if (typeof (IResourceLoaderAware).IsInstanceOfType(obj))
+				{
+					((IResourceLoaderAware) obj).ResourceLoader
+						= _applicationContext;
+				}
+				if (typeof (IMessageSourceAware).IsInstanceOfType(obj))
+				{
+					((IMessageSourceAware) obj).MessageSource
+						= _applicationContext;
+				}
+				if (typeof (IApplicationContextAware).IsInstanceOfType(obj))
+				{
+					((IApplicationContextAware) obj).ApplicationContext
+						= _applicationContext;
+				}
 //			}
 
 			return obj;

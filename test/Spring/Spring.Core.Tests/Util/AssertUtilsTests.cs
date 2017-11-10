@@ -178,6 +178,7 @@ namespace Spring.Util
         }
 
         [Test]
+        [Ignore("Remoting is not available in the .NET Standard 2.0 port of Spring.NET. Another class library will have to be created that integrates to provide this support.")]
         public void UnderstandsMethod()
         {
             MethodInfo getDescriptionMethod = typeof(ITestObject).GetMethod("GetDescription", new Type[0]);
