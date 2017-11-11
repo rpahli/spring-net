@@ -4,6 +4,7 @@ namespace Spring.Logging
 {
     public class LoggingManager
     {
+        [Serializable]
         protected class ConsoleLogger : ILogger
         {
             public string Name

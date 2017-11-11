@@ -21,8 +21,8 @@
 #region Imports
 using System;
 using System.Text.RegularExpressions;
-using Common.Logging;
-using Common.Logging.Simple;
+using Spring.Logging;
+//using Spring.Logging.Simple;
 using NUnit.Framework;
 using Spring.Util;
 
@@ -45,7 +45,7 @@ namespace Spring.Aop.Support
         public void FixtureSetUp()
         {
             // enable (null appender) logging, to ensure that the logging code is exercised
-            LogManager.Adapter = new NoOpLoggerFactoryAdapter(); 
+//            LoggingManager.Adapter = new NoOpLoggerFactoryAdapter(); 
         }
 
 		/// <summary>

@@ -162,6 +162,7 @@ namespace Spring.Aop.Framework.AutoProxy
         }
 
         [Test]
+        [Ignore("Remoting support has been removed from the Spring.Core library.")]
         public void ProxyTransparentProxy()
         {
             DefaultListableObjectFactory of = new DefaultListableObjectFactory();

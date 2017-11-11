@@ -21,6 +21,7 @@
 #region Imports
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -44,36 +45,36 @@ namespace Spring.Aop.Framework
     [Serializable]
     public sealed class HashtableCachingAdvisorChainFactory : IAdvisorChainFactory
     {
-#if !NET_4_0
-        private readonly IDictionary<MethodInfo, IList<object>> methodCache = new Dictionary<MethodInfo, IList<object>>();
-
-        // ReaderWriterLockSlim is not serializable. Cannot set value using field initializer as it won't 
-        // run on deserialization. Instead c'tor and OnDeserialized will take care of creating the lock instance.
-        [NonSerialized]
-        private ReaderWriterLockSlim cacheLock;
-
-        [OnDeserialized]
-        private void OnDeserialized(StreamingContext c)
-        {
-            CreateCacheLock();
-        }
-
-        private void CreateCacheLock()
-        {
-            cacheLock = new ReaderWriterLockSlim();
-        }
-#else
+//#if !NET_4_0
+//        private readonly IDictionary<MethodInfo, IList<object>> methodCache = new Dictionary<MethodInfo, IList<object>>();
+//
+//        // ReaderWriterLockSlim is not serializable. Cannot set value using field initializer as it won't 
+//        // run on deserialization. Instead c'tor and OnDeserialized will take care of creating the lock instance.
+//        [NonSerialized]
+//        private ReaderWriterLockSlim cacheLock;
+//
+//        [OnDeserialized]
+//        private void OnDeserialized(StreamingContext c)
+//        {
+//            CreateCacheLock();
+//        }
+//
+//        private void CreateCacheLock()
+//        {
+//            cacheLock = new ReaderWriterLockSlim();
+//        }
+//#else
         private readonly ConcurrentDictionary<MethodInfo, IList<object>> methodCache = new ConcurrentDictionary<MethodInfo, IList<object>>();
-#endif
+//#endif
 
         /// <summary>
         /// Default c'tor
         /// </summary>
         public HashtableCachingAdvisorChainFactory()
         {
-#if !NET_4_0
-            CreateCacheLock();
-#endif
+//#if !NET_4_0
+//            CreateCacheLock();
+//#endif
         }
 
         /// <summary>
@@ -96,47 +97,47 @@ namespace Spring.Aop.Framework
         /// </returns>
         public IList<object> GetInterceptors(IAdvised advised, object proxy, MethodInfo method, Type targetType)
         {
-#if !NET_4_0
-            IList<object> cached;
-            cacheLock.EnterReadLock();
-            try {
-                if (this.methodCache.TryGetValue(method, out cached)) 
-                {
-                    return cached;
-                }
-            } 
-            finally
-            {
-                cacheLock.ExitReadLock();
-            }
-            // Apparently not in the cache - calculate the value outside of any locks then enter upgradeable read lock and check again
-            IList<object> calculated = AdvisorChainFactoryUtils.CalculateInterceptors(advised, proxy, method, targetType);
-            cacheLock.EnterUpgradeableReadLock();
-            try 
-            {
-                if (!this.methodCache.TryGetValue(method, out cached)) 
-                {
-                    // Still not in the cache - enter write lock and add the pre-calculated value
-                    cacheLock.EnterWriteLock();
-                    try 
-                    {
-                        cached = calculated;
-                        this.methodCache[method] = cached;
-                    }
-                    finally
-                    {
-                        cacheLock.ExitWriteLock();
-                    }
-                }
-            } 
-            finally 
-            {
-                cacheLock.ExitUpgradeableReadLock();
-            }
-            return cached;
-#else
+//#if !NET_4_0
+//            IList<object> cached;
+//            cacheLock.EnterReadLock();
+//            try {
+//                if (this.methodCache.TryGetValue(method, out cached)) 
+//                {
+//                    return cached;
+//                }
+//            } 
+//            finally
+//            {
+//                cacheLock.ExitReadLock();
+//            }
+//            // Apparently not in the cache - calculate the value outside of any locks then enter upgradeable read lock and check again
+//            IList<object> calculated = AdvisorChainFactoryUtils.CalculateInterceptors(advised, proxy, method, targetType);
+//            cacheLock.EnterUpgradeableReadLock();
+//            try 
+//            {
+//                if (!this.methodCache.TryGetValue(method, out cached)) 
+//                {
+//                    // Still not in the cache - enter write lock and add the pre-calculated value
+//                    cacheLock.EnterWriteLock();
+//                    try 
+//                    {
+//                        cached = calculated;
+//                        this.methodCache[method] = cached;
+//                    }
+//                    finally
+//                    {
+//                        cacheLock.ExitWriteLock();
+//                    }
+//                }
+//            } 
+//            finally 
+//            {
+//                cacheLock.ExitUpgradeableReadLock();
+//            }
+//            return cached;
+//#else
             return methodCache.GetOrAdd(method, m => AdvisorChainFactoryUtils.CalculateInterceptors(advised, proxy, m, targetType));
-#endif
+//#endif
         }
 
         /// <summary>
@@ -157,19 +158,19 @@ namespace Spring.Aop.Framework
         /// </param>
         public void AdviceChanged(AdvisedSupport source)
         {
-#if !NET_4_0
-            cacheLock.EnterWriteLock();
-            try
-            {
-#endif
+//#if !NET_4_0
+//            cacheLock.EnterWriteLock();
+//            try
+//            {
+//#endif
             methodCache.Clear();
-#if !NET_4_0
-            } 
-            finally
-            {
-                cacheLock.ExitWriteLock();
-            }
-#endif
+//#if !NET_4_0
+//            } 
+//            finally
+//            {
+//                cacheLock.ExitWriteLock();
+//            }
+//#endif
         }
 
         /// <summary>

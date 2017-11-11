@@ -17,7 +17,7 @@ using System;
 using System.Reflection;
 using System.Threading;
 using System.Collections;
-using Common.Logging;
+using Spring.Logging;
 using NUnit.Framework;
 using Spring.Objects;
 using Spring.Objects.Factory;
@@ -35,14 +35,14 @@ namespace Spring.Aop.Target
 
         private XmlObjectFactory ObjectFactory;
 
-        private ILog log;
+        private ILogger log;
 
         [SetUp]
         public void SetUp ()
         {
             this.ObjectFactory = new XmlObjectFactory (
                 new ReadOnlyXmlTestResource ("threadLocalTests.xml", GetType ()));
-            log = LogManager.GetLogger (MethodBase.GetCurrentMethod ().DeclaringType);
+            log = LoggingManager.GetLogger (MethodBase.GetCurrentMethod ().DeclaringType);
         }
 
         /// <summary> We must simulate container shutdown, which should clear threads.</summary>
@@ -103,7 +103,7 @@ namespace Spring.Aop.Target
 
         public class Runner
         {
-            private ILog log = LogManager.GetLogger (MethodBase.GetCurrentMethod ().DeclaringType);
+            private ILogger log = LoggingManager.GetLogger (MethodBase.GetCurrentMethod ().DeclaringType);
             private ThreadLocalTargetSourceTests factory;
             public ISideEffectObject mine;
 
@@ -161,7 +161,7 @@ namespace Spring.Aop.Target
 
             this.ObjectFactory = new XmlObjectFactory(
                 new ReadOnlyXmlTestResource("threadLocalTests.xml", GetType()));
-            log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+            log = LoggingManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
             // Initialize property.
             IMultiThreadInterface mtObject = (IMultiThreadInterface)ObjectFactory.GetObject("mtTest");

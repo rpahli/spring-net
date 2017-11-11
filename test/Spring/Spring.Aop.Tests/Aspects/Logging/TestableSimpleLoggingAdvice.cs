@@ -19,7 +19,7 @@
 #endregion
 
 using AopAlliance.Intercept;
-using Common.Logging;
+using Spring.Logging;
 
 namespace Spring.Aspects.Logging
 {
@@ -51,7 +51,7 @@ namespace Spring.Aspects.Logging
         /// <param name="invocation">The invocation.</param>
         /// <param name="log">The log.</param>
         /// <returns>The result of the call to IMethodInvocation.Proceed()</returns>
-        public object CallInvokeUnderLog(IMethodInvocation invocation, ILog log)
+        public object CallInvokeUnderLog(IMethodInvocation invocation, ILogger log)
         {
             return InvokeUnderLog(invocation, log);
         }
@@ -62,7 +62,7 @@ namespace Spring.Aspects.Logging
         /// <param name="invocation">The invocation.</param>
         /// <param name="log">The log.</param>
         /// <returns>The result of the protected method IsInterceptorEnabled</returns>
-        public bool CallIsInterceptorEnabled(IMethodInvocation invocation, ILog log)
+        public bool CallIsInterceptorEnabled(IMethodInvocation invocation, ILogger log)
         {
             return IsInterceptorEnabled(invocation, log);
         }

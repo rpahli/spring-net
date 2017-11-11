@@ -72,7 +72,8 @@ namespace Spring.Aop.Support
 		[Test]
 		public void MultiplePatterns()
 		{
-			IObjectFactory iof = new XmlObjectFactory(new ReadOnlyXmlTestResource("RegularExpressionSetterTests.xml", GetType()));
+            var config = new ReadOnlyXmlTestResource("RegularExpressionSetterTests.xml", typeof(RegularExpressionMethodPointcutAdvisorTests));
+            IObjectFactory iof = new XmlObjectFactory(config);
 			IPerson advised = (IPerson) iof.GetObject("SettersAndReturnsThisAdvised");
 			
 		    // Interceptor behind regexp advisor

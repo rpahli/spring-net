@@ -807,6 +807,7 @@ namespace Spring.Aop.Framework
         }
 
         [Test(Description = "http://opensource.atlassian.com/projects/spring/browse/SPRNET-293")]
+        [Ignore("Remoting support has been removed from the Spring.Core library.")]
         public void SupportsTransparentProxyAsTarget()
         {
             AppDomain domain = null;

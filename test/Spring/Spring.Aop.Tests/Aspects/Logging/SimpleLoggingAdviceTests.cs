@@ -24,7 +24,7 @@ using System;
 using System.Reflection;
 
 using AopAlliance.Intercept;
-using Common.Logging;
+using Spring.Logging;
 using NUnit.Framework;
 using Rhino.Mocks;
 using Spring.Aop.Framework;
@@ -64,7 +64,7 @@ namespace Spring.Aspects.Logging
         {
             ProxyFactory pf = new ProxyFactory(new TestTarget());
 
-            ILog log = (ILog)mocks.CreateMock(typeof(ILog));
+            ILogger log = (ILogger)mocks.CreateMock(typeof(ILogger));
             SimpleLoggingAdvice loggingAdvice = new SimpleLoggingAdvice(log);
             pf.AddAdvice(loggingAdvice);
 
@@ -84,7 +84,7 @@ namespace Spring.Aspects.Logging
         [Test]
         public void SunnyDayLoggingCorrectly()
         {
-            ILog log = (ILog)mocks.CreateMock(typeof(ILog));
+            ILogger log = (ILogger)mocks.CreateMock(typeof(ILogger));
             IMethodInvocation methodInvocation = (IMethodInvocation)mocks.CreateMock(typeof(IMethodInvocation));
 
             MethodInfo mi = typeof(string).GetMethod("ToString", Type.EmptyTypes);
@@ -110,7 +110,7 @@ namespace Spring.Aspects.Logging
         [Test]
         public void SunnyDayLoggingCorrectlyDebugLevel()
         {
-            ILog log = (ILog)mocks.CreateMock(typeof(ILog));
+            ILogger log = (ILogger)mocks.CreateMock(typeof(ILogger));
             IMethodInvocation methodInvocation = (IMethodInvocation)mocks.CreateMock(typeof(IMethodInvocation));
 
             MethodInfo mi = typeof(string).GetMethod("ToString", Type.EmptyTypes);
@@ -128,7 +128,7 @@ namespace Spring.Aspects.Logging
             mocks.ReplayAll();
 
             TestableSimpleLoggingAdvice loggingAdvice = new TestableSimpleLoggingAdvice(true);
-            loggingAdvice.LogLevel = LogLevel.Debug;
+            loggingAdvice.LoggingLevel = LoggingLevel.Debug;
             Assert.IsTrue(loggingAdvice.CallIsInterceptorEnabled(methodInvocation, log));
             loggingAdvice.CallInvokeUnderLog(methodInvocation, log);
 
@@ -140,7 +140,7 @@ namespace Spring.Aspects.Logging
         [Test]
         public void ExceptionPathStillLogsCorrectly()
         {
-            ILog log = (ILog)mocks.CreateMock(typeof(ILog));
+            ILogger log = (ILogger)mocks.CreateMock(typeof(ILogger));
             IMethodInvocation methodInvocation = (IMethodInvocation)mocks.CreateMock(typeof(IMethodInvocation));
 
             MethodInfo mi = typeof(string).GetMethod("ToString", Type.EmptyTypes);
@@ -179,7 +179,7 @@ namespace Spring.Aspects.Logging
         [Test]
         public void SunnyDayLoggingAllOptionalInformationCorrectly()
         {
-            ILog log = (ILog)mocks.CreateMock(typeof(ILog));
+            ILogger log = (ILogger)mocks.CreateMock(typeof(ILogger));
             IMethodInvocation methodInvocation = (IMethodInvocation)mocks.CreateMock(typeof(IMethodInvocation));
 
             MethodInfo mi = typeof(Dog).GetMethod("Bark");

@@ -24,7 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-using Common.Logging;
+using Spring.Logging;
 
 using NUnit.Framework;
 
@@ -86,11 +86,11 @@ namespace Spring.Aop.Framework.AutoProxy
 
     public class TestDefaultAdvisorAutoProxyCreator : DefaultAdvisorAutoProxyCreator, IInitializingObject
     {
-        private readonly ILog _logger;
+        private readonly ILogger _logger;
 
         public TestDefaultAdvisorAutoProxyCreator()
         {
-            _logger = LogManager.GetLogger(this.GetType().Name + "#" + GetHashCode());
+            _logger = LoggingManager.GetLogger(this.GetType().Name + "#" + GetHashCode());
             _logger.Trace("Created instance");
         }
 
@@ -126,7 +126,7 @@ namespace Spring.Aop.Framework.AutoProxy
 
         public CountingAfterReturningAdvisor()
         {
-            LogManager.GetLogger(this.GetType()).Trace("Created instance #" + this.GetHashCode());
+            LoggingManager.GetLogger(this.GetType()).Trace("Created instance #" + this.GetHashCode());
             base.Advice = new CountingAfterReturningAdvice();
         }
 
@@ -140,7 +140,7 @@ namespace Spring.Aop.Framework.AutoProxy
     {
         public SomeOtherObject()
         {
-            LogManager.GetLogger(this.GetType()).Trace("Created instance #" + this.GetHashCode());
+            LoggingManager.GetLogger(this.GetType()).Trace("Created instance #" + this.GetHashCode());
         }
 
         public object Clone()
@@ -153,7 +153,7 @@ namespace Spring.Aop.Framework.AutoProxy
     {
         public IndependentObject()
         {
-            LogManager.GetLogger(this.GetType()).Trace("Created instance #" + this.GetHashCode());
+            LoggingManager.GetLogger(this.GetType()).Trace("Created instance #" + this.GetHashCode());
         }
 
         public object Clone()
@@ -167,13 +167,13 @@ namespace Spring.Aop.Framework.AutoProxy
         private bool initialized = false;
         private ITestObject testObject;
         private SomeOtherObject someOtherObject;
-        private readonly ILog _logger;
+        private readonly ILogger _logger;
 
         public int GetObjectCounter = 0;
 
         public TestObjectFactoryObject()
         {
-            _logger = LogManager.GetLogger(this.GetType().Name + "#" + this.GetHashCode());
+            _logger = LoggingManager.GetLogger(this.GetType().Name + "#" + this.GetHashCode());
             _logger.Trace("Created instance");
         }
 
