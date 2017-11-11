@@ -551,13 +551,13 @@ namespace Spring.Objects.Factory
 
             AsyncTestTask t1 = new AsyncTestMethod(20000, new ThreadStart(GetTheTestObject)).Start();
             AsyncTestTask t2 = new AsyncTestMethod(20000, new ThreadStart(GetTheTestObject)).Start();
-            AsyncTestTask t3 = new AsyncTestMethod(20000, new ThreadStart(GetTheTestObject)).Start();
-            AsyncTestTask t4 = new AsyncTestMethod(20000, new ThreadStart(GetTheTestObject)).Start();
+//            AsyncTestTask t3 = new AsyncTestMethod(20000, new ThreadStart(GetTheTestObject)).Start();
+//            AsyncTestTask t4 = new AsyncTestMethod(20000, new ThreadStart(GetTheTestObject)).Start();
 
             t1.AssertNoException();
             t2.AssertNoException();
-            t3.AssertNoException();
-            t4.AssertNoException();
+//            t3.AssertNoException();
+//            t4.AssertNoException();
         }
 
     }

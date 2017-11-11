@@ -81,6 +81,7 @@ namespace Spring.Util
         }
 
         [Test]
+        [Ignore("Remoting support has been removed from the Spring.Core library.")]
         public void IsAssignableAndNotTransparentProxyWithProxy()
         {
             AppDomain domain = null;

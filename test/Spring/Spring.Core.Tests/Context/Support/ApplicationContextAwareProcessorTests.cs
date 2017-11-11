@@ -80,7 +80,8 @@ namespace Spring.Context.Support
 		}
 
 		[Test]
-		public void AlwaysIgnoresProxiedMessageSourceAwareObjects()
+		[Ignore("Remoting support has been removed from the Spring.Core library.")]
+        public void AlwaysIgnoresProxiedMessageSourceAwareObjects()
 		{
 			PostProcessTProxiedObject(new ProcessedObjectChecker(
 				_AlwaysIgnoresProxiedMessageSourceAwareObjects));
@@ -93,7 +94,8 @@ namespace Spring.Context.Support
 		}
 
 		[Test]
-		public void AlwaysIgnoresProxiedResourceLoaderAwareObjects()
+		[Ignore("Remoting support has been removed from the Spring.Core library.")]
+        public void AlwaysIgnoresProxiedResourceLoaderAwareObjects()
 		{
 			PostProcessTProxiedObject(new ProcessedObjectChecker(
 				_AlwaysIgnoresProxiedResourceLoaderAwareObjects));
@@ -106,6 +108,7 @@ namespace Spring.Context.Support
 		}
 
 		[Test]
+        [Ignore("Remoting support has been removed from the Spring.Core library.")]
 		public void AlwaysIgnoresProxiedApplicationContextAwareAwareObjects()
 		{
 			PostProcessTProxiedObject(new ProcessedObjectChecker(

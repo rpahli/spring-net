@@ -45,23 +45,14 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Configuration.ConfigurationManager, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\System.Configuration.ConfigurationManager.4.4.0\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
-    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Reflection.Emit" />
     <Reference Include="System.Reflection.Emit.ILGeneration" />
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\System.Runtime.CompilerServices.Unsafe.4.4.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
     <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.Security" />
-    <Reference Include="System.Security.Cryptography.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\System.Security.Cryptography.Xml.4.4.0\lib\net461\System.Security.Cryptography.Xml.dll</HintPath>
-    </Reference>
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Services" />
@@ -515,6 +506,17 @@
     <EmbeddedResource Include="Objects\Factory\Xml\NamespaceParserRegistryTests_TestSchema_2.xsd">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Data\PathMatcher\EmptyPattern.test" />
+    <EmbeddedResource Include="Data\PathMatcher\Examples.test" />
+    <EmbeddedResource Include="Data\PathMatcher\InBetween.test" />
+    <EmbeddedResource Include="Data\PathMatcher\MatchAll.test" />
+    <EmbeddedResource Include="Data\PathMatcher\PatternsAreCaseSensitive.test" />
+    <EmbeddedResource Include="Data\PathMatcher\SingleCaracters.test" />
+    <EmbeddedResource Include="Data\PathMatcher\SlurpPrependedDirectories.test" />
+    <EmbeddedResource Include="Data\PathMatcher\SpringAssembliesPrefix.test" />
+    <EmbeddedResource Include="Data\PathMatcher\ThisDirectory.test" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\one.properties" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\two.properties" />
     <None Include="project.json" />
     <None Include="Spring.Core.Tests.build" />
     <None Include="App.config" />
@@ -651,6 +653,75 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\Spring\Context\Support\SPRNET-192.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\concurrent.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\AnotherDaoConfig.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\DaoConfig.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\DatabaseConfig.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\FirstPropertyPlaceholderConfigurer.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\PPC-SPRNET-55.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\PPCTwoLocationsOneSectionTests.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\PPCTwoLocationsTwoSectionsTests.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\PPCWithTypesTests.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\PropertyPlaceholderConfigurerTests.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\PropertyResourceConfigurerTests.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\SecondPropertyPlaceholderConfigurer.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\TypeAliases.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\leaf.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\middle.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\root.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\abstract.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\array-autowire.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\autowire.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\bad-external-resources.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\bad-named-constructor-arg.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\child.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\classnotfound.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\collectionConversionGeneric.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\collectionMerging.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\collectionMergingGeneric.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\collections.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\constructor-arg.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\ctor-args.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\default-autowire.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\default-destroy-methods.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\default-initializers.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\default-lazy-init.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\dependenciesmaterializethis.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\enums.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\event-wiring-prototypes.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\event-wiring.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\expressions.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\external-resources.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\factory-methods.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\factorycircle.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\field-props-factory.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\initializers.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\invalid-factory.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\invalid.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\invoke-factory.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\lazy-init-multithreaded.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\locale.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\no-objects.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\notfullyspecified.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\objectNameGeneration.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\parent.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\reftypes.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\resource.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\Resources\resource-imports.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\satisfiedalldependencycheck.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\satisfiedobjectdependencycheck.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\satisfiedsimpledependencycheck.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\schema-validation.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\simple-constructor-arg.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\test.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\unsatisfiedalldependencycheckmissingobjects.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\unsatisfiedAllDependencyCheckMissingSimple.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\unsatisfiedobjectdependencycheck.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\unsatisfiedsimpledependencycheck.xml" />
+    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\wellformed-but-bad.xml" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
