@@ -1,735 +1,739 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{44B16BAA-6DF8-447C-9D7F-3AD3D854D904}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Spring</RootNamespace>
-    <AssemblyName>Spring.Core.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
-    <IsCodedUITest>False</IsCodedUITest>
-    <TestProjectType>UnitTest</TestProjectType>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET_4_0;NET_3_0;NET_3_5;DEBUG_DYNAMIC</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="netstandard" />
-    <Reference Include="Rhino.Mocks">
-      <HintPath>..\..\..\lib\Net\4.0\Rhino.Mocks.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.EnterpriseServices" />
-    <Reference Include="System.Reflection.Emit" />
-    <Reference Include="System.Reflection.Emit.ILGeneration" />
-    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Services" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.XML" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Caching\AbstractCacheTests.cs" />
-    <Compile Include="Caching\BaseCacheAttributeTests.cs" />
-    <Compile Include="Collections\AbstractQueueTests.cs" />
-    <Compile Include="Collections\CaseInsensitiveHashtableTests.cs" />
-    <Compile Include="Collections\Generic\LinkedHashDictionaryTest.cs" />
-    <Compile Include="Collections\Generic\ReadOnlyDictionaryTests.cs" />
-    <Compile Include="Collections\HashedSetTests.cs" />
-    <Compile Include="Collections\HybridSetTests.cs" />
-    <Compile Include="Collections\ImmutableSetTests.cs" />
-    <Compile Include="Collections\LinkedListTests.cs" />
-    <Compile Include="Collections\ListSetTests.cs" />
-    <Compile Include="Collections\PriorityQueueTests.cs" />
-    <Compile Include="Collections\SetTests.cs" />
-    <Compile Include="Collections\SortedSetTests.cs" />
-    <Compile Include="Collections\StaticSetTests.cs" />
-    <Compile Include="Collections\SynchronizedHashtableTests.cs" />
-    <Compile Include="CommonTypes.cs" />
-    <Compile Include="CompilerOptionsTests.cs" />
-    <Compile Include="Context\ApplicationEventArgsTests.cs" />
-    <Compile Include="Context\Attributes\AbstractConfigurationClassPostProcessorTests.cs" />
-    <Compile Include="Context\Attributes\AssemblyObjectDefinitionScannerTests.cs" />
-    <Compile Include="Context\Attributes\AssemblyTypeScannerTests.cs" />
-    <Compile Include="Context\Attributes\CodeConfigApplicationContextTests.cs" />
-    <Compile Include="Context\Attributes\ConfigurationClassObjectDefinitionReaderTests.cs" />
-    <Compile Include="Context\Attributes\ConfigurationClassParserTests.cs" />
-    <Compile Include="Context\Attributes\ConfigurationClassPostProcessorTests.cs" />
-    <Compile Include="Context\Attributes\ImportResourceAttributeTests.cs" />
-    <Compile Include="Context\Attributes\ObjectDefAttributeTests.cs" />
-    <Compile Include="Context\Attributes\ScanningConfigurationClassPostProcessorTests.cs" />
-    <Compile Include="Context\Attributes\SimpleScanTests.cs" />
-    <Compile Include="Context\CommonTypes.cs" />
-    <Compile Include="Context\Config\AttributeConfigObjectDefinitionParserTests.cs" />
-    <Compile Include="Context\Config\ComponentScanObjectDefinitionParserAssemblyFilterTests.cs" />
-    <Compile Include="Context\Config\ComponentScanObjectDefinitionParserTests.cs" />
-    <Compile Include="Context\Config\ComponentScanObjectDefinitionParserTypeFilterTests.cs" />
-    <Compile Include="Context\Config\ContextNamespaceParserTests.cs" />
-    <Compile Include="Context\ContextExceptionTests.cs" />
-    <Compile Include="Context\ContextListenerObject.cs" />
-    <Compile Include="Context\EventListenerAttributeTests.cs" />
-    <Compile Include="Context\Events\ConsoleListenerTests.cs" />
-    <Compile Include="Context\Support\AbstractApplicationContextTests.cs" />
-    <Compile Include="Context\Support\AbstractMessageSourceTests.cs" />
-    <Compile Include="Context\Support\ApplicationContextAwareProcessorTests.cs" />
-    <Compile Include="Context\Support\ApplicationContextExtensionTests.cs" />
-    <Compile Include="Context\Support\ApplicationObjectSupportTests.cs" />
-    <Compile Include="Context\Support\Assembler.cs" />
-    <Compile Include="Context\Support\CodeConfigApplicationContextTests.cs" />
-    <Compile Include="Context\Support\ContextLocatorHandlerTests.cs" />
-    <Compile Include="Context\Support\ContextRegistryTests.cs" />
-    <Compile Include="Context\Support\DefaultMessageSourceResolvableTests.cs" />
-    <Compile Include="Context\Support\DelegatingMessageSourceTests.cs" />
-    <Compile Include="Context\Support\Logic.cs" />
-    <Compile Include="Context\Support\MessageSourceAccessorTests.cs" />
-    <Compile Include="Context\Support\NamespaceParsersSectionHandlerTests.cs" />
-    <Compile Include="Context\Support\NullMessageSourceTests.cs" />
-    <Compile Include="Context\Support\ResourceSetMessageSourceTests.cs" />
-    <Compile Include="Context\Support\Service.cs" />
-    <Compile Include="Context\Support\StaticApplicationContextTests.cs" />
-    <Compile Include="Context\Support\StaticMessageSourceTests.cs" />
-    <Compile Include="Context\Support\TestObjectConfigParser.cs" />
-    <Compile Include="Context\Support\TypeAliasesSectionHandlerTests.cs" />
-    <Compile Include="Context\Support\XmlApplicationContextTests.cs" />
-    <Compile Include="CoreCompilerOptionsTests.cs" />
-    <Compile Include="CoreExceptionTests.cs" />
-    <Compile Include="Core\ComposedCriteriaTests.cs" />
-    <Compile Include="Core\ControlFlowFactoryTests.cs" />
-    <Compile Include="Core\IO\AssemblyResourceTest.cs" />
-    <Compile Include="Core\IO\ConfigSectionResourceTests.cs" />
-    <Compile Include="Core\IO\ConfigurableResourceLoaderTests.cs" />
-    <Compile Include="Core\IO\EncodedResourceTests.cs" />
-    <Compile Include="Core\IO\FileSystemResourceCommonTests.cs" />
-    <Compile Include="Core\IO\FileSystemResourceTests.cs" />
-    <Compile Include="Core\IO\InputStreamResourceTests.cs" />
-    <Compile Include="Core\IO\ResourceConverterTests.cs" />
-    <Compile Include="Core\IO\ResourceHandlerRegistryTests.cs" />
-    <Compile Include="Core\IO\StringResourceTests.cs" />
-    <Compile Include="Core\IO\UrlResourceTest.cs" />
-    <Compile Include="Core\MethodArgumentsCriteriaTests.cs" />
-    <Compile Include="Core\MethodGenericArgumentsCountCriteriaTests.cs" />
-    <Compile Include="Core\MethodParametersCountCriteriaTests.cs" />
-    <Compile Include="Core\MethodParametersCriteriaTests.cs" />
-    <Compile Include="Core\MethodReturnTypeCriteriaTests.cs" />
-    <Compile Include="Core\OrderComparatorTests.cs" />
-    <Compile Include="Core\RegularExpressionEventNameCriteriaTests.cs" />
-    <Compile Include="Core\RegularExpressionMethodNameCriteriaTests.cs" />
-    <Compile Include="Core\TypeConversion\CredentialConverterTests.cs" />
-    <Compile Include="Core\TypeConversion\CustomNumberConverterTests.cs" />
-    <Compile Include="Core\TypeConversion\FileInfoConverterTests.cs" />
-    <Compile Include="Core\TypeConversion\NameValueConverterTests.cs" />
-    <Compile Include="Core\TypeConversion\RegexConverterTests.cs" />
-    <Compile Include="Core\TypeConversion\RegistryKeyConverterTests.cs" />
-    <Compile Include="Core\TypeConversion\ResourceManagerTests.cs" />
-    <Compile Include="Core\TypeConversion\RGBColorConverterTests.cs" />
-    <Compile Include="Core\TypeConversion\RuntimeTypeConverterTests.cs" />
-    <Compile Include="Core\TypeConversion\StreamConverterTests.cs" />
-    <Compile Include="Core\TypeConversion\StringArrayConverterTests.cs" />
-    <Compile Include="Core\TypeConversion\TimeSpanConverterTests.cs" />
-    <Compile Include="Core\TypeConversion\TypeConversionUtilsTests.cs" />
-    <Compile Include="Core\TypeConversion\TypeConverterRegistryTests.cs" />
-    <Compile Include="Core\TypeConversion\UniqueKeyConverterTests.cs" />
-    <Compile Include="Core\TypeConversion\UriConverterTests.cs" />
-    <Compile Include="Core\TypeResolution\CachedTypeResolverTests.cs" />
-    <Compile Include="Core\TypeResolution\GenericTypeResolverTests.cs" />
-    <Compile Include="Core\TypeResolution\TypeAssemblyHolderTests.cs" />
-    <Compile Include="Core\TypeResolution\TypeRegistryTests.cs" />
-    <Compile Include="Core\TypeResolution\TypeResolutionUtilsTests.cs" />
-    <Compile Include="Core\TypeResolution\TypeResolverTests.cs" />
-    <Compile Include="DataBinding\BaseBindingManagerTests.cs" />
-    <Compile Include="DataBinding\SimpleExpressionBindingTests.cs" />
-    <Compile Include="Example\Scannable\FooService.cs" />
-    <Compile Include="Example\Scannable\IFooDao.cs" />
-    <Compile Include="Example\Scannable\IFooService.cs" />
-    <Compile Include="Example\Scannable\StubFooDao.cs" />
-    <Compile Include="ExceptionsTest.cs" />
-    <Compile Include="Expressions\ConstructorNodeTests.cs" />
-    <Compile Include="Expressions\ExpressionEvaluatorTests.cs" />
-    <Compile Include="Expressions\FunctionNodeTests.cs" />
-    <Compile Include="Expressions\MethodNodeTests.cs" />
-    <Compile Include="Expressions\OpADDTests.cs" />
-    <Compile Include="Expressions\OpANDTests.cs" />
-    <Compile Include="Expressions\OpORTests.cs" />
-    <Compile Include="Expressions\OpXORTests.cs" />
-    <Compile Include="Expressions\Processors\ConversionProcessorTests.cs" />
-    <Compile Include="Expressions\Processors\OrderByProcessorTests.cs" />
-    <Compile Include="Expressions\PropertyOrFieldNodeTests.cs" />
-    <Compile Include="Expressions\ReferenceNodeTests.cs" />
-    <Compile Include="Expressions\SelectionNodeTests.cs" />
-    <Compile Include="Globalization\AbstractLocalizerTests.cs" />
-    <Compile Include="Globalization\CultureInfoUtils.cs" />
-    <Compile Include="Globalization\CultureTestScope.cs" />
-    <Compile Include="Globalization\Formatters\BooleanFormatterTests.cs" />
-    <Compile Include="Globalization\Formatters\CurrencyFormatterTests.cs" />
-    <Compile Include="Globalization\Formatters\DateTimeFormatterTests.cs" />
-    <Compile Include="Globalization\Formatters\FilteringFormatterTests.cs" />
-    <Compile Include="Globalization\Formatters\FloatFormatterTests.cs" />
-    <Compile Include="Globalization\Formatters\HasTextFilteringFormatterTests.cs" />
-    <Compile Include="Globalization\Formatters\IntegerFormatterTests.cs" />
-    <Compile Include="Globalization\Formatters\NumberFormatterTests.cs" />
-    <Compile Include="Globalization\Formatters\PercentFormatterTests.cs" />
-    <Compile Include="Globalization\Localizers\ResourceSetLocalizerTests.cs" />
-    <Compile Include="Globalization\Resolvers\DefaultCultureResolverTests.cs" />
-    <Compile Include="HookableContextHandler.cs" />
-    <Compile Include="Objects\ClassWithProtectedCtor.cs" />
-    <Compile Include="Objects\DerivedTestObject.cs" />
-    <Compile Include="Objects\Events\Support\EventManipulationUtilsTests.cs" />
-    <Compile Include="Objects\Events\Support\EventRegistryTests.cs" />
-    <Compile Include="Objects\ExpressionTestObject.cs" />
-    <Compile Include="Objects\Factory\AbstractListableObjectFactoryTests.cs" />
-    <Compile Include="Objects\Factory\AbstractObjectFactoryTests.cs" />
-    <Compile Include="Objects\Factory\Attributes\AutowireByQualifierAttributeTests.cs" />
-    <Compile Include="Objects\Factory\Attributes\AutowireByQualifierTests.cs" />
-    <Compile Include="Objects\Factory\Attributes\AutowireByTypeFailTests.cs" />
-    <Compile Include="Objects\Factory\Attributes\AutowireByTypeNormalTests.cs" />
-    <Compile Include="Objects\Factory\Attributes\AutowireByTypeNotRequiredTests.cs" />
-    <Compile Include="Objects\Factory\Attributes\AutowireByTypePrimaryTests.cs" />
-    <Compile Include="Objects\Factory\Attributes\AutowireByValueTests.cs" />
-    <Compile Include="Objects\Factory\Attributes\AutowireCollectionTests.cs" />
-    <Compile Include="Objects\Factory\Attributes\AutowireTestObjects.cs" />
-    <Compile Include="Objects\Factory\Attributes\MyRequiredAttribute.cs" />
-    <Compile Include="Objects\Factory\Attributes\PostConstructAttributeTests.cs" />
-    <Compile Include="Objects\Factory\Attributes\PreDestroyAttributeTests.cs" />
-    <Compile Include="Objects\Factory\Attributes\RequiredAttributeObjectPostProcessorTests.cs" />
-    <Compile Include="Objects\Factory\Attributes\RequiredTestObject.cs" />
-    <Compile Include="Objects\Factory\ConcurrentObjectFactoryTests.cs" />
-    <Compile Include="Objects\Factory\Config\AbstractFactoryObjectTests.cs" />
-    <Compile Include="Objects\Factory\Config\CommandLineArgsVariableSourceTests.cs" />
-    <Compile Include="Objects\Factory\Config\ConfigSectionVariableSourceTests.cs" />
-    <Compile Include="Objects\Factory\Config\ConfigurableVariableSourceTests.cs" />
-    <Compile Include="Objects\Factory\Config\ConfigurationReaderTests.cs" />
-    <Compile Include="Objects\Factory\Config\ConnectionStringsVariableSourceTests.cs" />
-    <Compile Include="Objects\Factory\Config\ConstructorArgumentValuesTests.cs" />
-    <Compile Include="Objects\Factory\Config\CustomConverterConfigurerTests.cs" />
-    <Compile Include="Objects\Factory\Config\DelegateFactoryObjectTests.cs" />
-    <Compile Include="Objects\Factory\Config\DelegateObjectFactoryConfigurerTests.cs" />
-    <Compile Include="Objects\Factory\Config\DestructionAwareObjectPostProcessorTest.cs" />
-    <Compile Include="Objects\Factory\Config\DictionaryFactoryObjectTests.cs" />
-    <Compile Include="Objects\Factory\Config\DictionaryVariableSourceTests.cs" />
-    <Compile Include="Objects\Factory\Config\EnvironmentVariableSourceTests.cs" />
-    <Compile Include="Objects\Factory\Config\EventValuesTests.cs" />
-    <Compile Include="Objects\Factory\Config\FieldRetrievingFactoryObjectTests.cs" />
-    <Compile Include="Objects\Factory\Config\ListFactoryObjectTests.cs" />
-    <Compile Include="Objects\Factory\Config\LogFactoryObjectTests.cs" />
-    <Compile Include="Objects\Factory\Config\MethodInvokingFactoryObjectTests.cs" />
-    <Compile Include="Objects\Factory\Config\ObjectDefinitionVisitorTests.cs" />
-    <Compile Include="Objects\Factory\Config\ObjectFactoryCreatingFactoryObjectTests.cs" />
-    <Compile Include="Objects\Factory\Config\ObjectReferenceFactoryObjectTests.cs" />
-    <Compile Include="Objects\Factory\Config\PropertyFileVariableSourceTests.cs" />
-    <Compile Include="Objects\Factory\Config\PropertyOverrideConfigurerTests.cs" />
-    <Compile Include="Objects\Factory\Config\PropertyPathFactoryObjectTests.cs" />
-    <Compile Include="Objects\Factory\Config\PropertyPlaceholderConfigurerTests.cs" />
-    <Compile Include="Objects\Factory\Config\PropertyRetrievingFactoryObjectTests.cs" />
-    <Compile Include="Objects\Factory\Config\RegistryVariableSourceTests.cs" />
-    <Compile Include="Objects\Factory\Config\ResourceHandlerConfigurerTests.cs" />
-    <Compile Include="Objects\Factory\Config\ResourceManagerFactoryObjectTests.cs" />
-    <Compile Include="Objects\Factory\Config\RuntimeObjectReferenceTests.cs" />
-    <Compile Include="Objects\Factory\Config\SetFactoryObjectTests.cs" />
-    <Compile Include="Objects\Factory\Config\SharedStateAwareProcessorTests.cs" />
-    <Compile Include="Objects\Factory\Config\SpecialFolderVariableSourceTests.cs" />
-    <Compile Include="Objects\Factory\Config\TypeAliasConfigurerTests.cs" />
-    <Compile Include="Objects\Factory\Config\TypedStringValueTests.cs" />
-    <Compile Include="Objects\Factory\Config\VariableAccessorTests.cs" />
-    <Compile Include="Objects\Factory\Config\VariablePlaceholderConfigurerTests.cs" />
-    <Compile Include="Objects\Factory\DefaultListableObjectFactoryPerfTests.cs" />
-    <Compile Include="Objects\Factory\DefaultListableObjectFactoryTests.cs" />
-    <Compile Include="Objects\Factory\DummyConfigurableFactory.cs" />
-    <Compile Include="Objects\Factory\DummyFactory.cs" />
-    <Compile Include="Objects\Factory\HasMap.cs" />
-    <Compile Include="Objects\Factory\ISideEffectObject.cs" />
-    <Compile Include="Objects\Factory\KnowsIfInstantiated.cs" />
-    <Compile Include="Objects\Factory\LifecycleObject.cs" />
-    <Compile Include="Objects\Factory\MethodReplacerTests.cs" />
-    <Compile Include="Objects\Factory\MustBeInitialized.cs" />
-    <Compile Include="Objects\Factory\NoSuchObjectDefinitionExceptionTests.cs" />
-    <Compile Include="Objects\Factory\ObjectDefinitionStoreExceptionTests.cs" />
-    <Compile Include="Objects\Factory\ObjectFactoryUtilsTests.cs" />
-    <Compile Include="Objects\Factory\ObjectFactoryUtils_PreserveOrderInHierarchy_Tests.cs" />
-    <Compile Include="Objects\Factory\SideEffectObject.cs" />
-    <Compile Include="Objects\Factory\Support\AutowireUtilsTests.cs" />
-    <Compile Include="Objects\Factory\Support\ChildObjectDefinitionTests.cs" />
-    <Compile Include="Objects\Factory\Support\DefaultObjectDefinitionFactoryTests.cs" />
-    <Compile Include="Objects\Factory\Support\DelegateInvokingFactoryObjectTests.cs" />
-    <Compile Include="Objects\Factory\Support\DelegatingMethodReplacerTests.cs" />
-    <Compile Include="Objects\Factory\Support\LookupMethodOverrideTests.cs" />
-    <Compile Include="Objects\Factory\Support\LookupMethodReplacerTests.cs" />
-    <Compile Include="Objects\Factory\Support\ManagedDictionaryTests.cs" />
-    <Compile Include="Objects\Factory\Support\ManagedListTests.cs" />
-    <Compile Include="Objects\Factory\Support\ManagedNameValueCollectionTests.cs" />
-    <Compile Include="Objects\Factory\Support\ManagedSetTests.cs" />
-    <Compile Include="Objects\Factory\Support\ObjectDefinitionBuilderTests.cs" />
-    <Compile Include="Objects\Factory\Support\ObjectDefinitionReaderUtilsTests.cs" />
-    <Compile Include="Objects\Factory\Support\ReplacedMethodOverrideTests.cs" />
-    <Compile Include="Objects\Factory\Support\RootObjectDefinitionTests.cs" />
-    <Compile Include="Objects\Factory\Support\SimpleInstantiationStrategyTests.cs" />
-    <Compile Include="Objects\Factory\UnsupportedObjectDefinitionImplementation.cs" />
-    <Compile Include="Objects\Factory\Xml\ArrayCtorDependencyObject.cs" />
-    <Compile Include="Objects\Factory\Xml\CollectionConversionGenericTests.cs" />
-    <Compile Include="Objects\Factory\Xml\CollectionMergingGenericTests.cs" />
-    <Compile Include="Objects\Factory\Xml\CollectionMergingTests.cs" />
-    <Compile Include="Objects\Factory\Xml\ConstructorDependenciesObject.cs" />
-    <Compile Include="Objects\Factory\Xml\DependenciesObject.cs" />
-    <Compile Include="Objects\Factory\Xml\DerivedConstructorDependenciesObject.cs" />
-    <Compile Include="Objects\Factory\Xml\DoubleBooleanConstructorObject.cs" />
-    <Compile Include="Objects\Factory\Xml\DummyBo.cs" />
-    <Compile Include="Objects\Factory\Xml\DummyDao.cs" />
-    <Compile Include="Objects\Factory\Xml\DummyReferencer.cs" />
-    <Compile Include="Objects\Factory\Xml\EventWiringTests.cs" />
-    <Compile Include="Objects\Factory\Xml\FactoryMethods.cs" />
-    <Compile Include="Objects\Factory\Xml\IDummyBo.cs" />
-    <Compile Include="Objects\Factory\Xml\InstanceFactory.cs" />
-    <Compile Include="Objects\Factory\Xml\LocaleTests.cs" />
-    <Compile Include="Objects\Factory\Xml\MixedCollectionObject.cs" />
-    <Compile Include="Objects\Factory\Xml\NamespaceParserRegistryTests.cs" />
-    <Compile Include="Objects\Factory\Xml\NullAppender.cs" />
-    <Compile Include="Objects\Factory\Xml\ObjectFactorySectionHandlerTests.cs" />
-    <Compile Include="Objects\Factory\Xml\ObjectNameGenerationTests.cs" />
-    <Compile Include="Objects\Factory\Xml\ReadOnlyXmlTestResource.cs" />
-    <Compile Include="Objects\Factory\Xml\SiimpleCtorWiringTests.cs" />
-    <Compile Include="Objects\Factory\Xml\SingleSimpleTypeConstructorObject.cs" />
-    <Compile Include="Objects\Factory\Xml\TestObjectCreator.cs" />
-    <Compile Include="Objects\Factory\Xml\XmlListableObjectFactoryTests.cs" />
-    <Compile Include="Objects\Factory\Xml\XmlObjectCollectionTests.cs" />
-    <Compile Include="Objects\Factory\Xml\XmlObjectDefinitionReaderTests.cs" />
-    <Compile Include="Objects\Factory\Xml\XmlObjectFactoryTests.cs" />
-    <Compile Include="Objects\Factory\Xml\XmlParserResolverTests.cs" />
-    <Compile Include="Objects\IndexedTestObject.cs" />
-    <Compile Include="Objects\INestedTestObject.cs" />
-    <Compile Include="Objects\IOther.cs" />
-    <Compile Include="Objects\IPerson.cs" />
-    <Compile Include="Objects\ITestObject.cs" />
-    <Compile Include="Objects\LazyTestObject.cs" />
-    <Compile Include="Objects\MutablePropertyValuesTests.cs" />
-    <Compile Include="Objects\NestedTestObject.cs" />
-    <Compile Include="Objects\NotWritablePropertyExceptionTests.cs" />
-    <Compile Include="Objects\NumberTestObject.cs" />
-    <Compile Include="Objects\ObjectWrapperTests.cs" />
-    <Compile Include="Objects\PropertyAccessExceptionsExceptionTests.cs" />
-    <Compile Include="Objects\PropertyValueTests.cs" />
-    <Compile Include="Objects\ResourceTestObject.cs" />
-    <Compile Include="Objects\SerializablePerson.cs" />
-    <Compile Include="Objects\StaticTestEventHandler.cs" />
-    <Compile Include="Objects\Support\AbstractSharedStateFactoryTests.cs" />
-    <Compile Include="Objects\Support\ArgumentConvertingMethodInvokerTests.cs" />
-    <Compile Include="Objects\Support\AutoWiringEventHandlerValueTests.cs" />
-    <Compile Include="Objects\Support\ByTypeSharedStateProviderTests.cs" />
-    <Compile Include="Objects\Support\InstanceEventHandlerValueTests.cs" />
-    <Compile Include="Objects\Support\MethodInvokerTests.cs" />
-    <Compile Include="Objects\Support\MutableSortDefinitionTests.cs" />
-    <Compile Include="Objects\Support\PropertyComparatorTests.cs" />
-    <Compile Include="Objects\Support\StaticEventHandlerValueTests.cs" />
-    <Compile Include="Objects\TestEventHandler.cs" />
-    <Compile Include="Objects\TestGenericObject.cs" />
-    <Compile Include="Objects\TestObject.cs" />
-    <Compile Include="Objects\TestObjectDAO.cs" />
-    <Compile Include="Objects\TestObjectList.cs" />
-    <Compile Include="Objects\TestTransparentProxyFactory.cs" />
-    <Compile Include="Objects\TypeMismatchExceptionTests.cs" />
-    <Compile Include="Objects\ValidatorTestObject.cs" />
-    <Compile Include="Pool\Support\SimplePoolTest.cs" />
-    <Compile Include="Proxy\AbstractProxyTypeBuilderTests.cs" />
-    <Compile Include="Proxy\CompositionProxyTypeBuilderTests.cs" />
-    <Compile Include="Proxy\DynamicProxyManagerTests.cs" />
-    <Compile Include="Proxy\ExplicitCompositionProxyTypeBuilderTests.cs" />
-    <Compile Include="Proxy\InheritanceProxyTypeBuilderTests.cs" />
-    <Compile Include="Reflection\Dynamic\BasePropertyTests.cs" />
-    <Compile Include="Reflection\Dynamic\DynamicConstructorTests.cs" />
-    <Compile Include="Reflection\Dynamic\DynamicFieldTests.cs" />
-    <Compile Include="Reflection\Dynamic\DynamicMethodTests.cs" />
-    <Compile Include="Reflection\Dynamic\DynamicPropertyTests.cs" />
-    <Compile Include="Reflection\Dynamic\SafeFieldTests.cs" />
-    <Compile Include="Reflection\Dynamic\SafePropertyTests.cs" />
-    <Compile Include="SecurityTemplate.cs" />
-    <Compile Include="StandardsComplianceTest.cs" />
-    <Compile Include="StopWatch.cs" />
-    <Compile Include="StreamHelperDecorator.cs" />
-    <Compile Include="TestAssemblySetup.cs" />
-    <Compile Include="TestResourceLoader.cs" />
-    <Compile Include="Threading\AsyncTestMethod.cs" />
-    <Compile Include="Threading\AsyncTestTask.cs" />
-    <Compile Include="Threading\CallContextStorageTests.cs" />
-    <Compile Include="Threading\CommonThreadStorageTests.cs" />
-    <Compile Include="Threading\LatchTest.cs" />
-    <Compile Include="Threading\LogicalThreadContextTest.cs" />
-    <Compile Include="Threading\SemaphoreTest.cs" />
-    <Compile Include="Threading\SyncHolderTest.cs" />
-    <Compile Include="Threading\ThreadStaticStorageTests.cs" />
-    <Compile Include="Util\ArrayUtilsTests.cs" />
-    <Compile Include="Util\AssertUtilsTests.cs" />
-    <Compile Include="Util\CollectionUtilsTests.cs" />
-    <Compile Include="Util\ConfigXmlDocumentTests.cs" />
-    <Compile Include="Util\DefensiveEventRaiserTests.cs" />
-    <Compile Include="Util\DelegateInfoTests.cs" />
-    <Compile Include="Util\EventRaiserTests.cs" />
-    <Compile Include="Util\NumberUtilsTests.cs" />
-    <Compile Include="Util\ObjectUtilsTests.cs" />
-    <Compile Include="Util\PathMatcherTest.cs" />
-    <Compile Include="Util\PatternMatchUtilsTests.cs" />
-    <Compile Include="Util\PropertiesTests.cs" />
-    <Compile Include="Util\ReflectionUtilsMemberwiseCopyTests.cs" />
-    <Compile Include="Util\ReflectionUtilsTests.cs" />
-    <Compile Include="Util\SerializationTestUtils.cs" />
-    <Compile Include="Util\StringUtilsTests.cs" />
-    <Compile Include="Util\SystemUtilsTests.cs" />
-    <Compile Include="Util\UniqueKeyTests.cs" />
-    <Compile Include="Validation\Actions\ErrorMessageActionTests.cs" />
-    <Compile Include="Validation\Actions\ExceptionActionTests.cs" />
-    <Compile Include="Validation\Actions\ExpressionActionTests.cs" />
-    <Compile Include="Validation\AnyValidatorGroupTests.cs" />
-    <Compile Include="Validation\CollectionValidatorTests.cs" />
-    <Compile Include="Validation\ExclusiveValidatorGroupTests.cs" />
-    <Compile Include="Validation\HelperClasses.cs" />
-    <Compile Include="Validation\ValidationErrorsTests.cs" />
-    <Compile Include="Validation\ValidationExceptionTests.cs" />
-    <Compile Include="Validation\ValidationNamespaceParserTests.cs" />
-    <Compile Include="Validation\ValidatorGroupTests.cs" />
-    <Compile Include="Validation\ValidatorReferenceTests.cs" />
-    <Compile Include="Validation\Validators\ConditionValidatorTests.cs" />
-    <Compile Include="Validation\Validators\CreditCardValidatorTests.cs" />
-    <Compile Include="Validation\Validators\EmailValidatorTests.cs" />
-    <Compile Include="Validation\Validators\Integration\CreditCardValidatorIntegrationTests.cs" />
-    <Compile Include="Validation\Validators\Integration\EmailValidatorIntegrationTests.cs" />
-    <Compile Include="Validation\Validators\Integration\ISBNValidatorIntegrationTests.cs" />
-    <Compile Include="Validation\Validators\Integration\UrlValidatorIntegrationTests.cs" />
-    <Compile Include="Validation\Validators\ISBNValidatorTests.cs" />
-    <Compile Include="Validation\Validators\RegularExpressionValidatorTests.cs" />
-    <Compile Include="Validation\Validators\RequiredValidatorTests.cs" />
-    <Compile Include="Validation\Validators\UrlValidatorTests.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestResource.txt" />
-    <EmbeddedResource Include="Validation\ValidationNamespaceParserTests_WhenConfigFileIsValid.xml" />
-    <EmbeddedResource Include="Validation\ValidationNamespaceParserTests_WhenConfigFileIsNotValid.xml" />
-    <EmbeddedResource Include="Util\ConfigXmlDocumentTests_SampleConfig.xml" />
-    <EmbeddedResource Include="Resources\SimpleAppContext.xml" />
-    <EmbeddedResource Include="Reflection\Dynamic\SafePropertyTests_TestObject.vb" />
-    <EmbeddedResource Include="Objects\Factory\TestResource.txt" />
-    <EmbeddedResource Include="Objects\Factory\Attributes\RequiredWithThreeRequiredPropertiesOmitted.xml" />
-    <EmbeddedResource Include="Objects\Factory\Attributes\RequiredWithOneRequiredPropertyOmitted.xml" />
-    <EmbeddedResource Include="Objects\Factory\Attributes\RequiredWithCustomAttribute.xml" />
-    <EmbeddedResource Include="Objects\Factory\Attributes\RequiredWithAllRequiredPropertiesProvided.xml" />
-    <EmbeddedResource Include="Objects\Factory\Attributes\CollectionObjects.xml" />
-    <EmbeddedResource Include="Objects\Factory\Attributes\ByValueObjects.xml" />
-    <EmbeddedResource Include="Objects\Factory\Attributes\ByTypePrimaryObjects.xml" />
-    <EmbeddedResource Include="Objects\Factory\Attributes\ByTypeNotRequiredObjects.xml" />
-    <EmbeddedResource Include="Objects\Factory\Attributes\ByTypeNormalObjects.xml" />
-    <EmbeddedResource Include="Objects\Factory\Attributes\ByTypeFailObjects.xml" />
-    <EmbeddedResource Include="Objects\Factory\Attributes\ByQualifierObjects.xml" />
-    <EmbeddedResource Include="Objects\Factory\Attributes\ByQualifierAttributeObjects.xml" />
-    <EmbeddedResource Include="Context\Support\testobject.xsd">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Objects\TestObject.resx">
-      <DependentUpon>TestObject.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Images.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\SampleResources.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Spring.Context.Tests.de-AT.resx" />
-    <EmbeddedResource Include="Resources\Spring.Context.Tests.de.resx" />
-    <EmbeddedResource Include="Resources\Spring.Context.Tests.pt-BR.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Spring.Context.Tests.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Spring.Context.Tests.sr-Cyrl-CS.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Spring.Context.Tests.sr-Cyrl-RS.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Spring.Context.Tests.sr-SP-Cyrl.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Spring.Context.Tests.sr.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Tesla.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Tesla.sr-Cyrl-CS.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Tesla.sr-Cyrl-RS.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Tesla.sr-SP-Cyrl.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Tesla.sr.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <None Include="Context\Support\testobject.xsx">
-      <DependentUpon>testobject.xsd</DependentUpon>
-    </None>
-    <EmbeddedResource Include="Objects\Factory\Attributes\ByValueObjects.config" />
-    <EmbeddedResource Include="Objects\Factory\Xml\NamespaceParserRegistryTests_TestSchema.xsd">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Objects\Factory\Xml\NamespaceParserRegistryTests_TestSchema_2.xsd">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Data\PathMatcher\EmptyPattern.test" />
-    <EmbeddedResource Include="Data\PathMatcher\Examples.test" />
-    <EmbeddedResource Include="Data\PathMatcher\InBetween.test" />
-    <EmbeddedResource Include="Data\PathMatcher\MatchAll.test" />
-    <EmbeddedResource Include="Data\PathMatcher\PatternsAreCaseSensitive.test" />
-    <EmbeddedResource Include="Data\PathMatcher\SingleCaracters.test" />
-    <EmbeddedResource Include="Data\PathMatcher\SlurpPrependedDirectories.test" />
-    <EmbeddedResource Include="Data\PathMatcher\SpringAssembliesPrefix.test" />
-    <EmbeddedResource Include="Data\PathMatcher\ThisDirectory.test" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\one.properties" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\two.properties" />
-    <None Include="project.json" />
-    <None Include="Spring.Core.Tests.build" />
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Spring\Spring.Aop\Spring.Aop.csproj">
-      <Project>{3a3a4e65-45a6-4b20-b460-0bedc302c02c}</Project>
-      <Name>Spring.Aop</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\src\Spring\Spring.Core\Spring.Core.csproj">
-      <Project>{8a750d18-1406-4664-b649-f1c6d36a861a}</Project>
-      <Name>Spring.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Attributes\ObjectDefinitions.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Attributes\ObjectDefinitionsTwo.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Attributes\SimpleScanTest.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Config\ConfigFiles\AttributeConfigParser.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Config\ConfigFiles\BaseAssemblyTestMultiple.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Config\ConfigFiles\BaseAssemblyTestNegative.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Config\ConfigFiles\BaseAssemblyTestSingle.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Config\ConfigFiles\BaseAssemblyTestWithout.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Config\ConfigFiles\ComponentScan1.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Config\ConfigFiles\ComponentScan2.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Config\ConfigFiles\ComponentScan3.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Config\ConfigFiles\ComponentScan31.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Config\ConfigFiles\ComponentScan4.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Config\ConfigFiles\ComponentScan5.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Config\ConfigFiles\ComponentScan6.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Config\ConfigFiles\ComponentScanAttributeConfigFalse.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Config\ConfigFiles\ComponentScanAttributeConfigTrue.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Config\ConfigFiles\TypeScannerTestAssignableExclude.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Config\ConfigFiles\TypeScannerTestAssignableInclude.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Config\ConfigFiles\TypeScannerTestAttributeExclude.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Config\ConfigFiles\TypeScannerTestAttributeInclude.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Config\ConfigFiles\TypeScannerTestCustomExclude.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Config\ConfigFiles\TypeScannerTestCustomInclude.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Config\ConfigFiles\TypeScannerTestRegExExclude.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Config\ConfigFiles\TypeScannerTestRegExInclude.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Config\ConfigFiles\TypeScannerTestRegExInclude2.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\contextlifecycle.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Support\contextA.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Support\contextB.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Support\contextC.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Support\import1.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Support\innerObjectsWithPostProcessor.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Support\invalidType.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Support\invalidValueType.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Support\objects.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Support\simpleContext.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Context\Support\XmlApplicationContextTests-SPRNET1231.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Core\IO\ConfigSectionResourceTests_config1.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Core\IO\TestResource.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Core\TypeResolution\aliasedObjects.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Data\Spring\Context\Support\SPRNET-192.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\concurrent.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\AnotherDaoConfig.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\DaoConfig.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\DatabaseConfig.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\FirstPropertyPlaceholderConfigurer.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\PPC-SPRNET-55.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\PPCTwoLocationsOneSectionTests.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\PPCTwoLocationsTwoSectionsTests.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\PPCWithTypesTests.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\PropertyPlaceholderConfigurerTests.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\PropertyResourceConfigurerTests.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\SecondPropertyPlaceholderConfigurer.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\TypeAliases.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\leaf.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\middle.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\root.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\abstract.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\array-autowire.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\autowire.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\bad-external-resources.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\bad-named-constructor-arg.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\child.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\classnotfound.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\collectionConversionGeneric.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\collectionMerging.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\collectionMergingGeneric.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\collections.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\constructor-arg.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\ctor-args.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\default-autowire.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\default-destroy-methods.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\default-initializers.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\default-lazy-init.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\dependenciesmaterializethis.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\enums.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\event-wiring-prototypes.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\event-wiring.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\expressions.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\external-resources.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\factory-methods.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\factorycircle.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\field-props-factory.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\initializers.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\invalid-factory.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\invalid.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\invoke-factory.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\lazy-init-multithreaded.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\locale.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\no-objects.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\notfullyspecified.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\objectNameGeneration.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\parent.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\reftypes.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\resource.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\Resources\resource-imports.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\satisfiedalldependencycheck.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\satisfiedobjectdependencycheck.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\satisfiedsimpledependencycheck.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\schema-validation.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\simple-constructor-arg.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\test.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\unsatisfiedalldependencycheckmissingobjects.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\unsatisfiedAllDependencyCheckMissingSimple.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\unsatisfiedobjectdependencycheck.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\unsatisfiedsimpledependencycheck.xml" />
-    <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\wellformed-but-bad.xml" />
-  </ItemGroup>
-  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>echo "Copying .xml files for tests"
+    
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{44B16BAA-6DF8-447C-9D7F-3AD3D854D904}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>Spring</RootNamespace>
+        <AssemblyName>Spring.Core.Tests</AssemblyName>
+        <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+        <FileAlignment>512</FileAlignment>
+        <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+        <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
+        <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+        <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+        <IsCodedUITest>False</IsCodedUITest>
+        <TestProjectType>UnitTest</TestProjectType>
+        <NuGetPackageImportStamp>
+        </NuGetPackageImportStamp>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>TRACE;DEBUG;NET_4_0;NET_3_0;NET_3_5;DEBUG_DYNAMIC</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="netstandard" />
+        <Reference Include="Rhino.Mocks">
+            <HintPath>..\..\..\lib\Net\4.0\Rhino.Mocks.dll</HintPath>
+        </Reference>
+        <Reference Include="System" />
+        <Reference Include="System.Configuration" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Drawing" />
+        <Reference Include="System.EnterpriseServices" />
+        <Reference Include="System.Reflection.Emit" />
+        <Reference Include="System.Reflection.Emit.ILGeneration" />
+        <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+        <Reference Include="System.Security" />
+        <Reference Include="System.Transactions" />
+        <Reference Include="System.Web" />
+        <Reference Include="System.Web.Services" />
+        <Reference Include="System.Windows.Forms" />
+        <Reference Include="System.XML" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="AssemblyInfo.cs" />
+        <Compile Include="Caching\AbstractCacheTests.cs" />
+        <Compile Include="Caching\BaseCacheAttributeTests.cs" />
+        <Compile Include="Collections\AbstractQueueTests.cs" />
+        <Compile Include="Collections\CaseInsensitiveHashtableTests.cs" />
+        <Compile Include="Collections\Generic\LinkedHashDictionaryTest.cs" />
+        <Compile Include="Collections\Generic\ReadOnlyDictionaryTests.cs" />
+        <Compile Include="Collections\HashedSetTests.cs" />
+        <Compile Include="Collections\HybridSetTests.cs" />
+        <Compile Include="Collections\ImmutableSetTests.cs" />
+        <Compile Include="Collections\LinkedListTests.cs" />
+        <Compile Include="Collections\ListSetTests.cs" />
+        <Compile Include="Collections\PriorityQueueTests.cs" />
+        <Compile Include="Collections\SetTests.cs" />
+        <Compile Include="Collections\SortedSetTests.cs" />
+        <Compile Include="Collections\StaticSetTests.cs" />
+        <Compile Include="Collections\SynchronizedHashtableTests.cs" />
+        <Compile Include="CommonTypes.cs" />
+        <Compile Include="CompilerOptionsTests.cs" />
+        <Compile Include="Context\ApplicationEventArgsTests.cs" />
+        <Compile Include="Context\Attributes\AbstractConfigurationClassPostProcessorTests.cs" />
+        <Compile Include="Context\Attributes\AssemblyObjectDefinitionScannerTests.cs" />
+        <Compile Include="Context\Attributes\AssemblyTypeScannerTests.cs" />
+        <Compile Include="Context\Attributes\CodeConfigApplicationContextTests.cs" />
+        <Compile Include="Context\Attributes\ConfigurationClassObjectDefinitionReaderTests.cs" />
+        <Compile Include="Context\Attributes\ConfigurationClassParserTests.cs" />
+        <Compile Include="Context\Attributes\ConfigurationClassPostProcessorTests.cs" />
+        <Compile Include="Context\Attributes\ImportResourceAttributeTests.cs" />
+        <Compile Include="Context\Attributes\ObjectDefAttributeTests.cs" />
+        <Compile Include="Context\Attributes\ScanningConfigurationClassPostProcessorTests.cs" />
+        <Compile Include="Context\Attributes\SimpleScanTests.cs" />
+        <Compile Include="Context\CommonTypes.cs" />
+        <Compile Include="Context\Config\AttributeConfigObjectDefinitionParserTests.cs" />
+        <Compile Include="Context\Config\ComponentScanObjectDefinitionParserAssemblyFilterTests.cs" />
+        <Compile Include="Context\Config\ComponentScanObjectDefinitionParserTests.cs" />
+        <Compile Include="Context\Config\ComponentScanObjectDefinitionParserTypeFilterTests.cs" />
+        <Compile Include="Context\Config\ContextNamespaceParserTests.cs" />
+        <Compile Include="Context\ContextExceptionTests.cs" />
+        <Compile Include="Context\ContextListenerObject.cs" />
+        <Compile Include="Context\EventListenerAttributeTests.cs" />
+        <Compile Include="Context\Events\ConsoleListenerTests.cs" />
+        <Compile Include="Context\Support\AbstractApplicationContextTests.cs" />
+        <Compile Include="Context\Support\AbstractMessageSourceTests.cs" />
+        <Compile Include="Context\Support\ApplicationContextAwareProcessorTests.cs" />
+        <Compile Include="Context\Support\ApplicationContextExtensionTests.cs" />
+        <Compile Include="Context\Support\ApplicationObjectSupportTests.cs" />
+        <Compile Include="Context\Support\Assembler.cs" />
+        <Compile Include="Context\Support\CodeConfigApplicationContextTests.cs" />
+        <Compile Include="Context\Support\ContextLocatorHandlerTests.cs" />
+        <Compile Include="Context\Support\ContextRegistryTests.cs" />
+        <Compile Include="Context\Support\DefaultMessageSourceResolvableTests.cs" />
+        <Compile Include="Context\Support\DelegatingMessageSourceTests.cs" />
+        <Compile Include="Context\Support\Logic.cs" />
+        <Compile Include="Context\Support\MessageSourceAccessorTests.cs" />
+        <Compile Include="Context\Support\NamespaceParsersSectionHandlerTests.cs" />
+        <Compile Include="Context\Support\NullMessageSourceTests.cs" />
+        <Compile Include="Context\Support\ResourceSetMessageSourceTests.cs" />
+        <Compile Include="Context\Support\Service.cs" />
+        <Compile Include="Context\Support\StaticApplicationContextTests.cs" />
+        <Compile Include="Context\Support\StaticMessageSourceTests.cs" />
+        <Compile Include="Context\Support\TestObjectConfigParser.cs" />
+        <Compile Include="Context\Support\TypeAliasesSectionHandlerTests.cs" />
+        <Compile Include="Context\Support\XmlApplicationContextTests.cs" />
+        <Compile Include="CoreCompilerOptionsTests.cs" />
+        <Compile Include="CoreExceptionTests.cs" />
+        <Compile Include="Core\ComposedCriteriaTests.cs" />
+        <Compile Include="Core\ControlFlowFactoryTests.cs" />
+        <Compile Include="Core\IO\AssemblyResourceTest.cs" />
+        <Compile Include="Core\IO\ConfigSectionResourceTests.cs" />
+        <Compile Include="Core\IO\ConfigurableResourceLoaderTests.cs" />
+        <Compile Include="Core\IO\EncodedResourceTests.cs" />
+        <Compile Include="Core\IO\FileSystemResourceCommonTests.cs" />
+        <Compile Include="Core\IO\FileSystemResourceTests.cs" />
+        <Compile Include="Core\IO\InputStreamResourceTests.cs" />
+        <Compile Include="Core\IO\ResourceConverterTests.cs" />
+        <Compile Include="Core\IO\ResourceHandlerRegistryTests.cs" />
+        <Compile Include="Core\IO\StringResourceTests.cs" />
+        <Compile Include="Core\IO\UrlResourceTest.cs" />
+        <Compile Include="Core\MethodArgumentsCriteriaTests.cs" />
+        <Compile Include="Core\MethodGenericArgumentsCountCriteriaTests.cs" />
+        <Compile Include="Core\MethodParametersCountCriteriaTests.cs" />
+        <Compile Include="Core\MethodParametersCriteriaTests.cs" />
+        <Compile Include="Core\MethodReturnTypeCriteriaTests.cs" />
+        <Compile Include="Core\OrderComparatorTests.cs" />
+        <Compile Include="Core\RegularExpressionEventNameCriteriaTests.cs" />
+        <Compile Include="Core\RegularExpressionMethodNameCriteriaTests.cs" />
+        <Compile Include="Core\TypeConversion\CredentialConverterTests.cs" />
+        <Compile Include="Core\TypeConversion\CustomNumberConverterTests.cs" />
+        <Compile Include="Core\TypeConversion\FileInfoConverterTests.cs" />
+        <Compile Include="Core\TypeConversion\NameValueConverterTests.cs" />
+        <Compile Include="Core\TypeConversion\RegexConverterTests.cs" />
+        <Compile Include="Core\TypeConversion\RegistryKeyConverterTests.cs" />
+        <Compile Include="Core\TypeConversion\ResourceManagerTests.cs" />
+        <Compile Include="Core\TypeConversion\RGBColorConverterTests.cs" />
+        <Compile Include="Core\TypeConversion\RuntimeTypeConverterTests.cs" />
+        <Compile Include="Core\TypeConversion\StreamConverterTests.cs" />
+        <Compile Include="Core\TypeConversion\StringArrayConverterTests.cs" />
+        <Compile Include="Core\TypeConversion\TimeSpanConverterTests.cs" />
+        <Compile Include="Core\TypeConversion\TypeConversionUtilsTests.cs" />
+        <Compile Include="Core\TypeConversion\TypeConverterRegistryTests.cs" />
+        <Compile Include="Core\TypeConversion\UniqueKeyConverterTests.cs" />
+        <Compile Include="Core\TypeConversion\UriConverterTests.cs" />
+        <Compile Include="Core\TypeResolution\CachedTypeResolverTests.cs" />
+        <Compile Include="Core\TypeResolution\GenericTypeResolverTests.cs" />
+        <Compile Include="Core\TypeResolution\TypeAssemblyHolderTests.cs" />
+        <Compile Include="Core\TypeResolution\TypeRegistryTests.cs" />
+        <Compile Include="Core\TypeResolution\TypeResolutionUtilsTests.cs" />
+        <Compile Include="Core\TypeResolution\TypeResolverTests.cs" />
+        <Compile Include="DataBinding\BaseBindingManagerTests.cs" />
+        <Compile Include="DataBinding\SimpleExpressionBindingTests.cs" />
+        <Compile Include="Example\Scannable\FooService.cs" />
+        <Compile Include="Example\Scannable\IFooDao.cs" />
+        <Compile Include="Example\Scannable\IFooService.cs" />
+        <Compile Include="Example\Scannable\StubFooDao.cs" />
+        <Compile Include="ExceptionsTest.cs" />
+        <Compile Include="Expressions\ConstructorNodeTests.cs" />
+        <Compile Include="Expressions\ExpressionEvaluatorTests.cs" />
+        <Compile Include="Expressions\FunctionNodeTests.cs" />
+        <Compile Include="Expressions\MethodNodeTests.cs" />
+        <Compile Include="Expressions\OpADDTests.cs" />
+        <Compile Include="Expressions\OpANDTests.cs" />
+        <Compile Include="Expressions\OpORTests.cs" />
+        <Compile Include="Expressions\OpXORTests.cs" />
+        <Compile Include="Expressions\Processors\ConversionProcessorTests.cs" />
+        <Compile Include="Expressions\Processors\OrderByProcessorTests.cs" />
+        <Compile Include="Expressions\PropertyOrFieldNodeTests.cs" />
+        <Compile Include="Expressions\ReferenceNodeTests.cs" />
+        <Compile Include="Expressions\SelectionNodeTests.cs" />
+        <Compile Include="Globalization\AbstractLocalizerTests.cs" />
+        <Compile Include="Globalization\CultureInfoUtils.cs" />
+        <Compile Include="Globalization\CultureTestScope.cs" />
+        <Compile Include="Globalization\Formatters\BooleanFormatterTests.cs" />
+        <Compile Include="Globalization\Formatters\CurrencyFormatterTests.cs" />
+        <Compile Include="Globalization\Formatters\DateTimeFormatterTests.cs" />
+        <Compile Include="Globalization\Formatters\FilteringFormatterTests.cs" />
+        <Compile Include="Globalization\Formatters\FloatFormatterTests.cs" />
+        <Compile Include="Globalization\Formatters\HasTextFilteringFormatterTests.cs" />
+        <Compile Include="Globalization\Formatters\IntegerFormatterTests.cs" />
+        <Compile Include="Globalization\Formatters\NumberFormatterTests.cs" />
+        <Compile Include="Globalization\Formatters\PercentFormatterTests.cs" />
+        <Compile Include="Globalization\Localizers\ResourceSetLocalizerTests.cs" />
+        <Compile Include="Globalization\Resolvers\DefaultCultureResolverTests.cs" />
+        <Compile Include="HookableContextHandler.cs" />
+        <Compile Include="Objects\ClassWithProtectedCtor.cs" />
+        <Compile Include="Objects\DerivedTestObject.cs" />
+        <Compile Include="Objects\Events\Support\EventManipulationUtilsTests.cs" />
+        <Compile Include="Objects\Events\Support\EventRegistryTests.cs" />
+        <Compile Include="Objects\ExpressionTestObject.cs" />
+        <Compile Include="Objects\Factory\AbstractListableObjectFactoryTests.cs" />
+        <Compile Include="Objects\Factory\AbstractObjectFactoryTests.cs" />
+        <Compile Include="Objects\Factory\Attributes\AutowireByQualifierAttributeTests.cs" />
+        <Compile Include="Objects\Factory\Attributes\AutowireByQualifierTests.cs" />
+        <Compile Include="Objects\Factory\Attributes\AutowireByTypeFailTests.cs" />
+        <Compile Include="Objects\Factory\Attributes\AutowireByTypeNormalTests.cs" />
+        <Compile Include="Objects\Factory\Attributes\AutowireByTypeNotRequiredTests.cs" />
+        <Compile Include="Objects\Factory\Attributes\AutowireByTypePrimaryTests.cs" />
+        <Compile Include="Objects\Factory\Attributes\AutowireByValueTests.cs" />
+        <Compile Include="Objects\Factory\Attributes\AutowireCollectionTests.cs" />
+        <Compile Include="Objects\Factory\Attributes\AutowireTestObjects.cs" />
+        <Compile Include="Objects\Factory\Attributes\MyRequiredAttribute.cs" />
+        <Compile Include="Objects\Factory\Attributes\PostConstructAttributeTests.cs" />
+        <Compile Include="Objects\Factory\Attributes\PreDestroyAttributeTests.cs" />
+        <Compile Include="Objects\Factory\Attributes\RequiredAttributeObjectPostProcessorTests.cs" />
+        <Compile Include="Objects\Factory\Attributes\RequiredTestObject.cs" />
+        <Compile Include="Objects\Factory\ConcurrentObjectFactoryTests.cs" />
+        <Compile Include="Objects\Factory\Config\AbstractFactoryObjectTests.cs" />
+        <Compile Include="Objects\Factory\Config\CommandLineArgsVariableSourceTests.cs" />
+        <Compile Include="Objects\Factory\Config\ConfigSectionVariableSourceTests.cs" />
+        <Compile Include="Objects\Factory\Config\ConfigurableVariableSourceTests.cs" />
+        <Compile Include="Objects\Factory\Config\ConfigurationReaderTests.cs" />
+        <Compile Include="Objects\Factory\Config\ConnectionStringsVariableSourceTests.cs" />
+        <Compile Include="Objects\Factory\Config\ConstructorArgumentValuesTests.cs" />
+        <Compile Include="Objects\Factory\Config\CustomConverterConfigurerTests.cs" />
+        <Compile Include="Objects\Factory\Config\DelegateFactoryObjectTests.cs" />
+        <Compile Include="Objects\Factory\Config\DelegateObjectFactoryConfigurerTests.cs" />
+        <Compile Include="Objects\Factory\Config\DestructionAwareObjectPostProcessorTest.cs" />
+        <Compile Include="Objects\Factory\Config\DictionaryFactoryObjectTests.cs" />
+        <Compile Include="Objects\Factory\Config\DictionaryVariableSourceTests.cs" />
+        <Compile Include="Objects\Factory\Config\EnvironmentVariableSourceTests.cs" />
+        <Compile Include="Objects\Factory\Config\EventValuesTests.cs" />
+        <Compile Include="Objects\Factory\Config\FieldRetrievingFactoryObjectTests.cs" />
+        <Compile Include="Objects\Factory\Config\ListFactoryObjectTests.cs" />
+        <Compile Include="Objects\Factory\Config\LogFactoryObjectTests.cs" />
+        <Compile Include="Objects\Factory\Config\MethodInvokingFactoryObjectTests.cs" />
+        <Compile Include="Objects\Factory\Config\ObjectDefinitionVisitorTests.cs" />
+        <Compile Include="Objects\Factory\Config\ObjectFactoryCreatingFactoryObjectTests.cs" />
+        <Compile Include="Objects\Factory\Config\ObjectReferenceFactoryObjectTests.cs" />
+        <Compile Include="Objects\Factory\Config\PropertyFileVariableSourceTests.cs" />
+        <Compile Include="Objects\Factory\Config\PropertyOverrideConfigurerTests.cs" />
+        <Compile Include="Objects\Factory\Config\PropertyPathFactoryObjectTests.cs" />
+        <Compile Include="Objects\Factory\Config\PropertyPlaceholderConfigurerTests.cs" />
+        <Compile Include="Objects\Factory\Config\PropertyRetrievingFactoryObjectTests.cs" />
+        <Compile Include="Objects\Factory\Config\RegistryVariableSourceTests.cs" />
+        <Compile Include="Objects\Factory\Config\ResourceHandlerConfigurerTests.cs" />
+        <Compile Include="Objects\Factory\Config\ResourceManagerFactoryObjectTests.cs" />
+        <Compile Include="Objects\Factory\Config\RuntimeObjectReferenceTests.cs" />
+        <Compile Include="Objects\Factory\Config\SetFactoryObjectTests.cs" />
+        <Compile Include="Objects\Factory\Config\SharedStateAwareProcessorTests.cs" />
+        <Compile Include="Objects\Factory\Config\SpecialFolderVariableSourceTests.cs" />
+        <Compile Include="Objects\Factory\Config\TypeAliasConfigurerTests.cs" />
+        <Compile Include="Objects\Factory\Config\TypedStringValueTests.cs" />
+        <Compile Include="Objects\Factory\Config\VariableAccessorTests.cs" />
+        <Compile Include="Objects\Factory\Config\VariablePlaceholderConfigurerTests.cs" />
+        <Compile Include="Objects\Factory\DefaultListableObjectFactoryPerfTests.cs" />
+        <Compile Include="Objects\Factory\DefaultListableObjectFactoryTests.cs" />
+        <Compile Include="Objects\Factory\DummyConfigurableFactory.cs" />
+        <Compile Include="Objects\Factory\DummyFactory.cs" />
+        <Compile Include="Objects\Factory\HasMap.cs" />
+        <Compile Include="Objects\Factory\ISideEffectObject.cs" />
+        <Compile Include="Objects\Factory\KnowsIfInstantiated.cs" />
+        <Compile Include="Objects\Factory\LifecycleObject.cs" />
+        <Compile Include="Objects\Factory\MethodReplacerTests.cs" />
+        <Compile Include="Objects\Factory\MustBeInitialized.cs" />
+        <Compile Include="Objects\Factory\NoSuchObjectDefinitionExceptionTests.cs" />
+        <Compile Include="Objects\Factory\ObjectDefinitionStoreExceptionTests.cs" />
+        <Compile Include="Objects\Factory\ObjectFactoryUtilsTests.cs" />
+        <Compile Include="Objects\Factory\ObjectFactoryUtils_PreserveOrderInHierarchy_Tests.cs" />
+        <Compile Include="Objects\Factory\SideEffectObject.cs" />
+        <Compile Include="Objects\Factory\Support\AutowireUtilsTests.cs" />
+        <Compile Include="Objects\Factory\Support\ChildObjectDefinitionTests.cs" />
+        <Compile Include="Objects\Factory\Support\DefaultObjectDefinitionFactoryTests.cs" />
+        <Compile Include="Objects\Factory\Support\DelegateInvokingFactoryObjectTests.cs" />
+        <Compile Include="Objects\Factory\Support\DelegatingMethodReplacerTests.cs" />
+        <Compile Include="Objects\Factory\Support\LookupMethodOverrideTests.cs" />
+        <Compile Include="Objects\Factory\Support\LookupMethodReplacerTests.cs" />
+        <Compile Include="Objects\Factory\Support\ManagedDictionaryTests.cs" />
+        <Compile Include="Objects\Factory\Support\ManagedListTests.cs" />
+        <Compile Include="Objects\Factory\Support\ManagedNameValueCollectionTests.cs" />
+        <Compile Include="Objects\Factory\Support\ManagedSetTests.cs" />
+        <Compile Include="Objects\Factory\Support\ObjectDefinitionBuilderTests.cs" />
+        <Compile Include="Objects\Factory\Support\ObjectDefinitionReaderUtilsTests.cs" />
+        <Compile Include="Objects\Factory\Support\ReplacedMethodOverrideTests.cs" />
+        <Compile Include="Objects\Factory\Support\RootObjectDefinitionTests.cs" />
+        <Compile Include="Objects\Factory\Support\SimpleInstantiationStrategyTests.cs" />
+        <Compile Include="Objects\Factory\UnsupportedObjectDefinitionImplementation.cs" />
+        <Compile Include="Objects\Factory\Xml\ArrayCtorDependencyObject.cs" />
+        <Compile Include="Objects\Factory\Xml\CollectionConversionGenericTests.cs" />
+        <Compile Include="Objects\Factory\Xml\CollectionMergingGenericTests.cs" />
+        <Compile Include="Objects\Factory\Xml\CollectionMergingTests.cs" />
+        <Compile Include="Objects\Factory\Xml\ConstructorDependenciesObject.cs" />
+        <Compile Include="Objects\Factory\Xml\DependenciesObject.cs" />
+        <Compile Include="Objects\Factory\Xml\DerivedConstructorDependenciesObject.cs" />
+        <Compile Include="Objects\Factory\Xml\DoubleBooleanConstructorObject.cs" />
+        <Compile Include="Objects\Factory\Xml\DummyBo.cs" />
+        <Compile Include="Objects\Factory\Xml\DummyDao.cs" />
+        <Compile Include="Objects\Factory\Xml\DummyReferencer.cs" />
+        <Compile Include="Objects\Factory\Xml\EventWiringTests.cs" />
+        <Compile Include="Objects\Factory\Xml\FactoryMethods.cs" />
+        <Compile Include="Objects\Factory\Xml\IDummyBo.cs" />
+        <Compile Include="Objects\Factory\Xml\InstanceFactory.cs" />
+        <Compile Include="Objects\Factory\Xml\LocaleTests.cs" />
+        <Compile Include="Objects\Factory\Xml\MixedCollectionObject.cs" />
+        <Compile Include="Objects\Factory\Xml\NamespaceParserRegistryTests.cs" />
+        <Compile Include="Objects\Factory\Xml\NullAppender.cs" />
+        <Compile Include="Objects\Factory\Xml\ObjectFactorySectionHandlerTests.cs" />
+        <Compile Include="Objects\Factory\Xml\ObjectNameGenerationTests.cs" />
+        <Compile Include="Objects\Factory\Xml\ReadOnlyXmlTestResource.cs" />
+        <Compile Include="Objects\Factory\Xml\SiimpleCtorWiringTests.cs" />
+        <Compile Include="Objects\Factory\Xml\SingleSimpleTypeConstructorObject.cs" />
+        <Compile Include="Objects\Factory\Xml\TestObjectCreator.cs" />
+        <Compile Include="Objects\Factory\Xml\XmlListableObjectFactoryTests.cs" />
+        <Compile Include="Objects\Factory\Xml\XmlObjectCollectionTests.cs" />
+        <Compile Include="Objects\Factory\Xml\XmlObjectDefinitionReaderTests.cs" />
+        <Compile Include="Objects\Factory\Xml\XmlObjectFactoryTests.cs" />
+        <Compile Include="Objects\Factory\Xml\XmlParserResolverTests.cs" />
+        <Compile Include="Objects\IndexedTestObject.cs" />
+        <Compile Include="Objects\INestedTestObject.cs" />
+        <Compile Include="Objects\IOther.cs" />
+        <Compile Include="Objects\IPerson.cs" />
+        <Compile Include="Objects\ITestObject.cs" />
+        <Compile Include="Objects\LazyTestObject.cs" />
+        <Compile Include="Objects\MutablePropertyValuesTests.cs" />
+        <Compile Include="Objects\NestedTestObject.cs" />
+        <Compile Include="Objects\NotWritablePropertyExceptionTests.cs" />
+        <Compile Include="Objects\NumberTestObject.cs" />
+        <Compile Include="Objects\ObjectWrapperTests.cs" />
+        <Compile Include="Objects\PropertyAccessExceptionsExceptionTests.cs" />
+        <Compile Include="Objects\PropertyValueTests.cs" />
+        <Compile Include="Objects\ResourceTestObject.cs" />
+        <Compile Include="Objects\SerializablePerson.cs" />
+        <Compile Include="Objects\StaticTestEventHandler.cs" />
+        <Compile Include="Objects\Support\AbstractSharedStateFactoryTests.cs" />
+        <Compile Include="Objects\Support\ArgumentConvertingMethodInvokerTests.cs" />
+        <Compile Include="Objects\Support\AutoWiringEventHandlerValueTests.cs" />
+        <Compile Include="Objects\Support\ByTypeSharedStateProviderTests.cs" />
+        <Compile Include="Objects\Support\InstanceEventHandlerValueTests.cs" />
+        <Compile Include="Objects\Support\MethodInvokerTests.cs" />
+        <Compile Include="Objects\Support\MutableSortDefinitionTests.cs" />
+        <Compile Include="Objects\Support\PropertyComparatorTests.cs" />
+        <Compile Include="Objects\Support\StaticEventHandlerValueTests.cs" />
+        <Compile Include="Objects\TestEventHandler.cs" />
+        <Compile Include="Objects\TestGenericObject.cs" />
+        <Compile Include="Objects\TestObject.cs" />
+        <Compile Include="Objects\TestObjectDAO.cs" />
+        <Compile Include="Objects\TestObjectList.cs" />
+        <Compile Include="Objects\TestTransparentProxyFactory.cs" />
+        <Compile Include="Objects\TypeMismatchExceptionTests.cs" />
+        <Compile Include="Objects\ValidatorTestObject.cs" />
+        <Compile Include="Pool\Support\SimplePoolTest.cs" />
+        <Compile Include="Proxy\AbstractProxyTypeBuilderTests.cs" />
+        <Compile Include="Proxy\CompositionProxyTypeBuilderTests.cs" />
+        <Compile Include="Proxy\DynamicProxyManagerTests.cs" />
+        <Compile Include="Proxy\ExplicitCompositionProxyTypeBuilderTests.cs" />
+        <Compile Include="Proxy\InheritanceProxyTypeBuilderTests.cs" />
+        <Compile Include="Reflection\Dynamic\BasePropertyTests.cs" />
+        <Compile Include="Reflection\Dynamic\DynamicConstructorTests.cs" />
+        <Compile Include="Reflection\Dynamic\DynamicFieldTests.cs" />
+        <Compile Include="Reflection\Dynamic\DynamicMethodTests.cs" />
+        <Compile Include="Reflection\Dynamic\DynamicPropertyTests.cs" />
+        <Compile Include="Reflection\Dynamic\SafeFieldTests.cs" />
+        <Compile Include="Reflection\Dynamic\SafePropertyTests.cs" />
+        <Compile Include="SecurityTemplate.cs" />
+        <Compile Include="StandardsComplianceTest.cs" />
+        <Compile Include="StopWatch.cs" />
+        <Compile Include="StreamHelperDecorator.cs" />
+        <Compile Include="TestAssemblySetup.cs" />
+        <Compile Include="TestResourceLoader.cs" />
+        <Compile Include="Threading\AsyncTestMethod.cs" />
+        <Compile Include="Threading\AsyncTestTask.cs" />
+        <Compile Include="Threading\CallContextStorageTests.cs" />
+        <Compile Include="Threading\CommonThreadStorageTests.cs" />
+        <Compile Include="Threading\LatchTest.cs" />
+        <Compile Include="Threading\LogicalThreadContextTest.cs" />
+        <Compile Include="Threading\SemaphoreTest.cs" />
+        <Compile Include="Threading\SyncHolderTest.cs" />
+        <Compile Include="Threading\ThreadStaticStorageTests.cs" />
+        <Compile Include="Util\ArrayUtilsTests.cs" />
+        <Compile Include="Util\AssertUtilsTests.cs" />
+        <Compile Include="Util\CollectionUtilsTests.cs" />
+        <Compile Include="Util\ConfigXmlDocumentTests.cs" />
+        <Compile Include="Util\DefensiveEventRaiserTests.cs" />
+        <Compile Include="Util\DelegateInfoTests.cs" />
+        <Compile Include="Util\EventRaiserTests.cs" />
+        <Compile Include="Util\NumberUtilsTests.cs" />
+        <Compile Include="Util\ObjectUtilsTests.cs" />
+        <Compile Include="Util\PathMatcherTest.cs" />
+        <Compile Include="Util\PatternMatchUtilsTests.cs" />
+        <Compile Include="Util\PropertiesTests.cs" />
+        <Compile Include="Util\ReflectionUtilsMemberwiseCopyTests.cs" />
+        <Compile Include="Util\ReflectionUtilsTests.cs" />
+        <Compile Include="Util\SerializationTestUtils.cs" />
+        <Compile Include="Util\StringUtilsTests.cs" />
+        <Compile Include="Util\SystemUtilsTests.cs" />
+        <Compile Include="Util\UniqueKeyTests.cs" />
+        <Compile Include="Validation\Actions\ErrorMessageActionTests.cs" />
+        <Compile Include="Validation\Actions\ExceptionActionTests.cs" />
+        <Compile Include="Validation\Actions\ExpressionActionTests.cs" />
+        <Compile Include="Validation\AnyValidatorGroupTests.cs" />
+        <Compile Include="Validation\CollectionValidatorTests.cs" />
+        <Compile Include="Validation\ExclusiveValidatorGroupTests.cs" />
+        <Compile Include="Validation\HelperClasses.cs" />
+        <Compile Include="Validation\ValidationErrorsTests.cs" />
+        <Compile Include="Validation\ValidationExceptionTests.cs" />
+        <Compile Include="Validation\ValidationNamespaceParserTests.cs" />
+        <Compile Include="Validation\ValidatorGroupTests.cs" />
+        <Compile Include="Validation\ValidatorReferenceTests.cs" />
+        <Compile Include="Validation\Validators\ConditionValidatorTests.cs" />
+        <Compile Include="Validation\Validators\CreditCardValidatorTests.cs" />
+        <Compile Include="Validation\Validators\EmailValidatorTests.cs" />
+        <Compile Include="Validation\Validators\Integration\CreditCardValidatorIntegrationTests.cs" />
+        <Compile Include="Validation\Validators\Integration\EmailValidatorIntegrationTests.cs" />
+        <Compile Include="Validation\Validators\Integration\ISBNValidatorIntegrationTests.cs" />
+        <Compile Include="Validation\Validators\Integration\UrlValidatorIntegrationTests.cs" />
+        <Compile Include="Validation\Validators\ISBNValidatorTests.cs" />
+        <Compile Include="Validation\Validators\RegularExpressionValidatorTests.cs" />
+        <Compile Include="Validation\Validators\RequiredValidatorTests.cs" />
+        <Compile Include="Validation\Validators\UrlValidatorTests.cs" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="TestResource.txt" />
+        <EmbeddedResource Include="Validation\ValidationNamespaceParserTests_WhenConfigFileIsValid.xml" />
+        <EmbeddedResource Include="Validation\ValidationNamespaceParserTests_WhenConfigFileIsNotValid.xml" />
+        <EmbeddedResource Include="Util\ConfigXmlDocumentTests_SampleConfig.xml" />
+        <EmbeddedResource Include="Resources\SimpleAppContext.xml" />
+        <EmbeddedResource Include="Reflection\Dynamic\SafePropertyTests_TestObject.vb" />
+        <EmbeddedResource Include="Objects\Factory\TestResource.txt" />
+        <EmbeddedResource Include="Objects\Factory\Attributes\RequiredWithThreeRequiredPropertiesOmitted.xml" />
+        <EmbeddedResource Include="Objects\Factory\Attributes\RequiredWithOneRequiredPropertyOmitted.xml" />
+        <EmbeddedResource Include="Objects\Factory\Attributes\RequiredWithCustomAttribute.xml" />
+        <EmbeddedResource Include="Objects\Factory\Attributes\RequiredWithAllRequiredPropertiesProvided.xml" />
+        <EmbeddedResource Include="Objects\Factory\Attributes\CollectionObjects.xml" />
+        <EmbeddedResource Include="Objects\Factory\Attributes\ByValueObjects.xml" />
+        <EmbeddedResource Include="Objects\Factory\Attributes\ByTypePrimaryObjects.xml" />
+        <EmbeddedResource Include="Objects\Factory\Attributes\ByTypeNotRequiredObjects.xml" />
+        <EmbeddedResource Include="Objects\Factory\Attributes\ByTypeNormalObjects.xml" />
+        <EmbeddedResource Include="Objects\Factory\Attributes\ByTypeFailObjects.xml" />
+        <EmbeddedResource Include="Objects\Factory\Attributes\ByQualifierObjects.xml" />
+        <EmbeddedResource Include="Objects\Factory\Attributes\ByQualifierAttributeObjects.xml" />
+        <EmbeddedResource Include="Context\Support\testobject.xsd">
+            <SubType>Designer</SubType>
+        </EmbeddedResource>
+        <EmbeddedResource Include="Objects\TestObject.resx">
+            <DependentUpon>TestObject.cs</DependentUpon>
+            <SubType>Designer</SubType>
+        </EmbeddedResource>
+        <EmbeddedResource Include="Resources\Images.resx">
+            <SubType>Designer</SubType>
+        </EmbeddedResource>
+        <EmbeddedResource Include="Resources\SampleResources.resx">
+            <SubType>Designer</SubType>
+        </EmbeddedResource>
+        <EmbeddedResource Include="Resources\Spring.Context.Tests.de-AT.resx" />
+        <EmbeddedResource Include="Resources\Spring.Context.Tests.de.resx" />
+        <EmbeddedResource Include="Resources\Spring.Context.Tests.pt-BR.resx">
+            <SubType>Designer</SubType>
+        </EmbeddedResource>
+        <EmbeddedResource Include="Resources\Spring.Context.Tests.resx">
+            <SubType>Designer</SubType>
+        </EmbeddedResource>
+        <EmbeddedResource Include="Resources\Spring.Context.Tests.sr-Cyrl-CS.resx">
+            <SubType>Designer</SubType>
+        </EmbeddedResource>
+        <EmbeddedResource Include="Resources\Spring.Context.Tests.sr-Cyrl-RS.resx">
+            <SubType>Designer</SubType>
+        </EmbeddedResource>
+        <EmbeddedResource Include="Resources\Spring.Context.Tests.sr-SP-Cyrl.resx">
+            <SubType>Designer</SubType>
+        </EmbeddedResource>
+        <EmbeddedResource Include="Resources\Spring.Context.Tests.sr.resx">
+            <SubType>Designer</SubType>
+        </EmbeddedResource>
+        <EmbeddedResource Include="Resources\Tesla.resx">
+            <SubType>Designer</SubType>
+        </EmbeddedResource>
+        <EmbeddedResource Include="Resources\Tesla.sr-Cyrl-CS.resx">
+            <SubType>Designer</SubType>
+        </EmbeddedResource>
+        <EmbeddedResource Include="Resources\Tesla.sr-Cyrl-RS.resx">
+            <SubType>Designer</SubType>
+        </EmbeddedResource>
+        <EmbeddedResource Include="Resources\Tesla.sr-SP-Cyrl.resx">
+            <SubType>Designer</SubType>
+        </EmbeddedResource>
+        <EmbeddedResource Include="Resources\Tesla.sr.resx">
+            <SubType>Designer</SubType>
+        </EmbeddedResource>
+        <None Include="Context\Support\testobject.xsx">
+            <DependentUpon>testobject.xsd</DependentUpon>
+        </None>
+        <EmbeddedResource Include="Objects\Factory\Attributes\ByValueObjects.config" />
+        <EmbeddedResource Include="Objects\Factory\Xml\NamespaceParserRegistryTests_TestSchema.xsd">
+            <SubType>Designer</SubType>
+        </EmbeddedResource>
+        <EmbeddedResource Include="Objects\Factory\Xml\NamespaceParserRegistryTests_TestSchema_2.xsd">
+            <SubType>Designer</SubType>
+        </EmbeddedResource>
+        <EmbeddedResource Include="Data\PathMatcher\EmptyPattern.test" />
+        <EmbeddedResource Include="Data\PathMatcher\Examples.test" />
+        <EmbeddedResource Include="Data\PathMatcher\InBetween.test" />
+        <EmbeddedResource Include="Data\PathMatcher\MatchAll.test" />
+        <EmbeddedResource Include="Data\PathMatcher\PatternsAreCaseSensitive.test" />
+        <EmbeddedResource Include="Data\PathMatcher\SingleCaracters.test" />
+        <EmbeddedResource Include="Data\PathMatcher\SlurpPrependedDirectories.test" />
+        <EmbeddedResource Include="Data\PathMatcher\SpringAssembliesPrefix.test" />
+        <EmbeddedResource Include="Data\PathMatcher\ThisDirectory.test" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\one.properties" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\two.properties" />
+        <None Include="project.json" />
+        <None Include="Spring.Core.Tests.build" />
+        <None Include="App.config" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\src\Spring\Spring.Aop\Spring.Aop.csproj">
+            <Project>{3a3a4e65-45a6-4b20-b460-0bedc302c02c}</Project>
+            <Name>Spring.Aop</Name>
+        </ProjectReference>
+        <ProjectReference Include="..\..\..\src\Spring\Spring.Core\Spring.Core.csproj">
+            <Project>{8a750d18-1406-4664-b649-f1c6d36a861a}</Project>
+            <Name>Spring.Core</Name>
+        </ProjectReference>
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Attributes\ObjectDefinitions.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Attributes\ObjectDefinitionsTwo.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Attributes\SimpleScanTest.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Config\ConfigFiles\AttributeConfigParser.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Config\ConfigFiles\BaseAssemblyTestMultiple.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Config\ConfigFiles\BaseAssemblyTestNegative.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Config\ConfigFiles\BaseAssemblyTestSingle.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Config\ConfigFiles\BaseAssemblyTestWithout.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Config\ConfigFiles\ComponentScan1.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Config\ConfigFiles\ComponentScan2.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Config\ConfigFiles\ComponentScan3.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Config\ConfigFiles\ComponentScan31.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Config\ConfigFiles\ComponentScan4.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Config\ConfigFiles\ComponentScan5.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Config\ConfigFiles\ComponentScan6.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Config\ConfigFiles\ComponentScanAttributeConfigFalse.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Config\ConfigFiles\ComponentScanAttributeConfigTrue.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Config\ConfigFiles\TypeScannerTestAssignableExclude.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Config\ConfigFiles\TypeScannerTestAssignableInclude.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Config\ConfigFiles\TypeScannerTestAttributeExclude.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Config\ConfigFiles\TypeScannerTestAttributeInclude.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Config\ConfigFiles\TypeScannerTestCustomExclude.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Config\ConfigFiles\TypeScannerTestCustomInclude.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Config\ConfigFiles\TypeScannerTestRegExExclude.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Config\ConfigFiles\TypeScannerTestRegExInclude.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Config\ConfigFiles\TypeScannerTestRegExInclude2.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\contextlifecycle.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Support\contextA.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Support\contextB.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Support\contextC.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Support\import1.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Support\innerObjectsWithPostProcessor.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Support\invalidType.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Support\invalidValueType.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Support\objects.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Support\simpleContext.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Support\XmlApplicationContextTests-SPRNET1231.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Core\IO\ConfigSectionResourceTests_config1.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Core\IO\TestResource.txt" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Core\TypeResolution\aliasedObjects.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Properties\" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Data\Spring\Context\Support\SPRNET-192.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\concurrent.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\AnotherDaoConfig.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\DaoConfig.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\DatabaseConfig.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\FirstPropertyPlaceholderConfigurer.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\PPC-SPRNET-55.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\PPCTwoLocationsOneSectionTests.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\PPCTwoLocationsTwoSectionsTests.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\PPCWithTypesTests.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\PropertyPlaceholderConfigurerTests.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\PropertyResourceConfigurerTests.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\SecondPropertyPlaceholderConfigurer.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\TypeAliases.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\leaf.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\middle.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\root.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\abstract.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\array-autowire.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\autowire.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\bad-external-resources.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\bad-named-constructor-arg.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\child.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\classnotfound.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\collectionConversionGeneric.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\collectionMerging.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\collectionMergingGeneric.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\collections.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\constructor-arg.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\ctor-args.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\default-autowire.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\default-destroy-methods.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\default-initializers.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\default-lazy-init.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\dependenciesmaterializethis.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\enums.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\event-wiring-prototypes.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\event-wiring.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\expressions.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\external-resources.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\factory-methods.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\factorycircle.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\field-props-factory.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\initializers.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\invalid-factory.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\invalid.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\invoke-factory.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\lazy-init-multithreaded.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\locale.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\no-objects.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\notfullyspecified.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\objectNameGeneration.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\parent.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\reftypes.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\resource.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\Resources\resource-imports.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\satisfiedalldependencycheck.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\satisfiedobjectdependencycheck.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\satisfiedsimpledependencycheck.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\schema-validation.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\simple-constructor-arg.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\test.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\unsatisfiedalldependencycheckmissingobjects.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\unsatisfiedAllDependencyCheckMissingSimple.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\unsatisfiedobjectdependencycheck.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\unsatisfiedsimpledependencycheck.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\wellformed-but-bad.xml" />
+    </ItemGroup>
+    
+    <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+    <PropertyGroup>
+        <PostBuildEvent>
+            echo "Copying .xml files for tests"
 
-xcopy "$(ProjectDir)Data" . /y /s /q /d
+            xcopy "$(ProjectDir)Data" . /y /s /q /d
 
-REM xcopy "$(ProjectDir)$(TargetFileName).dll.config" . /y /s /q</PostBuildEvent>
-  </PropertyGroup>
+            REM xcopy "$(ProjectDir)$(TargetFileName).dll.config" . /y /s /q
+        </PostBuildEvent>
+    </PropertyGroup>
 </Project>
