@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using Spring.Logging;
 using Spring.Context.Attributes.TypeFilters;
 using Spring.Util;
@@ -259,8 +260,13 @@ namespace Spring.Context.Attributes
             var assemblies = new List<string>();
             assemblies.AddRange(DiscoverAssemblies(folderPath, "*.dll"));
             assemblies.AddRange(DiscoverAssemblies(folderPath, "*.exe"));
-
-            Logger.Debug(string.Format("Assemblies to be scanned: {0}", StringUtils.ArrayToCommaDelimitedString(assemblies.ToArray())));
+            
+            Logger.Debug(
+                string.Format(
+                    "Assemblies to be scanned:\n {0}", 
+                    StringUtils.ArrayToCommaDelimitedString(assemblies.ToArray())
+                )
+            );
 
             return assemblies;
         }

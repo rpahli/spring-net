@@ -1,6 +1,289 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    
+<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
+
+    <PropertyGroup>
+        <AssemblyName>Spring.Core.Tests</AssemblyName>
+        <RootNamespace>Spring</RootNamespace>
+        <IsTestProject>true</IsTestProject>
+
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <TargetFrameworks>net471</TargetFrameworks>
+
+        <NeutralLanguage>en-US</NeutralLanguage>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+
+        <DefineConstants>TRACE;DEBUG;NET_4_0;NET_3_0;NET_3_5;DEBUG_DYNAMIC</DefineConstants>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="Context\Attributes\ObjectDefinitions.xml" />
+        <EmbeddedResource Include="Context\Attributes\ObjectDefinitionsTwo.xml" />
+        <EmbeddedResource Include="Context\Attributes\SimpleScanTest.xml" />
+        <EmbeddedResource Include="Context\Config\ConfigFiles\AttributeConfigParser.xml" />
+        <EmbeddedResource Include="Context\Config\ConfigFiles\BaseAssemblyTestMultiple.xml" />
+        <EmbeddedResource Include="Context\Config\ConfigFiles\BaseAssemblyTestNegative.xml" />
+        <EmbeddedResource Include="Context\Config\ConfigFiles\BaseAssemblyTestSingle.xml" />
+        <EmbeddedResource Include="Context\Config\ConfigFiles\BaseAssemblyTestWithout.xml" />
+        <EmbeddedResource Include="Context\Config\ConfigFiles\ComponentScan1.xml" />
+        <EmbeddedResource Include="Context\Config\ConfigFiles\ComponentScan2.xml" />
+        <EmbeddedResource Include="Context\Config\ConfigFiles\ComponentScan3.xml" />
+        <EmbeddedResource Include="Context\Config\ConfigFiles\ComponentScan31.xml" />
+        <EmbeddedResource Include="Context\Config\ConfigFiles\ComponentScan4.xml" />
+        <EmbeddedResource Include="Context\Config\ConfigFiles\ComponentScan5.xml" />
+        <EmbeddedResource Include="Context\Config\ConfigFiles\ComponentScan6.xml" />
+        <EmbeddedResource Include="Context\Config\ConfigFiles\ComponentScanAttributeConfigFalse.xml" />
+        <EmbeddedResource Include="Context\Config\ConfigFiles\ComponentScanAttributeConfigTrue.xml" />
+        <EmbeddedResource Include="Context\Config\ConfigFiles\TypeScannerTestAssignableExclude.xml" />
+        <EmbeddedResource Include="Context\Config\ConfigFiles\TypeScannerTestAssignableInclude.xml" />
+        <EmbeddedResource Include="Context\Config\ConfigFiles\TypeScannerTestAttributeExclude.xml" />
+        <EmbeddedResource Include="Context\Config\ConfigFiles\TypeScannerTestAttributeInclude.xml" />
+        <EmbeddedResource Include="Context\Config\ConfigFiles\TypeScannerTestCustomExclude.xml" />
+        <EmbeddedResource Include="Context\Config\ConfigFiles\TypeScannerTestCustomInclude.xml" />
+        <EmbeddedResource Include="Context\Config\ConfigFiles\TypeScannerTestRegExExclude.xml" />
+        <EmbeddedResource Include="Context\Config\ConfigFiles\TypeScannerTestRegExInclude.xml" />
+        <EmbeddedResource Include="Context\Config\ConfigFiles\TypeScannerTestRegExInclude2.xml" />
+        <EmbeddedResource Include="Context\contextlifecycle.xml" />
+        <EmbeddedResource Include="Context\Support\contextA.xml" />
+        <EmbeddedResource Include="Context\Support\contextB.xml" />
+        <EmbeddedResource Include="Context\Support\contextC.xml" />
+        <EmbeddedResource Include="Context\Support\import1.xml" />
+        <EmbeddedResource Include="Context\Support\innerObjectsWithPostProcessor.xml" />
+        <EmbeddedResource Include="Context\Support\invalidType.xml" />
+        <EmbeddedResource Include="Context\Support\invalidValueType.xml" />
+        <EmbeddedResource Include="Context\Support\objects.xml" />
+        <EmbeddedResource Include="Context\Support\simpleContext.xml" />
+        <EmbeddedResource Include="Context\Support\testobject.xsd" />
+        <EmbeddedResource Include="Context\Support\XmlApplicationContextTests-SPRNET1231.xml" />
+        <EmbeddedResource Include="Core\IO\ConfigSectionResourceTests_config1.xml" />
+        <EmbeddedResource Include="Core\IO\TestResource.txt" />
+        <EmbeddedResource Include="Core\TypeResolution\aliasedObjects.xml" />
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\one.properties">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </EmbeddedResource>
+        <EmbeddedResource Include="Data\Spring\Objects\Factory\Config\two.properties" />
+        <EmbeddedResource Include="Objects\Factory\Attributes\ByQualifierAttributeObjects.xml" />
+        <EmbeddedResource Include="Objects\Factory\Attributes\ByQualifierObjects.xml" />
+        <EmbeddedResource Include="Objects\Factory\Attributes\ByTypeFailObjects.xml" />
+        <EmbeddedResource Include="Objects\Factory\Attributes\ByTypeNormalObjects.xml" />
+        <EmbeddedResource Include="Objects\Factory\Attributes\ByTypeNotRequiredObjects.xml" />
+        <EmbeddedResource Include="Objects\Factory\Attributes\ByTypePrimaryObjects.xml" />
+        <EmbeddedResource Include="Objects\Factory\Attributes\ByValueObjects.config" />
+        <EmbeddedResource Include="Objects\Factory\Attributes\ByValueObjects.xml" />
+        <EmbeddedResource Include="Objects\Factory\Attributes\CollectionObjects.xml" />
+        <EmbeddedResource Include="Objects\Factory\Attributes\RequiredWithAllRequiredPropertiesProvided.xml" />
+        <EmbeddedResource Include="Objects\Factory\Attributes\RequiredWithCustomAttribute.xml" />
+        <EmbeddedResource Include="Objects\Factory\Attributes\RequiredWithOneRequiredPropertyOmitted.xml" />
+        <EmbeddedResource Include="Objects\Factory\Attributes\RequiredWithThreeRequiredPropertiesOmitted.xml" />
+        <EmbeddedResource Include="Objects\Factory\Config\AnotherDaoConfig.xml" />
+        <EmbeddedResource Include="Objects\Factory\Config\DaoConfig.xml" />
+        <EmbeddedResource Include="Objects\Factory\Config\DatabaseConfig.xml" />
+        <EmbeddedResource Include="Objects\Factory\Config\FirstPropertyPlaceholderConfigurer.xml" />
+        <EmbeddedResource Include="Objects\Factory\Config\one.properties" />
+        <EmbeddedResource Include="Objects\Factory\Config\PPC-SPRNET-55.xml" />
+        <EmbeddedResource Include="Objects\Factory\Config\PPCTwoLocationsOneSectionTests.xml" />
+        <EmbeddedResource Include="Objects\Factory\Config\PPCTwoLocationsTwoSectionsTests.xml" />
+        <EmbeddedResource Include="Objects\Factory\Config\PPCWithTypesTests.xml" />
+        <EmbeddedResource Include="Objects\Factory\Config\PropertyPlaceholderConfigurerTests.xml" />
+        <EmbeddedResource Include="Objects\Factory\Config\PropertyResourceConfigurerTests.xml" />
+        <EmbeddedResource Include="Objects\Factory\Config\SecondPropertyPlaceholderConfigurer.xml" />
+        <EmbeddedResource Include="Objects\Factory\Config\TypeAliases.xml" />
+        <EmbeddedResource Include="Objects\Factory\TestResource.txt" />
+        <EmbeddedResource Include="Objects\Factory\Xml\abstract.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\array-autowire.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\autowire.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\bad-external-resources.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\bad-named-constructor-arg.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\child.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\classNotFound.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\collectionConversionGeneric.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\collectionMerging.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\collectionMergingGeneric.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\collections.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\constructor-arg.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\ctor-args.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\default-autowire.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\default-destroy-methods.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\default-initializers.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\default-lazy-init.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\dependenciesMaterializeThis.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\enums.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\event-wiring-prototypes.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\event-wiring.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\expressions.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\external-resources.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\factory-methods.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\factoryCircle.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\field-props-factory.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\initializers.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\invalid-factory.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\invalid.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\invoke-factory.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\lazy-init-multithreaded.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\locale.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\NamespaceParserRegistryTests_TestSchema.xsd" />
+        <EmbeddedResource Include="Objects\Factory\Xml\NamespaceParserRegistryTests_TestSchema_2.xsd" />
+        <EmbeddedResource Include="Objects\Factory\Xml\no-objects.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\notfullyspecified.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\objectNameGeneration.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\parent.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\reftypes.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\resource.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\Resources\resource-imports.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\satisfiedAllDependencyCheck.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\satisfiedObjectDependencyCheck.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\satisfiedSimpleDependencyCheck.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\schema-validation.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\simple-constructor-arg.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\test.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\unsatisfiedAllDependencyCheckMissingObjects.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\unsatisfiedAllDependencyCheckMissingSimple.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\unsatisfiedObjectDependencyCheck.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\unsatisfiedSimpleDependencyCheck.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\wellformed-but-bad.xml" />
+        <EmbeddedResource Include="Objects\Factory\Xml\XmlObjectDefinitionReaderTests_CustomSchema.xsd" />
+        <EmbeddedResource Include="Resources\SimpleAppContext.xml" />
+        <EmbeddedResource Include="TestResource.txt" />
+        <EmbeddedResource Include="Util\ConfigXmlDocumentTests_SampleConfig.xml" />
+        <EmbeddedResource Include="Validation\ValidationNamespaceParserTests_WhenConfigFileIsNotValid.xml" />
+        <EmbeddedResource Include="Validation\ValidationNamespaceParserTests_WhenConfigFileIsValid.xml" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="NUnit" Version="3.9.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="netstandard" />
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="Rhino.Mocks">
+            <HintPath>..\..\..\lib\Net\4.0\Rhino.Mocks.dll</HintPath>
+        </Reference>
+        <Reference Include="System" />
+        <Reference Include="System.Configuration" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Drawing" />
+        <Reference Include="System.EnterpriseServices" />
+        <Reference Include="System.Reflection.Emit" />
+        <Reference Include="System.Reflection.Emit.ILGeneration" />
+        <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+        <Reference Include="System.Security" />
+        <Reference Include="System.Transactions" />
+        <Reference Include="System.Web" />
+        <Reference Include="System.Web.Services" />
+        <Reference Include="System.Windows.Forms" />
+        <Reference Include="System.XML" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+
+        <ProjectReference Include="..\..\..\src\Spring\Spring.Aop\Spring.Aop.csproj" />
+        <ProjectReference Include="..\..\..\src\Spring\Spring.Core\Spring.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="Data\**\*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="Data\Spring\Objects\Factory\Config\one.properties" />
+      <Content Remove="Data\Spring\Objects\Factory\Config\two.properties" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Objects\Factory\Attributes\ByValueObjects.config" />
+      <None Remove="Objects\Factory\Config\AnotherDaoConfig.xml" />
+      <None Remove="Objects\Factory\Config\DaoConfig.xml" />
+      <None Remove="Objects\Factory\Config\DatabaseConfig.xml" />
+      <None Remove="Objects\Factory\Config\FirstPropertyPlaceholderConfigurer.xml" />
+      <None Remove="Objects\Factory\Config\one.properties" />
+      <None Remove="Objects\Factory\Config\PPC-SPRNET-55.xml" />
+      <None Remove="Objects\Factory\Config\PPCTwoLocationsOneSectionTests.xml" />
+      <None Remove="Objects\Factory\Config\PPCTwoLocationsTwoSectionsTests.xml" />
+      <None Remove="Objects\Factory\Config\PPCWithTypesTests.xml" />
+      <None Remove="Objects\Factory\Config\PropertyPlaceholderConfigurerTests.xml" />
+      <None Remove="Objects\Factory\Config\PropertyResourceConfigurerTests.xml" />
+      <None Remove="Objects\Factory\Config\SecondPropertyPlaceholderConfigurer.xml" />
+      <None Remove="Objects\Factory\Config\TypeAliases.xml" />
+      <None Remove="Objects\Factory\Xml\abstract.xml" />
+      <None Remove="Objects\Factory\Xml\array-autowire.xml" />
+      <None Remove="Objects\Factory\Xml\autowire.xml" />
+      <None Remove="Objects\Factory\Xml\bad-external-resources.xml" />
+      <None Remove="Objects\Factory\Xml\bad-named-constructor-arg.xml" />
+      <None Remove="Objects\Factory\Xml\child.xml" />
+      <None Remove="Objects\Factory\Xml\classnotfound.xml" />
+      <None Remove="Objects\Factory\Xml\collectionConversionGeneric.xml" />
+      <None Remove="Objects\Factory\Xml\collectionMerging.xml" />
+      <None Remove="Objects\Factory\Xml\collectionMergingGeneric.xml" />
+      <None Remove="Objects\Factory\Xml\collections.xml" />
+      <None Remove="Objects\Factory\Xml\constructor-arg.xml" />
+      <None Remove="Objects\Factory\Xml\ctor-args.xml" />
+      <None Remove="Objects\Factory\Xml\default-autowire.xml" />
+      <None Remove="Objects\Factory\Xml\default-destroy-methods.xml" />
+      <None Remove="Objects\Factory\Xml\default-initializers.xml" />
+      <None Remove="Objects\Factory\Xml\default-lazy-init.xml" />
+      <None Remove="Objects\Factory\Xml\dependenciesmaterializethis.xml" />
+      <None Remove="Objects\Factory\Xml\enums.xml" />
+      <None Remove="Objects\Factory\Xml\event-wiring-prototypes.xml" />
+      <None Remove="Objects\Factory\Xml\event-wiring.xml" />
+      <None Remove="Objects\Factory\Xml\expressions.xml" />
+      <None Remove="Objects\Factory\Xml\external-resources.xml" />
+      <None Remove="Objects\Factory\Xml\factory-methods.xml" />
+      <None Remove="Objects\Factory\Xml\factorycircle.xml" />
+      <None Remove="Objects\Factory\Xml\field-props-factory.xml" />
+      <None Remove="Objects\Factory\Xml\initializers.xml" />
+      <None Remove="Objects\Factory\Xml\invalid-factory.xml" />
+      <None Remove="Objects\Factory\Xml\invalid.xml" />
+      <None Remove="Objects\Factory\Xml\invoke-factory.xml" />
+      <None Remove="Objects\Factory\Xml\lazy-init-multithreaded.xml" />
+      <None Remove="Objects\Factory\Xml\locale.xml" />
+      <None Remove="Objects\Factory\Xml\no-objects.xml" />
+      <None Remove="Objects\Factory\Xml\notfullyspecified.xml" />
+      <None Remove="Objects\Factory\Xml\objectNameGeneration.xml" />
+      <None Remove="Objects\Factory\Xml\parent.xml" />
+      <None Remove="Objects\Factory\Xml\reftypes.xml" />
+      <None Remove="Objects\Factory\Xml\resource.xml" />
+      <None Remove="Objects\Factory\Xml\Resources\resource-imports.xml" />
+      <None Remove="Objects\Factory\Xml\satisfiedalldependencycheck.xml" />
+      <None Remove="Objects\Factory\Xml\satisfiedobjectdependencycheck.xml" />
+      <None Remove="Objects\Factory\Xml\satisfiedsimpledependencycheck.xml" />
+      <None Remove="Objects\Factory\Xml\schema-validation.xml" />
+      <None Remove="Objects\Factory\Xml\simple-constructor-arg.xml" />
+      <None Remove="Objects\Factory\Xml\test.xml" />
+      <None Remove="Objects\Factory\Xml\unsatisfiedalldependencycheckmissingobjects.xml" />
+      <None Remove="Objects\Factory\Xml\unsatisfiedAllDependencyCheckMissingSimple.xml" />
+      <None Remove="Objects\Factory\Xml\unsatisfiedobjectdependencycheck.xml" />
+      <None Remove="Objects\Factory\Xml\unsatisfiedsimpledependencycheck.xml" />
+      <None Remove="Objects\Factory\Xml\wellformed-but-bad.xml" />
+      <None Remove="Reflection\Dynamic\SafePropertyTests_TestObject.vb" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Reflection\Dynamic\SafePropertyTests_TestObject.vb" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Objects\Factory\leaf.xml">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <EmbeddedResource Include="Objects\Factory\middle.xml">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <EmbeddedResource Include="Objects\Factory\root.xml">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Objects\Factory\concurrent.xml">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <!--
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -724,7 +1007,7 @@
         <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\unsatisfiedsimpledependencycheck.xml" />
         <EmbeddedResource Include="Data\Spring\Objects\Factory\Xml\wellformed-but-bad.xml" />
     </ItemGroup>
-    
+
     <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <PropertyGroup>
@@ -736,4 +1019,5 @@
             REM xcopy "$(ProjectDir)$(TargetFileName).dll.config" . /y /s /q
         </PostBuildEvent>
     </PropertyGroup>
+    -->
 </Project>

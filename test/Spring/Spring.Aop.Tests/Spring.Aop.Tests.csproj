@@ -13,30 +13,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Remove="Aop\Config\AopNamespaceParserTests.xml" />
-      <None Remove="Aop\Framework\Adapter\withBPPContext.xml" />
-      <None Remove="Aop\Framework\Adapter\withoutBPPContext.xml" />
-      <None Remove="Aop\Framework\AutoProxy\advisorAutoProxyCreator.xml" />
-      <None Remove="Aop\Framework\AutoProxy\advisorAutoProxyCreatorCircularReferencesTests.xml" />
-      <None Remove="Aop\Framework\AutoProxy\objectNameAutoProxyCreatorTests.xml" />
-      <None Remove="Aop\Framework\DynamicProxy\IsAopProxyTests.xml" />
-      <None Remove="Aop\Framework\innerBeanTarget.xml" />
-      <None Remove="Aop\Framework\prototypeTarget.xml" />
-      <None Remove="Aop\Framework\prototypeTests.xml" />
-      <None Remove="Aop\Framework\proxyFactoryDoubleTargetSourceTests.xml" />
-      <None Remove="Aop\Framework\proxyFactoryTargetSourceTests.xml" />
-      <None Remove="Aop\Framework\proxyFactoryTests.xml" />
-      <None Remove="Aop\Framework\serializationTests.xml" />
-      <None Remove="Aop\Framework\throwsAdvice.xml" />
-      <None Remove="Aop\Support\RegularExpressionSetterTests.xml" />
-      <None Remove="Aop\Target\commonsPoolTests.xml" />
-      <None Remove="Aop\Target\hotSwapTests.xml" />
-      <None Remove="Aop\Target\prototypeTargetSourceTests.xml" />
-      <None Remove="Aop\Target\simplePoolTests.xml" />
-      <None Remove="Aop\Target\threadLocalTests.xml" />
-    </ItemGroup>
-
-    <ItemGroup>
       <EmbeddedResource Include="Aop\Config\AopNamespaceParserTests.xml" />
       <EmbeddedResource Include="Aop\Framework\Adapter\withBPPContext.xml" />
       <EmbeddedResource Include="Aop\Framework\Adapter\withoutBPPContext.xml" />

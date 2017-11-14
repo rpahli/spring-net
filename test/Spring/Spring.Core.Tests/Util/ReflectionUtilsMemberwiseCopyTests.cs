@@ -51,6 +51,7 @@ namespace Spring.Util
 		}
 
 		[Test]
+        [Ignore("Security attributes are not applicable to .NET Standard 2.0 libraries.")]
 		public void MediumTrustAllowsCopyingBetweenTypesFromSameModule()
 		{
 			SampleBaseClass i1 = new SampleDerivedClass("1st config val");
@@ -61,6 +62,7 @@ namespace Spring.Util
 		}
 
 		[Test]
+        [Ignore("Security attributes are no longer applicable to .NET Standard 2.0 libraries.")]
 		public void MediumTrustThrowsSecurityExceptionWhenCopyingBetweenTypesFromDifferentModules()
 		{
 			Exception e1 = new Exception("my name is e1");

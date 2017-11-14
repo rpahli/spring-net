@@ -24,7 +24,7 @@ namespace Spring.Util
     [TestFixture]
     public class PathMatcherTest
     {
-        string dir = "PathMatcher";
+        string dir = "Data/PathMatcher";
 
         [Test]
         public void TestFilesInDataPathMatcher()

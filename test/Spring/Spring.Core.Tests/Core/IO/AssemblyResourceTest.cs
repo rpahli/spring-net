@@ -205,7 +205,7 @@ namespace Spring.Core.IO
         public void CreateRelativeWithAReferenceToAFileResource()
         {
             IResource res = new AssemblyResource("assembly://Spring.Core.Tests/Spring.Core.IO/TestResource.txt");
-            string path = "Spring/Objects/Factory/Xml/abstract.xml";
+            string path = "Data/Spring/Objects/Factory/Xml/abstract.xml";
             IResource res2 = res.CreateRelative("file://~/" + path);
             using (StreamReader r = File.OpenText(path))
             {

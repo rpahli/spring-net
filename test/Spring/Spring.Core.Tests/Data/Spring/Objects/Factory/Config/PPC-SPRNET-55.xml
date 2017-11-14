@@ -32,8 +32,8 @@ limitations under the License.
 		<property name="locations">
 			<list>
 				<value>config://</value>
-				<value>file://Spring/Objects/Factory/Config/DaoConfig.xml</value>
-				<value>file://Spring/Objects/Factory/Config/AnotherDaoConfig.xml</value>
+				<value>file://Data/Spring/Objects/Factory/Config/DaoConfig.xml</value>
+				<value>file://Data/Spring/Objects/Factory/Config/AnotherDaoConfig.xml</value>
 			</list>
 		</property>
 		<property name="configSections" value="DaoConfiguration"/>
@@ -47,8 +47,8 @@ limitations under the License.
 		<property name="locations">
 			<list>
 				<value>config://</value>
-				<value>file://Spring/Objects/Factory/Config/DaoConfig.xml</value>
-				<value>file://Spring/Objects/Factory/Config/AnotherDaoConfig.xml</value>
+				<value>file://Data/Spring/Objects/Factory/Config/DaoConfig.xml</value>
+				<value>file://Data/Spring/Objects/Factory/Config/AnotherDaoConfig.xml</value>
 			</list>
 		</property>
 		<property name="configSections" value="DaoConfiguration"/>
