@@ -28,7 +28,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-using Common.Logging;
+using Spring.Logging;
 
 using Spring.Core.TypeResolution;
 using Spring.DataBinding;
@@ -62,7 +62,7 @@ namespace Spring.Web.UI.Controls
         private const string ATTR_MESSAGEID = "MessageId";
         private const string ATTR_ERRORPROVIDERS = "ErrorProviders";
 
-        private static readonly ILog Log = LogManager.GetLogger(typeof(DataBindingPanel));
+        private static readonly ILogger Log = LoggingManager.GetLogger(typeof(DataBindingPanel));
 
         private delegate void TraversalAction(IWebDataBound bindingContainer, WebControl wc);
 

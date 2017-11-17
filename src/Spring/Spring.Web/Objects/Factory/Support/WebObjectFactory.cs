@@ -25,7 +25,7 @@ using System.Collections;
 using System.Web;
 using System.Web.Caching;
 using System.Web.SessionState;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Collections;
 using Spring.Context.Attributes;
 using Spring.Context.Support;
@@ -49,7 +49,7 @@ namespace Spring.Objects.Factory.Support
     /// <author>Aleksandar Seovic</author>
     public class WebObjectFactory : DefaultListableObjectFactory
     {
-        private readonly static ILog log = LogManager.GetLogger(typeof(WebObjectFactory));
+        private readonly static ILogger log = LoggingManager.GetLogger(typeof(WebObjectFactory));
 
         private static bool s_eventHandlersRegistered = false;
         private readonly static string OBJECTTABLEKEY = "spring.objects";

@@ -28,7 +28,7 @@ using System.Web;
 using System.Web.Caching;
 using System.Web.Compilation;
 using System.Web.SessionState;
-using Common.Logging;
+using Spring.Logging;
 
 #endregion
 
@@ -232,7 +232,7 @@ namespace Spring.Util
 
             #endregion //HttpSessionState Adapter
 
-            private static readonly ILog log = LogManager.GetLogger(typeof (HttpRuntimeEnvironment));
+            private static readonly ILogger log = LoggingManager.GetLogger(typeof (HttpRuntimeEnvironment));
 
             private class RewriteContext : IDisposable
             {

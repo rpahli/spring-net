@@ -27,7 +27,7 @@ using System.Security;
 using System.Security.Permissions;
 using System.Web;
 using System.Web.UI;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Collections;
 using Spring.Context;
 using Spring.Context.Support;
@@ -138,7 +138,7 @@ namespace Spring.Web.Support
         /// <summary>
         /// Holds the shared logger for all factories.
         /// </summary>
-        protected readonly ILog Log;
+        protected readonly ILogger Log;
 
         /// <summary>
         /// Creates a new instance of the
@@ -146,7 +146,7 @@ namespace Spring.Web.Support
         /// </summary>
         protected AbstractHandlerFactory()
         {
-            this.Log = LogManager.GetLogger(this.GetType());
+            this.Log = LoggingManager.GetLogger(this.GetType());
         }
 
         /// <summary>
@@ -296,7 +296,7 @@ namespace Spring.Web.Support
         /// </remarks>
         protected internal static NamedObjectDefinition FindWebObjectDefinition(string appRelativeVirtualPath, IConfigurableListableObjectFactory objectFactory)
         {
-            ILog Log = LogManager.GetLogger(typeof(AbstractHandlerFactory));
+            ILogger Log = LoggingManager.GetLogger(typeof(AbstractHandlerFactory));
             bool isDebug = Log.IsDebugEnabled;
 
             // lookup definition using app-relative url

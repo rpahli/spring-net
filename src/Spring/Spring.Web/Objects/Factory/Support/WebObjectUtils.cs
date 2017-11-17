@@ -20,7 +20,7 @@
 
 using System;
 using System.IO;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Util;
 using IHttpHandler = System.Web.IHttpHandler;
 using HttpException = System.Web.HttpException;
@@ -33,7 +33,7 @@ namespace Spring.Objects.Factory.Support
     /// <author>Aleksandar Seovic</author>
     public sealed class WebObjectUtils
     {
-        private static ILog s_log = LogManager.GetLogger( typeof( WebObjectUtils ) );
+        private static ILogger s_log = LoggingManager.GetLogger( typeof( WebObjectUtils ) );
 
         // CLOVER:OFF
 

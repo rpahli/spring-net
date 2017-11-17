@@ -24,7 +24,7 @@ using System;
 using System.Collections;
 using System.Text.RegularExpressions;
 using System.Web;
-using Common.Logging;
+using Spring.Logging;
 
 #endregion
 
@@ -37,7 +37,7 @@ namespace Spring.Web.Support
     /// <author>Erich Eichinger</author>
 	public class HandlerMap : IDictionary
 	{
-		private readonly ILog Log = LogManager.GetLogger(typeof(HandlerMap));
+		private readonly ILogger Log = LoggingManager.GetLogger(typeof(HandlerMap));
 
 		private ArrayList _internalTable = new ArrayList();
 

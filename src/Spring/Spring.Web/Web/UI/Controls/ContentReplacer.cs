@@ -21,7 +21,7 @@
 using System;
 using System.Reflection;
 using System.Web.UI;
-using Common.Logging;
+using Spring.Logging;
 
 namespace Spring.Web.UI.Controls
 {
@@ -47,7 +47,7 @@ namespace Spring.Web.UI.Controls
     /// <author>Erich Eichinger</author>
     public class ContentReplacer : Control
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(ContentReplacer));
+        private static readonly ILogger log = LoggingManager.GetLogger(typeof(ContentReplacer));
 
         private string contentPlaceHolderID;
 

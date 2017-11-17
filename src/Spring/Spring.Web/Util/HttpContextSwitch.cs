@@ -22,7 +22,7 @@
 
 using System;
 using System.Web;
-using Common.Logging;
+using Spring.Logging;
 
 #endregion
 
@@ -49,7 +49,7 @@ namespace Spring.Util
     public class HttpContextSwitch : IDisposable
     {
         private readonly IDisposable rewriteContext;
-        private static readonly ILog log = LogManager.GetLogger(typeof(HttpContextSwitch));
+        private static readonly ILogger log = LoggingManager.GetLogger(typeof(HttpContextSwitch));
 
 //        /// <summary>
 //        /// Performs an immediate call to <see cref="HttpContext.RewritePath(string)"/>

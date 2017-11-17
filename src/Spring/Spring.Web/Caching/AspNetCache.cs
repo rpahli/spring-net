@@ -23,7 +23,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Web;
 using System.Web.Caching;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Util;
 
 namespace Spring.Caching
@@ -106,7 +106,7 @@ namespace Spring.Caching
         #region Fields
 
         // logger instance for this class
-        private static readonly ILog Log = LogManager.GetLogger(typeof(AspNetCache));
+        private static readonly ILogger Log = LoggingManager.GetLogger(typeof(AspNetCache));
         // the concrete cache implementation
         private readonly IRuntimeCache _cache;
         // the (unique!) name of this particular cache instance.

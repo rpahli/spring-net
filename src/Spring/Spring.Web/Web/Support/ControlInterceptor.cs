@@ -20,7 +20,7 @@
 
 using System.Collections;
 using System.Web.UI;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Context;
 
 #endregion
@@ -35,7 +35,7 @@ namespace Spring.Web.Support
     {
         private class NoOpInterceptionStrategy : IInterceptionStrategy
         {
-            private ILog Log = LogManager.GetLogger( typeof( NoOpInterceptionStrategy ) );
+            private ILogger Log = LoggingManager.GetLogger( typeof( NoOpInterceptionStrategy ) );
 
             public bool Intercept( IApplicationContext defaultApplicationContext, ControlAccessor ctlAccessor,
                                   ControlCollectionAccessor ctlColAccessor )
@@ -158,7 +158,7 @@ namespace Spring.Web.Support
                     }
                     if (!bOk)
                     {
-                        LogManager.GetLogger( typeof( ControlInterceptor ) ).Warn( string.Format( "dependency injection not supported for control type {0}", ctlAccessor.GetTarget().GetType() ) );
+                        LoggingManager.GetLogger( typeof( ControlInterceptor ) ).Warn( string.Format( "dependency injection not supported for control type {0}", ctlAccessor.GetTarget().GetType() ) );
                         strategy = s_noopInterceptionStrategy;
                     }
                 }

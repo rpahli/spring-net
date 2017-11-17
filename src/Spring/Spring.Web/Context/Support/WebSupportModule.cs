@@ -30,7 +30,7 @@ using System.Web.Routing;
 using System.Web.SessionState;
 using System.Web.UI;
 
-using Common.Logging;
+using Spring.Logging;
 using Spring.Core.IO;
 using Spring.Core.TypeConversion;
 using Spring.Core.TypeResolution;
@@ -70,7 +70,7 @@ namespace Spring.Context.Support
             }
         }
 
-        private static readonly ILog s_log;
+        private static readonly ILogger s_log;
 
         private static bool s_isInitialized = false;
 
@@ -92,7 +92,7 @@ namespace Spring.Context.Support
         /// </summary>
         static WebSupportModule()
         {
-            s_log = LogManager.GetLogger(typeof(WebSupportModule));
+            s_log = LoggingManager.GetLogger(typeof(WebSupportModule));
 
             // required to enable accessing HttpContext.Request during IHttpModule.Init() in integrated mode
             ContextHideRequestResponse = null;
