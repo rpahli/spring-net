@@ -19,12 +19,12 @@
 #endregion
 
 using Apache.NMS;
-using Common.Logging;
+using Spring.Logging;
 
 namespace Spring.Messaging.Nms.Core
 {
     /// <summary>
-    /// Implemention of NMS ITrace interface that will log NMS messages to Common.Logging.
+    /// Implemention of NMS ITrace interface that will log NMS messages to Spring.Logging.
     /// </summary>
     /// <remarks>Registering of this class is done by default in NmsTemplate and SimpleMessageListenerContainer if the value
     /// of Apache.NMS.Tracer.Trace is null, indicating it was not set.
@@ -34,7 +34,7 @@ namespace Spring.Messaging.Nms.Core
     {
         #region Logging Definition
 
-        private readonly ILog log;
+        private readonly ILogger log;
 
         #endregion
 
@@ -43,7 +43,7 @@ namespace Spring.Messaging.Nms.Core
         /// </summary>
         public NmsTrace()
         {
-            log = LogManager.GetLogger(typeof(NmsTrace));
+            log = LoggingManager.GetLogger(typeof(NmsTrace));
         }
 
 
@@ -51,7 +51,7 @@ namespace Spring.Messaging.Nms.Core
         /// Initializes a new instance of the <see cref="NmsTrace"/> class.
         /// </summary>
         /// <param name="log">The log instance to use for logging.</param>
-        public NmsTrace(ILog log)
+        public NmsTrace(ILogger log)
         {
             this.log = log;
         }

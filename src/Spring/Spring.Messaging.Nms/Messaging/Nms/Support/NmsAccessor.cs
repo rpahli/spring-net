@@ -19,7 +19,7 @@
 #endregion
 
 using System;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Messaging.Nms.Core;
 using Spring.Objects.Factory;
 using Apache.NMS;
@@ -39,7 +39,7 @@ namespace Spring.Messaging.Nms.Support
     {
         #region Logging
 
-        private readonly ILog logger = LogManager.GetLogger(typeof(NmsAccessor));
+        private readonly ILogger logger = LoggingManager.GetLogger(typeof(NmsAccessor));
 
         #endregion
         
@@ -139,7 +139,7 @@ namespace Spring.Messaging.Nms.Support
             {
                 if (logger.IsTraceEnabled)
                 {
-                    logger.Trace("Setting Apache.NMS.Tracer.Trace to default implementation that directs output to Common.Logging");
+                    logger.Trace("Setting Apache.NMS.Tracer.Trace to default implementation that directs output to Spring.Logging");
                 }
                 Tracer.Trace = new NmsTrace();
             }

@@ -23,7 +23,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using Common.Logging;
+using Spring.Logging;
 using NHibernate;
 
 using Spring.Transaction.Support;
@@ -64,7 +64,7 @@ namespace Spring.Data.NHibernate
 
 	    #region Logging Definition
 
-	    private static readonly ILog log = LogManager.GetLogger(typeof (SessionHolder));
+	    private static readonly ILogger log = LoggingManager.GetLogger(typeof (SessionHolder));
 
 	    #endregion
 

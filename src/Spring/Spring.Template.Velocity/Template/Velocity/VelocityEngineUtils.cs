@@ -21,7 +21,7 @@
 using System;
 using System.Collections;
 using System.IO;
-using Common.Logging;
+using Spring.Logging;
 using NVelocity;
 using NVelocity.App;
 using NVelocity.Exception;
@@ -38,7 +38,7 @@ namespace Spring.Template.Velocity{
         /// <summary>
         /// Shared logger instance.
         /// </summary>
-        protected static readonly ILog log = LogManager.GetLogger(typeof(VelocityEngineUtils));
+        protected static readonly ILogger log = LoggingManager.GetLogger(typeof(VelocityEngineUtils));
 
         /// <summary>
         /// Merge the specified Velocity template with the given model and write

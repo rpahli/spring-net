@@ -22,7 +22,7 @@
 using System;
 using System.Data;
 using Apache.NMS;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Messaging.Nms.Core;
 using Spring.Objects.Factory;
 using Spring.Transaction;
@@ -74,7 +74,7 @@ namespace Spring.Messaging.Nms.Connections
 
         #region Logging Definition
 
-        private static readonly ILog LOG = LogManager.GetLogger(typeof(NmsTransactionManager));
+        private static readonly ILogger LOG = LoggingManager.GetLogger(typeof(NmsTransactionManager));
 
         #endregion 
 

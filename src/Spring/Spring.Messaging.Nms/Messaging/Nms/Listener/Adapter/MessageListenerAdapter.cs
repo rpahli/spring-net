@@ -22,7 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Expressions;
 using Spring.Messaging.Nms.Core;
 using Spring.Messaging.Nms.Support;
@@ -71,7 +71,7 @@ namespace Spring.Messaging.Nms.Listener.Adapter
     {
         #region Logging
 
-        private readonly ILog logger = LogManager.GetLogger(typeof (MessageListenerAdapter));
+        private readonly ILogger logger = LoggingManager.GetLogger(typeof (MessageListenerAdapter));
 
         #endregion
 

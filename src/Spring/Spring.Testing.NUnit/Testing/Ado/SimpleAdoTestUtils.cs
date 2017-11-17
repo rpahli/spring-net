@@ -25,7 +25,7 @@ using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-using Common.Logging;
+using Spring.Logging;
 
 using Spring.Core.IO;
 using Spring.Dao;
@@ -43,7 +43,7 @@ namespace Spring.Testing.Ado
     /// <author>Erich Eichinger</author>
     public class SimpleAdoTestUtils
     {
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILogger Log = LoggingManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static readonly RegexOptions REGEX_OPTIONS = RegexOptions.Multiline | RegexOptions.ECMAScript | RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase;
 
         /// <summary>

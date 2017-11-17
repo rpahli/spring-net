@@ -21,7 +21,7 @@
 
 using System;
 using System.Messaging;
-using Common.Logging;
+using Spring.Logging;
 
 namespace Spring.Messaging.Listener
 {
@@ -37,8 +37,8 @@ namespace Spring.Messaging.Listener
     {
         #region Logging Definition
 
-        private static readonly ILog LOG =
-            LogManager.GetLogger(typeof (SendToQueueDistributedTransactionExceptionHandler));
+        private static readonly ILogger LOG =
+            LoggingManager.GetLogger(typeof (SendToQueueDistributedTransactionExceptionHandler));
 
         #endregion
 

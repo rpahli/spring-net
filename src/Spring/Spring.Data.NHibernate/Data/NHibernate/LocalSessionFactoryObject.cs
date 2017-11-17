@@ -26,7 +26,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 
-using Common.Logging;
+using Spring.Logging;
 using NHibernate;
 using NHibernate.Bytecode;
 using NHibernate.Cfg;
@@ -128,10 +128,10 @@ namespace Spring.Data.NHibernate
 		#region Constants
 
 		/// <summary>
-		/// The shared <see cref="ILog"/> instance for this class (and derived classes).
+		/// The shared <see cref="ILogger"/> instance for this class (and derived classes).
 		/// </summary>
-		protected static readonly ILog log =
-			LogManager.GetLogger(typeof (LocalSessionFactoryObject));
+		protected static readonly ILogger log =
+			LoggingManager.GetLogger(typeof (LocalSessionFactoryObject));
 
 	    #endregion
 

@@ -23,7 +23,7 @@
 using System;
 using System.Reflection;
 
-using Common.Logging;
+using Spring.Logging;
 using NHibernate;
 using Spring.Threading;
 using Spring.Transaction.Support;
@@ -69,7 +69,7 @@ namespace Spring.Data.NHibernate.Support
         /// <summary>
         /// The logging instance.
         /// </summary>        
-        protected readonly ILog log = LogManager.GetLogger(MethodInfo.GetCurrentMethod().DeclaringType);
+        protected readonly ILogger log = LoggingManager.GetLogger(MethodInfo.GetCurrentMethod().DeclaringType);
 
         private readonly SessionScopeSettings settings;
 
@@ -197,7 +197,7 @@ namespace Spring.Data.NHibernate.Support
         /// </param>
         public SessionScope(SessionScopeSettings settings, bool open)
         {
-            log = LogManager.GetLogger(this.GetType());
+            log = LoggingManager.GetLogger(this.GetType());
             this.settings = settings;
 
             PARTICIPATE_KEY = UniqueKey.GetInstanceScopedString(this, "Participate");
@@ -447,7 +447,7 @@ namespace Spring.Data.NHibernate.Support
         /// </remarks>
         private class LazySessionHolder : SessionHolder
         {
-            private readonly ILog log = LogManager.GetLogger(typeof(LazySessionHolder));
+            private readonly ILogger log = LoggingManager.GetLogger(typeof(LazySessionHolder));
             private SessionScope owner;
             private ISession session;
 

@@ -23,7 +23,7 @@
 using System;
 using System.Reflection;
 
-using Common.Logging;
+using Spring.Logging;
 using NHibernate;
 using Spring.Threading;
 using Spring.Transaction.Support;
@@ -49,7 +49,7 @@ namespace Spring.Data.NHibernate.Support
         /// <summary>
         /// The logging instance.
         /// </summary>        
-        protected readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        protected readonly ILogger log = LoggingManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly SessionPerConversationScopeSettings settings;
 
@@ -89,7 +89,7 @@ namespace Spring.Data.NHibernate.Support
         /// <param name="settings">An <see cref="SessionPerConversationScopeSettings"/> instance holding the scope configuration</param>
         public SessionPerConversationScope(SessionPerConversationScopeSettings settings)
         {
-            log = LogManager.GetLogger(this.GetType());
+            log = LoggingManager.GetLogger(this.GetType());
             this.settings = settings;
 
             ISOPEN_KEY = UniqueKey.GetInstanceScopedString(this, "IsOpen");
@@ -376,7 +376,7 @@ namespace Spring.Data.NHibernate.Support
         /// </remarks>
         private class LazySessionPerConversationHolder : SessionHolder
         {
-            private readonly ILog log = LogManager.GetLogger(typeof(LazySessionPerConversationHolder));
+            private readonly ILogger log = LoggingManager.GetLogger(typeof(LazySessionPerConversationHolder));
             private SessionPerConversationScope owner;
             public SessionPerConversationScope Owner
             {

@@ -20,7 +20,7 @@
 
 using System;
 using System.Data;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Messaging.Ems.Common;
 using Spring.Messaging.Ems.Core;
 using Spring.Objects.Factory;
@@ -57,7 +57,7 @@ namespace Spring.Messaging.Ems.Connections
 
         #region Logging Definition
 
-        private static readonly ILog LOG = LogManager.GetLogger(typeof(EmsTransactionManager));
+        private static readonly ILogger LOG = LoggingManager.GetLogger(typeof(EmsTransactionManager));
 
         #endregion 
 

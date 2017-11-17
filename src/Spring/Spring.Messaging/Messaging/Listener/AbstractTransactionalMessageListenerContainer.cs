@@ -21,7 +21,7 @@
 using System;
 using System.Messaging;
 using System.Threading;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Data.Core;
 using Spring.Messaging.Core;
 using Spring.Transaction;
@@ -49,7 +49,7 @@ namespace Spring.Messaging.Listener
     {
         #region Logging Definition
 
-        private static readonly ILog LOG = LogManager.GetLogger(typeof (AbstractTransactionalMessageListenerContainer));
+        private static readonly ILogger LOG = LoggingManager.GetLogger(typeof (AbstractTransactionalMessageListenerContainer));
 
         #endregion
 

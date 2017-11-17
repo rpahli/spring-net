@@ -22,7 +22,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using Common.Logging;
+using Spring.Logging;
 using Commons.Collections;
 using NVelocity.App;
 using NVelocity.Exception;
@@ -70,7 +70,7 @@ namespace Spring.Template.Velocity {
         /// <summary>
         /// Shared logger instance.
         /// </summary>
-        protected static readonly ILog log = LogManager.GetLogger(typeof(VelocityEngineFactory));
+        protected static readonly ILogger log = LoggingManager.GetLogger(typeof(VelocityEngineFactory));
 
         private IResource configLocation;
 

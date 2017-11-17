@@ -20,7 +20,7 @@
 
 using System;
 using System.Collections;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Context;
 using Spring.Context.Support;
 using Spring.Util;
@@ -77,14 +77,14 @@ namespace Spring.Testing.Microsoft
         /// <summary>
         /// Logger available to subclasses.
         /// </summary>
-        protected readonly ILog logger;
+        protected readonly ILogger logger;
 
         /// <summary>
         /// Default constructor for AbstractSpringContextTests.
         /// </summary>
 	    protected AbstractSpringContextTests()
         {
-            logger = LogManager.GetLogger(GetType());
+            logger = LoggingManager.GetLogger(GetType());
         }
 
         /// <summary>

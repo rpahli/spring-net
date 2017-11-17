@@ -1,11 +1,9 @@
 ﻿{
   "dependencies": {
-    "Common.Logging": "3.0.0",
-    "Common.Logging.Core": "3.0.0",
     "NVelocity": "1.0.3"
   },
   "frameworks": {
-    "net4": {}
+    "net471": {}
   },
   "runtimes": {
     "win-anycpu": {},

@@ -19,7 +19,7 @@
 #endregion
 
 using System;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Objects.Factory;
 using Apache.NMS;
 
@@ -39,7 +39,7 @@ namespace Spring.Messaging.Nms.Core
 
         #region Logging
 
-        private readonly ILog logger = LogManager.GetLogger(typeof(NmsGatewaySupport));
+        private readonly ILogger logger = LoggingManager.GetLogger(typeof(NmsGatewaySupport));
 
         #endregion
         

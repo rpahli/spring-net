@@ -43,6 +43,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="netstandard" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Web" />
@@ -67,9 +68,9 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Spring.Core\Spring.Core.2010.csproj">
-      <Project>{710961A3-0DF4-49E4-A26E-F5B9C044AC84}</Project>
-      <Name>Spring.Core.2010</Name>
+    <ProjectReference Include="..\Spring.Core\Spring.Core.csproj">
+      <Project>{8a750d18-1406-4664-b649-f1c6d36a861a}</Project>
+      <Name>Spring.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Spring.Data.NHibernate3\Spring.Data.NHibernate3.csproj">
       <Project>{d546efb7-9f6c-4c11-b2f8-b85fad135399}</Project>

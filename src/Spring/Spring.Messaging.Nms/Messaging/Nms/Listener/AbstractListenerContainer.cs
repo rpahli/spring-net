@@ -21,7 +21,7 @@
 using System;
 using System.Runtime.Serialization;
 using Apache.NMS;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Context;
 using Spring.Messaging.Nms.Connections;
 using Spring.Messaging.Nms.Support;
@@ -49,7 +49,7 @@ namespace Spring.Messaging.Nms.Listener
     {
         #region Logging
 
-        private readonly ILog logger = LogManager.GetLogger(typeof(AbstractListenerContainer));
+        private readonly ILogger logger = LoggingManager.GetLogger(typeof(AbstractListenerContainer));
 
         #endregion
 

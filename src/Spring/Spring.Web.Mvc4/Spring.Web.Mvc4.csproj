@@ -39,6 +39,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="netstandard" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -69,10 +70,9 @@
     <Compile Include="SpringWebApiDependencyResolver.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Spring.Core\Spring.Core.2010.csproj">
-      <Project>{710961A3-0DF4-49E4-A26E-F5B9C044AC84}</Project>
-      <Name>Spring.Core.2010</Name>
-      <Private>True</Private>
+    <ProjectReference Include="..\Spring.Core\Spring.Core.csproj">
+      <Project>{8a750d18-1406-4664-b649-f1c6d36a861a}</Project>
+      <Name>Spring.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Spring.Web\Spring.Web.csproj">
       <Project>{BA4789EB-281A-48EA-8763-28B9F0596A18}</Project>

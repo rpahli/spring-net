@@ -24,7 +24,7 @@ using System;
 using System.Collections;
 using System.Reflection;
 using AopAlliance.Intercept;
-using Common.Logging;
+using Spring.Logging;
 using NHibernate;
 using NHibernate.Impl;
 using NHibernate.Type;
@@ -56,9 +56,9 @@ namespace Spring.Data.NHibernate
 	    #region Constants
 
 		/// <summary>
-		/// The <see cref="ILog"/> instance for this class. 
+		/// The <see cref="ILogger"/> instance for this class. 
 		/// </summary>
-		private readonly ILog log = LogManager.GetLogger(typeof (HibernateAccessor));
+		private readonly ILogger log = LoggingManager.GetLogger(typeof (HibernateAccessor));
 	    
 	    #endregion
 

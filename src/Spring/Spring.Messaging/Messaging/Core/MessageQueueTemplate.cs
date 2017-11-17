@@ -26,7 +26,7 @@ using Spring.Messaging.Support.Converters;
 using Spring.Objects.Factory;
 using Spring.Util;
 
-using Common.Logging;
+using Spring.Logging;
 
 namespace Spring.Messaging.Core
 {
@@ -72,7 +72,7 @@ namespace Spring.Messaging.Core
     {
         #region Logging Definition
 
-        private static readonly ILog LOG = LogManager.GetLogger(typeof (MessageQueueTemplate));
+        private static readonly ILogger LOG = LoggingManager.GetLogger(typeof (MessageQueueTemplate));
 
         #endregion
 

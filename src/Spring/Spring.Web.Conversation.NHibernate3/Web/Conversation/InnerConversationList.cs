@@ -21,7 +21,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Common.Logging;
+using Spring.Logging;
 using Iesi.Collections.Generic;
 
 namespace Spring.Web.Conversation
@@ -33,7 +33,7 @@ namespace Spring.Web.Conversation
     [Serializable]
     public class InnerConversationList: IList<IConversationState>, IList
     {
-        private static readonly ILog LOG = LogManager.GetLogger(typeof(InnerConversationList));
+        private static readonly ILogger LOG = LoggingManager.GetLogger(typeof(InnerConversationList));
 
         private IConversationState conversationOwner;
 

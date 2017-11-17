@@ -21,7 +21,7 @@
 using System.Collections;
 using Spring.Messaging.Ems.Common;
 using TIBCO.EMS;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Collections;
 using Spring.Util;
 using Queue=TIBCO.EMS.Queue;
@@ -40,7 +40,7 @@ namespace Spring.Messaging.Ems.Connections
     {
         #region Logging Definition
 
-        private static readonly ILog LOG = LogManager.GetLogger(typeof(CachedSession));
+        private static readonly ILogger LOG = LoggingManager.GetLogger(typeof(CachedSession));
 
         #endregion
 

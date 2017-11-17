@@ -20,7 +20,7 @@
 
 using System;
 using System.IO;
-using Common.Logging;
+using Spring.Logging;
 using Commons.Collections;
 using NVelocity.Runtime.Resource;
 using NVelocity.Runtime.Resource.Loader;
@@ -80,7 +80,7 @@ namespace Spring.Template.Velocity {
         /// <summary>
         /// Shared logger instance.
         /// </summary>
-        protected static readonly ILog log = LogManager.GetLogger(typeof(SpringResourceLoader));
+        protected static readonly ILogger log = LoggingManager.GetLogger(typeof(SpringResourceLoader));
 
         private IResourceLoader resourceLoader;
 

@@ -20,7 +20,7 @@
 
 #region Imports
 
-using Common.Logging;
+using Spring.Logging;
 using NHibernate;
 using NHibernate.Engine;
 using Spring.Core;
@@ -40,9 +40,9 @@ namespace Spring.Data.NHibernate
 		#region Fields
 
         /// <summary>
-        /// The <see cref="ILog"/> instance for this class. 
+        /// The <see cref="ILogger"/> instance for this class. 
         /// </summary>
-        private readonly ILog log = LogManager.GetLogger(typeof(SpringSessionSynchronization));
+        private readonly ILogger log = LoggingManager.GetLogger(typeof(SpringSessionSynchronization));
 	    
         private readonly SessionHolder sessionHolder;
 

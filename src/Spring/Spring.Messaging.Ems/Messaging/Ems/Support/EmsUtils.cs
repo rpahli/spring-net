@@ -19,7 +19,7 @@
 #endregion
 
 using System;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Messaging.Ems.Common;
 using Spring.Util;
 using TIBCO.EMS;
@@ -34,7 +34,7 @@ namespace Spring.Messaging.Ems.Support
     {
         #region Logging
 
-        private static readonly ILog logger = LogManager.GetLogger(typeof(EmsUtils));
+        private static readonly ILogger logger = LoggingManager.GetLogger(typeof(EmsUtils));
 
         #endregion
 

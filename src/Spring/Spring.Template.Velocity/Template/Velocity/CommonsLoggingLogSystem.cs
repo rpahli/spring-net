@@ -20,11 +20,11 @@
 
 using System;
 
-using Common.Logging;
+using Spring.Logging;
 using NVelocity.Runtime;
 using NVelocity.Runtime.Log;
 using LogLevel=NVelocity.Runtime.Log.LogLevel;
-using LogManager=Common.Logging.LogManager;
+using LoggingManager=Spring.Logging.LoggingManager;
 
 namespace Spring.Template.Velocity
 {
@@ -37,7 +37,7 @@ namespace Spring.Template.Velocity
         /// <summary>
         /// Shared logger instance.
         /// </summary>
-        protected static readonly ILog log = LogManager.GetLogger(typeof(CommonsLoggingLogSystem));
+        protected static readonly ILogger log = LoggingManager.GetLogger(typeof(CommonsLoggingLogSystem));
 
         /// <summary>
         /// Initializes the specified runtime services.  No-op in current implementatin

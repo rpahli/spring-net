@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Context;
 using Spring.Messaging.Support;
 using Spring.Objects.Factory;
@@ -15,7 +15,7 @@ namespace Spring.Messaging.Core
     {
         #region Logging Definition
 
-        private static readonly ILog LOG = LogManager.GetLogger(typeof(MessageQueueMetadataCache));
+        private static readonly ILogger LOG = LoggingManager.GetLogger(typeof(MessageQueueMetadataCache));
 
         #endregion
 

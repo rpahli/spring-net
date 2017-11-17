@@ -19,7 +19,7 @@
 #endregion
 
 using System;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Messaging.Nms.Connections;
 using Spring.Messaging.Nms.Support;
 using Spring.Messaging.Nms.Support.Converter;
@@ -51,7 +51,7 @@ namespace Spring.Messaging.Nms.Core
     {
         #region Logging
 
-        private readonly ILog logger = LogManager.GetLogger(typeof(NmsTemplate));
+        private readonly ILogger logger = LoggingManager.GetLogger(typeof(NmsTemplate));
 
 
         #endregion

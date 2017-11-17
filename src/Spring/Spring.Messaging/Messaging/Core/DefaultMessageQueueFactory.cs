@@ -22,7 +22,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Messaging;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Context;
 using Spring.Messaging.Support;
 using Spring.Messaging.Support.Converters;
@@ -40,9 +40,9 @@ namespace Spring.Messaging.Core
     public class DefaultMessageQueueFactory : IMessageQueueFactory, IApplicationContextAware
     {
         /// <summary>
-        /// The <see cref="Common.Logging.ILog"/> instance for this class.
+        /// The <see cref="Spring.Logging.ILogger"/> instance for this class.
         /// </summary>
-        private readonly ILog log = LogManager.GetLogger(typeof(DefaultMessageQueueFactory));
+        private readonly ILogger log = LoggingManager.GetLogger(typeof(DefaultMessageQueueFactory));
 
 
         private static readonly string QUEUE_DICTIONARY_SLOTNAME =

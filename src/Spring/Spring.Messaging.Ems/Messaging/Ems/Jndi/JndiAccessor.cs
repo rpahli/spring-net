@@ -19,7 +19,7 @@
 #endregion
 
 using System.Collections;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Objects.Factory;
 using TIBCO.EMS;
 
@@ -38,7 +38,7 @@ namespace Spring.Messaging.Ems.Jndi
 
         private JndiContextType contextType = JndiContextType.JMS;
 
-        protected ILog logger;
+        protected ILogger logger;
 
         LookupContextFactory contextFactoryObject = new LookupContextFactory();
 

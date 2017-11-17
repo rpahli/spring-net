@@ -23,7 +23,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using Spring.Messaging.Ems.Support;
 using TIBCO.EMS;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Messaging.Ems.Core;
 using Spring.Messaging.Ems.Common;
 using Spring.Objects.Factory;
@@ -63,7 +63,7 @@ namespace Spring.Messaging.Ems.Connections
     {
         #region Logging Definition
 
-        private static readonly ILog LOG = LogManager.GetLogger(typeof (SingleConnectionFactory));
+        private static readonly ILogger LOG = LoggingManager.GetLogger(typeof (SingleConnectionFactory));
 
         #endregion
 

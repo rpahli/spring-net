@@ -19,7 +19,7 @@
 #endregion
 
 using System;
-using Common.Logging;
+using Spring.Logging;
 using NHibernate;
 using NHibernate.Engine;
 using NHibernate.Proxy;
@@ -34,7 +34,7 @@ namespace Spring.Data.NHibernate.Bytecode
     /// <author>Erich Eichinger</author>
     public class ProxyFactory : AbstractProxyFactory
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(ProxyFactory));
+        private static readonly ILogger log = LoggingManager.GetLogger(typeof(ProxyFactory));
 
         [Serializable]
         private class SerializableProxyFactory : global::Spring.Aop.Framework.ProxyFactory

@@ -24,7 +24,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-using Common.Logging;
+using Spring.Logging;
 using NHibernate;
 using NHibernate.Connection;
 using NHibernate.Driver;
@@ -54,9 +54,9 @@ namespace Spring.Data.NHibernate
 		#region Fields
 
         /// <summary>
-        /// The <see cref="ILog"/> instance for this class. 
+        /// The <see cref="ILogger"/> instance for this class. 
         /// </summary>
-        private static readonly ILog log = LogManager.GetLogger(typeof(SessionFactoryUtils));
+        private static readonly ILogger log = LoggingManager.GetLogger(typeof(SessionFactoryUtils));
 
 		#endregion
 

@@ -20,7 +20,7 @@
 
 using System;
 using System.Collections;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Collections;
 using Spring.Transaction.Support;
 using Spring.Util;
@@ -41,7 +41,7 @@ namespace Spring.Messaging.Nms.Connections
     {
         #region Logging
 
-        private static readonly ILog logger = LogManager.GetLogger(typeof(NmsResourceHolder));
+        private static readonly ILogger logger = LoggingManager.GetLogger(typeof(NmsResourceHolder));
 
         #endregion
 

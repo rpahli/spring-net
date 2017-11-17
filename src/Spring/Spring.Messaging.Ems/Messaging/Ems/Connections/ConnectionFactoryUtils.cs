@@ -19,7 +19,7 @@
 #endregion
 
 using System;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Messaging.Ems.Common;
 using Spring.Messaging.Ems.Support;
 using Spring.Transaction.Support;
@@ -37,7 +37,7 @@ namespace Spring.Messaging.Ems.Connections
     {
         #region Logging
 
-        private static readonly ILog LOG = LogManager.GetLogger(typeof(ConnectionFactoryUtils));
+        private static readonly ILogger LOG = LoggingManager.GetLogger(typeof(ConnectionFactoryUtils));
 
         #endregion
 

@@ -19,7 +19,7 @@
 #endregion
 
 using System;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Messaging.Ems.Common;
 using Spring.Messaging.Ems.Core;
 using Spring.Messaging.Ems.Support;
@@ -37,7 +37,7 @@ namespace Spring.Messaging.Ems.Listener
     {
         #region Logging
 
-        private readonly ILog logger = LogManager.GetLogger(typeof(AbstractMessageListenerContainer));
+        private readonly ILogger logger = LoggingManager.GetLogger(typeof(AbstractMessageListenerContainer));
 
         #endregion
 

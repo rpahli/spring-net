@@ -23,7 +23,7 @@
 using System;
 using System.Collections;
 
-using Common.Logging;
+using Spring.Logging;
 
 using Spring.Aop.Framework;
 using Spring.Data.Common;
@@ -79,9 +79,9 @@ namespace Spring.Data.NHibernate
         #region Fields
 
         /// <summary>
-        /// The <see cref="ILog"/> instance for this class. 
+        /// The <see cref="ILogger"/> instance for this class. 
         /// </summary>
-        private readonly ILog log = LogManager.GetLogger(typeof (HibernateTemplate));
+        private readonly ILogger log = LoggingManager.GetLogger(typeof (HibernateTemplate));
 
         private bool checkWriteOperations = true;
 

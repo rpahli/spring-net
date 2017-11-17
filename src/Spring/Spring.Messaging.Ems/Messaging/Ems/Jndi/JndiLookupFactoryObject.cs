@@ -24,7 +24,7 @@ using Spring.Objects.Factory;
 using Spring.Objects.Factory.Config;
 using Spring.Util;
 using TIBCO.EMS;
-using Common.Logging;
+using Spring.Logging;
 
 namespace Spring.Messaging.Ems.Jndi
 {
@@ -42,7 +42,7 @@ namespace Spring.Messaging.Ems.Jndi
 
         public JndiLookupFactoryObject()
         {
-            this.logger = LogManager.GetLogger(GetType());
+            this.logger = LoggingManager.GetLogger(GetType());
         }
 
         /// <summary>

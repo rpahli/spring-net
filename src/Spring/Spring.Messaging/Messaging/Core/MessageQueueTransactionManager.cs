@@ -20,7 +20,7 @@
 
 
 using System.Messaging;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Data.Core;
 using Spring.Transaction;
 using Spring.Transaction.Support;
@@ -56,7 +56,7 @@ namespace Spring.Messaging.Core
 
         #region Logging Definition
 
-        private static readonly ILog LOG = LogManager.GetLogger(typeof (MessageQueueTransactionManager));
+        private static readonly ILogger LOG = LoggingManager.GetLogger(typeof (MessageQueueTransactionManager));
 
         #endregion
 

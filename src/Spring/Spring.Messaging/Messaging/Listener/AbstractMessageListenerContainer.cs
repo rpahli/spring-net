@@ -20,7 +20,7 @@
 
 using System;
 using System.Messaging;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Context;
 using Spring.Messaging.Core;
 using Spring.Messaging.Support.Converters;
@@ -40,7 +40,7 @@ namespace Spring.Messaging.Listener
     {
         #region Logging Definition
 
-        private static readonly ILog LOG = LogManager.GetLogger(typeof (AbstractMessageListenerContainer));
+        private static readonly ILogger LOG = LoggingManager.GetLogger(typeof (AbstractMessageListenerContainer));
 
         #endregion
 

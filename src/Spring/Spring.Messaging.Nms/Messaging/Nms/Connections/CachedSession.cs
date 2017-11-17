@@ -23,7 +23,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using Apache.NMS;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Collections;
 using Spring.Util;
 using IQueue=Apache.NMS.IQueue;
@@ -42,7 +42,7 @@ namespace Spring.Messaging.Nms.Connections
     {
         #region Logging Definition
 
-        private static readonly ILog LOG = LogManager.GetLogger(typeof(CachedSession));
+        private static readonly ILogger LOG = LoggingManager.GetLogger(typeof(CachedSession));
 
         #endregion
 

@@ -22,7 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 
-using Common.Logging;
+using Spring.Logging;
 using NHibernate;
 using Spring.Context;
 using Spring.Context.Support;
@@ -37,7 +37,7 @@ namespace Spring.Web.Conversation
     [Serializable]
     public class WebConversationManager : SessionPerConversationScope, IConversationManager, IApplicationContextAware
     {
-        private static readonly ILog LOG = LogManager.GetLogger(typeof(WebConversationManager));
+        private static readonly ILogger LOG = LoggingManager.GetLogger(typeof(WebConversationManager));
 
         /// <summary>
         /// Semaphore to synchronize writes to the dictionary.
