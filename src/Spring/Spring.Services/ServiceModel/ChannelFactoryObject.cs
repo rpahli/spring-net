@@ -40,7 +40,7 @@ namespace Spring.ServiceModel
     {
         #region Logging
 
-        private static readonly Common.Logging.ILog Log = Common.Logging.LogManager.GetLogger(typeof(ChannelFactoryObject<>));
+        private static readonly Spring.Logging.ILogger Log = Spring.Logging.LoggingManager.GetLogger(typeof(ChannelFactoryObject<>));
 
         #endregion
 

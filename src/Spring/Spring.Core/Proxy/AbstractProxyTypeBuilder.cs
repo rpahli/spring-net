@@ -589,8 +589,7 @@ namespace Spring.Proxy
         /// <param name="builder">The constructor builder to use.</param>
         /// <param name="il">The IL generator to use.</param>
         /// <param name="constructor">The constructor to use.</param>
-        protected virtual void GenerateConstructor(
-            ConstructorBuilder builder, ILGenerator il, ConstructorInfo constructor)
+        protected virtual void GenerateConstructor(ConstructorBuilder builder, ILGenerator il, ConstructorInfo constructor)
         {
         }
 

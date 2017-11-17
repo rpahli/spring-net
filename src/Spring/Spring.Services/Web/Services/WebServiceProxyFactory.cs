@@ -31,11 +31,12 @@ using System.Web.Services;
 using System.Web.Services.Description;
 using System.Web.Services.Protocols;
 using System.Web.Services.Discovery;
+using Spring.Core.IO;
+using Spring.Logging;
 using Spring.Objects.Factory;
 using Spring.Objects.Factory.Config;
 using Spring.Proxy;
 using Spring.Util;
-using Spring.Core.IO;
 
 #endregion
 
@@ -60,7 +61,7 @@ namespace Spring.Web.Services
     {
         #region Logging
 
-        private static readonly Common.Logging.ILog LOG = Common.Logging.LogManager.GetLogger(typeof(WebServiceProxyFactory));
+        private static readonly ILogger LOG = LoggingManager.GetLogger(typeof(WebServiceProxyFactory));
 
         #endregion
 
@@ -284,14 +285,17 @@ namespace Spring.Web.Services
             {
                 throw new ArgumentException("ServiceUri or ProxyType property is required.");
             }
+
             if (ServiceInterface == null)
             {
                 throw new ArgumentException("The ServiceInterface property is required.");
             }
+
             if (!ServiceInterface.IsInterface)
             {
                 throw new ArgumentException("ServiceInterface must be an interface");
             }
+
             if (WebServiceProxyBaseType.IsSealed)
             {
                 throw new ArgumentException("Web service client proxy cannot be created for a sealed class [" + WebServiceProxyBaseType.FullName + "]");
@@ -358,7 +362,7 @@ namespace Spring.Web.Services
         {
             try
             {
-                if (ServiceUri is UrlResource || 
+                if (ServiceUri is UrlResource ||
                     ServiceUri is FileSystemResource)
                 {
                     DiscoveryClientProtocol dcProtocol = new DiscoveryClientProtocol();
@@ -435,7 +439,7 @@ namespace Spring.Web.Services
         {
             #region Logging
 
-            private static readonly Common.Logging.ILog LOG = Common.Logging.LogManager.GetLogger(typeof(SoapHttpClientProxyTypeBuilder));
+            private static readonly Spring.Logging.ILogger LOG = Spring.Logging.LoggingManager.GetLogger(typeof(SoapHttpClientProxyTypeBuilder));
 
             #endregion
 
@@ -604,7 +608,7 @@ namespace Spring.Web.Services
                                                     outMemberMapping.TypeNamespace != outputMembersMapping.Namespace;
                             if (useMemberName || useNamespace || useTypeNamespace)
                             {
-                                if (outMemberMapping.TypeName.StartsWith ("ArrayOf", StringComparison.Ordinal))
+                                if (outMemberMapping.TypeName.StartsWith("ArrayOf", StringComparison.Ordinal))
                                 {
                                     if (useMemberName || useNamespace)
                                     {

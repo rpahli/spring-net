@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2006
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F04753EF-7A1B-4837-AB63-8C0821E8155D}"
 	ProjectSection(SolutionItems) = preProject
@@ -14,13 +14,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Spring.include = Spring.include
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Core.Tests", "test\Spring\Spring.Core.Tests\Spring.Core.Tests.csproj", "{44B16BAA-6DF8-447C-9D7F-3AD3D854D904}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring.Core.Tests", "test\Spring\Spring.Core.Tests\Spring.Core.Tests.csproj", "{44B16BAA-6DF8-447C-9D7F-3AD3D854D904}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring.Aop", "src\Spring\Spring.Aop\Spring.Aop.csproj", "{3A3A4E65-45A6-4B20-B460-0BEDC302C02C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Aop.Tests", "test\Spring\Spring.Aop.Tests\Spring.Aop.Tests.csproj", "{2111596A-0327-4C9D-8919-294FBD988A23}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Services.2010", "src\Spring\Spring.Services\Spring.Services.2010.csproj", "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring.Aop.Tests", "test\Spring\Spring.Aop.Tests\Spring.Aop.Tests.csproj", "{2111596A-0327-4C9D-8919-294FBD988A23}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Services.Tests.2010", "test\Spring\Spring.Services.Tests\Spring.Services.Tests.2010.csproj", "{4374F018-9738-46BF-A399-4594CEE75B21}"
 EndProject
@@ -113,6 +111,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E09D66E4
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring.Core", "src\Spring\Spring.Core\Spring.Core.csproj", "{8A750D18-1406-4664-B649-F1C6D36A861A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Services", "src\Spring\Spring.Services\Spring.Services.csproj", "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -159,18 +159,6 @@ Global
 		{2111596A-0327-4C9D-8919-294FBD988A23}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2111596A-0327-4C9D-8919-294FBD988A23}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{2111596A-0327-4C9D-8919-294FBD988A23}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}.Debug|.NET.Build.0 = Debug|Any CPU
-		{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}.Release|.NET.ActiveCfg = Release|Any CPU
-		{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}.Release|.NET.Build.0 = Release|Any CPU
-		{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{4374F018-9738-46BF-A399-4594CEE75B21}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{4374F018-9738-46BF-A399-4594CEE75B21}.Debug|.NET.Build.0 = Debug|Any CPU
 		{4374F018-9738-46BF-A399-4594CEE75B21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -593,6 +581,18 @@ Global
 		{8A750D18-1406-4664-B649-F1C6D36A861A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8A750D18-1406-4664-B649-F1C6D36A861A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{8A750D18-1406-4664-B649-F1C6D36A861A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}.Debug|.NET.Build.0 = Debug|Any CPU
+		{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}.Release|.NET.ActiveCfg = Release|Any CPU
+		{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}.Release|.NET.Build.0 = Release|Any CPU
+		{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -601,7 +601,6 @@ Global
 		{44B16BAA-6DF8-447C-9D7F-3AD3D854D904} = {E09D66E4-24B5-4C14-8E61-DEE63971E7ED}
 		{3A3A4E65-45A6-4B20-B460-0BEDC302C02C} = {15BB0F1B-0FFB-450F-8FB1-8B202B1FBFFE}
 		{2111596A-0327-4C9D-8919-294FBD988A23} = {E09D66E4-24B5-4C14-8E61-DEE63971E7ED}
-		{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC} = {15BB0F1B-0FFB-450F-8FB1-8B202B1FBFFE}
 		{4374F018-9738-46BF-A399-4594CEE75B21} = {E09D66E4-24B5-4C14-8E61-DEE63971E7ED}
 		{BA4789EB-281A-48EA-8763-28B9F0596A18} = {15BB0F1B-0FFB-450F-8FB1-8B202B1FBFFE}
 		{C67E47AA-1ACD-41B4-A465-4D336A2319CA} = {E09D66E4-24B5-4C14-8E61-DEE63971E7ED}
@@ -643,6 +642,7 @@ Global
 		{8D6ED392-8A1F-41C0-A765-22CF384EDEA1} = {E09D66E4-24B5-4C14-8E61-DEE63971E7ED}
 		{DE276F7C-4564-49EC-AABC-B964EC3D1626} = {E09D66E4-24B5-4C14-8E61-DEE63971E7ED}
 		{8A750D18-1406-4664-B649-F1C6D36A861A} = {15BB0F1B-0FFB-450F-8FB1-8B202B1FBFFE}
+		{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC} = {15BB0F1B-0FFB-450F-8FB1-8B202B1FBFFE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A040A9AE-E451-40BB-8296-7F53484BA80D}

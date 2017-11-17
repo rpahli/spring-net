@@ -40,7 +40,7 @@ namespace Spring.Remoting
     {
         #region Logging
 
-        private static readonly Common.Logging.ILog LOG = Common.Logging.LogManager.GetLogger(typeof(CaoFactoryObject));
+        private static readonly Spring.Logging.ILogger LOG = Spring.Logging.LoggingManager.GetLogger(typeof(CaoFactoryObject));
 
         #endregion
 

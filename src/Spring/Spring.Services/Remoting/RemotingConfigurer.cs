@@ -23,7 +23,7 @@
 using System;
 using System.Runtime.Remoting;
 
-using Common.Logging;
+using Spring.Logging;
 using Spring.Core;
 using Spring.Core.IO;
 using Spring.Objects.Factory.Config;
@@ -40,7 +40,7 @@ namespace Spring.Remoting
     {
 		#region Fields
 
-        private static readonly ILog log = LogManager.GetLogger(typeof(RemotingConfigurer));
+        private static readonly ILogger log = LoggingManager.GetLogger(typeof(RemotingConfigurer));
 
         private int _order = Int32.MinValue;
 
