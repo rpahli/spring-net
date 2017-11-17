@@ -5,12 +5,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D9C45177-0D80-4133-AB46-58F142DB92AA}</ProjectGuid>
+    <ProjectGuid>{D546EFB7-9F6C-4C11-B2F8-B85FAD135399}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Spring</RootNamespace>
-    <AssemblyName>Spring.Data.NHibernate4</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <AssemblyName>Spring.Data.NHibernate3</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -38,24 +38,26 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\build\VS.Net.2010\Spring.Data.NHibernate4\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET_4_0,NH_4_0</DefineConstants>
+    <OutputPath>..\..\..\build\VS.Net.2010\Spring.Data.NHibernate3\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NET_4_0</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>Spring.Data.NHibernate4.xml</DocumentationFile>
+    <DocumentationFile>Spring.Data.NHibernate3.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <NoWarn>0618</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\build\VS.Net.2010\Spring.Data.NHibernate4\Release\</OutputPath>
-    <DefineConstants>TRACE;NET_4_0,NH_4_0</DefineConstants>
+    <OutputPath>..\..\..\build\VS.Net.2010\Spring.Data.NHibernate3\Release\</OutputPath>
+    <DefineConstants>TRACE;NET_4_0</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>Spring.Data.NHibernate4.xml</DocumentationFile>
+    <DocumentationFile>Spring.Data.NHibernate3.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <NoWarn>0618</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -197,7 +199,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Spring.Aop\Spring.Aop.csproj">
       <Project>{3A3A4E65-45A6-4B20-B460-0BEDC302C02C}</Project>
-      <Name>Spring.Aop.2010</Name>
+      <Name>Spring.Aop</Name>
     </ProjectReference>
     <ProjectReference Include="..\Spring.Core\Spring.Core.2010.csproj">
       <Project>{710961A3-0DF4-49E4-A26E-F5B9C044AC84}</Project>
@@ -205,7 +207,7 @@
     </ProjectReference>
     <ProjectReference Include="..\Spring.Data\Spring.Data.csproj">
       <Project>{AE00E5AB-C39A-436F-86D2-33BFE33E2E40}</Project>
-      <Name>Spring.Data.2010</Name>
+      <Name>Spring.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

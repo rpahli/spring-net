@@ -188,27 +188,27 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Spring\Spring.Aop\Spring.Aop.csproj">
       <Project>{3A3A4E65-45A6-4B20-B460-0BEDC302C02C}</Project>
-      <Name>Spring.Aop.2010</Name>
+      <Name>Spring.Aop</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\src\Spring\Spring.Web.Conversation.NHibernate3\Spring.Web.Conversation.NHibernate3.2010.csproj">
+    <ProjectReference Include="..\..\..\src\Spring\Spring.Web.Conversation.NHibernate3\Spring.Web.Conversation.NHibernate3.csproj">
       <Project>{CF375928-B6D5-485C-B04D-2BC41D9DBF1E}</Project>
-      <Name>Spring.Web.Conversation.NHibernate3.2010</Name>
+      <Name>Spring.Web.Conversation.NHibernate3</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\src\Spring\Spring.Core\Spring.Core.2010.csproj">
       <Project>{710961A3-0DF4-49E4-A26E-F5B9C044AC84}</Project>
       <Name>Spring.Core.2010</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\src\Spring\Spring.Data.NHibernate3\Spring.Data.NHibernate3.2010.csproj">
+    <ProjectReference Include="..\..\..\src\Spring\Spring.Data.NHibernate3\Spring.Data.NHibernate3.csproj">
       <Project>{D546EFB7-9F6C-4C11-B2F8-B85FAD135399}</Project>
-      <Name>Spring.Data.NHibernate3.2010</Name>
+      <Name>Spring.Data.NHibernate3</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\src\Spring\Spring.Data\Spring.Data.csproj">
       <Project>{AE00E5AB-C39A-436F-86D2-33BFE33E2E40}</Project>
-      <Name>Spring.Data.2010</Name>
+      <Name>Spring.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\src\Spring\Spring.Web\Spring.Web.2010.csproj">
+    <ProjectReference Include="..\..\..\src\Spring\Spring.Web\Spring.Web.csproj">
       <Project>{BA4789EB-281A-48EA-8763-28B9F0596A18}</Project>
-      <Name>Spring.Web.2010</Name>
+      <Name>Spring.Web</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

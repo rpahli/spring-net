@@ -63,9 +63,9 @@
       <Name>Spring.Core.2010</Name>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\src\Spring\Spring.Web.Mvc3\Spring.Web.Mvc3.2010.csproj">
+    <ProjectReference Include="..\..\..\src\Spring\Spring.Web.Mvc3\Spring.Web.Mvc3.csproj">
       <Project>{904C97E0-3667-4D12-A55F-6CC2E6F68A0A}</Project>
-      <Name>Spring.Web.Mvc3.2010</Name>
+      <Name>Spring.Web.Mvc3</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -96,4 +96,3 @@
   </Target>
   -->
 </Project>
-

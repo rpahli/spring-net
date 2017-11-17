@@ -3,85 +3,85 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{CB351EB2-049D-40BE-BB09-1CE4ED68FE67}</ProjectGuid>
+    <ProjectGuid>{CF375928-B6D5-485C-B04D-2BC41D9DBF1E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Spring.Web.Mvc</RootNamespace>
-    <AssemblyName>Spring.Web.Mvc4</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>Spring</RootNamespace>
+    <AssemblyName>Spring.Web.Conversation.NHibernate33</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
+    <TargetFrameworkProfile />
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\build\VS.Net.2010\Spring.Web.Mvc4\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET_3_5;NET_4_0</DefineConstants>
+    <OutputPath>..\..\..\build\VS.Net.2010\Spring.Web.Conversation.NHibernate33\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>Spring.Web.Conversation.NHibernate33.XML</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>Spring.Web.Mvc4.xml</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\build\VS.Net.2010\Spring.Web.Mvc4\Release\</OutputPath>
+    <OutputPath>..\..\..\build\VS.Net.2010\Spring.Web.Conversation.NHibernate33\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Abstractions" />
-    <Reference Include="System.Web.Routing" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\Spring.Web.Mvc3\Context\Support\MvcApplicationContext.cs">
-      <Link>Context\Support\MvcApplicationContext.cs</Link>
-    </Compile>
-    <Compile Include="..\Spring.Web.Mvc3\Context\Support\MvcApplicationContextArgs.cs">
-      <Link>Context\Support\MvcApplicationContextArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\Spring.Web.Mvc3\Context\Support\MvcContextHandler.cs">
-      <Link>Context\Support\MvcContextHandler.cs</Link>
-    </Compile>
-    <Compile Include="..\Spring.Web.Mvc3\SpringMvcDependencyResolver.cs">
-      <Link>SpringMvcDependencyResolver.cs</Link>
-    </Compile>
-    <Compile Include="SpringMvcApplication.cs" />
-    <Compile Include="SpringWebApiDependencyResolver.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Data\NHibernate\Support\SessionPerConversationScope.cs" />
+    <Compile Include="Data\NHibernate\Support\SessionPerConversationSettings.cs" />
+    <Compile Include="Web\Conversation\HttpModule\ConversationModule.cs" />
+    <Compile Include="Web\Conversation\IConversationManager.cs" />
+    <Compile Include="Web\Conversation\IConversationState.cs" />
+    <Compile Include="Web\Conversation\InnerConversationList.cs" />
+    <Compile Include="Web\Conversation\WebConversationManager.cs" />
+    <Compile Include="Web\Conversation\WebConversationSpringState.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Spring.Core\Spring.Core.2010.csproj">
       <Project>{710961A3-0DF4-49E4-A26E-F5B9C044AC84}</Project>
       <Name>Spring.Core.2010</Name>
-      <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Spring.Web\Spring.Web.2010.csproj">
-      <Project>{BA4789EB-281A-48EA-8763-28B9F0596A18}</Project>
-      <Name>Spring.Web.2010</Name>
+    <ProjectReference Include="..\Spring.Data.NHibernate3\Spring.Data.NHibernate3.csproj">
+      <Project>{d546efb7-9f6c-4c11-b2f8-b85fad135399}</Project>
+      <Name>Spring.Data.NHibernate3</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Spring.Data\Spring.Data.csproj">
+      <Project>{AE00E5AB-C39A-436F-86D2-33BFE33E2E40}</Project>
+      <Name>Spring.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="project.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -92,4 +92,3 @@
   </Target>
   -->
 </Project>
-

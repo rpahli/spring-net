@@ -77,9 +77,9 @@
       <Name>Spring.Core.2010</Name>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\src\Spring\Spring.Web.Mvc5\Spring.Web.Mvc5.2010.csproj">
+    <ProjectReference Include="..\..\..\src\Spring\Spring.Web.Mvc5\Spring.Web.Mvc5.csproj">
       <Project>{39aad7ea-2ed0-4e50-8d4d-c666ea9cbfe4}</Project>
-      <Name>Spring.Web.Mvc5.2010</Name>
+      <Name>Spring.Web.Mvc5</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -110,4 +110,3 @@
   </Target>
   -->
 </Project>
-

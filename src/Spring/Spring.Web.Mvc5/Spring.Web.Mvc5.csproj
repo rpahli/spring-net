@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Spring.Web.Mvc</RootNamespace>
     <AssemblyName>Spring.Web.Mvc5</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
@@ -79,9 +79,9 @@
       <Name>Spring.Core.2010</Name>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Spring.Web\Spring.Web.2010.csproj">
+    <ProjectReference Include="..\Spring.Web\Spring.Web.csproj">
       <Project>{BA4789EB-281A-48EA-8763-28B9F0596A18}</Project>
-      <Name>Spring.Web.2010</Name>
+      <Name>Spring.Web</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -99,4 +99,3 @@
   </Target>
   -->
 </Project>
-

@@ -75,9 +75,9 @@
       <Project>{710961A3-0DF4-49E4-A26E-F5B9C044AC84}</Project>
       <Name>Spring.Core.2010</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\src\Spring\Spring.Template.Velocity.Castle\Spring.Template.Velocity.Castle.2010.csproj">
+    <ProjectReference Include="..\..\..\src\Spring\Spring.Template.Velocity.Castle\Spring.Template.Velocity.Castle.csproj">
       <Project>{250601c0-a4ac-41fe-b484-51a9b0d5473d}</Project>
-      <Name>Spring.Template.Velocity.Castle.2010</Name>
+      <Name>Spring.Template.Velocity.Castle</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

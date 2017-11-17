@@ -5,12 +5,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7B2FB412-047C-4A34-A0D9-3F3D2727F388}</ProjectGuid>
+    <ProjectGuid>{904C97E0-3667-4D12-A55F-6CC2E6F68A0A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Spring.Web.Mvc4.Tests</RootNamespace>
-    <AssemblyName>Spring.Web.Mvc4.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>Spring.Web.Mvc</RootNamespace>
+    <AssemblyName>Spring.Web.Mvc3</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
@@ -20,20 +20,23 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\build\VS.Net.2010\Spring.Web.Mvc4.Tests\Debug\</OutputPath>
+    <OutputPath>..\..\..\build\VS.Net.2010\Spring.Web.Mvc3\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;NET_3_5;NET_4_0</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>Spring.Web.Mvc3.xml</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\build\VS.Net.2010\Spring.Web.Mvc4.Tests\Release\</OutputPath>
+    <OutputPath>..\..\..\build\VS.Net.2010\Spring.Web.Mvc3\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -50,54 +53,28 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\Spring.Web.Mvc3.Tests\ControllerFactoryTestExtension.cs">
-      <Link>ControllerFactoryTestExtension.cs</Link>
-    </Compile>
-    <Compile Include="..\Spring.Web.Mvc3.Tests\Controllers\FirstContainerRegisteredController.cs">
-      <Link>Controllers\FirstContainerRegisteredController.cs</Link>
-    </Compile>
-    <Compile Include="..\Spring.Web.Mvc3.Tests\Controllers\NamedContextController.cs">
-      <Link>Controllers\NamedContextController.cs</Link>
-    </Compile>
-    <Compile Include="..\Spring.Web.Mvc3.Tests\Controllers\NotInContainerController.cs">
-      <Link>Controllers\NotInContainerController.cs</Link>
-    </Compile>
-    <Compile Include="..\Spring.Web.Mvc3.Tests\Controllers\SecondContainerRegisteredController.cs">
-      <Link>Controllers\SecondContainerRegisteredController.cs</Link>
-    </Compile>
-    <Compile Include="..\Spring.Web.Mvc3.Tests\SpringMvcDependencyResolverTests.cs">
-      <Link>SpringMvcDependencyResolverTests.cs</Link>
-    </Compile>
+    <Compile Include="Context\Support\MvcApplicationContext.cs" />
+    <Compile Include="Context\Support\MvcApplicationContextArgs.cs" />
+    <Compile Include="Context\Support\MvcContextHandler.cs" />
+    <Compile Include="SpringMvcDependencyResolver.cs" />
+    <Compile Include="SpringMvcApplication.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Spring\Spring.Core\Spring.Core.2010.csproj">
+    <ProjectReference Include="..\Spring.Core\Spring.Core.2010.csproj">
       <Project>{710961A3-0DF4-49E4-A26E-F5B9C044AC84}</Project>
       <Name>Spring.Core.2010</Name>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\src\Spring\Spring.Web.Mvc4\Spring.Web.Mvc4.csproj">
-      <Project>{CB351EB2-049D-40BE-BB09-1CE4ED68FE67}</Project>
-      <Name>Spring.Web.Mvc4</Name>
+    <ProjectReference Include="..\Spring.Web\Spring.Web.csproj">
+      <Project>{BA4789EB-281A-48EA-8763-28B9F0596A18}</Project>
+      <Name>Spring.Web</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\Spring.Web.Mvc3.Tests\namedContextObjectsMvc.xml">
-      <Link>namedContextObjectsMvc.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Spring.Web.Mvc3.Tests\objectsMvc.xml">
-      <Link>objectsMvc.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="project.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
