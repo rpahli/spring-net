@@ -26,8 +26,7 @@ using NUnit.Framework;
 
 using Spring.Context;
 using Spring.Context.Support;
-using Common.Logging;
-using Common.Logging.Simple;
+using Spring.Logging;
 
 #endregion
 
@@ -43,7 +42,7 @@ namespace Spring.Data
         {
             //BasicConfigurator.Configure();
             //Console.WriteLine("Hello");
-            //LogManager.Adapter = new ConsoleOutLoggerFactoryAdapter(new NameValueCollection());
+            //LoggingManager.Adapter = new ConsoleOutLoggerFactoryAdapter(new NameValueCollection());
 
             //WELLKNOWN: NamespaceParserRegistry.RegisterParser(typeof(TxNamespaceParser));
             //WELLKNOWN: NamespaceParserRegistry.RegisterParser(typeof(AopNamespaceParser));

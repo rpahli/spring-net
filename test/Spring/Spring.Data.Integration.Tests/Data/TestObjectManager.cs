@@ -21,7 +21,7 @@
 #region Imports
 
 using System.Collections;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Objects;
 using Spring.Transaction.Interceptor;
 using Spring.Transaction.Support;
@@ -38,7 +38,7 @@ namespace Spring.Data
 	{
 		#region Fields
         ITestObjectDao testObjectDao;
-        private static readonly ILog LOG = LogManager.GetLogger(typeof(TestObjectManager));
+        private static readonly ILogger LOG = LoggingManager.GetLogger(typeof(TestObjectManager));
 		#endregion
 
 		#region Constructor (s)

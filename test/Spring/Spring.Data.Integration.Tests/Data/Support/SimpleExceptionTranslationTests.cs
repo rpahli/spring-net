@@ -22,7 +22,7 @@
 
 using System;
 using System.Data;
-using Common.Logging;
+using Spring.Logging;
 using NUnit.Framework;
 using Spring.Context;
 using Spring.Context.Support;
@@ -44,10 +44,10 @@ namespace Spring.Data.Support
         #region Constants
 
         /// <summary>
-        /// The shared ILog instance for this class (and derived classes). 
+        /// The shared ILogger instance for this class (and derived classes). 
         /// </summary>
-        protected static readonly ILog log =
-            LogManager.GetLogger(typeof(SimpleExceptionTranslationTests));
+        protected static readonly ILogger log =
+            LoggingManager.GetLogger(typeof(SimpleExceptionTranslationTests));
 
         #endregion
 

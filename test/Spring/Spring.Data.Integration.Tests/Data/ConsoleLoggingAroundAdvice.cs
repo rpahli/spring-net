@@ -1,11 +1,11 @@
 using AopAlliance.Intercept;
-using Common.Logging;
+using Spring.Logging;
 
 namespace Spring.Data
 {
     public class ConsoleLoggingAroundAdvice : IMethodInterceptor
     {
-        private static readonly ILog LOG = LogManager.GetLogger(typeof(ConsoleLoggingAroundAdvice));
+        private static readonly ILogger LOG = LoggingManager.GetLogger(typeof(ConsoleLoggingAroundAdvice));
         public object Invoke(IMethodInvocation invocation)
         {
             LOG.Debug("Advice executing; calling the advised method [" + invocation.Method.Name + "]");

@@ -25,7 +25,7 @@ using System.Collections;
 using System.Data;
 using System.Data.Common;
 using System.Data.OracleClient;
-using Common.Logging;
+using Spring.Logging;
 using NUnit.Framework;
 using Spring.Context;
 using Spring.Context.Support;
@@ -65,10 +65,10 @@ namespace Spring.Data
         private IDbProvider dbProvider;
 
         /// <summary>
-        /// The shared ILog instance for this class (and derived classes).
+        /// The shared ILogger instance for this class (and derived classes).
         /// </summary>
-        protected static readonly ILog log =
-            LogManager.GetLogger(typeof (OracleAdoTemplateTests));
+        protected static readonly ILogger log =
+            LoggingManager.GetLogger(typeof (OracleAdoTemplateTests));
 
         private class TestObjectExtractor : IResultSetExtractor
         {

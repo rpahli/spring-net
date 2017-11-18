@@ -21,7 +21,7 @@
 #region Imports
 
 using System.Collections;
-using Common.Logging;
+using Spring.Logging;
 using NUnit.Framework;
 using Spring.Context;
 using Spring.Context.Support;
@@ -46,10 +46,10 @@ namespace Spring.Data
         #region Constants
 
         /// <summary>
-        /// The shared ILog instance for this class (and derived classes). 
+        /// The shared ILogger instance for this class (and derived classes). 
         /// </summary>
-        protected static readonly ILog log =
-            LogManager.GetLogger(typeof(MappingAdoQueryTests));
+        protected static readonly ILogger log =
+            LoggingManager.GetLogger(typeof(MappingAdoQueryTests));
 
         private IApplicationContext ctx;
 
