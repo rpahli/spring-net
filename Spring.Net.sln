@@ -28,7 +28,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Web.Tests.2010", "te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring.Data", "src\Spring\Spring.Data\Spring.Data.csproj", "{AE00E5AB-C39A-436F-86D2-33BFE33E2E40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Data.Tests.2010", "test\Spring\Spring.Data.Tests\Spring.Data.Tests.2010.csproj", "{ACD39D47-1811-40FA-9E7E-5DEA5B9CE6C0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Data.Tests", "test\Spring\Spring.Data.Tests\Spring.Data.Tests.csproj", "{ACD39D47-1811-40FA-9E7E-5DEA5B9CE6C0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Data.Integration.Tests", "test\Spring\Spring.Data.Integration.Tests\Spring.Data.Integration.Tests.csproj", "{91766D21-C568-459F-9BEA-759B011F23CF}"
 EndProject

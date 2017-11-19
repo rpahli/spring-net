@@ -1,13 +1,13 @@
 
 using AopAlliance.Intercept;
-using Common.Logging;
+using Spring.Logging;
 
 namespace Spring.Data
 {
     public class LoggingAroundAdvice : IMethodInterceptor
     {
         public int numInvoked;
-        private static readonly ILog LOG = LogManager.GetLogger(typeof(LoggingAroundAdvice));
+        private static readonly ILogger LOG = LoggingManager.GetLogger(typeof(LoggingAroundAdvice));
         public object Invoke(IMethodInvocation invocation)
         {
             try

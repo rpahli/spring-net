@@ -45,7 +45,7 @@ namespace Spring.Data
         [SetUp]
         public void SetUp()
         {
-            //LogManager.Adapter = new ConsoleOutLoggerFactoryAdapter();
+            //LoggingManager.Adapter = new ConsoleOutLoggerFactoryAdapter();
             ctx =
                 new XmlApplicationContext("assembly://Spring.Data.Tests/Spring.Data/AutoDeclarativeTxTests.xml");
             

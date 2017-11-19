@@ -21,7 +21,7 @@
 #region Imports
 
 using System;
-using Common.Logging;
+using Spring.Logging;
 using Spring.Objects;
 using Spring.Transaction;
 using Spring.Transaction.Interceptor;
@@ -40,7 +40,7 @@ namespace Spring.Data
 	{
 		#region Fields
 
-        private static readonly ILog LOG = LogManager.GetLogger(typeof(TestObjectMgr));
+        private static readonly ILogger LOG = LoggingManager.GetLogger(typeof(TestObjectMgr));
 		#endregion
 
 		#region Constructor (s)
